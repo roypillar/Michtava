@@ -1,0 +1,100 @@
+﻿@model Domain.ModelView.CustomerViewModel    
+    @using Domain.Models     
+     @*here we connect strongly to a model, and so we can past him the fields that where full but the form 
+               didnt validate so we want to keep those fields up.. nice way to do so without tons of tempdata or sessions variables..
+               *@
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Enter</title>
+</head>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<body>
+    <div> 
+       
+          
+        <form id="frmAdd" action="Submit" method="post">
+            @*this wrapping the form with client side validation*@
+            <table>
+                <tr>
+                    <td>First Name:</td>
+                    <td> @Html.TextBoxFor(m => m.customer.FirstName) @Html.ValidationMessageFor(x => x.customer.FirstName) </td>
+                    @*value m=>m. connect to the models fields*@ @*the end is to put every validation summery where it belong..*@
+                </tr>
+                <tr>
+                    <td>Last Name:</td>
+                    <td>@Html.TextBoxFor(m => m.customer.LastName) @Html.ValidationMessageFor(x => x.customer.LastName)</td>
+                </tr>
+                <tr>
+                    <td>Customer Number:</td>
+                    <td>@Html.TextBoxFor(m => m.customer.CustomerNumber) @Html.ValidationMessageFor(x => x.customer.CustomerNumber)</td>
+                </tr>
+                <tr>
+                    <td><input id="Submit1" type="submit" value="Add Customer" onclick="SendData()" /></td>
+                </tr>
+
+
+            </table>
+        </form>
+        
+        <b style="color:blue">Customers Table</b>
+        <br />
+        <div id="status"></div>
+        <table id="custTable">
+            <tr>
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>Customer Number</td>
+            </tr>
+        </table>
+       
+        <script language="javascript">
+            
+            $("#status").text("Loading......");
+
+                                                        //get(action,data to the action?,functionToActive if we succeded to get the json object!)
+            $.get("GetCustomersByJson", null, BindData); //here we get the json obj from the server
+
+            function BindData(customers) {              //customers is the json object we got from GetCustomersByJson.
+                var tbl = $("#custTable");
+                for (i = 0; i < customers.length; i++) {
+                    var newRow =
+                    "<tr>"+
+                        "<td>"+customers[i].FirstName+"</td>"+
+                        "<td>"+customers[i].LastName+"</td>"+
+                        "<td>" + customers[i].CustomerNumber + "</td>" +
+                    "</tr>"
+                    tbl.append(newRow);
+                }
+
+                $("#status").text("");
+
+            }
+
+            function SendData() {
+
+                var frmData = $("#frmAdd").serialize();
+                $.post("Submit", frmData, BindData);        //post is to send the mvc data and then load the bindData(customers table) again
+            }
+
+
+        </script>
+
+        
+    </div>
+    @Html.Partial("DisplayCustomers", Model)
+    
+</body>
+</html>
