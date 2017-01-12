@@ -29,4 +29,9 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="DeleteBinObjFolders" BeforeTargets="Clean">
+  <RemoveDir Directories="..\..\Publish" />
+  <RemoveDir Directories=".\bin" />
+  <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+</Target>
 </Project>

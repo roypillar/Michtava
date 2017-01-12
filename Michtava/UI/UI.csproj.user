@@ -34,10 +34,9 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Target Name="SpicNSpan"  AfterTargets="Clean">
-    <!-- Remove obj folder -->
-    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
-    <!-- Remove bin folder -->
-    <RemoveDir Directories="$(BaseOutputPath)" />
+ <Target Name="DeleteBinObjFolders" BeforeTargets="Clean">
+  <RemoveDir Directories="..\..\Publish" />
+  <RemoveDir Directories=".\bin" />
+  <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
 </Target>
 </Project>
