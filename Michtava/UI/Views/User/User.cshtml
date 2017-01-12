@@ -1,4 +1,5 @@
-﻿
+﻿@model Domain.Models.User
+
 @{
     Layout = null;
 }
@@ -8,16 +9,15 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Michtava</title>
+    <title>User</title>
 </head>
 <body>
     <div> 
-        Michtava
+         First Name: @Model.FirstName
         <br />
-        @TempData["currentTime"]
+         Last Name: @Model.LastName
         <br />
-        @Session["currentTime2"]
-        
+         Number: @Model.UserNumber
     </div>
 </body>
 </html>
