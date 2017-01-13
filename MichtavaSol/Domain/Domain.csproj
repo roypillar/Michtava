@@ -162,15 +162,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\Policy.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\Text.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="ModelView\UserViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
