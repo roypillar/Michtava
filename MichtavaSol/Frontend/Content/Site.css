@@ -38,7 +38,20 @@ textarea {
 
 .michtava-main{
   font-family: 'KAMMB___', cursive;
- color:red}
+}
+.navbar-inverse .navbar-brand {
+    color: black;
+}
+
+.navbar-inverse .navbar-nav > li > a{
+    color: orange;
+}
+
+
+
+.headstuff{
+    padding-top:50px;
+}
 
 body, html{
 	height: 100%;
@@ -55,6 +68,18 @@ h1{
 	width: 500px;
 	color:  #F90;
 	text-align: center;
+
+}
+
+h2{
+	font-weight: normal;
+	font-size: 3em;
+	font-family: 'VarelaRound-Regular', sans-serif;
+	margin: 0 auto;
+	margin-top: 30px;
+	width: 500px;
+	color:  #F90;
+	/*text-align: center;*/
 
 }
 

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html dir="rtl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,24 +11,29 @@
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:orangered">
 
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("המכתבה", "Index", "Home", new { area = "" }, new { @class = "navbar-brand michtava-main" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("אודות", "About", "Home", new { @class = "navbar-brand michtava-main" })</li>
-                    <li>@Html.ActionLink("צור קשר", "Contact", "Home", new { @class = "navbar-brand michtava-main" })</li>
-
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+        <div class="navbar-header navbar-right">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("מכתבה", "Index", "Home", new { area = "" }, new { @class = "michtava-main navbar-brand " })
         </div>
-    <div class="container body-content">
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li>@Html.ActionLink("אודות", "About", "Home", new { @class = "michtava-main navbar-brand" })</li>
+                <li>@Html.ActionLink("צור קשר", "Contact", "Home", new { @class = "michtava-main navbar-brand" })</li>
+
+            </ul>
+            @Html.Partial("_LoginPartial")
+        </div>
+        </div>
+
+        
+
+
+    <div class="container body-content headstuff">
         @RenderBody()
         <hr />
         <footer>
