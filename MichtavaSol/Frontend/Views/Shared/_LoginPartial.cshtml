@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-left" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-left">
+        <li>
+            @Html.ActionLink("שלום " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">יציאה</a></li>
+    </ul>
+    }
+}
+else
+{
+    @*<ul class="nav navbar-nav navbar-left navbar-inner" style="float:right" >
+            <li>@Html.ActionLink("הרשמה", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("כניסה", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+</ul>*@
+}
