@@ -1,4 +1,5 @@
-﻿using Frontend.Models;
+﻿using Frontend.DataContexts;
+using Frontend.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;

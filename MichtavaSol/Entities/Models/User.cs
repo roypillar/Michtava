@@ -1,30 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace Entities.Models
 {
-    public class User
+    public class Pupil : EntityBase
     {
-        [Required]
-        public string FirstName { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int PupilId { get; set; }
+        public int CompanyId { get; set; }
+        public string UserId { get; set; }
+        public bool IsCurrentDisplayed { get; set; }
 
-        [Required]
-        [StringLength(50, MinimumLength = 2, ErrorMessage = "length must be between 2 and 50 characters")]
-        public string LastName { get; set; }
+        public Pupil() : base() { }
 
-        [Key]           //must say who is the key in the db table..
-        [Required]
-        [RegularExpression("^[0-9]{4}$", ErrorMessage = "User Number must Contain 4 digits")]
-        public string UserNumber { get; set; }
-
-        /*    public User(string fname,string lname,string num){
-                FirstName = fname;
-                LastName = lname;
-                UserNumber = num;
-            }
-         */
+        //[ForeignKey("UserId")]
+        //public virtual ApplicationUser User { get; set; }
     }
 }

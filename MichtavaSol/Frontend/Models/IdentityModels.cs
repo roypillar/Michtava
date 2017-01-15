@@ -25,28 +25,5 @@ namespace Frontend.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
-        public DbSet<Text> Texts { get; set; }//all tables belong here
-        //tables tables tables
-
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
-        {
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-
-        public List<Text> getTexts(string t)
-        {
-            return (
-                    from text in Texts
-                    where text.Name.Contains(t)
-                    select text
-                 ).ToList<Text>();
-        }
-    }
+   
 }

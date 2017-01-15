@@ -50,9 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Answer.cs" />
+    <Compile Include="Models\EntityBase.cs" />
     <Compile Include="Models\Policy.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Task.cs" />
+    <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\Text.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,11 +64,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- 
   <Target Name="DeleteBinObjFolders" BeforeTargets="Clean">
     <RemoveDir Directories="..\..\Publish" />
     <RemoveDir Directories=".\bin" />
     <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
   </Target>
-
 </Project>

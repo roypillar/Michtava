@@ -8,7 +8,7 @@ namespace Frontend.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Frontend.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Frontend.DataContexts.ApplicationDbContext>
     {
         public Configuration()
         {
@@ -16,7 +16,7 @@ namespace Frontend.Migrations
             ContextKey = "Frontend.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(Frontend.Models.ApplicationDbContext context)
+        protected override void Seed(Frontend.DataContexts.ApplicationDbContext context)
         {
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
