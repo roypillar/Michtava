@@ -36,10 +36,10 @@ namespace Frontend
                 //Here we create a Admin super user who will maintain the website                  
 
                 var user = new ApplicationUser();
-                user.UserName = "shanu";
-                user.Email = "syedshanumcain@gmail.com";
+                user.UserName = "quwaloss";
+                user.Email = "quwalav2@gmail.com";
 
-                string userPWD = "A@Z200711";
+                string userPWD = "password";
 
                 var chkUser = UserManager.Create(user, userPWD);
 
@@ -51,20 +51,20 @@ namespace Frontend
                 }
             }
 
-            // creating Creating Manager role    
-            if (!roleManager.RoleExists("Manager"))
+            //  Creating Pupil role    
+            if (!roleManager.RoleExists("Pupil"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "Manager";
+                role.Name = "Pupil";
                 roleManager.Create(role);
 
             }
 
             // creating Creating Employee role    
-            if (!roleManager.RoleExists("Employee"))
+            if (!roleManager.RoleExists("Teacher"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "Employee";
+                role.Name = "Teacher";
                 roleManager.Create(role);
 
             }

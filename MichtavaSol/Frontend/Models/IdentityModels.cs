@@ -3,12 +3,19 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Entities.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Frontend.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+
+        public string shalom { get; set; }
+
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -20,6 +27,9 @@ namespace Frontend.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Text> Texts { get; set; }//all tables belong here
+        //tables tables tables
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -28,6 +38,15 @@ namespace Frontend.Models
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        public List<Text> getTexts(string t)
+        {
+            return (
+                    from text in Texts
+                    where text.Name.Contains(t)
+                    select text
+                 ).ToList<Text>();
         }
     }
 }
