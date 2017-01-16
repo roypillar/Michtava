@@ -5,8 +5,10 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using Frontend.Models;
-using Frontend.DataContexts;
+using Entities.Models;
+using Dal;
+using Frontend.App_Start.Identity;
+
 
 namespace Frontend
 {
@@ -26,6 +28,7 @@ namespace Frontend
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                CookieName = CookieAuthenticationDefaults.CookiePrefix + "Michtava",
                 LoginPath = new PathString("/Account/Login"),
                 Provider = new CookieAuthenticationProvider
                 {

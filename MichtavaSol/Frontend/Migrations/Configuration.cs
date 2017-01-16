@@ -1,14 +1,17 @@
+using Entities.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Entities;
+using System;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Linq;
+using Dal;
+
 namespace Frontend.Migrations
 {
-    using Entities.Models;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Models;
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+  
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Frontend.DataContexts.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
@@ -16,7 +19,7 @@ namespace Frontend.Migrations
             ContextKey = "Frontend.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(Frontend.DataContexts.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

@@ -9,14 +9,21 @@ using System.Threading.Tasks;
 namespace Entities.Models
 {
 
-    public class Teacher : EntityBase
+    public class Teacher : DeletableEntity
     {
-        [Key]
+
+        // private ICollection<Subject> subjects;//maybe?
+
+        //private ICollection<SchoolClass> classes;//TODO
+
+
+        //[Key]??TODO
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int TeacherId { get; set; }
+        public Guid Id { get; set; }
 
-        public string UserId { get; set; }
+        public string ApplicationUserId { get; set; }
 
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         [MaxLength(12, ErrorMessage = "שם המשתמש ארוך מדי")]
         [Required]
@@ -30,6 +37,8 @@ namespace Entities.Models
 
         public Teacher()
             : base()
-        { }
+        {
+           // this.classes = new HashSet<SchoolClass>();//TODO
+        }
     }
 }
