@@ -30,7 +30,7 @@
             set { this.Subjects = value; }
         }
 
-        public virtual List<Teacher> Homeworks
+        public virtual List<Homework> Homeworks
         {
             get { return this.Homeworks; }
             set { this.Homeworks = value; }
