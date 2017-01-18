@@ -7,6 +7,7 @@
     public class SchoolClass : DeletableEntity
     {
         private List<Student> students;
+        private List<Teacher> teachers;
 
         public SchoolClass()
         {
@@ -22,12 +23,17 @@
 
         public int GradeId { get; set; }
 
-        public int SchoolThemeId { get; set; }
 
         public virtual List<Student> Students
         {
             get { return this.students; }
             set { this.students = value; }
+        }
+
+        public virtual List<Teacher> Teachers
+        {
+            get { return this.teachers; }
+            set { this.teachers = value; }
         }
     }
 }

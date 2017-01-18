@@ -15,6 +15,5 @@ namespace Entities.Models
         public string Content { get; set; }
 
 
-
     }
 }
