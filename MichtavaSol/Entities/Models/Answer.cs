@@ -13,5 +13,9 @@ namespace Entities.Models
 
         public DateTime Date_Submitted { get; set; }
 
+        public Homework Answer_To { get; set; }
+
+        public Student Submitted_By { get; set; }
+
     }
 }

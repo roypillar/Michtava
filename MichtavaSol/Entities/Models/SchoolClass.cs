@@ -6,13 +6,7 @@
 
     public class SchoolClass : DeletableEntity
     {
-        private List<Student> students;
-        private List<Teacher> teachers;
-
-        public SchoolClass()
-        {
-            this.students = new List<Student>();
-        }
+        
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -26,14 +20,21 @@
 
         public virtual List<Student> Students
         {
-            get { return this.students; }
-            set { this.students = value; }
+            get { return this.Students; }
+            set { this.Students = value; }
         }
 
-        public virtual List<Teacher> Teachers
+        public virtual List<Subject> Subjects
         {
-            get { return this.teachers; }
-            set { this.teachers = value; }
+            get { return this.Subjects; }
+            set { this.Subjects = value; }
         }
+
+        public virtual List<Teacher> Homeworks
+        {
+            get { return this.Homeworks; }
+            set { this.Homeworks = value; }
+        }
+
     }
 }

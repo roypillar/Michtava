@@ -12,10 +12,12 @@ namespace Entities.Models
     public class Teacher : DeletableEntity
     {
 
-        // private ICollection<Subject> subjects;//maybe?
 
-        //private ICollection<SchoolClass> classes;//TODO
-
+        public virtual ICollection<SchoolClass> SchoolClasses
+        {
+            get { return this.SchoolClasses; }
+            set { this.SchoolClasses = value; }
+        }
 
         //[Key]??TODO
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
