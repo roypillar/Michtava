@@ -1,69 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Migrations;
+using System.Linq;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Common;
+using Entities.Models;
+
+
 namespace Dal.Migrations
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Common;
-    using Entities.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>, IDisposable
     {
         private const int HighestGrade = 12;
-
-        private const int AcademicYearsCount = 3;
 
         private const int ClassStudentsNumber = 20;
 
         private const int GradeClassesNumber = 5;
 
         private const string DefaultProfileImageUrl =
-            "/Content/Images/Profile_Images/Default/default-profile-image.png";
+            "/Content/Images/default-profile-image.png";
 
         private readonly List<string> personNames = new List<string>()
         {
-            "Teddy Ferrara",
-            "Dyan Fisher",
-            "Anne Smith",
-            "Maria Finnegan",
-            "Ronnie Foltz",
-            "Eleanor Fowler",
-            "William Heller",
-            "Bobbi Canfield",
-            "Christina Buxton",
-            "Alexander Byrnes",
-            "Simon Cambell",
-            "Peter Callaghan",
-            "Ashley Hong",
-            "Hayden Jacques",
-            "Ida Jacobson",
-            "Jamie Miller",
-            "Jason Peterson",
-            "Michael Kaiser",
-            "Ivy Kearney",
-            "Sammy Keen",
+            "שלום חנוך",
+             "מאיר בנאי",
+              "Ricky Gal",
+               "עדי רן",
+                "מנחם אבוטבול",
+                 "יואב אורלין",
         };
 
         private readonly List<string> generalSchoolThemeSubjectNames = new List<string>()
         {
-            "Literature",
-            "Languages",
-            "Mathematics",
-            "Computer Science",
-            "Arts",
-            "Music",
-            "Physical education"
+            "ספרות",
+            "לשון",
+            "חשבון",
+            "אומנות",
+            "מחשבת ישראל",
+            "ספורט"
         };
 
-        private readonly List<string> schoolThemeNames = new List<string>()
-        {
-            "Science, Technology, Engineering, Math (STEM)",
-            "Medical Careers (MC)",
-            "Humanities (H)",
-            "General"
-        };
 
         private readonly DateTime startDate = new DateTime(2012, 9, 15);
 
@@ -100,7 +78,7 @@ namespace Dal.Migrations
 
             this.SeedRoles(context);
             this.SeedAdministrators(context);
-            //this.SeedAcademicYears(context, AcademicYearsCount);
+            //add all the seeds we want
 
             context.Configuration.AutoDetectChangesEnabled = true;
         }
@@ -233,220 +211,14 @@ namespace Dal.Migrations
 
 
 
-        /*
+        
 
-          private List<Grade> SeedGrades(
-              ApplicationDbContext context,
-              IList<Grade> previousAcademicYearGrades,
-              int highestGrade,
-              AcademicYear currentAcademicYear)
-          {
-              var grades = new List<Grade>();
+          
 
-              if (previousAcademicYearGrades == null || !previousAcademicYearGrades.Any())
-              {
-                  for (int gradeIndex = 0; gradeIndex < highestGrade; gradeIndex++)
-                  {
-                      Grade grade = new Grade();
-                      grade.GradeYear = gradeIndex + 1;
-                      grade.AcademicYear = currentAcademicYear;
+          
+      
 
-                      context.Grades.AddOrUpdate(grade);
-                      grades.Add(grade);
-                  }
-              }
-              else
-              {
-                  var grade = new Grade();
-
-                  grade.GradeYear = 1;
-                  grade.AcademicYear = currentAcademicYear;
-
-                  context.Grades.AddOrUpdate(grade);
-                  grades.Add(grade);
-
-                  foreach (var previousAcademicYearGrade in previousAcademicYearGrades)
-                  {
-                      if (previousAcademicYearGrade.GradeYear < highestGrade)
-                      {
-                          grade = new Grade();
-                          grade.GradeYear = previousAcademicYearGrade.GradeYear + 1;
-                          grade.AcademicYear = currentAcademicYear;
-
-                          context.Grades.AddOrUpdate(grade);
-                          grades.Add(grade);
-                      }
-                  }
-              }
-
-              return grades;
-          }
-
-          private List<Subject> SeedGradeSubjects(
-              ApplicationDbContext context,
-              IList<SchoolTheme> schoolThemes,
-              Grade grade,
-              IList<Subject> previousYearCurrentGradeSubjects)
-          {
-              List<Subject> subjects = new List<Subject>();
-
-              if (previousYearCurrentGradeSubjects != null && previousYearCurrentGradeSubjects.Any())
-              {
-                  // Copies subject information from previous year current grade to the new subjects
-                  foreach (var previousYearCurrentGradeSubject in previousYearCurrentGradeSubjects)
-                  {
-                      Subject subject = new Subject();
-                      subject.Name = previousYearCurrentGradeSubject.Name;
-                      subject.Grade = grade;
-                      subject.TotalHours = previousYearCurrentGradeSubject.TotalHours;
-                      subject.SchoolTheme = previousYearCurrentGradeSubject.SchoolTheme;
-
-                      context.Subjects.AddOrUpdate(subject);
-                      subjects.Add(subject);
-                  }
-              }
-              else
-              {
-                  if (grade.GradeYear < 8)
-                  {
-                      SchoolTheme generalSchoolTheme = schoolThemes.FirstOrDefault(st => st.Name == "General");
-                      subjects = this.SeedPrimarySchoolGradeSubjects(context, generalSchoolTheme, grade);
-                  }
-                  else
-                  {
-                      IList<SchoolTheme> schoolThemesWithoutGeneral = 
-                          schoolThemes.Where(st => st.Name != "General").ToList();
-
-                      subjects = this.SeedSecondarySchoolGradeSubjects(context, schoolThemesWithoutGeneral, grade);
-                  }
-              }
-
-              return subjects;
-          }
-
-          private List<Subject> SeedPrimarySchoolGradeSubjects(
-              ApplicationDbContext context,
-              SchoolTheme generalSchoolTheme,
-              Grade grade)
-          {
-              List<Subject> subjects = new List<Subject>();
-
-              foreach (var subjectName in this.generalSchoolThemeSubjectNames)
-              {
-                  Subject subject = new Subject();
-                  subject.Name = subjectName;
-                  subject.Grade = grade;
-                  subject.TotalHours = 80;
-                  subject.SchoolTheme = generalSchoolTheme;
-                  context.Subjects.AddOrUpdate(subject);
-                  subjects.Add(subject);
-              }
-
-              return subjects;
-          }
-
-          private List<Subject> SeedSecondarySchoolGradeSubjects(
-              ApplicationDbContext context,
-              IList<SchoolTheme> schoolThemes,
-              Grade grade)
-          {
-              List<Subject> subjects = new List<Subject>();
-
-              foreach (var schoolTheme in schoolThemes)
-              {
-                  if (schoolTheme.Name == "Science, Technology, Engineering, Math (STEM)")
-                  {
-                      Subject subject = new Subject();
-                      subject.Name = "Physics";
-                      subject.TotalHours = 110;
-                      subject.Grade = grade;
-                      subject.SchoolTheme = schoolTheme;
-
-                      context.Subjects.AddOrUpdate(subject);
-                      subjects.Add(subject);
-
-                      subject = new Subject();
-                      subject.Name = "Mathematics";
-                      subject.TotalHours = 90;
-                      subject.Grade = grade;
-                      subject.SchoolTheme = schoolTheme;
-
-                      context.Subjects.AddOrUpdate(subject);
-                      subjects.Add(subject);
-
-                      subject = new Subject();
-                      subject.Name = "Chemistry";
-                      subject.TotalHours = 70;
-                      subject.Grade = grade;
-                      subject.SchoolTheme = schoolTheme;
-
-                      context.Subjects.AddOrUpdate(subject);
-                      subjects.Add(subject);
-                  }
-
-                  if (schoolTheme.Name == "Medical Careers (MC)")
-                  {
-                      Subject subject = new Subject();
-                      subject.Name = "Biology";
-                      subject.TotalHours = 120;
-                      subject.Grade = grade;
-                      subject.SchoolTheme = schoolTheme;
-
-                      context.Subjects.AddOrUpdate(subject);
-                      subjects.Add(subject);
-
-                      subject = new Subject();
-                      subject.Name = "Chemistry";
-                      subject.TotalHours = 100;
-                      subject.Grade = grade;
-                      subject.SchoolTheme = schoolTheme;
-
-                      context.Subjects.AddOrUpdate(subject);
-                      subjects.Add(subject);
-
-                      subject = new Subject();
-                      subject.Name = "Physics";
-                      subject.TotalHours = 60;
-                      subject.Grade = grade;
-                      subject.SchoolTheme = schoolTheme;
-
-                      context.Subjects.AddOrUpdate(subject);
-                      subjects.Add(subject);
-                  }
-
-                  if (schoolTheme.Name == "Humanities (H)")
-                  {
-                      Subject subject = new Subject();
-                      subject.Name = "Literature";
-                      subject.TotalHours = 100;
-                      subject.Grade = grade;
-                      subject.SchoolTheme = schoolTheme;
-
-                      context.Subjects.AddOrUpdate(subject);
-                      subjects.Add(subject);
-
-                      subject = new Subject();
-                      subject.Name = "Languages";
-                      subject.TotalHours = 90;
-                      subject.Grade = grade;
-                      subject.SchoolTheme = schoolTheme;
-
-                      context.Subjects.AddOrUpdate(subject);
-                      subjects.Add(subject);
-
-                      subject = new Subject();
-                      subject.Name = "Philosophy";
-                      subject.TotalHours = 70;
-                      subject.Grade = grade;
-                      subject.SchoolTheme = schoolTheme;
-
-                      context.Subjects.AddOrUpdate(subject);
-                      subjects.Add(subject);
-                  }
-              }
-
-              return subjects;
-          }
+        
 
           private static List<SchoolClass> CopyClassesFromPreviousYearCurrentGrade(
               ApplicationDbContext context,
@@ -460,7 +232,6 @@ namespace Dal.Migrations
                   SchoolClass schoolClass = new SchoolClass();
                   schoolClass.Grade = grade;
                   schoolClass.ClassLetter = previousYearCurrentGradeClass.ClassLetter;
-                  schoolClass.SchoolTheme = previousYearCurrentGradeClass.SchoolTheme;
 
                   context.SchoolClasses.AddOrUpdate(schoolClass);
                   schoolClasses.Add(schoolClass);
@@ -473,8 +244,7 @@ namespace Dal.Migrations
               ApplicationDbContext context, 
               Grade grade,
               IList<SchoolClass> previousYearCurrentGradeClasses,
-              int gradeClassesNumber, 
-              IList<SchoolTheme> schoolThemes)
+              int gradeClassesNumber)
           {
               List<SchoolClass> schoolClasses = new List<SchoolClass>();
 
@@ -485,7 +255,7 @@ namespace Dal.Migrations
               }
               else
               {
-                  schoolClasses = this.CreateGradeNewSchoolClasses(context, grade, gradeClassesNumber, schoolThemes);
+                  schoolClasses = this.CreateGradeNewSchoolClasses(context, grade, gradeClassesNumber);
               }
 
               return schoolClasses;
@@ -494,8 +264,7 @@ namespace Dal.Migrations
           private List<SchoolClass> CreateGradeNewSchoolClasses(
               ApplicationDbContext context, 
               Grade grade, 
-              int gradeClassesNumber, 
-              IList<SchoolTheme> schoolThemes)
+              int gradeClassesNumber)
           {
               List<SchoolClass> schoolClasses = new List<SchoolClass>();
               int charANumber = 'A';
@@ -506,29 +275,8 @@ namespace Dal.Migrations
                   schoolClass.Grade = grade;
                   schoolClass.ClassLetter = ((char)currentChar).ToString();
 
-                  if (schoolClass.Grade.GradeYear < 8)
-                  {
-                      schoolClass.SchoolTheme = schoolThemes.FirstOrDefault(st => st.Name == "General");
-                  }
-                  else
-                  {
-                      if (currentChar < charANumber + 2)
-                      {
-                          schoolClass.SchoolTheme = schoolThemes.FirstOrDefault(
-                              st => st.Name == "Science, Technology, Engineering, Math (STEM)");
-                      }
-
-                      if (currentChar == charANumber + 2)
-                      {
-                          schoolClass.SchoolTheme = schoolThemes.FirstOrDefault(st => st.Name == "Medical Careers (MC)");
-                      }
-
-                      if (currentChar > charANumber + 2 && currentChar < charANumber + gradeClassesNumber)
-                      {
-                          schoolClass.SchoolTheme = schoolThemes.FirstOrDefault(st => st.Name == "Humanities (H)");
-                      }
-                  }
-
+                 
+                  
                   context.SchoolClasses.AddOrUpdate(schoolClass);
                   schoolClasses.Add(schoolClass);
               }
@@ -633,13 +381,11 @@ namespace Dal.Migrations
 
                           if (previousAcademicYearGradeSubject != null)
                           {
-                              subject.Teachers = previousAcademicYearGradeSubject.Teachers;
                               context.Subjects.AddOrUpdate(subject);
                           }
                           else
                           {
                               teacherProfile = this.CreateSingleTeacher();
-                              subject.Teachers.Add(teacherProfile);
                               context.Teachers.Add(teacherProfile);
                               teachers.Add(teacherProfile);
                           }
@@ -647,7 +393,6 @@ namespace Dal.Migrations
                       else
                       {
                           teacherProfile = this.CreateSingleTeacher();
-                          subject.Teachers.Add(teacherProfile);
                           context.Teachers.Add(teacherProfile);
                           teachers.Add(teacherProfile);
                       }
@@ -700,6 +445,7 @@ namespace Dal.Migrations
 
       }
   }
-  */
-    }
-}
+ 
+    
+
+
