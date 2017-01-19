@@ -77,12 +77,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{24519fbb-f108-4839-959c-dbccbf25a628}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="DeleteBinObjFolders" BeforeTargets="Clean">
     <RemoveDir Directories="..\..\Publish" />

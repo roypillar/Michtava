@@ -310,6 +310,10 @@
       <Project>{0b242646-0cde-49e8-ae30-90cc0a665da4}</Project>
       <Name>Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SmartTextBox\SmartTextBox.csproj">
+      <Project>{e39e84d4-0e8a-48d8-a4ed-1c86e04d7f33}</Project>
+      <Name>SmartTextBox</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201701141803099_InitialCreate.resx">

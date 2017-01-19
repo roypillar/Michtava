@@ -8,6 +8,7 @@ namespace Entities.Models
     public class Text
     {
         public string Id { get; set; }
+        
         public string Name { get; set; }
 
         public DateTime Uploaded { get; set; }
