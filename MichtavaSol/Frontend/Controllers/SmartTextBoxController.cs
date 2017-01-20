@@ -46,9 +46,10 @@ namespace Frontend.Controllers
             IDictionary<string, int> wordOccurrenceMap = _smartTextBox.GetRepeatedWords(text);
             foreach (KeyValuePair<string, int> wordEntry in wordOccurrenceMap)
             {
-
-                ans += " " + " המילה " + "\"" + wordEntry.Key + "\"" + " הופיעה: " + wordEntry.Value + " פעמים" + "\n";
-                
+                if (wordEntry.Value > 3)
+                {
+                    ans += " " + " המילה " + "\"" + wordEntry.Key + "\"" + " הופיעה: " + wordEntry.Value + " פעמים" + "\n";
+                }
 
 
             }
@@ -66,8 +67,11 @@ namespace Frontend.Controllers
                     break;
                 }
             }
-            ans += "השתמשת במילה  " + "\"" + wordOccurrenceMap.ElementAt(i).Key + "\" "  + wordOccurrenceMap.ElementAt(i).Value + " פעמים, אולי תרצה להשתמש במקום ב " +"\"" + _smartTextBox.SuggestAlternativeWord(wordOccurrenceMap.ElementAt(i).Key) +"\"";
-            ans += "\n";
+            if (i != wordOccurrenceMap.Count())
+            {
+                ans += "השתמשת במילה  " + "\"" + wordOccurrenceMap.ElementAt(i).Key + "\" " + wordOccurrenceMap.ElementAt(i).Value + " פעמים, אולי תרצה להשתמש במקום ב " + "\"" + _smartTextBox.SuggestAlternativeWord(wordOccurrenceMap.ElementAt(i).Key) + "\"";
+                ans += "\n";
+            }
             for (i = 0; i < wordOccurrenceMap.Count(); i++)
             {
                 int tmpNum = wordOccurrenceMap.ElementAt(i).Value;
