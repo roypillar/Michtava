@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{00B084D2-D1B7-4F10-82F9-9A328621BD63}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E39E84D4-0E8A-48D8-A4ED-1C86E04D7F33} = {E39E84D4-0E8A-48D8-A4ED-1C86E04D7F33}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{0B242646-0CDE-49E8-AE30-90CC0A665DA4}"
 EndProject
@@ -12,6 +15,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dal", "Dal\Dal.csproj", "{9E3AAC21-9BA1-4A9B-A905-F68B9E59254C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTextBox", "SmartTextBox\SmartTextBox.csproj", "{E39E84D4-0E8A-48D8-A4ED-1C86E04D7F33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTextBoxTests", "SmartTextBoxTests\SmartTextBoxTests.csproj", "{33E95364-3371-40F2-B362-4111FC7F7538}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +44,10 @@ Global
 		{E39E84D4-0E8A-48D8-A4ED-1C86E04D7F33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E39E84D4-0E8A-48D8-A4ED-1C86E04D7F33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E39E84D4-0E8A-48D8-A4ED-1C86E04D7F33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33E95364-3371-40F2-B362-4111FC7F7538}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33E95364-3371-40F2-B362-4111FC7F7538}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33E95364-3371-40F2-B362-4111FC7F7538}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33E95364-3371-40F2-B362-4111FC7F7538}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

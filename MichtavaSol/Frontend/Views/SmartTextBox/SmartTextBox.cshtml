@@ -13,15 +13,15 @@
 </head>
 <body>
 <h1>Form Demo</h1> 
-    <form class="col-xs-12" action="AnalyzeAnswer" method="post">
-        <div class="col-md-4">
-            <textarea name="myTextBox1" id="Output" placeholder="התשובה תוצג כאן..." cols="100" rows="20" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
-        </div>
-        <div class="col-md-4">
-            <textarea name="myTextBox2" id="Input" placeholder="הכנס את התשובה כאן..." cols="100" rows="20" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;"></textarea>
-            <br />
-            <input type="submit" value="בדיקה" />
-        </div>
-    </form>
+<form class="col-xs-12" action="AnalyzeAnswer" method="post">
+    <div class="col-md-4">
+        <textarea name="myTextBox1" id="Output" placeholder="התשובה תוצג כאן..." cols="100" rows="20" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
+    </div>
+    <div class="col-md-4">
+        <textarea name="myTextBox2" id="Input" placeholder="הכנס את התשובה כאן..." cols="100" rows="20" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;"></textarea>
+        <br />
+        <input type="submit" value="בדיקה" />
+    </div>
+</form>
 </body>
 </html>
