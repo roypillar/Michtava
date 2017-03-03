@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Entities.Models.Policy
+
+@{
     ViewBag.Title = "תיבת טקסט חכמה";
 }
 
@@ -16,10 +18,10 @@
     <form class="col-xs-12" action="AnalyzeAnswer" method="post">
         <div class="col-md-4">
             <label rows="1" cols="25" id="NumOfWords">
-                מספר מילים: @TempData["NumberOfWords"]
+                מספר מילים: @TempData["NumberOfWords"] / @Model._maxWords
             </label>
             <label rows="1" cols="25" id="NumOfConnectorWords">
-                מספר מילות קישור: @TempData["NumberOfConnectorWords"]
+                מספר מילות קישור: @TempData["NumberOfConnectorWords"] / @Model._maxConnectors
             </label>               
         </div>
         <div class="col-md-4">

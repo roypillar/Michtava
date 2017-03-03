@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,18 +8,22 @@ namespace Entities.Models
 {
     public class Policy
     {
-        public string Id { get; set; }
+        [Required]
+        public string _id { get; set; }
 
-        public int Min_Words { get; set; }
+        [Required]
+        public int _minWords { get; set; }
 
-        public int Max_Words { get; set; }
+        [Required]
+        public int _maxWords { get; set; }
 
-        public int Min_Connectors { get; set; }
+        [Required]
+        public int _minConnectors { get; set; }
 
-        public int Max_Connectors { get; set; }
+        [Required]
+        public int _maxConnectors { get; set; }
 
-
-
-
+        [Required]
+        public List<string> _keySentences { get; set; }
     }
 }
