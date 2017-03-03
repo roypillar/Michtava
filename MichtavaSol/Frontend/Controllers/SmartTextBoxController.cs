@@ -10,6 +10,7 @@ namespace Frontend.Controllers
     public class SmartTextBoxController : Controller
     {
         ISmartTextBox _smartTextBox = new SmartTextBoxImpl();
+
         public ActionResult SmartTextBox()
         {
             ViewBag.Title = "תיבת טקסט חכמה";
@@ -20,11 +21,14 @@ namespace Frontend.Controllers
         public ActionResult AnalyzeAnswer()
         {
 
-
-
             // here we have to call the SmartTextBox in server side
            
-            TempData["Answer"] = Temp(Request.Form["myTextBox2"]);
+
+            string input = Request.Form["TextBoxArea"];
+
+            TempData["NumberOfWords"] = _smartTextBox.GetNumberOfWords(input);
+            TempData["NumberOfConnectorWords"] = _smartTextBox.GetNumberOfConnectors(input);
+            TempData["Answer"] = input;
 
             return RedirectToAction("SmartTextBox");
         }
