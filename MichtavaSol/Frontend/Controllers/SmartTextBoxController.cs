@@ -6,12 +6,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Entities.Models;
+using Frontend.Models;
 
 namespace Frontend.Controllers
 {
     public class SmartTextBoxController : Controller
     {
         private ISmartTextBox _smartTextBox = new SmartTextBoxImpl();
+        private Policy _policy;
 
         public ActionResult SmartTextBox()
         {
@@ -23,10 +25,15 @@ namespace Frontend.Controllers
                 TempData["NumberOfConnectorWords"] = "0";
             }
 
+
+            // hard coded policy - need to be removed ------------------
+
             Policy _policy = new Policy();
             List<string> _keySentencesList = new List<string>();
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
             _policy = new Policy() { _id = "1", _minWords = 20, _maxWords = 30, _minConnectors = 3, _maxConnectors = 8, _keySentences = _keySentencesList };
+
+            //----------------------------------------------------------
 
             return View("SmartTextBox", _policy);
         }
@@ -35,15 +42,14 @@ namespace Frontend.Controllers
         {
 
             // here we have to call the SmartTextBox in server side
-           
 
             string input = Request.Form["TextBoxArea"];
 
             TempData["NumberOfWords"] = _smartTextBox.GetNumberOfWords(input);
             TempData["NumberOfConnectorWords"] = _smartTextBox.GetNumberOfConnectors(input);
-            TempData["Answer"] = input;   
-            
-            return RedirectToAction("SmartTextBox");
+            TempData["Answer"] = input;
+
+            return RedirectToAction("SmartTextBox", _policy);
         }
     }
 }

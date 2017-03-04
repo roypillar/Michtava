@@ -30,9 +30,7 @@
 
         public IDbSet<Homework> Homeworks { get; set; }
 
-
         public IDbSet<Grade> Grades { get; set; }
-
 
         public ICollection<Text> getTexts(string t)
         {
