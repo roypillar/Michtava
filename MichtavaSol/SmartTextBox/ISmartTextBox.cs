@@ -13,6 +13,9 @@ namespace SmartTextBox
 
         int GetNumberOfWords(string text);
 
+        int getNumOfAllowedWords();
+        void getNumOfAllowedWords(int newNum);
+
         //  public List<string> GetKeySentences(); for now we get it from the policy
 
         IDictionary<string, int> GetRepeatedWords(string text);

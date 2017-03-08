@@ -9,10 +9,25 @@ namespace SmartTextBox
     public class SmartTextBoxImpl : ISmartTextBox
     {
 
+        public SmartTextBoxImpl()
+        {
+            numOfAllowedWords = 50;
+        }
         // private static string Text;
         private static List<string> punctuationMarks = new List<string> { ".", ",", "-", "?", "!", "<", ">", "&", "[", "]", "(", ")" };
      
         public static Connectors conn = new Connectors();
+
+        //this is auto on 50, there is set to change it.
+        //i think we need this here for the on client side checks..
+
+        private int numOfAllowedWords;
+        public int getNumOfAllowedWords() { return numOfAllowedWords; }
+        public void getNumOfAllowedWords(int newNum) {numOfAllowedWords = newNum; }
+
+
+       
+
 
         public IDictionary<string, int> GetRepeatedWords(string text)
         {
