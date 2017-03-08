@@ -30,5 +30,33 @@ namespace Frontend.Controllers
 
             return View();
         }
+
+        public ActionResult Login()
+        {
+            ViewBag.Title = "בחר נושא";
+
+            return View("Subjects");
+        }
+
+        public ActionResult ChooseSubject()
+        {
+            ViewBag.Title = "בחר תת-נושא";
+
+            return View("SubSubjects");
+        }
+
+        public ActionResult ChooseSubSubject()
+        {
+            ViewBag.Title = "בחר טקסט";
+
+            return View("Texts");
+        }
+
+        public ActionResult ChooseText()
+        {
+            ViewBag.Title = "בחר פעולה";
+
+            return View("TextMenu");
+        }
     }
 }

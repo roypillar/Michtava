@@ -1,26 +1,54 @@
 ﻿
-    <h1> מכתבה - יוצרים הצלחה</h1>
-    <p class="lead">פרטים על מכתבה  </p>
-    <p style="text-align: center;">
-    <a href='@Url.Action("Login", "Account","loginLink")' class="btn btn-primary btn-lg">כניסה\הרשמה &raquo;</a>
-    </p>
+<br /><br /><br />
+<head>
+    <style>
+        input[type='text'], input[type='password'] {
+            font-size: 24px;
+            background-color: lemonchiffon;
+            border-color: green;
+        }
 
+        input[type='submit'] {
+            font-size: 32px;
+            background-color: darkorange;
+            border-color: darkorange;
+        }
+
+        body {
+            background-image: url("../../Backgrounds/background.jpg");
+            width:100%;
+            height: 100%;
+            background-position: center;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body>
 <div class="row">
-    <div class="col-md-4">
-        <h2>כותרת1</h2>
-        <p>
-           מילים מילים יאללה הפועל מילים
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">כפתור1 &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>כותרת2</h2>
-        <p>מילים מילים</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">כפתור2 &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>כותרת3</h2>
-        <p>מילים</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">כפתור3 &raquo;</a></p>
-    </div>
+    <form class="text-right" action="Login" method="post" id="LoginData">
+        <div class="row">
+            <div class="col-sm-10">
+                <img src="../../Logo/2.png" alt="מכתבה" height="250" width="250">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <input type="text" name="u" placeholder="שם משתמש" required="required"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <input type="password" name="p" placeholder="סיסמה" required="required"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <input type="submit" value="כניסה" />
+            </div>
+        </div>
+    </form>
 </div>
+<br /><br /><br /><br /><br /><br /><br />
+</body>

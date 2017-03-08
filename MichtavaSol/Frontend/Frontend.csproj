@@ -222,6 +222,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Backgrounds\bg.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -287,9 +288,14 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\SmartTextBox\SmartTextBox.cshtml" />
     <Content Include="Views\Policy\Policy.cshtml" />
+    <Content Include="Views\Home\Subjects.cshtml" />
+    <Content Include="Views\Home\SubSubjects.cshtml" />
+    <Content Include="Views\Home\Texts.cshtml" />
+    <Content Include="Views\Home\TextMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Logo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
