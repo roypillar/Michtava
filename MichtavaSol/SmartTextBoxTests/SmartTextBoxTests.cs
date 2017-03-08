@@ -21,7 +21,10 @@ namespace SmartTextBoxTests
         public void GetNumberOfWordsTests()
         {
             _smartTextBox = new SmartTextBoxImpl();
-            _text = "";
+            _text = "זו היא בדיקה פשוטה מאוד שבאה להראות כמה מילים יש, לכן אני מאמין שיהיו 16 מילים";
+            Assert.AreEqual(16, _smartTextBox.GetNumberOfWords(_text));
+            Assert.AreEqual(50, _smartTextBox.getNumOfAllowedWords());
+        
         }
 
         [TestMethod]
