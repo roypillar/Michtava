@@ -31,6 +31,15 @@ namespace Frontend.Controllers
             return View();
         }
 
+        public ActionResult TextAdding()
+        {
+            ViewBag.Title = "בחר טקסט";
+
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
         public ActionResult Login()
         {
             ViewBag.Title = "בחר נושא";

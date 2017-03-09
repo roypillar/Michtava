@@ -7,14 +7,17 @@ namespace Entities.Models
 {
     public class Text
     {
+        public enum FileFormats { doc, docx, pdf, txt };
+
+
         public string Id { get; set; }
         
         public string Name { get; set; }
 
-        public DateTime Uploaded { get; set; }
+        public DateTime UploadTime { get; set; }
 
-        public string Content { get; set; }
+        public FileFormats Format { get; set; }
 
-
+        public string FilePath { get; set; }
     }
 }

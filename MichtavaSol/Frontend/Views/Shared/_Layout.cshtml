@@ -24,10 +24,13 @@
     
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
+            <li>@Html.ActionLink("פרופיל אישי", "Contact", "Home", new { @class = "michtava-main navbar-brand" })</li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
             <li>@Html.ActionLink("הוספת שאלה", "../Policy/Policy", "../Policy", new {@class = "michtava-main navbar-brand"})</li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li>@Html.ActionLink("פרופיל אישי", "Contact", "Home", new {@class = "michtava-main navbar-brand"})</li>
+            <li>@Html.ActionLink("הוספת טקסט", "TextAdding", "Home", new { @class = "michtava-main navbar-brand" })</li>
         </ul>
 
         <ul class="nav navbar-nav navbar-left">

@@ -203,6 +203,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PolicyController.cs" />
     <Compile Include="Controllers\SmartTextBoxController.cs" />
+    <Compile Include="Controllers\TextAddingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -292,10 +293,12 @@
     <Content Include="Views\Home\SubSubjects.cshtml" />
     <Content Include="Views\Home\Texts.cshtml" />
     <Content Include="Views\Home\TextMenu.cshtml" />
+    <Content Include="Views\Home\TextAdding.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Logo\" />
+    <Folder Include="Views\TextAdding\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
