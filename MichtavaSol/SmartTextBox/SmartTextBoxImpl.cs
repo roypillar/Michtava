@@ -23,7 +23,7 @@ namespace SmartTextBox
 
         private int numOfAllowedWords;
         public int getNumOfAllowedWords() { return numOfAllowedWords; }
-        public void getNumOfAllowedWords(int newNum) {numOfAllowedWords = newNum; }
+        public void setNumOfAllowedWords(int newNum) {numOfAllowedWords = newNum; }
 
 
        
@@ -114,6 +114,14 @@ namespace SmartTextBox
         }
 
 
+        //לא יודע אם צריך בנפרד, מאמין שעדיף למדל עוד קצת כי לתקן פיסוק 
+        // זה מספיק קשה בלי לטפל במשפט עם רווחים, אז קודם נוריד רווחים ואז נתקן בקלות יותר 
+        public string RemoveUnnecessarySpaces(string word)
+        {
+            string ans = String.Join(" ", word.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries));
+            return ans;
+        }
+
         //in progresss!!!
         public string CheckPunctuatioMarks(string text)
         {
@@ -134,14 +142,14 @@ namespace SmartTextBox
                 {
                     Console.WriteLine(tokens[j]);
 
-                    if (tokens[j] == "")
+                    if (tokens[j] == ".")
                     {
                         if ((j + 1) <= tokens.Length)
                         {
                             if (tokens[j + 1].First().ToString() == "ו")
                             {
-                                Console.WriteLine("vav can't come after psik !!!\n");
-
+                               // Console.WriteLine("vav can't come after psik !!!\n");
+                                return ("wrong");
                             }
                             else
                             {

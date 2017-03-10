@@ -14,7 +14,10 @@ namespace SmartTextBox
         int GetNumberOfWords(string text);
 
         int getNumOfAllowedWords();
-        void getNumOfAllowedWords(int newNum);
+        void setNumOfAllowedWords(int newNum);
+
+        string RemoveUnnecessarySpaces(string word);
+
 
         //  public List<string> GetKeySentences(); for now we get it from the policy
 

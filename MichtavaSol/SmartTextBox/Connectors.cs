@@ -76,6 +76,5 @@ namespace SmartTextBox
             return false;
         }
 
-
     }
 }
