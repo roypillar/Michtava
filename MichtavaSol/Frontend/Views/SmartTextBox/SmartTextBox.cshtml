@@ -30,7 +30,14 @@
             </label>
             <label rows="1" cols="25" id="NumOfConnectorWords">
                 מספר מילות קישור: @TempData["NumberOfConnectorWords"] / @Model._maxConnectors
-            </label>               
+            </label> 
+            <label rows="1" cols="25" id="toManyWords">
+                @TempData["toManyWords"]
+            </label>              
+            <label rows="1" cols="25" id="toManyConnectors">
+                @TempData["toManyConnectors"]
+            </label> 
+            
         </div>
         <div class="col-md-4">
             <textarea name="TextBoxArea" id="Input" placeholder="הכנס את התשובה כאן..." cols="200" rows="20" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
