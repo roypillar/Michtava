@@ -10,10 +10,14 @@
 <!DOCTYPE HTML>
 <html lang="he" dir="rtl">
 <head>
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
     <style>
         body {
             background-image: url("../../Backgrounds/background.jpg");
-            width:100%;
+            width: 100%;
             height: 100%;
             background-position: center;
             background-size: 100% 100%;
@@ -65,6 +69,39 @@
                                                  new {@type = "number", @name = "MaxConnectors", @id = "MaxConnectors", @min = "3", @max = "20", @style = "width: 5em"})
             </div>
         </div>
+        
+        <br/><br/><br/>
+        <hr/>
+        <div class="row">
+            <div class="col-sm-4 pull-right">
+                <div id="main">
+                    <input type="button" id="btAdd" value="הוסף משפט מפתח" class="bt" style="width: 10em; background-color: green; color: white" />                 
+                </div>
+            </div>
+            <div class="col-sm-4 pull-right">
+                <div id="main">
+                    <input type="button" id="btRemove" value="הסר משפט מפתח" class="bt" style = "width: 10em; background-color: orange; color: white"/>
+                </div>
+            </div>
+            <div class="col-sm-4 pull-right">
+                <div id="main">
+                    <input type="button" id="btRemoveAll" value="הסר הכל" class="bt" style="width: 10em; background-color: red; color: white" /><br/>
+                </div>                      
+            </div>
+        </div>
+        <hr />
+  
+    <div class="row">
+        <div class="col-sm-10 pull-right">
+            <INPUT type="button" value="הוסף פירוש למילה" onclick="addWord()" style="width: 10em; background-color: green; color: white" />
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-sm-10 pull-right">
+                <span id="wordTranslation">&nbsp;</span>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-sm-10">
                 <input type="submit" value="הוסף שאלה"/>
@@ -72,6 +109,135 @@
         </div>
     </form>
 </div>
+
+<script>
+    $(document).ready(function() {
+
+        var iCnt = 0;
+        // CREATE A "DIV" ELEMENT AND DESIGN IT USING jQuery ".css()" CLASS.
+        var container = $(document.createElement('div')).css({
+            padding: '5px', margin: '20px', width: '170px', border: '1px dashed',
+            borderTopColor: '#999', borderBottomColor: '#999',
+            borderLeftColor: '#999', borderRightColor: '#999'
+        });
+
+        $('#btAdd').click(function() {
+            if (iCnt <= 19) {
+
+                iCnt = iCnt + 1;
+
+                // ADD TEXTBOX.
+                $(container).append('<input type=text class="input" id=tb' + iCnt + ' ' +
+                    'value="משפט מפתח ' + iCnt + '" />');
+
+                // SHOW SUBMIT BUTTON IF ATLEAST "1" ELEMENT HAS BEEN CREATED.
+                if (iCnt == 1) {
+
+                    var divSubmit = $(document.createElement('div'));
+                    //$(divSubmit).append('<input type=button class="bt"' +
+                    //    'onclick="GetTextValue()"' +
+                    //    'id=btSubmit value=Submit />');
+
+                }
+
+                // ADD BOTH THE DIV ELEMENTS TO THE "main" CONTAINER.
+                $('#main').after(container, divSubmit);
+            }
+            // AFTER REACHING THE SPECIFIED LIMIT, DISABLE THE "ADD" BUTTON.
+            // (20 IS THE LIMIT WE HAVE SET)
+            else {
+                $(container).append('<label>Reached the limit</label>');
+                $('#btAdd').attr('class', 'bt-disable');
+                $('#btAdd').attr('disabled', 'disabled');
+            }
+        });
+
+        // REMOVE ONE ELEMENT PER CLICK.
+        $('#btRemove').click(function() {
+            if (iCnt != 0) { $('#tb' + iCnt).remove(); iCnt = iCnt - 1; }
+
+            if (iCnt == 0) {
+                $(container)
+                    .empty()
+                    .remove();
+
+                $('#btSubmit').remove();
+                $('#btAdd')
+                    .removeAttr('disabled')
+                    .attr('class', 'bt');
+            }
+        });
+
+        // REMOVE ALL THE ELEMENTS IN THE CONTAINER.
+        $('#btRemoveAll').click(function() {
+            $(container)
+                .empty()
+                .remove();
+
+            $('#btSubmit').remove();
+            iCnt = 0;
+
+            $('#btAdd')
+                .removeAttr('disabled')
+                .attr('class', 'bt');
+        });
+    });
+
+    // PICK THE VALUES FROM EACH TEXTBOX WHEN "SUBMIT" BUTTON IS CLICKED.
+    var divValue, values = '';
+
+    function GetTextValue() {
+
+        $(divValue)
+            .empty()
+            .remove();
+
+        values = '';
+
+        $('.input').each(function() {
+            divValue = $(document.createElement('div')).css({
+                padding:'5px', width:'200px'
+            });
+            values += this.value + '<br />'
+        });
+
+        $(divValue).append('<p><b>Your selected values</b></p>' + values);
+        $('body').append(divValue);
+    }
+
+    function addWord() {
+
+        //Create an input type dynamically.
+        var element = document.createElement("input");
+
+        //Assign different attributes to the element.
+        element.setAttribute("type", "text");
+        element.setAttribute("value", "הוסף פירוש");
+        element.setAttribute("name", "translation");
+
+        // Add select box:
+        var select = document.createElement('select');
+        var option, i;
+        var inputdata = ["מילה 1", "מילה 2", "מילה 3"];
+
+        for (i = 0; i < inputdata.length; i++) {
+
+            option = document.createElement('option');
+
+            option.value = option.textContent = inputdata[i];
+
+            select.appendChild(option);
+        };
+
+        var translation = document.getElementById("wordTranslation");
+
+        //Append the element in page (in span).
+        translation.appendChild(select);
+        translation.appendChild(element);
+        translation.appendChild(document.createElement('br'));
+    }
+</script>
+
 </body>
 </html>
 

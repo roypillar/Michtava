@@ -204,6 +204,7 @@
     <Compile Include="Controllers\PolicyController.cs" />
     <Compile Include="Controllers\SmartTextBoxController.cs" />
     <Compile Include="Controllers\TextAddingController.cs" />
+    <Compile Include="Controllers\TextViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -294,11 +295,13 @@
     <Content Include="Views\Home\Texts.cshtml" />
     <Content Include="Views\Home\TextMenu.cshtml" />
     <Content Include="Views\Home\TextAdding.cshtml" />
+    <Content Include="Views\Home\TextView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Logo\" />
     <Folder Include="Views\TextAdding\" />
+    <Folder Include="Views\TextView\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -320,6 +323,10 @@
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{0b242646-0cde-49e8-ae30-90cc0a665da4}</Project>
       <Name>Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileHandler\FileHandler.csproj">
+      <Project>{922FEC45-4383-40DD-93D6-BC6BEB9731D7}</Project>
+      <Name>FileHandler</Name>
     </ProjectReference>
     <ProjectReference Include="..\SmartTextBox\SmartTextBox.csproj">
       <Project>{e39e84d4-0e8a-48d8-a4ed-1c86e04d7f33}</Project>
