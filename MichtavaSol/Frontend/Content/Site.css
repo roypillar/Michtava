@@ -18,7 +18,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    
 }
 
 /* FISH THEME//////////////////////////////////////////////////
@@ -138,7 +138,7 @@ h4{
 
 .fish{
 	background-image: url('http://www.geertjanhendriks.nl/codepen/form/fish.png');
-	width: 235px;
+	width: 1000px;
 	height: 104px;
 	margin-left: -235px;
 	position: absolute;	
@@ -177,19 +177,17 @@ h4{
 
 form{
 	margin: 0 auto;
-	width: 500px;
 	padding-top: 40px;
 	color: coral;
 	position: relative;
 	direction:rtl;
-	
+    max-width: 100%;	
 }
 
 label, input, textarea{
 	display: block;	
 }
 input, textarea{
-	width: 500px;	
 	border: none;
 	border-radius: 20px;
 	outline: none;
@@ -247,7 +245,7 @@ label{
 	-webkit-transition: background-image 0.7s;
 	-moz-transition: background-image 0.7s;
 	-o-transition: background-image 0.7s;
-	width: 566px;
+	max-width: 100%;
 	/*padding-top: 2px;*/
 }
 

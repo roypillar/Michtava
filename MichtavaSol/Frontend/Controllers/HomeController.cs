@@ -75,7 +75,7 @@ namespace Frontend.Controllers
         {
             ViewBag.Title = "טקסט";
 
-            TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\NewTextDocument.txt");
+            TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
 
             return View("TextView");
         }

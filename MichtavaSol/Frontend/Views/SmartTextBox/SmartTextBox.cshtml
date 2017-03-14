@@ -19,31 +19,127 @@
             background-size: 100% 100%;
             background-repeat: no-repeat;
         }
+
+        input[type='button'] {
+            width: 5em;
+            font-size: 16px;
+            background-color: green;
+            border-color: green;
+            color: white;
+        }
+
+        textarea {
+            font-size: 14pt;
+        }
+
+        .styled-select {
+            background: green;
+            color: white;
+            height: 29px;
+            overflow: hidden;
+            width: 200px;
+        }
     </style>
 </head>
 <body>
-<div class="row">
-    <form class="col-xs-12" action="AnalyzeAnswer" method="post">
-        <div class="col-md-4">
+<form class="col-xs-12" action="AnalyzeAnswer" method="post">
+    <div class="row">
+        <div class="col-md-1 pull-right">
+            <input type="button" value="B" style = "font-weight: bold" onclick="addBold()"/>
+        </div>
+        <div class="col-md-1 pull-right">
+            <input type="button" value="U" style = "text-decoration: underline" onclick="addUnderline()"/>
+        </div>
+        <div class="col-md-1 pull-right">
+            <input type="button" value="I" style = "font-style: italic" onclick="addI()"/>
+        </div>
+        <div class="col-md-1 pull-right">
+            <select class="styled-select" onchange="changeFont()" id="fontSize">
+                <option>בחר גודל כתב</option>
+                <option value="11pt">11</option>
+                <option value="12pt">12</option>
+                <option value="14pt">14</option>
+                <option value="16pt">16</option>
+                <option value="18pt">18</option>
+                <option value="20pt">20</option>
+                <option value="24pt">24</option>
+                <option value="28pt">28</option>
+                <option value="32pt">32</option>
+            </select>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-12">
+            <textarea name="TextBoxArea" id="Input" placeholder="הכנס את התשובה כאן..." cols="50" rows="10" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
+            <input type="submit" value="בדיקה" style="width: 5em"/>
+        </div>
+    </div>
+    <br/>
+    <hr/>
+    <div class="row">
+        <div class="col-md-12">
             <label rows="1" cols="25" id="NumOfWords">
                 מספר מילים: @TempData["NumberOfWords"] / @Model._maxWords
             </label>
             <label rows="1" cols="25" id="NumOfConnectorWords">
                 מספר מילות קישור: @TempData["NumberOfConnectorWords"] / @Model._maxConnectors
-            </label> 
+            </label>
             <label rows="1" cols="25" id="toManyWords">
                 @TempData["toManyWords"]
-            </label>              
+            </label>
             <label rows="1" cols="25" id="toManyConnectors">
                 @TempData["toManyConnectors"]
-            </label> 
-            
+            </label>
         </div>
-        <div class="col-md-4">
-            <textarea name="TextBoxArea" id="Input" placeholder="הכנס את התשובה כאן..." cols="200" rows="20" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
-            <input type="submit" value="בדיקה" />
-        </div>
-    </form>
-</div>
+    </div>
+</form>
+    
+<script>
+    function addBold() {
+
+        var tArea = document.getElementById("Input");
+
+        if (tArea.style.fontWeight == '') {
+            tArea.style.fontWeight = 'bold';
+        } else {
+            tArea.style.fontWeight = '';
+        }        
+    }
+
+    function addUnderline() {
+
+        var tArea = document.getElementById("Input");
+
+        if (tArea.style.textDecoration == '') {
+            tArea.style.textDecoration = 'underline';
+        } else {
+            tArea.style.textDecoration = '';
+        }
+    }
+
+    function addI() {
+
+        var tArea = document.getElementById("Input");
+
+        if (tArea.style.fontStyle == '') {
+            tArea.style.fontStyle = 'italic';
+        } else {
+            tArea.style.fontStyle = '';
+        }
+    }
+
+    function changeFont() {
+
+        var tArea = document.getElementById("Input");
+
+        var selectBox = document.getElementById("fontSize");
+
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+        tArea.style.fontSize = selectedValue;
+    }
+</script>
+
 </body>
 </html>
