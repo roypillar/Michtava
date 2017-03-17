@@ -28,6 +28,13 @@
             color: white;
         }
 
+        button {
+            font-size: 16px;
+            background-color: chocolate;
+            border-color: green;
+            color: white;
+        }
+
         textarea {
             font-size: 14pt;
         }
@@ -45,13 +52,29 @@
 <form class="col-xs-12" action="AnalyzeAnswer" method="post">
     <div class="row">
         <div class="col-md-1 pull-right">
-            <input type="button" value="B" style = "font-weight: bold" onclick="addBold()"/>
+            <h3>מה התשובה לשאלה המוצגת?</h3>
+        </div>
+    </div>
+    <br/><br/>
+    
+    <div class="row">
+        <div class="col-md-3 pull-right">
+            <button id="keySentences" onclick="GetKeySentence()">
+                קבל משפט פתיחה
+            </button>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-md-1 pull-right">
+            <input type="button" value="B" style="font-weight: bold" onclick="addBold()" />
         </div>
         <div class="col-md-1 pull-right">
-            <input type="button" value="U" style = "text-decoration: underline" onclick="addUnderline()"/>
+            <input type="button" value="U" style="text-decoration: underline" onclick="addUnderline()" />
         </div>
         <div class="col-md-1 pull-right">
-            <input type="button" value="I" style = "font-style: italic" onclick="addI()"/>
+            <input type="button" value="I" style="font-style: italic" onclick="addI()" />
         </div>
         <div class="col-md-1 pull-right">
             <select class="styled-select" onchange="changeFont()" id="fontSize">
@@ -68,15 +91,22 @@
             </select>
         </div>
     </div>
-    <br/>
-    <div class="row">
+    <br />
+    <div class="row">        
         <div class="col-md-12">
             <textarea name="TextBoxArea" id="Input" placeholder="הכנס את התשובה כאן..." cols="50" rows="10" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <input type="submit" value="הגשה סופית" style="width: 7em; font-size: 20px; background-color: crimson" />
+        </div>
+        <div class="col-md-6">
             <input type="submit" value="בדיקה" style="width: 5em"/>
         </div>
     </div>
-    <br/>
-    <hr/>
+    <br />
+    <hr />
     <div class="row">
         <div class="col-md-12">
             <label rows="1" cols="25" id="NumOfWords">
@@ -94,8 +124,13 @@
         </div>
     </div>
 </form>
-    
+
 <script>
+
+    function GetKeySentence() {
+        document.getElementById("Input").value = "זהו משפט פתיחה שמוצע על ידי המערכת " + document.getElementById("Input").value;
+    }
+
     function addBold() {
 
         var tArea = document.getElementById("Input");
@@ -104,7 +139,7 @@
             tArea.style.fontWeight = 'bold';
         } else {
             tArea.style.fontWeight = '';
-        }        
+        }
     }
 
     function addUnderline() {
