@@ -208,11 +208,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701141803099_InitialCreate.cs" />
-    <Compile Include="Migrations\201701141803099_InitialCreate.Designer.cs">
-      <DependentUpon>201701141803099_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -240,6 +235,7 @@
     </Content>
     <Content Include="fonts\VarelaRound-Regular.ttf" />
     <Content Include="fonts\KAMMB___.TTF" />
+    <None Include="Properties\PublishProfiles\dfs.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -333,11 +329,6 @@
       <Project>{e39e84d4-0e8a-48d8-a4ed-1c86e04d7f33}</Project>
       <Name>SmartTextBox</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701141803099_InitialCreate.resx">
-      <DependentUpon>201701141803099_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
