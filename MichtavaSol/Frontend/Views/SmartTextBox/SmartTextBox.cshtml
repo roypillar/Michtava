@@ -46,6 +46,52 @@
             overflow: hidden;
             width: 200px;
         }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .input-w label, .input-w input {
+            float: none; /* if you had floats before? otherwise inline-block will behave differently */
+            display: inline-block;
+            vertical-align: middle;    
+        }
+
     </style>
 </head>
 <body>
@@ -55,26 +101,53 @@
             <h3>מה התשובה לשאלה המוצגת?</h3>
         </div>
     </div>
-    <br/><br/>
-    
+    <br/>
+
     <div class="row">
         <div class="col-md-3 pull-right">
-            <button id="keySentences" onclick="GetKeySentence()">
-                קבל משפט פתיחה
-            </button>
+            <h3><label for="myBtn" class="label label-warning">קבל משפט פתיחה</label></h3>
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <br/><br/>
+                    <div dir="rtl">
+                        <div class="input-w">
+                            <input name="group" id="group1" type="radio" value="משפט פתיחה 1" />
+                            <label for="group1">משפט פתיחה 1</label>
+                        </div>
+                        <div class="input-w">
+                            <input name="group" id="group2" type="radio" value="משפט פתיחה 2" />
+                            <label for="group2">משפט פתיחה 2</label>
+                        </div>
+                        <div class="input-w">
+                            <input name="group" id="group3" type="radio" value="משפט פתיחה 3" />
+                            <label for="group3">משפט פתיחה 3</label>
+                        </div>
+                        <div class="input-w">
+                            <input name="group" id="group4" type="radio" value="משפט פתיחה 4" />
+                            <label for="group4">משפט פתיחה 4</label>
+                        </div>
+                    </div>
+                    <br/>
+                    <input type="button" onclick="GetKeySentence($('input[type=radio]:checked').val())" value="בחר" />
+                </div>
+
+            </div>
         </div>
     </div>
     <br/>
 
     <div class="row">
         <div class="col-md-1 pull-right">
-            <input type="button" value="B" style="font-weight: bold" onclick="addBold()" />
+            <input type="button" value="B" style="font-weight: bold" onclick="addBold()"/>
         </div>
         <div class="col-md-1 pull-right">
-            <input type="button" value="U" style="text-decoration: underline" onclick="addUnderline()" />
+            <input type="button" value="U" style="text-decoration: underline" onclick="addUnderline()"/>
         </div>
         <div class="col-md-1 pull-right">
-            <input type="button" value="I" style="font-style: italic" onclick="addI()" />
+            <input type="button" value="I" style="font-style: italic" onclick="addI()"/>
         </div>
         <div class="col-md-1 pull-right">
             <select class="styled-select" onchange="changeFont()" id="fontSize">
@@ -91,22 +164,22 @@
             </select>
         </div>
     </div>
-    <br />
-    <div class="row">        
+    <br/>
+    <div class="row">
         <div class="col-md-12">
             <textarea name="TextBoxArea" id="Input" placeholder="הכנס את התשובה כאן..." cols="50" rows="10" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
-            <input type="submit" value="הגשה סופית" style="width: 7em; font-size: 20px; background-color: crimson" />
+            <input type="submit" value="הגשה סופית" style="width: 7em; font-size: 20px; background-color: crimson"/>
         </div>
         <div class="col-md-6">
             <input type="submit" value="בדיקה" style="width: 5em"/>
         </div>
     </div>
-    <br />
-    <hr />
+    <br/>
+    <hr/>
     <div class="row">
         <div class="col-md-12">
             <label rows="1" cols="25" id="NumOfWords">
@@ -124,11 +197,16 @@
         </div>
     </div>
 </form>
-
+    <button id="myBtn" class="hidden"></button>
 <script>
 
-    function GetKeySentence() {
-        document.getElementById("Input").value = "זהו משפט פתיחה שמוצע על ידי המערכת " + document.getElementById("Input").value;
+    function GetKeySentence(val) {
+        if (val != null) 
+        document.getElementById("Input").value = val + " " +
+            document.getElementById("Input").value;
+
+        // close the modal:
+        modal.style.display = "none";
     }
 
     function addBold() {
@@ -173,6 +251,32 @@
         var selectedValue = selectBox.options[selectBox.selectedIndex].value;
 
         tArea.style.fontSize = selectedValue;
+    }
+
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
     }
 </script>
 
