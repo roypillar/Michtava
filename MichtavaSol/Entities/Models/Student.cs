@@ -10,9 +10,8 @@ namespace Entities.Models
 
       
 
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        //public Guid Id { get; set; }
-         public int Id { get; set; }
+        [Key]
+         public string Id { get; set; }
 
         [Required]
         public string Name { get; set; }
