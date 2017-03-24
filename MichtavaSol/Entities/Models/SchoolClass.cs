@@ -15,7 +15,7 @@
 
         public virtual Grade Grade { get; set; }
 
-        public int GradeId { get; set; }
+        public string GradeId { get; set; }
 
 
         public virtual List<Student> Students
@@ -30,10 +30,10 @@
             set { this.Subjects = value; }
         }
 
-        public virtual List<Homework> Homeworks
+        public virtual List<Homework> ActiveHomeworks
         {
-            get { return this.Homeworks; }
-            set { this.Homeworks = value; }
+            get { return this.ActiveHomeworks; }
+            set { this.ActiveHomeworks = value; }
         }
 
     }

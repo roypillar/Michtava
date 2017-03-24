@@ -18,7 +18,7 @@ namespace Entities.Models
             this.schoolClasses = new HashSet<SchoolClass>();
         }
 
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Title { get; set; }
 
@@ -33,7 +33,6 @@ namespace Entities.Models
         public Text Text { get; set; }
 
         public IList<Question> Questions { get; set; }
-        public IList<Homework> Homeworks { get; set; }
 
 
     }

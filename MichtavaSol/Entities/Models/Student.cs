@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
@@ -8,10 +9,10 @@ namespace Entities.Models
     public class Student : DeletableEntity
     {
 
-      
 
-        [Key]
-         public string Id { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
         [Required]
         public string Name { get; set; }

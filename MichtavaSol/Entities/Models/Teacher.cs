@@ -19,8 +19,8 @@ namespace Entities.Models
             set { this.SchoolClasses = value; }
         }
 
-        [Key]
-        public string Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
         public string ApplicationUserId { get; set; }
 

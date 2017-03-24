@@ -16,13 +16,14 @@
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
         }
 
+        public IDbSet<Administrator> Administrators { get; set; }
+
         public IDbSet<Text> Texts { get; set; }//all tables belong here
 
         public IDbSet<Student> Students { get; set; }
 
         public IDbSet<Teacher> Teachers { get; set; }
 
-        public IDbSet<Administrator> Administrators { get; set; }
 
         public IDbSet<Subject> Subjects { get; set; }
 
