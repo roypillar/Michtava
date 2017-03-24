@@ -29,11 +29,11 @@
 <div class="row">
     <form class="text-right" action="SubmitPolicy" method="post" id="policyData">
         <div class="row">
-            <div class="col-sm-10 pull-right">
-                <textarea placeholder="הוסף שאלה..." cols="200" rows="10"></textarea>
+            <div class="col-sm-10">
+                <textarea placeholder="הוסף שאלה..." cols="50" rows="5"></textarea>
             </div>
         </div>
-        <br/><br/><br/>
+        <br/>
         <div class="row">
             <div class="col-sm-10 pull-right">
                 <h3><u>מאפייני התשובה:</u>
@@ -75,12 +75,12 @@
         <div class="row">
             <div class="col-sm-4 pull-right">
                 <div id="main">
-                    <input type="button" id="btAdd" value="הוסף משפט מפתח" class="bt" style="width: 10em; background-color: green; color: white" />                 
+                    <input type="button" id="btAdd" value="הוסף משפט פתיחה" class="bt" style="width: 10em; background-color: green; color: white" />                 
                 </div>
             </div>
             <div class="col-sm-4 pull-right">
                 <div id="main">
-                    <input type="button" id="btRemove" value="הסר משפט מפתח" class="bt" style = "width: 10em; background-color: orange; color: white"/>
+                    <input type="button" id="btRemove" value="הסר משפט פתיחה" class="bt" style = "width: 10em; background-color: orange; color: white"/>
                 </div>
             </div>
             <div class="col-sm-4 pull-right">
@@ -92,8 +92,20 @@
         <hr />
   
     <div class="row">
-        <div class="col-sm-10 pull-right">
-            <INPUT type="button" value="הוסף פירוש למילה" onclick="addWord()" style="width: 10em; background-color: green; color: white" />
+        <div class="col-sm-4 pull-right">
+            <div>
+                <input type="button" value="הוסף פירוש למילה" onclick="addWord()" class="bt" style="width: 10em; background-color: green; color: white" />
+            </div>
+        </div>
+        <div class="col-sm-4 pull-right">
+            <div>
+                <input type="button" value="הסר פירוש למילה" onclick="removeTranslation()" class="bt" style="width: 10em; background-color: orange; color: white" />
+            </div>
+        </div>
+        <div class="col-sm-4 pull-right">
+            <div>
+                <input type="button" value="הסר הכל" onclick="removeAllTranslations()" class="bt" style="width: 10em; background-color: red; color: white" /><br />
+            </div>
         </div>
     </div>
         <div class="row">
@@ -103,8 +115,8 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-10">
-                <input type="submit" value="הוסף שאלה"/>
+            <div class="col-sm-10 pull-right">
+                <input type="submit" value="הוסף שאלה" style="background-color: crimson"/>
             </div>
         </div>
     </form>
@@ -128,7 +140,7 @@
 
                 // ADD TEXTBOX.
                 $(container).append('<input type=text class="input" id=tb' + iCnt + ' ' +
-                    'value="משפט מפתח ' + iCnt + '" />');
+                    'value="משפט פתיחה ' + iCnt + '" />');
 
                 // SHOW SUBMIT BUTTON IF ATLEAST "1" ELEMENT HAS BEEN CREATED.
                 if (iCnt == 1) {
@@ -236,6 +248,21 @@
         translation.appendChild(element);
         translation.appendChild(document.createElement('br'));
     }
+
+    function removeTranslation() {
+        var translation = document.getElementById("wordTranslation");
+        translation.removeChild(translation.lastChild);
+        translation.removeChild(translation.lastChild);
+        translation.removeChild(translation.lastChild);
+    }
+
+    function removeAllTranslations() {
+        var translation = document.getElementById("wordTranslation");
+        while (translation.firstChild) {
+            translation.removeChild(translation.firstChild);
+        }
+    }
+
 </script>
 
 </body>
