@@ -70,6 +70,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\AdministratorRepository.cs" />
+    <Compile Include="Repositories\ApplicationUserRepository.cs" />
+    <Compile Include="Repositories\DeletableEntityRepository.cs" />
+    <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IAdministratorRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IApplicationUserRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IDeletableEntityRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IGenericRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -99,9 +107,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201703071251265_Initial.resx">
       <DependentUpon>201703071251265_Initial.cs</DependentUpon>

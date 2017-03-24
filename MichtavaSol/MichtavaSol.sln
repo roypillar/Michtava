@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartTextBoxTests", "SmartT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileHandler", "FileHandler\FileHandler.csproj", "{922FEC45-4383-40DD-93D6-BC6BEB9731D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{2BD7FA74-FE8E-42B4-8E0F-D9B1CFA631E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{922FEC45-4383-40DD-93D6-BC6BEB9731D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{922FEC45-4383-40DD-93D6-BC6BEB9731D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{922FEC45-4383-40DD-93D6-BC6BEB9731D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BD7FA74-FE8E-42B4-8E0F-D9B1CFA631E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD7FA74-FE8E-42B4-8E0F-D9B1CFA631E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BD7FA74-FE8E-42B4-8E0F-D9B1CFA631E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD7FA74-FE8E-42B4-8E0F-D9B1CFA631E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

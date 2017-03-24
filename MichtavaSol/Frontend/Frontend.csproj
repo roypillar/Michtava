@@ -77,6 +77,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.2.3.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -208,6 +216,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infra\NinjectDependencyResolver.cs" />
+    <Compile Include="Infra\RedirectUrl.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -325,6 +335,10 @@
       <Project>{922FEC45-4383-40DD-93D6-BC6BEB9731D7}</Project>
       <Name>FileHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{2bd7fa74-fe8e-42b4-8e0f-d9b1cfa631e2}</Project>
+      <Name>Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SmartTextBox\SmartTextBox.csproj">
       <Project>{e39e84d4-0e8a-48d8-a4ed-1c86e04d7f33}</Project>
       <Name>SmartTextBox</Name>
@@ -365,7 +379,7 @@
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
- <Target Name="DeleteBinObjFolders" BeforeTargets="Clean">
+  <Target Name="DeleteBinObjFolders" BeforeTargets="Clean">
     <RemoveDir Directories="..\..\Publish" />
     <RemoveDir Directories=".\bin" />
     <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
