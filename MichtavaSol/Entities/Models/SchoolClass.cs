@@ -15,9 +15,6 @@
 
         public virtual Grade Grade { get; set; }
 
-        public string GradeId { get; set; }
-
-
         public virtual List<Student> Students
         {
             get { return this.Students; }

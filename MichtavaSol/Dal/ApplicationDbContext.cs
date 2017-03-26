@@ -18,7 +18,7 @@
 
         public IDbSet<Administrator> Administrators { get; set; }
 
-        public IDbSet<Text> Texts { get; set; }//all tables belong here
+        public IDbSet<Text> Texts { get; set; }
 
         public IDbSet<Student> Students { get; set; }
 
@@ -76,15 +76,18 @@
             return base.Set<TEntity>();
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            // Do not pluralize the db tables
-            modelBuilder.Conventions.Remove<System.Data.Entity.ModelConfiguration.Conventions.PluralizingTableNameConvention>();
-            base.OnModelCreating(modelBuilder);
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    // Do not pluralize the db tables
+        //    modelBuilder.Conventions.Remove<System.Data.Entity.ModelConfiguration.Conventions.PluralizingTableNameConvention>();
+        //    base.OnModelCreating(modelBuilder);
 
 
-        }
+        //}
         // TODO in or out?
         //enable-migrations -ContextProjectName Dal -StartUpProjectName Frontend -ContextTypeName Dal.ApplicationDbContext -ProjectName Dal -force
+
+        //Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal
+
     }
 }

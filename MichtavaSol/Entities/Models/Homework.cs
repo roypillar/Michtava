@@ -28,8 +28,6 @@ namespace Entities.Models
 
         public virtual Teacher Created_By { get; set; }
 
-        public Guid? TeacherId { get; set; }
-
         public Text Text { get; set; }
 
         public IList<Question> Questions { get; set; }

@@ -1,5 +1,8 @@
 namespace Dal.Migrations
 {
+    using Entities.Models;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -7,26 +10,46 @@ namespace Dal.Migrations
 
     internal sealed class Configuration : DbMigrationsConfiguration<Dal.ApplicationDbContext>
     {
+
+        private UserManager<ApplicationUser> userManager;
+
+        private RoleManager<IdentityRole> roleManager;
+
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(Dal.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            this.userManager = this.CreateUserManager(context);
+            this.roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+        }
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+        private UserManager<ApplicationUser> CreateUserManager(ApplicationDbContext context)
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            // Configure user manager
+            // Configure validation logic for usernames
+            userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
+            {
+                AllowOnlyAlphanumericUserNames = true,
+                RequireUniqueEmail = true
+            };
+
+            // Configure validation logic for passwords
+            userManager.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 3,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
+            };
+
+            return userManager;
         }
     }
 }
