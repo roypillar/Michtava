@@ -261,7 +261,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Backgrounds\bg.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -289,6 +288,7 @@
     <Content Include="Areas\Teachers\Views\web.config" />
     <Content Include="Areas\Students\Views\web.config" />
     <None Include="Properties\PublishProfiles\dfs.pubxml" />
+    <None Include="Properties\PublishProfiles\profile28031.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -367,6 +367,7 @@
     <Folder Include="Areas\Teachers\Controllers\" />
     <Folder Include="Areas\Teachers\Models\" />
     <Folder Include="Areas\Teachers\Views\Shared\" />
+    <Folder Include="Backgrounds\" />
     <Folder Include="Views\TextAdding\" />
     <Folder Include="Views\TextView\" />
   </ItemGroup>
