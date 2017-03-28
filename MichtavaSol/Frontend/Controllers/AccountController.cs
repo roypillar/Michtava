@@ -80,13 +80,45 @@ namespace Frontend.Controllers
                 return View(model);
             }
 
+            var loggingUser = await UserManager.FindByNameAsync(model.UserName);
+
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+
+
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (string.IsNullOrEmpty(returnUrl))//there is nowhere to return to, just go to the home of the role.
+                    {
+                        if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.AdministratorRoleName))//if the user is an admin
+                        {
+                            return RedirectToAction("Index", "Home", new { area = "Administration" });
+                        }
+                        else if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.TeacherRoleName))//if the user is a teacher
+                        {
+                            return RedirectToAction("Index", "Home", new { area = "Teachers" });
+                        }
+                        else if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.StudentRoleName))//if the user is a student
+                        {
+                            return RedirectToAction("Index", "Home", new { area = "Students" });
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home", new { area = string.Empty });
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+
+
+
+
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

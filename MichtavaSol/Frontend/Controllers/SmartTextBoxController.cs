@@ -13,7 +13,7 @@ namespace Frontend.Controllers
     public class SmartTextBoxController : Controller
     {
         private ISmartTextBox _smartTextBox = new SmartTextBoxImpl();
-        private Policy _policy;
+        //private Policy _policy;
 
         public ActionResult SmartTextBox()
         {

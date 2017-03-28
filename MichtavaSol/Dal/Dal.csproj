@@ -70,10 +70,12 @@
     <Compile Include="Repositories\ApplicationUserRepository.cs" />
     <Compile Include="Repositories\DeletableEntityRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\GradeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAdministratorRepository.cs" />
     <Compile Include="Repositories\Interfaces\IApplicationUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\IDeletableEntityRepository.cs" />
     <Compile Include="Repositories\Interfaces\IGenericRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IGradeRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -83,14 +85,6 @@
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{0b242646-0cde-49e8-ae30-90cc0a665da4}</Project>
       <Name>Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\School.Common\School.Common.csproj">
-      <Project>{874cde81-ae4d-44e4-860d-728e53cb7e38}</Project>
-      <Name>School.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\School.Models\School.Models.csproj">
-      <Project>{49c59340-50f5-40ab-8eba-b357ac648a7a}</Project>
-      <Name>School.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
