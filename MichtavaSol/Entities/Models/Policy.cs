@@ -9,21 +9,21 @@ namespace Entities.Models
     public class Policy
     {
         [Required]
-        public string _id { get; set; }
+        public string Id { get; set; }
 
         [Required]
-        public int _minWords { get; set; }
+        public int MinWords { get; set; }
 
         [Required]
-        public int _maxWords { get; set; }
+        public int MaxWords { get; set; }
 
         [Required]
-        public int _minConnectors { get; set; }
+        public int MinConnectors { get; set; }
 
         [Required]
-        public int _maxConnectors { get; set; }
+        public int MaxConnectors { get; set; }
 
         [Required]
-        public List<string> _keySentences { get; set; }
+        public List<string> KeySentences { get; set; }
     }
 }

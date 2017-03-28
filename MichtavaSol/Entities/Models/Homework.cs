@@ -18,7 +18,7 @@ namespace Entities.Models
             this.schoolClasses = new HashSet<SchoolClass>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string Title { get; set; }
 

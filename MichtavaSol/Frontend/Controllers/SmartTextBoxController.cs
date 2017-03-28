@@ -32,7 +32,7 @@ namespace Frontend.Controllers
             Policy _policy = new Policy();
             List<string> _keySentencesList = new List<string>();
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
-            _policy = new Policy() { _id = "1", _minWords = 20, _maxWords = 30, _minConnectors = 3, _maxConnectors = 8, _keySentences = _keySentencesList };
+            _policy = new Policy() { Id = "1", MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
 
             //----------------------------------------------------------
 
@@ -55,15 +55,15 @@ namespace Frontend.Controllers
             Policy _policy = new Policy();
             List<string> _keySentencesList = new List<string>();
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
-            _policy = new Policy() { _id = "1", _minWords = 20, _maxWords = 30, _minConnectors = 3, _maxConnectors = 8, _keySentences = _keySentencesList };
+            _policy = new Policy() { Id = "1", MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
 
-            if(numOfWords>_policy._maxWords)
+            if(numOfWords>_policy.MaxWords)
             {
-                TempData["toManyWords"] = "הכנסת " + numOfWords + " מילים, אבל מותר לכל היותר " + _policy._maxWords + " מילים.";
+                TempData["toManyWords"] = "הכנסת " + numOfWords + " מילים, אבל מותר לכל היותר " + _policy.MaxWords + " מילים.";
             }
-            if (numOfConnectors > _policy._maxConnectors)
+            if (numOfConnectors > _policy.MaxConnectors)
             {
-                TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy._maxConnectors + " מילות קישור.";
+                TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy.MaxConnectors + " מילות קישור.";
             }
             
             

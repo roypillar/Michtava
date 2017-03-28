@@ -39,10 +39,10 @@ namespace Frontend.Controllers
         {
             _policy = new Policy();
 
-            _policy._minWords = int.Parse(Request.Form["_minWords"]);
-            _policy._maxWords = int.Parse(Request.Form["_maxWords"]);
-            _policy._minConnectors = int.Parse(Request.Form["_minConnectors"]);
-            _policy._maxConnectors = int.Parse(Request.Form["_maxConnectors"]);
+            _policy.MinWords = int.Parse(Request.Form["_minWords"]);
+            _policy.MaxWords = int.Parse(Request.Form["_maxWords"]);
+            _policy.MinConnectors = int.Parse(Request.Form["_minConnectors"]);
+            _policy.MaxConnectors = int.Parse(Request.Form["_maxConnectors"]);
         }
     }
 }
