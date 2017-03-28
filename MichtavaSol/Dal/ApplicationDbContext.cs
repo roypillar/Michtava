@@ -33,6 +33,9 @@
 
         public IDbSet<Grade> Grades { get; set; }
 
+        public IDbSet<Grade> Answers { get; set; }
+
+
         public ICollection<Text> getTexts(string t)
         {
             return (

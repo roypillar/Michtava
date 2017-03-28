@@ -1,0 +1,9 @@
+﻿namespace Dal.Repositories.Interfaces
+{
+    using Entities.Models;
+
+    public interface ISchoolClassRepository : IDeletableEntityRepository<SchoolClass>
+    {
+        SchoolClass GetByDetails(int gradeYear, string letter, int startYear);
+    }
+}
