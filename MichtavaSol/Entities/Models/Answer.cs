@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Entities.Models
 {
-    public class Answer
+    public class Answer : DeletableEntity
     {
         public string Id { get; set; }
 

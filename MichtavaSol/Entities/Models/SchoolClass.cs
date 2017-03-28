@@ -13,7 +13,7 @@
 
         public string ClassLetter { get; set; }
 
-        public virtual Grade Grade { get; set; }
+        public int GradeYear { get; set; }
 
         public virtual List<Student> Students
         {

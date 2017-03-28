@@ -70,19 +70,20 @@
     <Compile Include="Repositories\ApplicationUserRepository.cs" />
     <Compile Include="Repositories\DeletableEntityRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
-    <Compile Include="Repositories\GradeRepository.cs" />
     <Compile Include="Repositories\HomeworkRepository.cs" />
+    <Compile Include="Repositories\AnswerRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAdministratorRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IAnswerRepository.cs" />
     <Compile Include="Repositories\Interfaces\IApplicationUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\IDeletableEntityRepository.cs" />
     <Compile Include="Repositories\Interfaces\IGenericRepository.cs" />
-    <Compile Include="Repositories\Interfaces\IGradeRepository.cs" />
     <Compile Include="Repositories\Interfaces\IHomeworkRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISchoolClassRepository.cs" />
     <Compile Include="Repositories\Interfaces\IStudentRepository.cs" />
     <Compile Include="Repositories\Interfaces\ISubjectRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITeacherRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITextRepository.cs" />
+    <Compile Include="Repositories\SchoolClassRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

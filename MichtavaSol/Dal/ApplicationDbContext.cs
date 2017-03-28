@@ -31,9 +31,9 @@
 
         public IDbSet<Homework> Homeworks { get; set; }
 
-        public IDbSet<Grade> Grades { get; set; }
+        //public IDbSet<Grade> Grades { get; set; }
 
-        public IDbSet<Grade> Answers { get; set; }
+        public IDbSet<Answer> Answers { get; set; }
 
 
         public ICollection<Text> getTexts(string t)

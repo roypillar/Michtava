@@ -2,7 +2,7 @@
 {
     using Entities.Models;
 
-    public interface ITextRepository : IDeletableEntityRepository<Homework>
+    public interface ITextRepository : IDeletableEntityRepository<Text>
     {
     }
 }

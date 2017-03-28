@@ -2,7 +2,7 @@
 {
     using Entities.Models;
 
-    public interface IGradeRepository : IDeletableEntityRepository<Grade>
+    public interface IAnswerRepository : IDeletableEntityRepository<Answer>
     {
     }
 }
