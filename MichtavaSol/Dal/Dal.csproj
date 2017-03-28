@@ -87,6 +87,7 @@
     <Compile Include="Repositories\SchoolClassRepository.cs" />
     <Compile Include="Repositories\SubjectRepository.cs" />
     <Compile Include="Repositories\TeacherRepository.cs" />
+    <Compile Include="TextRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

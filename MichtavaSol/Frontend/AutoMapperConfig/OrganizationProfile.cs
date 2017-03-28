@@ -58,19 +58,6 @@
 
             //Mapper.CreateMap<Frontend.Areas.Administration.Models.TeacherDetailsEditModel, Teacher>();
 
-            //Mapper.CreateMap<Frontend.Areas.Administration.Models.AcademicYearCreateSubmitModel, AcademicYear>();
-
-            //Mapper.CreateMap<AcademicYear, Frontend.Areas.Administration.Models.AcademicYearListViewModel>();
-
-            //Mapper.CreateMap<AcademicYear, Frontend.Areas.Administration.Models.AcademicYearDetailsViewModel>()
-            //    .ForMember(dest => dest.Grades, opt => opt.MapFrom(src => src.Grades.OrderBy(g => g.GradeYear)));
-
-            //Mapper.CreateMap<AcademicYear, Frontend.Areas.Administration.Models.AcademicYearDetailsEditModel>();
-
-            //Mapper.CreateMap<Frontend.Areas.Administration.Models.AcademicYearDetailsEditModel, AcademicYear>();
-
-            //Mapper.CreateMap<AcademicYear, Frontend.Areas.Administration.Models.AcademicYearDetailsDeleteModel>()
-            //    .ForMember(dest => dest.GradesCount, opt => opt.MapFrom(src => src.Grades.Count()));
 
             //Mapper.CreateMap<Grade, Frontend.Areas.Administration.Models.GradeListViewModel>()
             //    .ForMember(dest => dest.SchoolClassesCount, opt => opt.MapFrom(src => src.SchoolClasses.Count))
