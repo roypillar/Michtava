@@ -13,7 +13,7 @@ namespace Entities.Models
 
         public DateTime Date_Added { get; set; }
 
-        public List<string> Suggested_Openings { get; set; }
+        public HashSet<string> Suggested_Openings { get; set; }
 
         public Policy Policy { get; set; }
 

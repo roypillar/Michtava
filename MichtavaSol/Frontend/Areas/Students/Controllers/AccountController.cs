@@ -103,9 +103,10 @@ namespace Frontend.Areas.Students.Controllers
 
                     Student student = new Student();
                     student.ApplicationUserId = user.Id;
+                    student.Name = model.Name;
+                    student.ApplicationUser = user;
 
-
-                    Mapper.Map<RegisterViewModel, Student>(model, student);//dump the model into the student (in this case, all it does is student.Name = model.Name but in other cases it will apare us a lot of lines of code)
+                    //Mapper.Map<RegisterViewModel, Student>(model, student);//dump the model into the student (in this case, all it does is student.Name = model.Name but in other cases it will apare us a lot of lines of code)
                     //the map is created in frontend/automapperconfig/organizationprofile.cs, here it is just applied.
 
                     this.studentService.Add(student);//add student to DB through service
@@ -114,7 +115,7 @@ namespace Frontend.Areas.Students.Controllers
 
                     //return RedirectToAction("Index", "Students", new { area = "Administration" });/TODO make this come back
 
-                    return RedirectToAction("Index", "Home", new { area = string.Empty });//do we need any routing values for this?
+                    return RedirectToAction("Index", "Home", new { area = string.Empty });//getting 404 here
                 }
                 else
                 {

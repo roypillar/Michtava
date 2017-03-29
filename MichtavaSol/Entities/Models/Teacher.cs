@@ -11,12 +11,17 @@ namespace Entities.Models
 
     public class Teacher : DeletableEntity
     {
+        public Teacher()
+        {
+            schoolClasses = new HashSet<SchoolClass>();
+        }
 
+        private ICollection<SchoolClass> schoolClasses;
 
         public virtual ICollection<SchoolClass> SchoolClasses
         {
-            get { return this.SchoolClasses; }
-            set { this.SchoolClasses = value; }
+            get { return this.schoolClasses; }
+            set { this.schoolClasses = value; }
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -36,10 +41,6 @@ namespace Entities.Models
         [MaxLength(255, ErrorMessage = "טלפון ארוך מדי")]
         public string PhoneNumber { get; set; }
 
-        public Teacher()
-            : base()
-        {
-           // this.classes = new HashSet<SchoolClass>();//TODO
-        }
+       
     }
 }

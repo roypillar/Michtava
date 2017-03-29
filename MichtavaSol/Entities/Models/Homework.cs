@@ -9,13 +9,15 @@ namespace Entities.Models
     public class Homework : DeletableEntity
     {
 
-        private ICollection<Question> questions { get; set; }
+        private ICollection<Question> questions;
         private ICollection<SchoolClass> schoolClasses;
 
         public Homework()
         {
-        
+
             this.schoolClasses = new HashSet<SchoolClass>();
+            this.questions = new HashSet<Question>();
+
         }
 
         public int Id { get; set; }
@@ -30,7 +32,31 @@ namespace Entities.Models
 
         public Text Text { get; set; }
 
-        public IList<Question> Questions { get; set; }
+        public ICollection<Question> Questions
+        {
+            get
+            {
+                return this.questions;
+            }
+
+            set
+            {
+                this.questions = value;
+            }
+        }
+
+        public ICollection<SchoolClass> SchoolClasses
+        {
+            get
+            {
+                return this.schoolClasses;
+            }
+
+            set
+            {
+                this.schoolClasses = value;
+            }
+        }
 
 
     }

@@ -9,7 +9,13 @@ namespace Entities.Models
     public class Student : DeletableEntity
     {
 
+        public Student()
+        {
+            homeworks = new HashSet<Homework>();
 
+        }
+
+        private ICollection<Homework> homeworks;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -24,10 +30,10 @@ namespace Entities.Models
 
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-        public virtual List<Homework> Homeworks
+        public virtual ICollection<Homework> Homeworks
         {
-            get { return this.Homeworks; }
-            set { this.Homeworks = value; }
+            get { return this.homeworks; }
+            set { this.homeworks = value; }
         }
     }
 }

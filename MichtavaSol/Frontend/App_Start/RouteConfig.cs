@@ -13,11 +13,12 @@ namespace Frontend
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //routes.MapRoute(
-            //     name: "Students",
-            //     url: "Students/{action}/{username}",
-            //     defaults: new { controller = "Students", action = "Index", username = string.Empty },
-            //     namespaces: new string[] { "Frontend.Controllers" });
+            routes.MapRoute(
+                name: "Students",
+                url: "Students/{action}/{username}",
+                defaults: new { controller = "Students", action = "Index", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
 
             routes.MapRoute(
                 name: "Default",

@@ -30,7 +30,7 @@ namespace Frontend.Controllers
             // hard coded policy - need to be removed ------------------
 
             Policy _policy = new Policy();
-            List<string> _keySentencesList = new List<string>();
+            HashSet<string> _keySentencesList = new HashSet<string>();
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
             _policy = new Policy() { Id = "1", MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
 
@@ -53,7 +53,7 @@ namespace Frontend.Controllers
 
             //כשנוסיף את הפוליסי שתרוץ לא תהיה כנראה את הבעיה.. בינתיים
             Policy _policy = new Policy();
-            List<string> _keySentencesList = new List<string>();
+            HashSet<string> _keySentencesList = new HashSet<string>();
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
             _policy = new Policy() { Id = "1", MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
 

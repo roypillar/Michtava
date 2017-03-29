@@ -6,7 +6,18 @@
 
     public class SchoolClass : DeletableEntity
     {
-        
+
+        private ICollection<Student> students;
+        private ICollection<Subject> subjects;
+        private ICollection<Homework> activeHomeworks;
+
+        public SchoolClass()
+        {
+            students = new HashSet<Student>();
+            subjects = new HashSet<Subject>();
+            activeHomeworks = new HashSet<Homework>();
+
+        }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -15,22 +26,22 @@
 
         public int GradeYear { get; set; }
 
-        public virtual List<Student> Students
+        public virtual ICollection<Student> Students
         {
-            get { return this.Students; }
-            set { this.Students = value; }
+            get { return this.students; }
+            set { this.students = value; }
         }
 
-        public virtual List<Subject> Subjects
+        public virtual ICollection<Subject> Subjects
         {
-            get { return this.Subjects; }
-            set { this.Subjects = value; }
+            get { return this.subjects; }
+            set { this.subjects = value; }
         }
 
-        public virtual List<Homework> ActiveHomeworks
+        public virtual ICollection<Homework> ActiveHomeworks
         {
-            get { return this.ActiveHomeworks; }
-            set { this.ActiveHomeworks = value; }
+            get { return this.activeHomeworks; }
+            set { this.activeHomeworks = value; }
         }
 
     }

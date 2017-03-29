@@ -24,6 +24,6 @@ namespace Entities.Models
         public int MaxConnectors { get; set; }
 
         [Required]
-        public List<string> KeySentences { get; set; }
+        public HashSet<string> KeySentences { get; set; }
     }
 }
