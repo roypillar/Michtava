@@ -1,4 +1,18 @@
-﻿@model Frontend.Models.RegisterViewModel
+﻿
+@{
+    ViewBag.Title = "הרשמה";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@Html.ActionLink("הרשמת תלמיד", "Register", "Account", new { area = "Students" }, new { @class = "btn btn-default" })
+
+@Html.ActionLink("הרשמת מורה", "Register", "Account", new { area = "Teachers" }, new { @class = "btn btn-default" })
+
+
+
+
+<!--@model Frontend.Models.RegisterViewModel
 @{
     ViewBag.Title = "הרשמה (debug)";
 }
@@ -45,3 +59,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+    -->
+
+
