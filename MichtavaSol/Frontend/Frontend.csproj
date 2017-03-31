@@ -235,9 +235,14 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="Areas\Administration\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Administration\Controllers\AdministratorsController.cs" />
     <Compile Include="Areas\Administration\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Administration\Models\AccountViewModels\AdministratorRegisterSubmitModel.cs" />
+    <Compile Include="Areas\Administration\Models\AccountDetailsEditModel.cs" />
+    <Compile Include="Areas\Administration\Models\AdministratorDeleteSubmitModel.cs" />
+    <Compile Include="Areas\Administration\Models\AdministratorDetailsEditModel.cs" />
+    <Compile Include="Areas\Administration\Models\AdministratorRegisterSubmitModel.cs" />
     <Compile Include="Areas\Administration\Models\AccountViewModels\RegisterViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\AdministratorListViewModel.cs" />
     <Compile Include="Areas\Students\Controllers\AccountController.cs" />
     <Compile Include="Areas\Students\Models\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="Areas\Students\StudentsAreaRegistration.cs" />
@@ -299,6 +304,8 @@
     <Content Include="Areas\Administration\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Administration\Views\Home\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Account\Register.cshtml" />
+    <Content Include="Areas\Administration\Views\Administrators\Delete.cshtml" />
     <None Include="Properties\PublishProfiles\dfs.pubxml" />
     <None Include="Properties\PublishProfiles\profile28031.pubxml" />
     <None Include="Properties\Settings.settings">
@@ -374,7 +381,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Administration\Views\Account\" />
     <Folder Include="Areas\Students\Views\Shared\" />
     <Folder Include="Areas\Teachers\Controllers\" />
     <Folder Include="Areas\Teachers\Models\" />

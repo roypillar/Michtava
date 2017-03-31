@@ -9,7 +9,7 @@
         [Display(Name = "שם המשתמש")]
         public string UserName { get; set; }
 
-
+        [Phone]
         [Display(Name = "מספט הטלפון")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "מספר הטלפון שהוזן אינו חוקי.")]
