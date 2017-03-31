@@ -234,6 +234,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
+    <Compile Include="Areas\Administration\Controllers\HomeController.cs" />
     <Compile Include="Areas\Students\Controllers\AccountController.cs" />
     <Compile Include="Areas\Students\Models\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="Areas\Students\StudentsAreaRegistration.cs" />
@@ -362,8 +363,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Administration\Controllers\" />
     <Folder Include="Areas\Administration\Models\" />
+    <Folder Include="Areas\Administration\Views\Home\" />
     <Folder Include="Areas\Administration\Views\Shared\" />
     <Folder Include="Areas\Students\Views\Shared\" />
     <Folder Include="Areas\Teachers\Controllers\" />

@@ -107,7 +107,7 @@ namespace Frontend.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Index", "Home", new { area = string.Empty });
+                            return RedirectToAction("Index", "Home", new { area = string.Empty });//otherwise, homepage
                         }
                     }
                     else
