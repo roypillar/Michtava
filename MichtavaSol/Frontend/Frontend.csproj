@@ -252,9 +252,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PolicyController.cs" />
     <Compile Include="Controllers\SmartTextBoxController.cs" />
-    <Compile Include="Controllers\TextAddingController.cs" />
+    <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="Controllers\TeachersController.cs" />
     <Compile Include="Controllers\TextViewController.cs" />
     <Compile Include="Extensions\ActionLinkExtension.cs" />
     <Compile Include="Global.asax.cs">
@@ -372,16 +372,17 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\SmartTextBox\SmartTextBox.cshtml" />
-    <Content Include="Views\Policy\Policy.cshtml" />
-    <Content Include="Views\Home\Subjects.cshtml" />
-    <Content Include="Views\Home\SubSubjects.cshtml" />
-    <Content Include="Views\Home\Texts.cshtml" />
-    <Content Include="Views\Home\TextMenu.cshtml" />
-    <Content Include="Views\Home\TextAdding.cshtml" />
-    <Content Include="Views\Home\TextView.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Students\SmartTextBox.cshtml" />
+    <Content Include="Views\Students\Subjects.cshtml" />
+    <Content Include="Views\Students\SubSubjects.cshtml" />
+    <Content Include="Views\Students\TextMenu.cshtml" />
+    <Content Include="Views\Students\Texts.cshtml" />
+    <Content Include="Views\Students\TextView.cshtml" />
+    <Content Include="Views\Teachers\Policy.cshtml" />
+    <Content Include="Views\Teachers\TeachersMenu.cshtml" />
+    <Content Include="Views\Teachers\TextAdding.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

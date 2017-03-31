@@ -24,21 +24,21 @@
 <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: darkorange">
     
     <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
+        @*<ul class="nav navbar-nav navbar-right">
             <li>@Html.ActionLink("פרופיל אישי", "Contact", "Home", new { @class = "michtava-main navbar-brand" })</li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li>@Html.ActionLink("הוספת שאלה", "../Policy/Policy", "../Policy", new {@class = "michtava-main navbar-brand"})</li>
-        </ul>
+        <li>@Html.ActionLink("הוספת שאלה", "../Policy/Policy", "../Policy", new {@class = "michtava-main navbar-brand"})</li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("הוספת טקסט", "TextAdding", "Home", new { @class = "michtava-main navbar-brand" })</li>
+    </ul>*@
+
         <ul class="nav navbar-nav navbar-right">
-            <li>@Html.ActionLink("הוספת טקסט", "TextAdding", "Home", new { @class = "michtava-main navbar-brand" })</li>
+            <li>@Html.ActionLink("התנתק", "../Home/Index", "Home", new {@class = "michtava-main navbar-brand "})</li>
         </ul>
 
-        <ul class="nav navbar-nav navbar-left">
-            <li>@Html.ActionLink("התנתק", "Index", "Home", new {@class = "michtava-main navbar-brand "})</li>
-        </ul>
-
-        @Html.Partial("_LoginPartial")
+        @*@Html.Partial("_LoginPartial")*@
     </div>
 </div>
 

@@ -1,5 +1,4 @@
 ﻿
-@model Entities.Models.Text
 
 <br /><br /><br />
 <head>
@@ -28,32 +27,28 @@
 
 <body>
     <div class="row">
-        <form class="text-right" action="ChooseAction" method="post" id="TextMenu">
-
             <div class="row">
                 <div class="col-sm-10">
-                    <b><u><h2>@ViewBag.Title:</h2></u></b>
+                    <b><h2>@ViewBag.Title:</h2></b>
                 </div>
             </div>
             <br /><br />
 
             <div class="row">
-                <div class="col-sm-5">
-                    <audio id="textAudio" controls="true" preload="auto">
-                        <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.mp3" type="audio/mpeg">
-                        <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.ogg" type="audio/ogg">
-                    </audio>
-                </div>
-                <div class="col-sm-5">
-                    <button onclick="document.getElementById('textAudio').play()">PLAY</button>
+                <div class="col-sm-10">
+                    <form class="col-xs-12" action="NavigateToTextAdding" method="post">
+                        <input type="submit" value="הוסף טקסט"/>
+                    </form>
                 </div>
             </div>
-
             <div class="row">
-                @TempData["TextContent"]
-            </div>          
-        </form>
+                <div class="col-sm-10">
+                    <form class="col-xs-12" action="NavigateToPolicy" method="post">
+                        <input type="submit" value="הוסף שאלה" />
+                    </form>
+                </div>
+            </div>
     </div>
-<br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br />
 </body>
 

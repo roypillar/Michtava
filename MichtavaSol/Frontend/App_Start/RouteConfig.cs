@@ -14,11 +14,81 @@ namespace Frontend
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Home",
+                url: "",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+
+            // ----------------------------------------------- Students -----------------------------------------------
+
+            routes.MapRoute(
                 name: "Students",
                 url: "Students/{action}/{username}",
                 defaults: new { controller = "Students", action = "Index", username = string.Empty },
                 namespaces: new string[] { "Frontend.Controllers" });
 
+            routes.MapRoute(
+                name: "SubSubjects",
+                url: "ChooseSubject/{action}/{username}",
+                defaults: new { controller = "Students", action = "ChooseSubject", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+            routes.MapRoute(
+                name: "Texts",
+                url: "ChooseSubSubject/{action}/{username}",
+                defaults: new { controller = "Students", action = "ChooseSubSubject", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+            routes.MapRoute(
+                name: "TextMenu",
+                url: "ChooseText/{action}/{username}",
+                defaults: new { controller = "Students", action = "ChooseText", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+            routes.MapRoute(
+                name: "TextView",
+                url: "ChooseAction/{action}/{username}",
+                defaults: new { controller = "Students", action = "ChooseAction", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+            routes.MapRoute(
+                name: "SmartTextBox",
+                url: "GotoSmartTextBox/{action}/{username}",
+                defaults: new { controller = "Students", action = "GotoSmartTextBox", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+            routes.MapRoute(
+                name: "AnalyzeAnswer",
+                url: "AnalyzeAnswer/{action}/{username}",
+                defaults: new { controller = "Students", action = "AnalyzeAnswer", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+            routes.MapRoute(
+                name: "AnalyzeAnswer2",
+                url: "Students/GotoSmartTextBox/{action}/{id}",
+                defaults: new { controller = "Students", action = "AnalyzeAnswer", id = UrlParameter.Optional },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+            // --------------------------------------------------------------------------------------------------------------
+
+            routes.MapRoute(
+                name: "TextAdding",
+                url: "TextAdding/{action}/{username}",
+                defaults: new { controller = "Teachers", action = "NavigateToTextAdding", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+            routes.MapRoute(
+                name: "Policy",
+                url: "Policy/{action}/{username}",
+                defaults: new { controller = "Teachers", action = "NavigateToPolicy", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+            routes.MapRoute(
+                name: "Login",
+                url: "Login",
+                defaults: new { controller = "Home", action = "Login", id = UrlParameter.Optional },
+                namespaces: new string[] { "Frontend.Controllers" });
 
             routes.MapRoute(
                 name: "Default",

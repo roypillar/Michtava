@@ -44,28 +44,28 @@
         <div class="row">
             <div class="col-sm-7 pull-right"><h6><label for="MinWords">כמות מילים מינימלית:</label></h6>
             </div>
-            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m._minWords,
+            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m.MinWords,
                                                  new {@type = "number", @name = "MinWords", @id = "MinWords", @min = "1", @max = "10", @style = "width: 5em"})
             </div>
         </div>
         <div class="row">
             <div class="col-sm-7 pull-right"><h6><label for="MaxWords">כמות מילים מקסימלית:</label></h6>
             </div>
-            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m._maxWords,
+            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m.MaxWords,
                                                  new {@type = "number", @name = "MaxWords", @id = "MaxWords", @min = "10", @max = "100", @style = "width: 5em"})
             </div>
         </div>
         <div class="row">
             <div class="col-sm-7 pull-right"><h6><label for="MinConnectors">כמות מינימלית של מילות קישור:</label></h6>
             </div>
-            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m._minConnectors,
+            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m.MinConnectors,
                                                  new {@type = "number", @name = "MinConnectors", @id = "MinConnectors", @min = "0", @max = "3", @style = "width: 5em"})
             </div>
         </div>
         <div class="row">
             <div class="col-sm-7 pull-right"><h6><label for="MaxConnectors">כמות מקסימלית של מילות קישור:</label></h6>
             </div>
-            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m._maxConnectors,
+            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m.MaxConnectors,
                                                  new {@type = "number", @name = "MaxConnectors", @id = "MaxConnectors", @min = "3", @max = "20", @style = "width: 5em"})
             </div>
         </div>
