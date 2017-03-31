@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace Frontend.Areas.Administration.Controllers
+﻿namespace Frontend.Areas.Administration.Controllers
 {
+    using System.Web.Mvc;
+    using Common;
+
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class HomeController : Controller
     {
         // GET: Administration/Home

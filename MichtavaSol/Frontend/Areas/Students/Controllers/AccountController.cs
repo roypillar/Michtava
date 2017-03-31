@@ -19,7 +19,7 @@ namespace Frontend.Areas.Students.Controllers
 
 
 
-   // [Authorize(Roles = GlobalConstants.StudentRoleName)]//only students allowed here
+    [Authorize(Roles = GlobalConstants.StudentRoleName)]//only students allowed here (except register method)
     public class AccountController : Controller
     {
         private readonly IStudentService studentService;//the service, incl. create/read/update/delete functions
@@ -61,13 +61,13 @@ namespace Frontend.Areas.Students.Controllers
 
 
         // GET: /Account/Register
-        [AllowAnonymous]
+        [AllowAnonymous]//overrides authorization in class declaration
         public ActionResult Register()
         {
-            //if (!User.IsInRole(GlobalConstants.AdministratorRoleName))
-            //{
-            //    return RedirectToAction("Index", "Home", new { area = string.Empty });
-            //}
+            if (!User.IsInRole(GlobalConstants.AdministratorRoleName))//only admins can see the registration screen
+            {
+                return RedirectToAction("Index", "Home", new { area = string.Empty });
+            }
 
 
             RegisterViewModel model = new RegisterViewModel();
@@ -79,8 +79,8 @@ namespace Frontend.Areas.Students.Controllers
 
         // POST: /Account/Register
         [HttpPost]
-      //  [OverrideAuthorization]
-       // [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+        [OverrideAuthorization]//override class authorization
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]//only admins can add users
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -113,9 +113,9 @@ namespace Frontend.Areas.Students.Controllers
 
 
 
-                    //return RedirectToAction("Index", "Students", new { area = "Administration" });/TODO make this come back
+                    return RedirectToAction("Index", "Students", new { area = "Administration" });//TODO make this work
 
-                    return RedirectToAction("Index", "Home", new { area = string.Empty });//getting 404 here
+                   // return RedirectToAction("Index", "Home", new { area = string.Empty });//getting 404 here
                 }
                 else
                 {

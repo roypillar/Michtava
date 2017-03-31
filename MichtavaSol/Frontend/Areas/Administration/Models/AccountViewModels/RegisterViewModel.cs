@@ -1,4 +1,4 @@
-﻿namespace Frontend.Areas.Students.Models.AccountViewModels
+﻿namespace Frontend.Areas.Administration.Models.AccountViewModels
 {
     using System.ComponentModel.DataAnnotations;
     using System.Web;
@@ -9,18 +9,11 @@
         [Display(Name = "שם המשתמש")]
         public string UserName { get; set; }
 
-      
+
         [Display(Name = "מספט הטלפון")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "מספר הטלפון שהוזן אינו חוקי.")]
         public string PhoneNumber { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "{0} חייב להיות קצר מ{1} תווים.")]
-        [Display(Name = "שם (פרטי+משפחה)")]
-        public string Name { get; set; }
-
-
 
         [Required]
         [StringLength(100, ErrorMessage = "{0} חייב להיות באורך {1} תווים לפחות.", MinimumLength = 3)]
