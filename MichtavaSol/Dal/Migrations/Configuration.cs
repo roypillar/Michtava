@@ -68,9 +68,9 @@ namespace Dal.Migrations
 
         private readonly DateTime endDate = new DateTime(2017, 3, 22);
 
-        private int studentCounter = 1;
+        //private int studentCounter = 1;
 
-        private int teacherCounter = 1;
+        //private int teacherCounter = 1;
 
 
         private bool disposed = false;

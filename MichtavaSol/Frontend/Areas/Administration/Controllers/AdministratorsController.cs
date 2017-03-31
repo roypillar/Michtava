@@ -1,4 +1,4 @@
-﻿namespace School.Web.Areas.Administration.Controllers
+﻿namespace Frontend.Areas.Administration.Controllers
 {
     using System.Linq;
     using System.Web.Mvc;
