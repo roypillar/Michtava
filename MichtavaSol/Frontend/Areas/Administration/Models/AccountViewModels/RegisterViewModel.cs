@@ -15,6 +15,11 @@
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "מספר הטלפון שהוזן אינו חוקי.")]
         public string PhoneNumber { get; set; }
 
+
+        [EmailAddress]
+        [Display(Name = "אימייל")]
+        public string Email { get; set; }
+
         [Required]
         [StringLength(100, ErrorMessage = "{0} חייב להיות באורך {1} תווים לפחות.", MinimumLength = 3)]
         [DataType(DataType.Password)]

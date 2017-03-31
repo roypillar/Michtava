@@ -62,7 +62,7 @@ namespace Frontend.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             System.Web.Mvc.DependencyResolver.SetResolver(
-               new Frontend.Infrastructure.NinjectDependencyResolver(kernel));
+               new Frontend.Infra.NinjectDependencyResolver(kernel));
         }        
     }
 }

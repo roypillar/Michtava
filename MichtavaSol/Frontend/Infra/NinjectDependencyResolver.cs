@@ -1,4 +1,4 @@
-﻿namespace Frontend.Infrastructure
+﻿namespace Frontend.Infra
 {
     using System;
     using System.Collections.Generic;

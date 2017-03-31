@@ -256,6 +256,7 @@
     <Compile Include="Controllers\SmartTextBoxController.cs" />
     <Compile Include="Controllers\TextAddingController.cs" />
     <Compile Include="Controllers\TextViewController.cs" />
+    <Compile Include="Extensions\ActionLinkExtension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -306,6 +307,9 @@
     <Content Include="Areas\Administration\Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Areas\Administration\Views\Account\Register.cshtml" />
     <Content Include="Areas\Administration\Views\Administrators\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Administrators\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Administrators\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Administrators\Index.cshtml" />
     <None Include="Properties\PublishProfiles\dfs.pubxml" />
     <None Include="Properties\PublishProfiles\profile28031.pubxml" />
     <None Include="Properties\Settings.settings">
