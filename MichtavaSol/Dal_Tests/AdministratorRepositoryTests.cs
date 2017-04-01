@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Dal_Tests
 {
+    [TestClass]
     class AdministratorRepositoryTests
     {
+
     }
 }
