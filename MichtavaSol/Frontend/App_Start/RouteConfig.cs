@@ -66,8 +66,8 @@ namespace Frontend
 
             routes.MapRoute(
                 name: "AnalyzeAnswer2",
-                url: "Students/GotoSmartTextBox/{action}/{id}",
-                defaults: new { controller = "Students", action = "AnalyzeAnswer", id = UrlParameter.Optional },
+                url: "Students/GotoSmartTextBox/{username}",
+                defaults: new { controller = "Students", action = "GotoSmartTextBox", username = string.Empty },
                 namespaces: new string[] { "Frontend.Controllers" });
 
             // --------------------------------------------------------------------------------------------------------------

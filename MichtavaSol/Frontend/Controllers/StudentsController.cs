@@ -13,6 +13,7 @@ namespace Frontend.Controllers
     {
         private IFileManager _fileManager = new FileManager();
         private ISmartTextBox _smartTextBox = new SmartTextBoxImpl();
+        private Policy _policy = new Policy();
 
         // GET: Students
         public ActionResult Index()
@@ -63,15 +64,7 @@ namespace Frontend.Controllers
                 TempData["toManyWords"] = "";
             }
 
-
-            // hard coded policy - need to be removed ------------------
-
-            Policy _policy = new Policy();
-            HashSet<string> _keySentencesList = new HashSet<string>();
-            _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
-            _policy = new Policy() { Id = "1", MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
-
-            //----------------------------------------------------------
+            InitializePolicy();
 
             return View("SmartTextBox", _policy);
         }
@@ -89,10 +82,7 @@ namespace Frontend.Controllers
             TempData["Answer"] = input;
 
             //כשנוסיף את הפוליסי שתרוץ לא תהיה כנראה את הבעיה.. בינתיים
-            Policy _policy = new Policy();
-            HashSet<string> _keySentencesList = new HashSet<string>();
-            _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
-            _policy = new Policy() { Id = "1", MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
+            InitializePolicy();
 
             if (numOfWords > _policy.MaxWords)
             {
@@ -103,8 +93,15 @@ namespace Frontend.Controllers
                 TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy.MaxConnectors + " מילות קישור.";
             }
 
+            return View("SmartTextBox", _policy);
+        }
 
-            return RedirectToAction("GotoSmartTextBox", _policy);
+        private void InitializePolicy()
+        {
+            _policy = new Policy();
+            HashSet<string> _keySentencesList = new HashSet<string>();
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
+            _policy = new Policy() { Id = "1", MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
         }
     }
 }
