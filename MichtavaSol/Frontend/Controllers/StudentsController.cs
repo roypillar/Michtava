@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Entities.Models;
+using Entities.ViewModels;
 using FileHandler;
 using SmartTextBox;
 
@@ -14,6 +15,8 @@ namespace Frontend.Controllers
         private IFileManager _fileManager = new FileManager();
         private ISmartTextBox _smartTextBox = new SmartTextBoxImpl();
         private Policy _policy = new Policy();
+        private SmartTextViewModel smartView = new SmartTextViewModel();
+        private Text text = new Text();
 
         // GET: Students
         public ActionResult Index()
@@ -48,6 +51,19 @@ namespace Frontend.Controllers
         {
             ViewBag.Title = "טקסט";
 
+            //we want to pass the real text model, not only the string..
+            //we get all the real data when start get it from the dal..
+        //    text.Id = 10;
+          //  text.Name = "המסמר";
+            
+/*
+        public DateTime UploadTime { get; set; }
+
+        public FileFormats Format { get; set; }
+
+        public string FilePath { get; set; }
+            */
+            //should get the path from the text..
             TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
 
             return View("TextView");
@@ -55,7 +71,10 @@ namespace Frontend.Controllers
 
         public ActionResult GotoSmartTextBox()
         {
-            ViewBag.Title = "תיבת טקסט חכמה";
+            
+
+            ViewBag.Title = "שאלות לתיבת טקסט חכמה";
+            TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
 
             if (TempData["NumberOfWords"] == null && TempData["NumberOfConnectorWords"] == null)
             {
@@ -64,13 +83,22 @@ namespace Frontend.Controllers
                 TempData["toManyWords"] = "";
             }
 
-            InitializePolicy();
+            InitializeSmartView();
 
-            return View("SmartTextBox", _policy);
+            
+            
+            return View("QuestionsView", smartView);
         }
+
+       
+
+        
+
 
         public ActionResult AnalyzeAnswer()
         {
+            ViewBag.Title = "שאלות לתיבת טקסט חכמה";
+            TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
 
             // here we have to call the SmartTextBox in server side
 
@@ -92,8 +120,8 @@ namespace Frontend.Controllers
             {
                 TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy.MaxConnectors + " מילות קישור.";
             }
-
-            return View("SmartTextBox", _policy);
+            InitializeSmartView();
+            return View("QuestionsView", smartView);
         }
 
         private void InitializePolicy()
@@ -102,6 +130,20 @@ namespace Frontend.Controllers
             HashSet<string> _keySentencesList = new HashSet<string>();
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
             _policy = new Policy() { Id = "1", MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
+        }
+
+        private void InitializeSmartView()
+        {
+            InitializePolicy();
+            smartView.policy = _policy;
+            Question q = new Question();
+            q.Id = 11;
+            q.Content = "שאלה לדוגמא שנשלוף מהבסיס נתונים";
+            q.Policy = _policy;
+            List<Question> qList = new List<Question>();
+            qList.Add(q);
+            smartView.questions = qList;
+            
         }
     }
 }

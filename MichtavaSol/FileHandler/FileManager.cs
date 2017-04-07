@@ -18,7 +18,7 @@ namespace FileHandler
     {
         public string GetText(string fileName)
         {
-            return System.IO.File.ReadAllText(fileName);
+            return "hard coded to magals computer..";//System.IO.File.ReadAllText(fileName);
         }
 
         public Text GetTextById(string id)

@@ -4,12 +4,9 @@
     ViewBag.Title = "תיבת טקסט חכמה";
 }
 
-<h2>@ViewBag.Title</h2>
-<h3>@ViewBag.Message</h3>
+<h3>@ViewBag.Title</h3>
 
-<!DOCTYPE HTML>
-<html lang="he" dir="rtl">
-<head>
+
     <style>
         body {
             background-image: url("../../Backgrounds/background.jpg");
@@ -96,11 +93,10 @@
             vertical-align: text-top;
         }
     </style>
-</head>
-<body>
+
 <form class="col-xs-12" action="AnalyzeAnswer" method="post">
     <div class="row">
-        <div class="col-md-1 pull-right">
+        <div class="col-md-3 pull-right">
             <p>
                 <h3>מה התשובה לשאלה<a target="_blank" href="#" id="wordDef" title=""><img src="https://shots.jotform.com/kade/Screenshots/blue_question_mark.png" height="15px" class="top" /></a> המוצגת?</h3>
             </p>
@@ -293,5 +289,4 @@
     document.getElementById("wordDef").title = "שאלה - משפט המנוסח במלים מסוימות או מבוטא בטון מסוים כדי לקבל בתגובה מידע או תשובה";
 </script>
 
-</body>
-</html>
+

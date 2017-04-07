@@ -383,6 +383,7 @@
     <Content Include="Views\Teachers\Policy.cshtml" />
     <Content Include="Views\Teachers\TeachersMenu.cshtml" />
     <Content Include="Views\Teachers\TextAdding.cshtml" />
+    <Content Include="Views\Students\QuestionsView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
