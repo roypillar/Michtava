@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Entities.Models;
-using Entities.ViewModels;
 using FileHandler;
 using SmartTextBox;
+using Frontend.Models;
 
 namespace Frontend.Controllers
 {

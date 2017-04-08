@@ -71,7 +71,6 @@
     <Compile Include="Models\Text.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Student.cs" />
-    <Compile Include="ViewModels\SmartTextViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
