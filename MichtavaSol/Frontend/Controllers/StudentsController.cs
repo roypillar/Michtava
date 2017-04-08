@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper.QueryableExtensions;
 using Entities.Models;
 using FileHandler;
+using Frontend.Areas.Administration.Models;
 using SmartTextBox;
 using Frontend.Models;
+using Services.Interfaces;
 
 namespace Frontend.Controllers
 {
@@ -18,12 +21,21 @@ namespace Frontend.Controllers
         private SmartTextViewModel smartView = new SmartTextViewModel();
         private Text text = new Text();
 
+        private readonly ISubjectService _subjectServiceService;
+
+        public StudentsController(ISubjectService subjectServiceService)
+        {
+            _subjectServiceService = subjectServiceService;
+        }
+
         // GET: Students
-        public ActionResult Index()
+        public ActionResult Subjects()
         {
             ViewBag.Title = "בחר נושא";
 
-            return View("Subjects");
+            IQueryable<SubjectsListViewModel> subjects =
+                _subjectServiceService.All().Project().To<SubjectsListViewModel>(); //this uses a mapping for AutoMapper
+            return View(subjects);
         }
 
         public ActionResult ChooseSubject()

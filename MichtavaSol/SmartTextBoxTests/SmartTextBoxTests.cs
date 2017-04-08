@@ -40,7 +40,6 @@ namespace SmartTextBoxTests
         }
 
         [TestMethod]
-
         public void GetNumberOfWordsTests()
         {
             _smartTextBox = new SmartTextBoxImpl();

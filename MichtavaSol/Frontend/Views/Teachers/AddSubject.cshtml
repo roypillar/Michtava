@@ -1,0 +1,41 @@
+﻿
+@model Frontend.Models.AddSubjectViewModel
+
+@using (Html.BeginForm("AddSubject", "Teachers", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.SubjectName, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.SubjectName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.SubjectName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-3">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+}
+
+@*<div>
+        @Html.ActionLinkWithSpan(
+            "",
+            "Index",
+            "Administrators",
+            new { @class = "btn btn-default btn-sm" },
+            new { @class = "glyphicon glyphicon-arrow-left" })
+    </div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

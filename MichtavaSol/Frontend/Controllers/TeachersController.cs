@@ -3,12 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using Common;
 using Entities.Models;
+using Services.Interfaces;
+using Frontend.Models;
 
 namespace Frontend.Controllers
 {
     public class TeachersController : Controller
     {
+        private readonly ISubjectService _subjectServiceService;
+
+        public TeachersController(ISubjectService subjectServiceService)
+        {
+            _subjectServiceService = subjectServiceService;
+        }
+
         // GET: Teachers
         public ActionResult Index()
         {
@@ -40,6 +51,26 @@ namespace Frontend.Controllers
             }
 
             return View("Policy");
+        }
+
+        public ActionResult NavigateToAddSubject()
+        {
+            return View("AddSubject");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddSubject(AddSubjectViewModel model)
+        {
+            //TODO: add a new subject to DB
+
+            Subject subject = new Subject();
+            subject.Name = model.SubjectName;
+            
+            _subjectServiceService.Add(subject);
+
+            return View();
         }
     }
 }

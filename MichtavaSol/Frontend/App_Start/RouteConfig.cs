@@ -25,7 +25,7 @@ namespace Frontend
             routes.MapRoute(
                 name: "Students",
                 url: "Students/{action}/{username}",
-                defaults: new { controller = "Students", action = "Index", username = string.Empty },
+                defaults: new { controller = "Students", action = "Subjects", username = string.Empty },
                 namespaces: new string[] { "Frontend.Controllers" });
 
             routes.MapRoute(
@@ -71,6 +71,12 @@ namespace Frontend
                 namespaces: new string[] { "Frontend.Controllers" });
 
             // --------------------------------------------------------------------------------------------------------------
+
+            routes.MapRoute(
+                name: "AddSubject",
+                url: "AddSubject/{action}/{username}",
+                defaults: new { controller = "Teachers", action = "NavigateToAddSubject", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
 
             routes.MapRoute(
                 name: "TextAdding",

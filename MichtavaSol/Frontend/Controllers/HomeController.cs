@@ -35,7 +35,7 @@ namespace Frontend.Controllers
             ViewBag.Title = "בחר נושא";
 
             if (userName != null && userName.Equals("Student", StringComparison.InvariantCultureIgnoreCase))
-                return RedirectToAction("Index", "Students");
+                return RedirectToAction("Subjects", "Students");
 
             else if (userName != null && userName.Equals("Teacher", StringComparison.InvariantCultureIgnoreCase))
                 return RedirectToAction("Index", "Teachers");

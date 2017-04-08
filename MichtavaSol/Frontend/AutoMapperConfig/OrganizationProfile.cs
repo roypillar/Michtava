@@ -60,6 +60,11 @@
             //Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.StudentDetailsEditModel>();
 
             //Mapper.CreateMap<Frontend.Areas.Administration.Models.StudentDetailsEditModel, Student>();
+
+            //subjects - view list of subjects
+            Mapper.CreateMap<Subject, Frontend.Models.SubjectsListViewModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.SubjectsName, opt => opt.MapFrom(src => src.Name));
         }
     }
 }
