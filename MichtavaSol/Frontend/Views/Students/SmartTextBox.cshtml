@@ -95,6 +95,7 @@
     </style>
 
 <form class="col-xs-12" action="AnalyzeAnswer" method="post">
+  <div class="col-md-6 pull-right">
     <div class="row">
         <div class="col-md-3 pull-right">
             <p>
@@ -181,20 +182,24 @@
     </div>
     <br/>
     <hr/>
-    <div class="row">
-        <div class="col-md-12">
-            <label rows="1" cols="25" id="NumOfWords">
-                מספר מילים: @TempData["NumberOfWords"] / @Model.MaxWords
-            </label>
-            <label rows="1" cols="25" id="NumOfConnectorWords">
-                מספר מילות קישור: @TempData["NumberOfConnectorWords"] / @Model.MaxConnectors
-            </label>
-            <label rows="1" cols="25" id="toManyWords">
-                @TempData["toManyWords"]
-            </label>
-            <label rows="1" cols="25" id="toManyConnectors">
-                @TempData["toManyConnectors"]
-            </label>
+ </div>
+    <div class="col-md-6 pull-right">
+
+        <div class="row">
+            <div class="col-md-12">
+                <label rows="1" cols="25" id="NumOfWords">
+                    מספר מילים: @TempData["NumberOfWords"] / @Model.MaxWords
+                </label>
+                <label rows="1" cols="25" id="NumOfConnectorWords">
+                    מספר מילות קישור: @TempData["NumberOfConnectorWords"] / @Model.MaxConnectors
+                </label>
+                <label rows="1" cols="25" id="toManyWords">
+                    @TempData["toManyWords"]
+                </label>
+                <label rows="1" cols="25" id="toManyConnectors">
+                    @TempData["toManyConnectors"]
+                </label>
+            </div>
         </div>
     </div>
 </form>
