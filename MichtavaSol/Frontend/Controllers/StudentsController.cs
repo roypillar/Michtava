@@ -18,14 +18,16 @@ namespace Frontend.Controllers
         private IFileManager _fileManager = new FileManager();
         private ISmartTextBox _smartTextBox = new SmartTextBoxImpl();
         private Policy _policy = new Policy();
+        private Homework _homework = new Homework();
         private SmartTextViewModel smartView = new SmartTextViewModel();
         private Text text = new Text();
 
         private readonly ISubjectService _subjectServiceService;
-
-        public StudentsController(ISubjectService subjectServiceService)
+        private readonly IHomeworkService _homeworkService;
+        public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService)
         {
             _subjectServiceService = subjectServiceService;
+            _homeworkService = homeworkService;
         }
 
         // GET: Students
@@ -87,6 +89,8 @@ namespace Frontend.Controllers
 
             ViewBag.Title = "שאלות לתיבת טקסט חכמה";
             TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
+            TempData["QuestionContent"] = getQuestionSample().Content;
+
 
             if (TempData["NumberOfWords"] == null && TempData["NumberOfConnectorWords"] == null)
             {
@@ -96,10 +100,11 @@ namespace Frontend.Controllers
             }
 
             InitializeSmartView();
+            TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
 
             
-            
-            return View("QuestionsView", smartView);
+
+            return View("HomeWorkView", smartView);
         }
 
        
@@ -112,6 +117,7 @@ namespace Frontend.Controllers
             ViewBag.Title = "שאלות לתיבת טקסט חכמה";
             TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
 
+            TempData["QuestionContent"] = getQuestionSample().Content;
             // here we have to call the SmartTextBox in server side
 
             string input = Request.Form["TextBoxArea"];
@@ -133,7 +139,7 @@ namespace Frontend.Controllers
                 TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy.MaxConnectors + " מילות קישור.";
             }
             InitializeSmartView();
-            return View("QuestionsView", smartView);
+            return View("HomeWorkView", smartView);
         }
 
         private void InitializePolicy()
@@ -146,16 +152,31 @@ namespace Frontend.Controllers
 
         private void InitializeSmartView()
         {
-            InitializePolicy();
-            smartView.policy = _policy;
-            Question q = new Question();
-            q.Id = 11;
-            q.Content = "שאלה לדוגמא שנשלוף מהבסיס נתונים";
-            q.Policy = _policy;
-            List<Question> qList = new List<Question>();
-            qList.Add(q);
-            smartView.questions = qList;
+
+
+            smartView.question = getQuestionSample();
+
+
+            // string text = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
+           // smartView.text = text;
+
+           
+
+           // IQueryable<SmartTextViewModel> home_works = _homeworkService.All().Project().To<SmartTextViewModel>();
+           
+            //smartView = home_works.GetEnumerator().First().To<SmartTextViewModel>();
             
+        }
+
+        public Question getQuestionSample()
+        {
+            InitializePolicy();
+
+            Question q = new Question(); //local question init
+            q.Id = 11;
+            q.Content = "שאלה לדוגמא שנשלוף מהבסיס נתונים, מהו מיהו וכד'.. עוד כמה דברים.. ענה בנימוק.";
+            q.Policy = _policy;
+            return q;
         }
     }
 }

@@ -12,8 +12,7 @@ namespace Frontend.Models
     {
         public Text text { get; set; }
 
-        public List<Question> questions { get; set; }
 
-        public Policy policy { get; set; }
+        public Question question { get; set; }
     }
 }

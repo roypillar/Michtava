@@ -1,5 +1,5 @@
 ﻿
-@model Entities.Models.Text
+
 
 <br /><br /><br />
 <head>
@@ -36,19 +36,21 @@
     <br /><br />
 
     <div class="row">
-        <div class="col-sm-5">
+        <div class="col-sm-6 pull-right">
             <audio id="textAudio" controls="true" preload="auto">
                 <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.mp3" type="audio/mpeg">
                 <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.ogg" type="audio/ogg">
             </audio>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-6 pull-right">
             <button onclick="document.getElementById('textAudio').play()">PLAY</button>
         </div>
     </div>
 
     <div class="row">
+        <div class="col-md-12">
         @TempData["TextContent"]
+         </div>
     </div>          
 </div>
     

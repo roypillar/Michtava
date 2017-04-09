@@ -1,4 +1,11 @@
-﻿
+﻿@model Frontend.Models.SmartTextViewModel
+
+@{
+    ViewBag.Title = "HomeWorkView";
+}
+
+<h2>עבודת בית</h2>
+
 
 <br /><br /><br />
 <head>
@@ -26,15 +33,26 @@
 </head>
 
 <body>
-      
-    <div class="row">
-        <div class="col-md-10 pull-right">
-            <h3>@TempData["QuestionContent"]</h3>
+    <div class="col-md-6 pull-right"> 
+        <div class="row">
+            @Html.Partial("QuestionsView")
         </div>
-    </div>      
+
+        <div class="row">
+            @Html.Partial("SmartTextBox", Model.question)
+        </div>
+
+     </div>
+
+    <div class="col-md-6 pull-right">
+        @Html.Partial("TextView", Model.text)
+    </div>
+
+    
 
     <br /><br /><br /><br /><br /><br /><br />
 </body>
+
 
 
 
