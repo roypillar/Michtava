@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Entities.Models
+namespace Frontend.Models
 {
-    public class Text : DeletableEntity
+    public class TextViewModel
     {
-        //public enum FileFormats { doc, docx, pdf, txt };
-
-
-        public int Id { get; set; }
-        
+        [Display(Name = "טקסט")]
         public string Name { get; set; }
 
         public DateTime UploadTime { get; set; }
-
-        //public FileFormats Format { get; set; }
 
         public string FilePath { get; set; }
     }

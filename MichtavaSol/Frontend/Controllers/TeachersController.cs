@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using Common;
 using Entities.Models;
+using FileHandler;
 using Services.Interfaces;
 using Frontend.Models;
 
@@ -13,11 +15,15 @@ namespace Frontend.Controllers
 {
     public class TeachersController : Controller
     {
-        private readonly ISubjectService _subjectServiceService;
+        private readonly ISubjectService _subjectService;
+        private readonly ITextService _textService;
 
-        public TeachersController(ISubjectService subjectServiceService)
+        private readonly IFileManager _fileManager = new FileManager();
+
+        public TeachersController(ISubjectService subjectService, ITextService textService)
         {
-            _subjectServiceService = subjectServiceService;
+            _subjectService = subjectService;
+            _textService = textService;
         }
 
         // GET: Teachers
@@ -53,6 +59,23 @@ namespace Frontend.Controllers
             return View("Policy");
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult SubmitText(TextViewModel model)
+        {
+            Text txt = new Text();
+            txt.Name = model.Name;
+            txt.UploadTime = DateTime.Now;
+            //txt.FilePath = Path.Combine(Server.MapPath("~/uploads"), txt.Name);
+
+            //TODO: get file path
+
+            //_textService.Add(txt);
+
+            return View("TextAdding");
+        }
+
         public ActionResult NavigateToAddSubject()
         {
             return View("AddSubject");
@@ -63,12 +86,10 @@ namespace Frontend.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddSubject(AddSubjectViewModel model)
         {
-            //TODO: add a new subject to DB
-
             Subject subject = new Subject();
             subject.Name = model.SubjectName;
-            
-            _subjectServiceService.Add(subject);
+
+            _subjectService.Add(subject);
 
             return View();
         }

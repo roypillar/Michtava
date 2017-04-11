@@ -25,5 +25,10 @@ namespace FileHandler
         {
             throw new NotImplementedException();
         }
+
+        public void UploadText(Text txt)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
