@@ -38,6 +38,15 @@ namespace Frontend.Controllers
         {
             ViewBag.Title = "בחר אפשרות";
 
+            int i = 0;
+            string key = "key" + i;
+            foreach (var subject in _subjectService.All())
+            {
+                TempData[key] = subject.Name;
+                i++;
+                key = "key" + i;
+            }
+
             return View("TextAdding");
         }
 
@@ -89,7 +98,8 @@ namespace Frontend.Controllers
             Subject subject = new Subject();
             subject.Name = model.SubjectName;
 
-            _subjectService.Add(subject);
+            if (!_subjectService.All().Contains(subject))
+                _subjectService.Add(subject);
 
             return View();
         }

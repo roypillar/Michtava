@@ -19,5 +19,7 @@ namespace Entities.Models
         //public FileFormats Format { get; set; }
 
         public string FilePath { get; set; }
+
+        public Subject Subject { get; set; }
     }
 }

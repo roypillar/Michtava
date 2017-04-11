@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Entities.Models;
 
 namespace Frontend.Models
 {
@@ -14,5 +15,7 @@ namespace Frontend.Models
         public DateTime UploadTime { get; set; }
 
         public string FilePath { get; set; }
+
+        public Subject Subject { get; set; }
     }
 }
