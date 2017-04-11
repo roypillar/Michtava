@@ -22,142 +22,179 @@
             font-size: 24px;
         }
 
-        .dropbtn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
             cursor: pointer;
         }
 
-        .dropbtn:hover, .dropbtn:focus {
-            background-color: #3e8e41;
-        }
-
-        .dropdown {
-            position: relative;
+        .input-w label, .input-w input {
+            float: none; /* if you had floats before? otherwise inline-block will behave differently */
             display: inline-block;
+            vertical-align: middle;    
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            overflow: auto;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
+        img.top {
+            vertical-align: text-top;
         }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown a:hover {background-color: #f1f1f1}
-
-        .show {display:block;}
     </style>
 </head>
-@*<body>
+<body>
+    <button id="myBtn" class="hidden"></button>
+
+@*<div class="row">
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">בחר נושא</button>
+        <div id="myDropdown" class="dropdown-content">
+            @foreach (var subject in TempData)
+            {
+                <a href="#" onclick="FillUpSubject(@subject.Value)">@subject.Value</a>
+            }
+        </div>
+    </div>
+</div>*@
 <div class="row">
-    <form class="text-right" action="SubmitText" method="post" id="TextData">
-        <div class="row">
-            <div class="col-sm-10">
-                <h3><label for="FilePath">@ViewBag.Title:</label></h3>
-            </div>
-        </div>
-        <br/><br/><br/>
-        <div class="row">
-            <div class="col-sm-10">
-                @Html.TextBoxFor(m => m.FilePath,
-                    new { @type = "file", @name = "FilePath", @id = "FilePath", accept = ".txt" })
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-10">
-                <input type="submit" value="הוסף טקסט" />
-            </div>
-        </div>
-    </form>
+    <h3><span id="title">&nbsp;</span></h3>
 </div>
-</body>
-</html>*@
 
 @using (Html.BeginForm("SubmitText", "Teachers", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-3 pull-right">
+            <h3>
+                <label for="myBtn" class="label label-warning">בחר נושא</label>
+            </h3>
+            <div id="myModal" class="modal">
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary("", new { @class = "text-danger" })
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <br /><br />
+                    <div dir="rtl">
+                        @foreach (var subject in TempData)
+                        {
+                            <div class="input-w">
+                                <input name="group" id="@subject.Key" type="radio" value="@subject.Value" />
+                                <label for="@subject.Key">@subject.Value</label>
+                            </div>
+                        }
+                    </div>
+                    <br />
+                    <input type="button" onclick="GetKeySentence($('input[type=radio]:checked').val())" value="בחר" />
+                </div>
 
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-2" })
-            <div class="col-md-3">
-                @Html.TextBoxFor(m => m.Name,
-                    new { @type = "file", @name = "FilePath", @id = "FilePath", accept = ".txt" })
-                @Html.ValidationMessageFor(m => m.Name, "", new {@class = "text-danger"})
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-3">
-                <input type="submit" value="שמור טקסט" class="btn btn-default" />
+    <div class="row">
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr/>
+            @Html.ValidationSummary("", new {@class = "text-danger"})
+
+
+            <div class="form-group">
+                <div class="col-md-3">
+                    @Html.TextBoxFor(m => m.Name,
+                        new {@type = "file", @name = "FilePath", @id = "FilePath", accept = ".txt"})
+                    @Html.ValidationMessageFor(m => m.Name, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-3">
+                    <input type="submit" value="שמור טקסט" class="btn btn-default" style="display: none;" id="SubmitBtn"/>
+                </div>
             </div>
         </div>
-
     </div>
 }
 
-<div class="dropdown">
-    <button onclick="myFunction()" class="dropbtn">בחר נושא</button>
-    <div id="myDropdown" class="dropdown-content">
-        @foreach (var subject in TempData)
-        {
-            <a href="#@subject">@subject.Value</a>
-        }
-    </div>
-</div>
-
 <script>
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-    function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+        modal.style.display = "block";
     }
 
-// Close the dropdown if the user clicks outside of it
-    window.onclick = function(event) {
-        if (!event.target.matches('.dropbtn')) {
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
 
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            var i;
-            for (i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
+    }
+
+    function GetKeySentence(val) {
+        if (val != null) {
+            document.getElementById("title").firstChild.nodeValue = val;
+            $('#SubmitBtn').show();
+        }           
+
+        // close the modal:
+        modal.style.display = "none";
     }
 </script>
 
 @*<div>
-        @Html.ActionLinkWithSpan(
-            "",
-            "Index",
-            "Administrators",
-            new { @class = "btn btn-default btn-sm" },
-            new { @class = "glyphicon glyphicon-arrow-left" })
-    </div>*@
+            @Html.ActionLinkWithSpan(
+                "",
+                "Index",
+                "Administrators",
+                new { @class = "btn btn-default btn-sm" },
+                new { @class = "glyphicon glyphicon-arrow-left" })
+        </div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-
+</body>
+</html>
 

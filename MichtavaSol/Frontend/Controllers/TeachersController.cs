@@ -73,12 +73,16 @@ namespace Frontend.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SubmitText(TextViewModel model)
         {
+            if (string.IsNullOrEmpty(model.Name))
+                return View("TextAdding");
+
             Text txt = new Text();
             txt.Name = model.Name;
             txt.UploadTime = DateTime.Now;
             //txt.FilePath = Path.Combine(Server.MapPath("~/uploads"), txt.Name);
+            //txt.Subject = _subjectService.GetById(1);
 
-            //TODO: get file path
+            //TODO: get file path and subject
 
             //_textService.Add(txt);
 
