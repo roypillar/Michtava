@@ -103,7 +103,7 @@ namespace Frontend.Controllers
             TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
 
             
-
+            
             return View("HomeWorkView", smartView);
         }
 
@@ -146,7 +146,12 @@ namespace Frontend.Controllers
         {
             _policy = new Policy();
             HashSet<string> _keySentencesList = new HashSet<string>();
-            _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 1");
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 2");
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 3");
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 4");
+
+
             _policy = new Policy() { Id = "1", MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
         }
 
@@ -155,17 +160,17 @@ namespace Frontend.Controllers
 
 
             smartView.question = getQuestionSample();
-
+        
 
             // string text = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
-           // smartView.text = text;
+            // smartView.text = text;
 
-           
 
-           // IQueryable<SmartTextViewModel> home_works = _homeworkService.All().Project().To<SmartTextViewModel>();
-           
+
+            // IQueryable<SmartTextViewModel> home_works = _homeworkService.All().Project().To<SmartTextViewModel>();
+
             //smartView = home_works.GetEnumerator().First().To<SmartTextViewModel>();
-            
+
         }
 
         public Question getQuestionSample()
@@ -176,6 +181,13 @@ namespace Frontend.Controllers
             q.Id = 11;
             q.Content = "שאלה לדוגמא שנשלוף מהבסיס נתונים, מהו מיהו וכד'.. עוד כמה דברים.. ענה בנימוק.";
             q.Policy = _policy;
+            HashSet<string> _keySentencesList = new HashSet<string>();
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 1");
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 2");
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 3");
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 4");
+
+            q.Suggested_Openings = _keySentencesList;
             return q;
         }
     }

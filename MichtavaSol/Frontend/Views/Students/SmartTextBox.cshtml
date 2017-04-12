@@ -95,7 +95,15 @@
     </style>
 
 <form class="col-xs-12" action="AnalyzeAnswer" method="post">
+
+
   <div class="row">
+      <div class="row">
+          <div class="col-md-10 pull-right">
+              <h3>@Model.Content</h3>
+          </div>
+      </div>    
+
     <div class="row">
         <div class="col-md-3 pull-right">
             <p>
@@ -115,22 +123,16 @@
                     <span class="close">&times;</span>
                     <br/><br/>
                     <div dir="rtl">
-                        <div class="input-w">
-                            <input name="group" id="group1" type="radio" value="משפט פתיחה 1" />
-                            <label for="group1">משפט פתיחה 1</label>
-                        </div>
-                        <div class="input-w">
-                            <input name="group" id="group2" type="radio" value="משפט פתיחה 2" />
-                            <label for="group2">משפט פתיחה 2</label>
-                        </div>
-                        <div class="input-w">
-                            <input name="group" id="group3" type="radio" value="משפט פתיחה 3" />
-                            <label for="group3">משפט פתיחה 3</label>
-                        </div>
-                        <div class="input-w">
-                            <input name="group" id="group4" type="radio" value="משפט פתיחה 4" />
-                            <label for="group4">משפט פתיחה 4</label>
-                        </div>
+                       
+
+                        @foreach (var subject in Model.Suggested_Openings)
+                        {
+                            <div class="input-w">
+                                <input name="group" id="@subject" type="radio" value="@subject" />
+                                <label for="@subject">@subject</label>
+                            </div>
+                        }
+
                     </div>
                     <br/>
                     <input type="button" onclick="GetKeySentence($('input[type=radio]:checked').val())" value="בחר" />
