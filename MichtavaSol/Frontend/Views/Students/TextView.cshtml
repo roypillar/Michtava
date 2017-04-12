@@ -16,12 +16,12 @@
         }
 
         body {
-            background-image: url("../../Backgrounds/background.jpg");
+            background-image: url("../../Backgrounds/homeworkBackground.jpg");
             width: 100%;
             height: 100%;
             background-position: center;
             background-size: 100% 100%;
-            background-repeat: no-repeat;
+            background-repeat: repeat;
         }
     </style>
 </head>
@@ -36,32 +36,75 @@
     <br /><br />
 
     <div class="row">
-        <div class="col-sm-6 pull-right">
-            <audio id="textAudio" controls="true" preload="auto">
-                <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.mp3" type="audio/mpeg">
-                <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.ogg" type="audio/ogg">
-            </audio>
+
+        <textarea rows="8" cols="50" class="col-md-10 col-md-offset-1" id="textArea" style="border:none; background: transparent;">
+                  @TempData["TextContent"]
+        </textarea>
+    </div>          
+
+    <br />
+    <div class="row">
+
+        <div class="col-md-3 col-md-offset-3 pull-left">
+            <select class="styled-select" onchange="changeTextFont()" id="TextfontSize">
+                <option>בחר גודל כתב</option>
+                <option value="11pt">11</option>
+                <option value="12pt">12</option>
+                <option value="14pt">14</option>
+                <option value="16pt">16</option>
+                <option value="18pt">18</option>
+                <option value="20pt">20</option>
+                <option value="24pt">24</option>
+                <option value="28pt">28</option>
+                <option value="32pt">32</option>
+            </select>
         </div>
-        <div class="col-sm-6 pull-right">
-            <button onclick="document.getElementById('textAudio').play()">PLAY</button>
-        </div>
+
+        @if ((string)Session["WithQuestion?"] == "Without")
+        {
+                <div class="col-sm-3 pull-right">
+                    <audio id="textAudio" controls="true" preload="auto">
+                        <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.mp3" type="audio/mpeg">
+                        <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.ogg" type="audio/ogg">
+                    </audio>
+                </div>
+                <div class="col-sm-3 pull-right">
+                    <button onclick="document.getElementById('textAudio').play()">PLAY</button>
+                </div>
+        }
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-        @TempData["TextContent"]
-         </div>
-    </div>          
+   
+
 </div>
     
+    @if ((string)Session["WithQuestion?"] == "Without") {
     <form class="text-right" action="GotoSmartTextBox" method="post">
         <div class="row">
-            <div class="col-sm-10">
+            <div class="col-sm-4 pull-left">
                 <input type="submit" value="המשך לשאלות" />
             </div>
         </div>
     </form>
+    }
 
         <br /><br /><br /><br /><br /><br /><br />
 </body>
 
+<script>
+
+
+
+    function changeTextFont() {
+
+        var tArea = document.getElementById("textArea");
+
+        var selectBox = document.getElementById("TextfontSize");
+
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+        tArea.style.fontSize = selectedValue;
+    }
+
+
+</script>

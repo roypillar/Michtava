@@ -9,12 +9,12 @@
 
     <style>
         body {
-            background-image: url("../../Backgrounds/background.jpg");
+            background-image: url("../../Backgrounds/homeworkBackground.jpg");
             width: 100%;
             height: 100%;
             background-position: center;
             background-size: 100% 100%;
-            background-repeat: no-repeat;
+            background-repeat: repeat;
         }
 
         input[type='button'] {
@@ -104,7 +104,7 @@
           </div>
       </div>    
 
-    <div class="row">
+ <!--<div class="row">
         <div class="col-md-3 pull-right">
             <p>
                 <h3>מה התשובה לשאלה<a target="_blank" href="#" id="wordDef" title=""><img src="https://shots.jotform.com/kade/Screenshots/blue_question_mark.png" height="15px" class="top" /></a> המוצגת?</h3>
@@ -112,7 +112,7 @@
         </div>
     </div>
     <br/>
-
+     -->   
     <div class="row">
         <div class="col-md-3 pull-right">
             <h3><label for="myBtn" class="label label-warning">קבל משפט פתיחה</label></h3>
@@ -125,11 +125,11 @@
                     <div dir="rtl">
                        
 
-                        @foreach (var subject in Model.Suggested_Openings)
+                        @foreach (var suggOpen in Model.Suggested_Openings)
                         {
                             <div class="input-w">
-                                <input name="group" id="@subject" type="radio" value="@subject" />
-                                <label for="@subject">@subject</label>
+                                <input name="group" id="@suggOpen" type="radio" value="@suggOpen" />
+                                <label for="@suggOpen">@suggOpen</label>
                             </div>
                         }
 

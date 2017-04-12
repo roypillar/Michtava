@@ -17,7 +17,5 @@ namespace Entities.Models
 
         public Policy Policy { get; set; }
 
-
-
     }
 }

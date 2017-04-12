@@ -64,7 +64,7 @@ namespace Frontend.Controllers
         public ActionResult ChooseAction()
         {
             ViewBag.Title = "טקסט";
-
+            Session["WithQuestion?"] = "Without";
             //we want to pass the real text model, not only the string..
             //we get all the real data when start get it from the dal..
         //    text.Id = 10;
@@ -78,6 +78,9 @@ namespace Frontend.Controllers
         public string FilePath { get; set; }
             */
             //should get the path from the text..
+
+            
+
             TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
 
             return View("TextView");
@@ -85,7 +88,8 @@ namespace Frontend.Controllers
 
         public ActionResult GotoSmartTextBox()
         {
-            
+
+            Session["WithQuestion?"] = "With";
 
             ViewBag.Title = "שאלות לתיבת טקסט חכמה";
             TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
@@ -114,6 +118,7 @@ namespace Frontend.Controllers
 
         public ActionResult AnalyzeAnswer()
         {
+            Session["WithQuestion?"] = "With";
             ViewBag.Title = "שאלות לתיבת טקסט חכמה";
             TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
 
