@@ -12,7 +12,6 @@ namespace Frontend.Models
     {
         public Text text { get; set; }
 
-
         public Question question { get; set; }
     }
 }

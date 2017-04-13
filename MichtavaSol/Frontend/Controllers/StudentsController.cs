@@ -22,12 +22,20 @@ namespace Frontend.Controllers
         private SmartTextViewModel smartView = new SmartTextViewModel();
         private Text text = new Text();
 
+        private Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
         private readonly ISubjectService _subjectServiceService;
         private readonly IHomeworkService _homeworkService;
+
+
         public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService)
         {
             _subjectServiceService = subjectServiceService;
             _homeworkService = homeworkService;
+            dictionary.Add("סירותיהם", "הסירות שלהם, פירוש מעניין..");
+            dictionary.Add("נמרצות", "מלא מרץ, מלא חיות, אנרגטי");
+            dictionary.Add("עמך", "יחד, בצוותא, בשיתוף; אחד עם השני");
+
         }
 
         // GET: Students
@@ -67,21 +75,27 @@ namespace Frontend.Controllers
             Session["WithQuestion?"] = "Without";
             //we want to pass the real text model, not only the string..
             //we get all the real data when start get it from the dal..
-        //    text.Id = 10;
-          //  text.Name = "המסמר";
-            
-/*
-        public DateTime UploadTime { get; set; }
+            //    text.Id = 10;
+            //  text.Name = "המסמר";
 
-        public FileFormats Format { get; set; }
+            /*
+                    public DateTime UploadTime { get; set; }
 
-        public string FilePath { get; set; }
-            */
+                    public FileFormats Format { get; set; }
+
+                    public string FilePath { get; set; }
+                        */
             //should get the path from the text..
 
-            
 
-            TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
+            string text = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
+            TempData["TextContent"] = text;
+
+
+            //init words definition
+            TempData["WordsDefs"] = getWordDefinitionsForText(text);
+
+
 
             return View("TextView");
         }
@@ -92,7 +106,8 @@ namespace Frontend.Controllers
             Session["WithQuestion?"] = "With";
 
             ViewBag.Title = "שאלות לתיבת טקסט חכמה";
-            TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
+            string text = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
+            TempData["TextContent"] = text;
             TempData["QuestionContent"] = getQuestionSample().Content;
 
 
@@ -106,8 +121,10 @@ namespace Frontend.Controllers
             InitializeSmartView();
             TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
 
-            
-            
+
+            //init words definition
+            TempData["WordsDefs"] = getWordDefinitionsForText(text);
+
             return View("HomeWorkView", smartView);
         }
 
@@ -120,7 +137,8 @@ namespace Frontend.Controllers
         {
             Session["WithQuestion?"] = "With";
             ViewBag.Title = "שאלות לתיבת טקסט חכמה";
-            TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
+            string text = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
+            TempData["TextContent"] = text;
 
             TempData["QuestionContent"] = getQuestionSample().Content;
             // here we have to call the SmartTextBox in server side
@@ -143,7 +161,12 @@ namespace Frontend.Controllers
             {
                 TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy.MaxConnectors + " מילות קישור.";
             }
+
             InitializeSmartView();
+
+            //init words definition
+            TempData["WordsDefs"] = getWordDefinitionsForText(text);
+
             return View("HomeWorkView", smartView);
         }
 
@@ -194,6 +217,38 @@ namespace Frontend.Controllers
 
             q.Suggested_Openings = _keySentencesList;
             return q;
+        }
+
+
+        private string getWordDefinitionsForText(string text)
+        {
+            Dictionary<string, string> wordDefinitionDictionary = new Dictionary<string, string>();
+
+            string[] tokens = text.Split(' ', '.', ',', '-', '?', '!', '<', '>', '&', '[', ']', '(', ')');
+
+            for (int i = 0; i < tokens.Length; i++)
+            {
+                
+                try
+                {
+                    if (dictionary.TryGetValue(tokens[i], out string description))
+                    {
+                        wordDefinitionDictionary.Add(tokens[i], description);
+                    }
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+
+            }
+            
+            string wordsDefs = "";
+            for (int i = 0; i < wordDefinitionDictionary.Count; i++)
+            {
+                wordsDefs = wordsDefs + "<strong>" + wordDefinitionDictionary.ElementAt(i).Key + " - " + "</strong>" + wordDefinitionDictionary.ElementAt(i).Value + " <br/> ";
+            }
+            return wordsDefs;
         }
     }
 }

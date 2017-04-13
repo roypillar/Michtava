@@ -43,5 +43,8 @@
             this.TextRepository.Delete(Text);
             this.TextRepository.SaveChanges();
         }
+
+        
+
     }
 }
