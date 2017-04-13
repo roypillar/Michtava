@@ -20,6 +20,8 @@ namespace Frontend.Controllers
 
         private readonly IFileManager _fileManager = new FileManager();
 
+        private Dictionary<string, string> _subjectsDictionary = new Dictionary<string, string>();
+
         public TeachersController(ISubjectService subjectService, ITextService textService)
         {
             _subjectService = subjectService;
@@ -38,16 +40,18 @@ namespace Frontend.Controllers
         {
             ViewBag.Title = "בחר אפשרות";
 
-            int i = 0;
-            string key = "key" + i;
-            foreach (var subject in _subjectService.All())
-            {
-                TempData[key] = subject.Name;
-                i++;
-                key = "key" + i;
-            }
+            InitializeSubjects();
 
             return View("TextAdding");
+        }
+
+        private void InitializeSubjects()
+        {
+            foreach (var subject in _subjectService.All())
+            {
+                _subjectsDictionary["" + subject.Id] = subject.Name;
+                TempData["" + subject.Id] = subject.Name;
+            }
         }
 
         public ActionResult NavigateToPolicy()
@@ -73,16 +77,21 @@ namespace Frontend.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SubmitText(TextViewModel model)
         {
+            InitializeSubjects();
             if (string.IsNullOrEmpty(model.Name))
+            {
                 return View("TextAdding");
+            }               
 
             Text txt = new Text();
             txt.Name = model.Name;
             txt.UploadTime = DateTime.Now;
-            //txt.FilePath = Path.Combine(Server.MapPath("~/uploads"), txt.Name);
-            //txt.Subject = _subjectService.GetById(1);
 
-            //TODO: get file path and subject
+            //TODO: get file path
+            //txt.FilePath = Path.Combine(Server.MapPath("~/uploads"), txt.Name);
+
+            string txtSubjectID = _subjectsDictionary.FirstOrDefault(x => x.Value == model.SubjectID).Key;
+            txt.Subject = _subjectService.GetById(int.Parse(txtSubjectID));            
 
             //_textService.Add(txt);
 

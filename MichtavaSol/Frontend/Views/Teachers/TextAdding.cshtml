@@ -107,13 +107,13 @@
                         @foreach (var subject in TempData)
                         {
                             <div class="input-w">
-                                <input name="group" id="@subject.Key" type="radio" value="@subject.Value" />
+                                @Html.RadioButtonFor(m => m.SubjectID, @subject.Value)                              
                                 <label for="@subject.Key">@subject.Value</label>
                             </div>
                         }
                     </div>
                     <br />
-                    <input type="button" onclick="GetKeySentence($('input[type=radio]:checked').val())" value="בחר" />
+                    <input type="button" onclick="ChooseSubject($('input[type=radio]:checked').val())" value="בחר" />
                 </div>
 
             </div>
@@ -155,7 +155,7 @@
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks the button, open the modal 
+    // When the user clicks the button, open the modal
     btn.onclick = function() {
         modal.style.display = "block";
     }
@@ -172,11 +172,11 @@
         }
     }
 
-    function GetKeySentence(val) {
+    function ChooseSubject(val) {
         if (val != null) {
             document.getElementById("title").firstChild.nodeValue = val;
             $('#SubmitBtn').show();
-        }           
+        }
 
         // close the modal:
         modal.style.display = "none";

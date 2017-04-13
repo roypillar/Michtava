@@ -17,5 +17,7 @@ namespace Frontend.Models
         public string FilePath { get; set; }
 
         public Subject Subject { get; set; }
+
+        public string SubjectID { get; set; }
     }
 }
