@@ -70,53 +70,54 @@
         img.top {
             vertical-align: text-top;
         }
+
+        #filecontents { 
+            border:double; 
+            overflow-y:scroll; 
+            height:400px; 
+        } 
     </style>
 </head>
 <body>
-    <button id="myBtn" class="hidden"></button>
 
-@*<div class="row">
-    <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">בחר נושא</button>
-        <div id="myDropdown" class="dropdown-content">
-            @foreach (var subject in TempData)
-            {
-                <a href="#" onclick="FillUpSubject(@subject.Value)">@subject.Value</a>
-            }
-        </div>
-    </div>
-</div>*@
-<div class="row">
-    <h3><span id="title">&nbsp;</span></h3>
-</div>
+<button id="myBtn" class="hidden"></button>
 
-@using (Html.BeginForm("SubmitText", "Teachers", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@Html.Raw(TempData["msg"])
+
+@using (Html.BeginForm("SubmitText", "Teachers", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
 {
     <div class="row">
         <div class="col-md-3 pull-right">
             <h3>
-                <label for="myBtn" class="label label-warning">בחר נושא</label>
+                <label for="myBtn" class="label label-warning" style = "background-color: green; color: white">בחר נושא</label>
             </h3>
             <div id="myModal" class="modal">
 
                 <!-- Modal content -->
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <br /><br />
+                    <br/><br/>
                     <div dir="rtl">
                         @foreach (var subject in TempData)
                         {
-                            <div class="input-w">
-                                @Html.RadioButtonFor(m => m.SubjectID, @subject.Value)                              
-                                <label for="@subject.Key">@subject.Value</label>
-                            </div>
+                            if (subject.Key != "msg")
+                            {
+                                <div class="input-w">
+                                    @Html.RadioButtonFor(m => m.SubjectID, @subject.Value)
+                                    <label for="@subject.Key">@subject.Value</label>
+                                </div>
+                            }
                         }
                     </div>
-                    <br />
-                    <input type="button" onclick="ChooseSubject($('input[type=radio]:checked').val())" value="בחר" />
+                    <br/>
+                    <input type="button" onclick="ChooseSubject($('input[type=radio]:checked').val())" value="בחר"/>
                 </div>
 
             </div>
+        </div>
+        <div class="col-md-3 pull-right">
+            <h3 style="color: green;"><b><span id="title">&nbsp;</span></b>
+            </h3>
         </div>
     </div>
 
@@ -129,18 +130,25 @@
 
 
             <div class="form-group">
-                <div class="col-md-3">
+                <div class="col-md-3 pull-right">
                     @Html.TextBoxFor(m => m.Name,
-                        new {@type = "file", @name = "FilePath", @id = "FilePath", accept = ".txt"})
+                        new {@type = "file", @name = "FilePath", @id = "txtfiletoread", accept = ".txt"})
                     @Html.ValidationMessageFor(m => m.Name, "", new {@class = "text-danger"})
                 </div>
             </div>
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-3">
-                    <input type="submit" value="שמור טקסט" class="btn btn-default" style="display: none;" id="SubmitBtn"/>
+                <div class="col-md-12 pull-right">
+                    <textarea class="col-md-offset-2 col-md-3 pull-right" id="filecontents" name="filecontents"></textarea>
                 </div>
             </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-3 pull-right">
+                    <input type="submit" value="שמור טקסט" class="btn btn-default" style="display: none; background-color: crimson; color: white" id="SubmitBtn" />
+                </div>
+            </div>    
+                   
         </div>
     </div>
 }
@@ -181,16 +189,37 @@
         // close the modal:
         modal.style.display = "none";
     }
-</script>
 
-@*<div>
-            @Html.ActionLinkWithSpan(
-                "",
-                "Index",
-                "Administrators",
-                new { @class = "btn btn-default btn-sm" },
-                new { @class = "glyphicon glyphicon-arrow-left" })
-        </div>*@
+    window.onload = function() {
+        //Check the support for the File API support 
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            var fileSelected = document.getElementById('txtfiletoread');
+            fileSelected.addEventListener('change',
+                function(e) {
+                    //Set the extension for the file 
+                    var fileExtension = /text.*/;
+                    //Get the file object 
+                    var fileTobeRead = fileSelected.files[0];
+                    //Check of the extension match 
+                    if (fileTobeRead.type.match(fileExtension)) {
+                        //Initialize the FileReader object to read the 2file 
+                        var fileReader = new FileReader();
+                        fileReader.onload = function(e) {
+                            var fileContents = document.getElementById('filecontents');
+                            document.getElementById("filecontents").value = fileReader.result;
+                        }
+                        fileReader.readAsText(fileTobeRead);
+                    } else {
+                        alert("Please select text file");
+                    }
+
+                },
+                false);
+        } else {
+            alert("Files are not supported");
+        }
+    }
+</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

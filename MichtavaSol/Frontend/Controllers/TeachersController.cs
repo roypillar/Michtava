@@ -78,22 +78,22 @@ namespace Frontend.Controllers
         public ActionResult SubmitText(TextViewModel model)
         {
             InitializeSubjects();
+
             if (string.IsNullOrEmpty(model.Name))
             {
+                TempData["msg"] = "<script>alert('אנא בחר/י טקסט');</script>";
                 return View("TextAdding");
-            }               
-
-            Text txt = new Text();
-            txt.Name = model.Name;
-            txt.UploadTime = DateTime.Now;
-
-            //TODO: get file path
-            //txt.FilePath = Path.Combine(Server.MapPath("~/uploads"), txt.Name);
+            }
 
             string txtSubjectID = _subjectsDictionary.FirstOrDefault(x => x.Value == model.SubjectID).Key;
-            txt.Subject = _subjectService.GetById(int.Parse(txtSubjectID));            
+            Subject subject = _subjectService.GetById(int.Parse(txtSubjectID));
 
-            //_textService.Add(txt);
+            Text txt = _fileManager.UploadText(Server.MapPath("~/uploads"), subject, model.Name,
+                Request.Form["filecontents"]);                       
+
+            _textService.Add(txt);
+
+            TempData["msg"] = "<script>alert('הטקסט הועלה בהצלחה    : )');</script>";            
 
             return View("TextAdding");
         }
