@@ -42,7 +42,7 @@ namespace FileHandler
 
             Text uploadedTxt = new Text();
             uploadedTxt.Id = txtID;
-            uploadedTxt.Name = txtName;
+            uploadedTxt.Name = RemoveExtension(txtName);
             uploadedTxt.FilePath = pathToSave;
             uploadedTxt.Subject = subject;
             uploadedTxt.UploadTime = DateTime.Now;
@@ -55,6 +55,18 @@ namespace FileHandler
             bool folderExists = Directory.Exists(path);
             if (!folderExists)
                 Directory.CreateDirectory(path);
+        }
+
+        private string RemoveExtension(string txtName)
+        {
+            if (!string.IsNullOrEmpty(txtName))
+            {
+                int fileExtPos = txtName.LastIndexOf(".", StringComparison.Ordinal);
+                if (fileExtPos >= 0)
+                    return txtName.Substring(0, fileExtPos);
+            }
+
+            return txtName;
         }
     }
 }
