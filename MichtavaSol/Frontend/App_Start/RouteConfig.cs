@@ -79,6 +79,12 @@ namespace Frontend
                 namespaces: new string[] { "Frontend.Controllers" });
 
             routes.MapRoute(
+                name: "TextsView",
+                url: "TextsView/{action}/{username}",
+                defaults: new { controller = "Teachers", action = "NavigateToTextsView", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+            routes.MapRoute(
                 name: "TextAdding",
                 url: "TextAdding/{action}/{username}",
                 defaults: new { controller = "Teachers", action = "NavigateToTextAdding", username = string.Empty },

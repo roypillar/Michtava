@@ -21,6 +21,7 @@ namespace Frontend.Controllers
         private readonly IFileManager _fileManager = new FileManager();
 
         private Dictionary<string, string> _subjectsDictionary = new Dictionary<string, string>();
+        private Dictionary<string, string> _textsDictionary = new Dictionary<string, string>();
 
         public TeachersController(ISubjectService subjectService, ITextService textService)
         {
@@ -43,6 +44,44 @@ namespace Frontend.Controllers
             InitializeSubjects();
 
             return View("TextAdding");
+        }
+
+        public ActionResult NavigateToTextsView()
+        {
+            ViewBag.Title = "רשימת טקסטים";
+
+            InitializeSubjects();
+
+            return View("TextsView");
+        }
+
+        [HttpPost]
+        public ActionResult ShowTexts(string CurrentSubject)
+        {
+            ViewBag.Title = "רשימת טקסטים";
+
+            InitializeSubjects();
+
+            //string subject = Request.Form["CurrentSubject"];
+            if (!string.IsNullOrEmpty(CurrentSubject))
+            {
+                InitializeTexts(CurrentSubject);
+                TempData["msg"] = CurrentSubject;
+            }
+
+            return View("TextsView");
+        }
+
+        private void InitializeTexts(string subject)
+        {
+            foreach (var txt in _textService.All())
+            {
+                if (!string.IsNullOrEmpty(subject) && txt.Subject.Name.Equals(subject))
+                {
+                    _textsDictionary[txt.Id + "txt"] = txt.Name;
+                    TempData[txt.Id + "txt"] = txt.Name;
+                }
+            }
         }
 
         private void InitializeSubjects()
@@ -96,6 +135,14 @@ namespace Frontend.Controllers
             TempData["msg"] = "<script>alert('הטקסט הועלה בהצלחה    : )');</script>";            
 
             return View("TextAdding");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult RemoveText(TextViewModel model)
+        {
+            return View("TextsView");
         }
 
         public ActionResult NavigateToAddSubject()
