@@ -31,7 +31,7 @@ namespace FileHandler
 
         public Text UploadText(string serverUploadDirPath, Subject subject, string txtName, string txtContent)
         {
-            string txtID = Guid.NewGuid().ToString();
+            Guid txtID = Guid.NewGuid();
             string FileNameToSave = txtID + "_" + txtName;
             string DirectoryToSave = Path.Combine(serverUploadDirPath, subject.Name);
 

@@ -20,6 +20,11 @@
             return this.TextRepository.GetById(id);
         }
 
+        Text ITextService.GetById(Guid id)
+        {
+            return this.TextRepository.GetById(id);
+        }
+
         IQueryable<Text> IRepositoryService<Text>.All()
         {
             return this.TextRepository.All();

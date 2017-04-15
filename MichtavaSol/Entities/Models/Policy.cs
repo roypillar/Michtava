@@ -9,7 +9,7 @@ namespace Entities.Models
     public class Policy
     {
         [Required]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public int MinWords { get; set; }
@@ -23,7 +23,6 @@ namespace Entities.Models
         [Required]
         public int MaxConnectors { get; set; }
 
-        [Required]
         public HashSet<string> KeySentences { get; set; }
     }
 }
