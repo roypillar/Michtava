@@ -138,10 +138,21 @@ namespace Frontend.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult RemoveText(TextViewModel model)
+        public ActionResult RemoveText(string CurrentText)
         {
+            ViewBag.Title = "רשימת טקסטים";
+
+            InitializeSubjects();
+
+            var txtKey = _textsDictionary.FirstOrDefault(x => x.Value == CurrentText).Key;
+
+            // TODO: change TextService to support ID of type string
+            //_textService.Delete(_textService.GetById(int.Parse(txtKey)));
+
+            // TODO: handle situation where Texts have the same name
+
+            TempData["msg"] = "<script>alert('הטקסט נמחק בהצלחה');</script>";
+
             return View("TextsView");
         }
 

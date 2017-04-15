@@ -82,15 +82,16 @@
     </div>
     <br/>
 
-    <div class="row">
-        <div class="col-sm-3 pull-right">
-            <form class="col-xs-12" action="RemoveText" method="post" >
-                <input type="submit" value="הסר טקסט" style="background-color: firebrick; border-color: firebrick;" />
-            </form>
-        </div>
+    <div class="row">       
         <div class="col-sm-3 pull-right">
             <form class="col-xs-12" action="NavigateToTextAdding" method="post" >
                 <input type="submit" value="הוסף טקסט חדש" style="background-color: green; border-color: green;" />
+            </form>
+        </div>
+        <div class="col-sm-3 pull-right">
+            <form class="col-xs-12" action="RemoveText" method="post">
+                <input type="submit" id="txtRemove" value="הסר טקסט" style="background-color: firebrick; border-color: firebrick;" onclick="ChooseText($('input[type=radio]:checked').val())" />
+                <textarea id="CurrentText" name="CurrentText" value="" placeholder="אנא בחר טקסט" style="visibility: hidden;"></textarea>
             </form>
         </div>
     </div>
@@ -191,6 +192,12 @@
 
         // close the modal:
         modal.style.display = "none";
+    }
+
+    function ChooseText(val) {
+        if (val != null) {
+            document.getElementById("CurrentText").value = val;
+        }
     }
 </script>
 </body>
