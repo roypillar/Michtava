@@ -14,6 +14,8 @@ namespace Entities.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
+        public string FileName { get; set; }
+
         public string Name { get; set; }
 
         public DateTime UploadTime { get; set; }

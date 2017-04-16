@@ -15,10 +15,10 @@
             this.TextRepository = TextRepository;
         }
 
-        Text ITextService.GetById(int id)
-        {
-            return this.TextRepository.GetById(id);
-        }
+        //Text ITextService.GetById(int id)
+        //{
+        //    return this.TextRepository.GetById(id);
+        //}
 
         Text ITextService.GetById(Guid id)
         {

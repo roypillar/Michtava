@@ -125,7 +125,7 @@ namespace Frontend.Controllers
             }
 
             string txtSubjectID = _subjectsDictionary.FirstOrDefault(x => x.Value == model.SubjectID).Key;
-            Subject subject = _subjectService.GetById(int.Parse(txtSubjectID));
+            Subject subject = _subjectService.GetById(new Guid(txtSubjectID));//small change here (int-> Guid)
 
             Text txt = _fileManager.UploadText(Server.MapPath("~/uploads"), subject, model.Name,
                 Request.Form["filecontents"]);                       

@@ -9,8 +9,6 @@
     {
         IApplicationUserRepository UserRepository { get; }
 
-        Student GetById(int id);
-
         IQueryable<Student> SearchByName(string searchString);
 
         Task<Student> GetByUserName(string username);

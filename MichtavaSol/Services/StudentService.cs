@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System;
 
 namespace Services
 {
@@ -29,10 +30,6 @@ namespace Services
             return this.studentRepository.All();
         }
 
-        public Student GetById(int id)
-        {
-            return this.studentRepository.GetById(id);
-        }
 
         public Task<Student> GetByUserName(string username)
         {

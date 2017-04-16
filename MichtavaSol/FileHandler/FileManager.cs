@@ -31,8 +31,8 @@ namespace FileHandler
 
         public Text UploadText(string serverUploadDirPath, Subject subject, string txtName, string txtContent)
         {
-            Guid txtID = Guid.NewGuid();
-            string FileNameToSave = txtID + "_" + txtName;
+            Guid txtFileName = Guid.NewGuid();
+            string FileNameToSave = txtFileName + "_" + txtName;//changing small things here to try getting rid of database error
             string DirectoryToSave = Path.Combine(serverUploadDirPath, subject.Name);
 
             CreateIfMissing(DirectoryToSave);
@@ -41,7 +41,8 @@ namespace FileHandler
             File.WriteAllText(pathToSave, txtContent);
 
             Text uploadedTxt = new Text();
-            uploadedTxt.Id = txtID;
+            //uploadedTxt.Id = txtID;
+            uploadedTxt.FileName = FileNameToSave;//changed this line
             uploadedTxt.Name = RemoveExtension(txtName);
             uploadedTxt.FilePath = pathToSave;
             uploadedTxt.Subject = subject;

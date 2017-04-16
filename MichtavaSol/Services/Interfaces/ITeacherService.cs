@@ -10,7 +10,7 @@
     {
         IApplicationUserRepository UserRepository { get; }
 
-        Teacher GetById(Guid id);
+        //Teacher GetById(Guid id);
 
         IQueryable<Teacher> SearchByName(string searchString);
 

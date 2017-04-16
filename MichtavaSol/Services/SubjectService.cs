@@ -4,6 +4,7 @@
     using Dal.Repositories.Interfaces;
     using Entities.Models;
     using Services.Interfaces;
+    using System;
 
     public class SubjectService : ISubjectService
     {
@@ -14,7 +15,7 @@
             this.subjectRepository = subjectRepository;
         }
 
-        public Subject GetById(int id)
+        public Subject GetById(Guid id)
         {
             return this.subjectRepository.GetById(id);
         }

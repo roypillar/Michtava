@@ -15,7 +15,7 @@
             this.answerRepository = answerRepository;
         }
 
-        Answer IAnswerService.GetById(int id)
+        Answer IAnswerService.GetById(Guid id)
         {
             return this.answerRepository.GetById(id);
         }

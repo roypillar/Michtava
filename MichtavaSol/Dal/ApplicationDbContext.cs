@@ -87,10 +87,21 @@
 
 
         //}
-        // TODO in or out?
+        // add-migration -ProjectName Dal -StartUpProject Frontend
+
+
+
+
         //enable-migrations -ContextProjectName Dal -StartUpProjectName Frontend -ContextTypeName Dal.ApplicationDbContext -ProjectName Dal -force
 
         //Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal
+
+        //
+
+        //just one time (16.04.2017) : Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal -TargetMigration test1604 -verbose
+
+
+
 
     }
 }

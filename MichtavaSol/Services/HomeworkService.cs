@@ -15,7 +15,7 @@
             this.homeworkRepository = homeworkRepository;
         }
 
-        Homework IHomeworkService.GetById(int id)
+        Homework IHomeworkService.GetById(Guid id)
         {
             return this.homeworkRepository.GetById(id);
         }

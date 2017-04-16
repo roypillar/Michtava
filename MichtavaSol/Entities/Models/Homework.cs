@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
@@ -20,7 +20,8 @@ namespace Entities.Models
 
         }
 
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
         public string Title { get; set; }
 
@@ -31,6 +32,7 @@ namespace Entities.Models
         public virtual Teacher Created_By { get; set; }
 
         public Text Text { get; set; }
+
 
         public ICollection<Question> Questions
         {

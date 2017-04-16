@@ -1,8 +1,10 @@
 ﻿namespace Services.Interfaces
 {
     using Entities.Models;
+    using System;
+
     public interface ISubjectService : IRepositoryService<Subject>
     {
-        Subject GetById(int id);
+        Subject GetById(Guid id);
     }
 }

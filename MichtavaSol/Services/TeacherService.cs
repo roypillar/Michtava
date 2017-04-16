@@ -29,10 +29,6 @@
             return this.teacherRepository.All();
         }
 
-        public Teacher GetById(Guid id)
-        {
-            return this.teacherRepository.GetById(id);
-        }
 
         public Task<Teacher> GetByUserName(string username)
         {

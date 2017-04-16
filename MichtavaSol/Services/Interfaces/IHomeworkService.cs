@@ -1,9 +1,10 @@
 ﻿namespace Services.Interfaces
 {
     using Entities.Models;
+    using System;
 
     public interface IHomeworkService : IRepositoryService<Homework>
     {
-        Homework GetById(int id);
+        Homework GetById(Guid id);
     }
 }
