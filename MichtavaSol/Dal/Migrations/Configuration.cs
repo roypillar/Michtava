@@ -93,9 +93,23 @@ namespace Dal.Migrations
             this.SeedAdministrators(context);
             //this.SeedAcademicYears(context, AcademicYearsCount);
 
+            this.SeedSubjects(context);
+
             context.Configuration.AutoDetectChangesEnabled = true;
            
         }
+
+        private void SeedSubjects(ApplicationDbContext context)
+        {
+            foreach (var subjectName in SubjectNames)
+            {
+                Subject subject = new Subject();
+                subject.Name = subjectName;
+                subject.TotalHours = 80;
+                context.Subjects.AddOrUpdate(subject);
+            }
+        }
+
         private void SeedRoles(ApplicationDbContext context)
         {
             if (context.Roles.Any())

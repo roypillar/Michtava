@@ -20,6 +20,12 @@
             return this.subjectRepository.GetById(id);
         }
 
+
+             public Subject GetByName(string subjectName)
+        {
+            return this.subjectRepository.GetByName(subjectName);
+        }
+
         public IQueryable<Subject> All()
         {
             return this.subjectRepository.All();

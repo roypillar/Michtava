@@ -169,7 +169,7 @@ namespace Frontend.Controllers
             Subject subject = new Subject();
             subject.Name = model.SubjectName;
 
-            if (!_subjectService.All().Contains(subject))
+            if (_subjectService.GetByName(model.SubjectName)==null)
                 _subjectService.Add(subject);
 
             return View();

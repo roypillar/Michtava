@@ -4,5 +4,6 @@
 
     public interface ISubjectRepository : IDeletableEntityRepository<Subject>
     {
+        Subject GetByName(string subjectName);
     }
 }

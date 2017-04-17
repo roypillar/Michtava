@@ -98,7 +98,7 @@
 
         //
 
-        //just one time (16.04.2017) : Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal -TargetMigration test1604 -verbose
+        //ONLY ONE TIME! (16.04.2017) : Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal -TargetMigration test1604 -verbose
 
 
 
