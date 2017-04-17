@@ -101,6 +101,9 @@ namespace Dal.Migrations
 
         private void SeedSubjects(ApplicationDbContext context)
         {
+            if (context.Subjects.Any())
+                return;
+
             foreach (var subjectName in SubjectNames)
             {
                 Subject subject = new Subject();

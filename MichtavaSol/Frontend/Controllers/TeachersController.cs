@@ -172,6 +172,9 @@ namespace Frontend.Controllers
             if (_subjectService.GetByName(model.SubjectName)==null)
                 _subjectService.Add(subject);
 
+            //else display some nice error message
+                
+
             return View();
         }
     }
