@@ -21,17 +21,24 @@ namespace Frontend.Controllers
         private Homework _homework = new Homework();
         private SmartTextViewModel smartView = new SmartTextViewModel();
         private Text text = new Text();
+        private Teacher teacher = new Teacher();
+        private Student student = new Student();
+        private SchoolClass schoolClass = new SchoolClass();
+        private Subject subj = new Subject();
 
         private Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
         private readonly ISubjectService _subjectServiceService;
         private readonly IHomeworkService _homeworkService;
-
+        private readonly IStudentService _studentService;
 
         public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService)
         {
             _subjectServiceService = subjectServiceService;
             _homeworkService = homeworkService;
+
+            initStudent();
+
             dictionary.Add("סירותיהם", "הסירות שלהם, פירוש מעניין..");
             dictionary.Add("נמרצות", "מלא מרץ, מלא חיות, אנרגטי");
             dictionary.Add("עמך", "יחד, בצוותא, בשיתוף; אחד עם השני");
@@ -43,8 +50,31 @@ namespace Frontend.Controllers
         {
             ViewBag.Title = "בחר נושא";
 
-            IQueryable<SubjectsListViewModel> subjects =
-                _subjectServiceService.All().Project().To<SubjectsListViewModel>(); //this uses a mapping for AutoMapper
+            IQueryable<Subject> Allsubjects =
+                _subjectServiceService.All();                   //this uses a mapping for AutoMapper
+            List<Subject> subjects = new List<Subject>();
+            
+            foreach(Subject subj in Allsubjects)
+            {
+                try
+                {
+                    //***************************//
+                    //still doing problems.. ask roi..
+                    //***************************//
+                    if (student.SchoolClass.Subjects.Contains(_subjectServiceService.GetByName("היסטוריה")))
+                    {
+                        subjects.Add(subj);
+                    }
+
+                }
+                catch(Exception e)
+                {
+                    subjects.Add(subj);
+                }
+
+
+            }
+
             return View(subjects);
         }
 
@@ -69,45 +99,50 @@ namespace Frontend.Controllers
             return View("TextMenu");
         }
 
-        public ActionResult ChooseAction()
+
+
+        //להמשיך לטעון דינאמית מסטודנט את מה שצריך
+        //להעביר כל מה שצריך מגו טו סמארט טקסט בוקס אל הטקטס ויו, ומאנאלייז.
+        //לנסות לעבוד עם session
+        //נשאר קבוע עד שישנו כמו למשל טקסט של הסיפור..
+        //לקבל לפעולות כמו פה מידע ולעבוד איתו
+        //להפוך את סמארט טקסט ויו מודל להחזיק שיעורי בית ומספר של שאלה וככה להציג אותה בתיבה החכמה..
+        public ActionResult ChooseAction(string submit)
         {
-            ViewBag.Title = "טקסט";
-            Session["WithQuestion?"] = "Without";
-            //we want to pass the real text model, not only the string..
-            //we get all the real data when start get it from the dal..
-            //    text.Id = 10;
-            //  text.Name = "המסמר";
+            Session["title"] = submit;
+            
+            switch (submit)
+            {
+                case "לסיפור":
+                    Session["WithQuestion?"] = "Without";
 
-            /*
-                    public DateTime UploadTime { get; set; }
+                    Session["TextContent"] = _fileManager.GetText(text.FilePath);
+                    //init words definition
+                    Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
+                    return View("TextView");
 
-                    public FileFormats Format { get; set; }
+                case "משחקי אוצר מילים":
+                    Session["WithQuestion?"] = "Without";
 
-                    public string FilePath { get; set; }
-                        */
-            //should get the path from the text..
+                    Session["TextContent"] = _fileManager.GetText(text.FilePath);
+                    //init words definition
+                    Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
+                    return View("TextView");
+                    //for games an stuff..
 
-
-            string text = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
-            TempData["TextContent"] = text;
-
-
-            //init words definition
-            TempData["WordsDefs"] = getWordDefinitionsForText(text);
-
-
-
+            }
             return View("TextView");
+        
         }
+
 
         public ActionResult GotoSmartTextBox()
         {
+            InitializePolicy();
+
 
             Session["WithQuestion?"] = "With";
 
-            ViewBag.Title = "שאלות לתיבת טקסט חכמה";
-            string text = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
-            TempData["TextContent"] = text;
             TempData["QuestionContent"] = getQuestionSample().Content;
 
 
@@ -119,11 +154,6 @@ namespace Frontend.Controllers
             }
 
             InitializeSmartView();
-            TempData["TextContent"] = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
-
-
-            //init words definition
-            TempData["WordsDefs"] = getWordDefinitionsForText(text);
 
             return View("HomeWorkView", smartView);
         }
@@ -136,12 +166,7 @@ namespace Frontend.Controllers
         public ActionResult AnalyzeAnswer()
         {
             Session["WithQuestion?"] = "With";
-            ViewBag.Title = "שאלות לתיבת טקסט חכמה";
-            string text = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
-            TempData["TextContent"] = text;
-
-            TempData["QuestionContent"] = getQuestionSample().Content;
-            // here we have to call the SmartTextBox in server side
+ 
 
             string input = Request.Form["TextBoxArea"];
             int numOfWords = _smartTextBox.GetNumberOfWords(input);
@@ -150,8 +175,6 @@ namespace Frontend.Controllers
             TempData["NumberOfConnectorWords"] = numOfConnectors;
             TempData["Answer"] = input;
 
-            //כשנוסיף את הפוליסי שתרוץ לא תהיה כנראה את הבעיה.. בינתיים
-            InitializePolicy();
 
             if (numOfWords > _policy.MaxWords)
             {
@@ -164,11 +187,20 @@ namespace Frontend.Controllers
 
             InitializeSmartView();
 
-            //init words definition
-            TempData["WordsDefs"] = getWordDefinitionsForText(text);
-
             return View("HomeWorkView", smartView);
         }
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void InitializePolicy()
         {
@@ -249,6 +281,50 @@ namespace Frontend.Controllers
                 wordsDefs = wordsDefs + "<strong>" + wordDefinitionDictionary.ElementAt(i).Key + " - " + "</strong>" + wordDefinitionDictionary.ElementAt(i).Value + " <br/> ";
             }
             return wordsDefs;
+        }
+
+
+
+        public void initStudent()
+        {
+            student.Name = "student";
+            teacher.Name = "teacher";
+            
+            subj.Name = "היסטוריה";
+            text.Name = "הסיפור הישן על הספינה";
+            text.FilePath = @"C:\Users\mweiss\Desktop\Test.txt";
+
+
+            List<Subject> tmpSubList = new List<Subject>();
+            tmpSubList.Add(subj);
+                
+            List<Student> tmpStudentList = new List<Student>();
+            tmpStudentList.Add(student);
+
+            schoolClass.Students = tmpStudentList;
+            schoolClass.Subjects = tmpSubList;
+
+            List<SchoolClass> tmpSchoolClassList = new List<SchoolClass>();
+            tmpSchoolClassList.Add(schoolClass);
+
+
+            teacher.SchoolClasses = tmpSchoolClassList;
+
+            List<Question> qlist = new List<Question>();
+            qlist.Add(getQuestionSample());
+            qlist.Add(getQuestionSample());
+
+            _homework.Text = text;
+            _homework.SchoolClasses = tmpSchoolClassList;
+            _homework.Created_By = teacher;
+            _homework.Questions = qlist;
+
+            List<Homework> tmpHwList = new List<Homework>();
+            tmpHwList.Add(_homework);
+            student.Homeworks = tmpHwList;
+            student.SchoolClass = schoolClass;
+
+
         }
     }
 }

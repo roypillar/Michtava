@@ -45,13 +45,13 @@
 <div class="row">
     <div class="row">
         <div class="col-sm-10">
-            <b><u><h2>@ViewBag.Title:</h2></u></b>
+            <b><u><h2>@Session["title"]:</h2></u></b>
         </div>
         <div class="col-sm-2 pull-left">
             <div class="dropdown">
                 <input value="פירושי מילים" style="font-size: 16px; background-color: darkorange;"/>
                 <div class="dropdown-content">
-                    <p><span>@Html.Raw(HttpUtility.HtmlDecode((string)@TempData["WordsDefs"]))</span></p>
+                    <p><span>@Html.Raw(HttpUtility.HtmlDecode((string)Session["WordsDefs"]))</span></p>
                 </div>
             </div>
         </div>  
@@ -63,13 +63,13 @@
         @if ((string)Session["WithQuestion?"] == "Without")
         {
             <p class="col-md-10 col-md-offset-1" id="textArea" style="border:none; background: transparent; overflow-y:auto; max-height:400px" >
-                  @TempData["TextContent"] 
+                  @Session["TextContent"] 
         </p>
         }
         else
         {
             <p class="col-md-10 col-md-offset-1" id="textArea" style="border:none; background: transparent; overflow-y:auto; max-height:400px">
-                @TempData["TextContent"]
+                @Session["TextContent"]
                 </p>
         }
 
@@ -125,7 +125,7 @@
          <form class="text-right" action="ChooseAction" method="post">
         <div class="row">
             <div class="col-sm-3 pull-left">
-                <input type = "submit" value="חזור לסיפור" />
+                <input name="submit" type = "submit" value="לסיפור" />
             </div>
         </div>
     </form>

@@ -8,7 +8,7 @@ namespace Frontend.Models
 {
     public class SubjectsListViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Display(Name = "נושא")]
         public string SubjectsName { get; set; }
