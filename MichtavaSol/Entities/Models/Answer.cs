@@ -18,6 +18,8 @@ namespace Entities.Models
 
         public Homework Answer_To { get; set; }
 
+        public Question question { get; set; }
+
         public Student Submitted_By { get; set; }
 
     }

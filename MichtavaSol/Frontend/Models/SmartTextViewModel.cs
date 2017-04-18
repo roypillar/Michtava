@@ -10,8 +10,12 @@ namespace Frontend.Models
 {
     public class SmartTextViewModel
     {
-        public Text text { get; set; }
+        public int QuestionNumber { get; set; }
 
         public Question question { get; set; }
+
+        public List<Question> Questions { get; set; }
+
+        public List<Answer> CompleteQuestions { get; set; }
     }
 }

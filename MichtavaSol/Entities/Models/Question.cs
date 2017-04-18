@@ -11,6 +11,8 @@ namespace Entities.Models
         [Required]
         public int Id { get; set; }
 
+        public int Question_Number { get; set; }
+
         public string Content { get; set; }
 
         public DateTime Date_Added { get; set; }

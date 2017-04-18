@@ -31,12 +31,13 @@ namespace Frontend.Controllers
         private readonly ISubjectService _subjectServiceService;
         private readonly IHomeworkService _homeworkService;
         private readonly IStudentService _studentService;
+        private readonly IAnswerService _answerService;
 
-        public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService)
+        public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService, IAnswerService answerService)
         {
             _subjectServiceService = subjectServiceService;
             _homeworkService = homeworkService;
-
+            _answerService = answerService;
             initStudent();
 
             dictionary.Add("סירותיהם", "הסירות שלהם, פירוש מעניין..");
@@ -96,6 +97,7 @@ namespace Frontend.Controllers
         {
             ViewBag.Title = "בחר פעולה";
 
+            
             return View("TextMenu");
         }
 
@@ -131,20 +133,22 @@ namespace Frontend.Controllers
                     //for games an stuff..
 
             }
+
             return View("TextView");
         
         }
 
 
-        public ActionResult GotoSmartTextBox()
+        public ActionResult GotoSmartTextBox(string questionNumber)
         {
+            int tmpQuestNumber = 1;
             InitializePolicy();
-
-
             Session["WithQuestion?"] = "With";
-
-            TempData["QuestionContent"] = getQuestionSample().Content;
-
+            if (questionNumber != null)
+            {
+                tmpQuestNumber = Int32.Parse(questionNumber);
+            }
+            
 
             if (TempData["NumberOfWords"] == null && TempData["NumberOfConnectorWords"] == null)
             {
@@ -153,20 +157,44 @@ namespace Frontend.Controllers
                 TempData["toManyWords"] = "";
             }
 
-            InitializeSmartView();
+            //InitializeSmartView();
+            smartView.QuestionNumber = tmpQuestNumber;
+            smartView.question = student.Homeworks.First(x => x.Text == text).Questions.First(m => m.Question_Number == tmpQuestNumber);
+            smartView.Questions = student.Homeworks.First(x => x.Text == text).Questions.Cast<Question>().ToList();
 
-            return View("HomeWorkView", smartView);
+            //List<int> answersNumber = GetAnswersNumbers(student.Homeworks.First(x => x.Text == text));
+
+            //smartView.CompleteQuestions = _answerService.All().Select(x => answersNumber.Contains(x.question.Id)).Cast<Answer>().ToList();
+
+            TempData["QuestionContent"] = smartView.question.Content;
+
+            return View("QuestionsView", smartView);
         }
 
        
-
-        
-
-
-        public ActionResult AnalyzeAnswer()
+        public List<int> GetAnswersNumbers(Homework hw)
         {
+            List<int> tmp = new List<int>();
+            foreach(var question in hw.Questions)
+            {
+                tmp.Add(question.Id);
+            }
+            return tmp;
+        }
+
+
+
+
+        public ActionResult AnalyzeAnswer(string questionNumber)
+        {
+            int tmpQuestNumber = 1;
+            InitializePolicy();
             Session["WithQuestion?"] = "With";
- 
+            if (questionNumber != null)
+            {
+                tmpQuestNumber = Int32.Parse(questionNumber);
+            }
+
 
             string input = Request.Form["TextBoxArea"];
             int numOfWords = _smartTextBox.GetNumberOfWords(input);
@@ -185,9 +213,16 @@ namespace Frontend.Controllers
                 TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy.MaxConnectors + " מילות קישור.";
             }
 
-            InitializeSmartView();
+            smartView.QuestionNumber = tmpQuestNumber;
+            smartView.question = student.Homeworks.First(x => x.Text == text).Questions.First(m => m.Question_Number == tmpQuestNumber);
+            smartView.Questions = student.Homeworks.First(x => x.Text == text).Questions.Cast<Question>().ToList();
 
-            return View("HomeWorkView", smartView);
+            
+
+            TempData["QuestionContent"] = smartView.question.Content;
+
+            return View("QuestionsView", smartView);
+
         }
 
 
@@ -219,7 +254,7 @@ namespace Frontend.Controllers
         {
 
 
-            smartView.question = getQuestionSample();
+            smartView.question = getQuestionSample(3);
         
 
             // string text = _fileManager.GetText(@"C:\Users\mweiss\Desktop\Test.txt");
@@ -233,14 +268,16 @@ namespace Frontend.Controllers
 
         }
 
-        public Question getQuestionSample()
+        public Question getQuestionSample(int i)
         {
             InitializePolicy();
 
+            
             Question q = new Question(); //local question init
-            q.Id = 11;
-            q.Content = "שאלה לדוגמא שנשלוף מהבסיס נתונים, מהו מיהו וכד'.. עוד כמה דברים.. ענה בנימוק.";
+            q.Id = i*10;
+            q.Content = "שאלה לדוגמא שנשלוף מהבסיס נתונים, מהו מיהו וכד'.. עוד כמה דברים.. ענה בנימוק." + i + i + i + i;
             q.Policy = _policy;
+            q.Question_Number = i;
             HashSet<string> _keySentencesList = new HashSet<string>();
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא 1");
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא 2");
@@ -311,8 +348,11 @@ namespace Frontend.Controllers
             teacher.SchoolClasses = tmpSchoolClassList;
 
             List<Question> qlist = new List<Question>();
-            qlist.Add(getQuestionSample());
-            qlist.Add(getQuestionSample());
+            qlist.Add(getQuestionSample(1));
+            qlist.Add(getQuestionSample(2));
+            qlist.Add(getQuestionSample(3));
+            qlist.Add(getQuestionSample(4));
+
 
             _homework.Text = text;
             _homework.SchoolClasses = tmpSchoolClassList;
