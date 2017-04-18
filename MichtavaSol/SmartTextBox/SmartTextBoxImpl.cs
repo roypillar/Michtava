@@ -113,6 +113,11 @@ namespace SmartTextBox
             return conn.SuggestAlternativeWord(word);
         }
 
+        public bool IsConnector(string word)
+        {
+            return conn.Contains(word);
+        }
+
 
         //לא יודע אם צריך בנפרד, מאמין שעדיף למדל עוד קצת כי לתקן פיסוק 
         // זה מספיק קשה בלי לטפל במשפט עם רווחים, אז קודם נוריד רווחים ואז נתקן בקלות יותר 

@@ -174,36 +174,43 @@
             <textarea name="TextBoxArea" id="Input" placeholder="הכנס את התשובה כאן..." cols="50" rows="10" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
         </div>
     </div>
+
+      <div class="row">
+
+          <div class="row">
+              <div class="col-md-12">
+                  <label rows="1" cols="25" id="NumOfWords">
+                      מספר מילים: @TempData["NumberOfWords"] / @Model.Policy.MaxWords
+                  </label>
+                  <label rows="1" cols="25" id="NumOfConnectorWords">
+                      מספר מילות קישור: @TempData["NumberOfConnectorWords"] / @Model.Policy.MaxConnectors
+                  </label>
+                  <label rows="1" cols="25" id="toManyWords">
+                      @TempData["toManyWords"]
+                  </label>
+                  <label rows="1" cols="25" id="toManyConnectors">
+                      @TempData["toManyConnectors"]
+                  </label>
+                  <label rows="1" cols="25" id="toManyConnectors">
+                      @TempData["AlternativeWords"]
+                  </label>
+                  
+              </div>
+          </div>
+      </div>
+
     <div class="row">
         <div class="col-md-6">
             <input type="submit" value="הגשה סופית" style="width: 7em; font-size: 20px; background-color: crimson"/>
         </div>
         <div class="col-md-6">
-            <input type="submit" value="בדיקה" style="width: 5em"/>
+            <input name="questionNumber" type="submit" value="@Model.Question_Number" style="width: 5em"/>
         </div>
     </div>
     <br/>
     <hr/>
  </div>
-    <div class="row">
 
-        <div class="row">
-            <div class="col-md-12">
-                <label rows="1" cols="25" id="NumOfWords">
-                    מספר מילים: @TempData["NumberOfWords"] / @Model.Policy.MaxWords
-                </label>
-                <label rows="1" cols="25" id="NumOfConnectorWords">
-                    מספר מילות קישור: @TempData["NumberOfConnectorWords"] / @Model.Policy.MaxConnectors
-                </label>
-                <label rows="1" cols="25" id="toManyWords">
-                    @TempData["toManyWords"]
-                </label>
-                <label rows="1" cols="25" id="toManyConnectors">
-                    @TempData["toManyConnectors"]
-                </label>
-            </div>
-        </div>
-    </div>
 </form>
 
 <!-------------------- Buttons --------------------------->

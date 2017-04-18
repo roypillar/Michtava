@@ -27,5 +27,6 @@ namespace SmartTextBox
 
         string CheckPunctuatioMarks(string text);
 
+        bool IsConnector(string word);
     }
 }

@@ -142,6 +142,13 @@ namespace Frontend.Controllers
         public ActionResult GotoSmartTextBox(string questionNumber)
         {
             int tmpQuestNumber = 1;
+
+
+
+            //************need to complete*************
+            //init by specific policy... get the question policy from the real question..
+            //************need to complete*************
+
             InitializePolicy();
             Session["WithQuestion?"] = "With";
             if (questionNumber != null)
@@ -166,7 +173,6 @@ namespace Frontend.Controllers
 
             //smartView.CompleteQuestions = _answerService.All().Select(x => answersNumber.Contains(x.question.Id)).Cast<Answer>().ToList();
 
-            TempData["QuestionContent"] = smartView.question.Content;
 
             return View("QuestionsView", smartView);
         }
@@ -187,22 +193,29 @@ namespace Frontend.Controllers
 
         public ActionResult AnalyzeAnswer(string questionNumber)
         {
-            int tmpQuestNumber = 1;
-            InitializePolicy();
-            Session["WithQuestion?"] = "With";
-            if (questionNumber != null)
-            {
-                tmpQuestNumber = Int32.Parse(questionNumber);
-            }
+
+            int tmpQuestNumber = Int32.Parse(questionNumber);
 
 
             string input = Request.Form["TextBoxArea"];
             int numOfWords = _smartTextBox.GetNumberOfWords(input);
             int numOfConnectors = _smartTextBox.GetNumberOfConnectors(input);
+            IDictionary<string,int> repeatedWords = _smartTextBox.GetRepeatedWords(input);
+
+            string repeatedWordsString = "";
+            foreach(var word in repeatedWords)
+            {
+                if (word.Value > 2 && _smartTextBox.IsConnector(word.Key))
+                {
+                    repeatedWordsString = repeatedWordsString + "השתמשת במילה " + word.Key + " " + word.Value + " פעמים, אולי תרצה להשתמש במילה אחרת כמו " + _smartTextBox.SuggestAlternativeWord(word.Key) + ". ";
+                }
+            }
+
+
             TempData["NumberOfWords"] = numOfWords;
             TempData["NumberOfConnectorWords"] = numOfConnectors;
             TempData["Answer"] = input;
-
+            TempData["AlternativeWords"] = repeatedWordsString;
 
             if (numOfWords > _policy.MaxWords)
             {
@@ -213,13 +226,11 @@ namespace Frontend.Controllers
                 TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy.MaxConnectors + " מילות קישור.";
             }
 
+
             smartView.QuestionNumber = tmpQuestNumber;
             smartView.question = student.Homeworks.First(x => x.Text == text).Questions.First(m => m.Question_Number == tmpQuestNumber);
             smartView.Questions = student.Homeworks.First(x => x.Text == text).Questions.Cast<Question>().ToList();
 
-            
-
-            TempData["QuestionContent"] = smartView.question.Content;
 
             return View("QuestionsView", smartView);
 

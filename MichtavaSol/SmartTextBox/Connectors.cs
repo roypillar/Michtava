@@ -48,12 +48,19 @@ namespace SmartTextBox
 
                 if (connector.Contains(word))
                 {
-                    int tmp = connector.IndexOf(word);
-                    if (tmp >= 2)
+                    try
                     {
-                        return connector.ElementAt(tmp - 1);
+                        int tmp = connector.IndexOf(word);
+                        if (tmp >= 2)
+                        {
+                            return connector.ElementAt(tmp - 1);
+                        }
+                        return connector.ElementAt(tmp + 1);
                     }
-                    return connector.ElementAt(tmp + 1);
+                    catch
+                    {
+                        return "כרגע יש מילים חלופיות רק למילות קישור..";
+                    }
                 }
 
             }
