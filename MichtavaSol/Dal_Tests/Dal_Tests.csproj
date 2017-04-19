@@ -75,7 +75,6 @@
     <Compile Include="AnswerRepositoryTests.cs" />
     <Compile Include="ApplicationUserRepositoryTests.cs" />
     <Compile Include="DeletableEntityRepositoryTests.cs" />
-    <Compile Include="GenericRepositoryTests.cs" />
     <Compile Include="HomeworkRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchoolClassRepositoryTests.cs" />
