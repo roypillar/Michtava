@@ -8,24 +8,62 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using Entities.Models;
+using Dal.Repositories;
 
 namespace Dal_Tests
 {
-    [TestFixture]
-    class GenericRepositoryTests
+    [TestFixture(typeof(Answer))]
+    [TestFixture(typeof(Subject))]
+    class GenericRepositoryTests<T> where T : class, new()
     {
         private IApplicationDbContext ctx;
 
+        private GenericRepository<T> repo;
 
-        [SetUp]
-        void setUp() { 
-        
+        private IDbSet<T> set;
+
+        private T entity;
+
+        [OneTimeSetUp]
+        void oneTimeSetUp()
+        {
             this.ctx = ApplicationDbContext.Create();
+
         }
 
-        void testWithAnswers()
+        [OneTimeTearDown]
+        void oneTimeTearDown()
         {
-            IDbSet<Answer> set = ctx.Set<Answer>();
+            //nothing for now
+        }
+
+
+        [SetUp]
+        void setUp()
+        {
+            repo = new GenericRepository<T>(ctx);
+            set = ctx.Set<T>();
+            entity = new T();
+        }
+
+        [TearDown]
+        void tearDown()
+        {
+            set = null;
+            entity = null;
+        }
+
+
+        [Test]
+        public void testCreate()
+        {
+            // Arrange
+            int count = set.Count();
+            // Act
+            repo.Add(entity);
+
+            // Assert
+            Assert.AreEqual(set.Count(), count+1);
         }
     }
     
