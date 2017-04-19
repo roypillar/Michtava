@@ -32,14 +32,11 @@ namespace SmartTextBox
         public IDictionary<string, int> GetRepeatedWords(string text)
         {
 
-            int wordCounter = 0;
-
             string[] tokens = text.Split(' ', '.', ',', '-', '?', '!', '<', '>', '&', '[', ']', '(', ')');
 
             IDictionary<string, int> words = new SortedDictionary<string, int>(new CaseInsensitiveComparer());
             foreach (string word in tokens)
             {
-                wordCounter++;
                 if (string.IsNullOrEmpty(word.Trim()))
                 {
                     continue;
@@ -78,6 +75,20 @@ namespace SmartTextBox
                     Console.WriteLine(tokens[i] + " " + tokens[i + 1]);
                     i++;
                 }
+
+                else try
+                    {
+                        if (conn.Contains(tokens[i] + " " + tokens[i + 1].First()))
+                        {
+                            wordCounter++;
+                            Console.WriteLine(tokens[i] + " " + tokens[i + 1]);
+                            i++;
+                        }
+                    }
+                    catch
+                    {
+
+                    }
 
             }
 

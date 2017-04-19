@@ -93,11 +93,13 @@ namespace Frontend.Controllers
             return View("Texts");
         }
 
-        public ActionResult ChooseText()
+        public ActionResult ChooseText(string textName)
         {
             ViewBag.Title = "בחר פעולה";
 
+            Session["textName"] = textName;
             
+
             return View("TextMenu");
         }
 
@@ -112,7 +114,7 @@ namespace Frontend.Controllers
         public ActionResult ChooseAction(string submit)
         {
             Session["title"] = submit;
-            
+
             switch (submit)
             {
                 case "לסיפור":
@@ -142,7 +144,6 @@ namespace Frontend.Controllers
         public ActionResult GotoSmartTextBox(string questionNumber)
         {
             int tmpQuestNumber = 1;
-
 
 
             //************need to complete*************
@@ -290,10 +291,10 @@ namespace Frontend.Controllers
             q.Policy = _policy;
             q.Question_Number = i;
             HashSet<string> _keySentencesList = new HashSet<string>();
-            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 1");
-            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 2");
-            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 3");
-            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 4");
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא " + i );
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא " + i*2);
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא " + i*3);
+            _keySentencesList.Add("התשובה לשאלה שנשאלה היא " + i*4);
 
             q.Suggested_Openings = _keySentencesList;
             return q;

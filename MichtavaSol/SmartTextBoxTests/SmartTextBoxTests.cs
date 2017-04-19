@@ -15,10 +15,12 @@ namespace SmartTextBoxTests
         public void GetNumberOfConnectorsTests()
         {
             _smartTextBox = new SmartTextBoxImpl();
-            _text = "את מספר מילות הקישור נספור כאשר מיד פעם נזרוק מילה כמו זו אולם ספרתי כבר 3";
+            _text = "את מספר מילות הקישור נספור כאשר מידי פעם נזרוק מילה כמו זו אולם ספרתי כבר 3";
             Assert.AreEqual(3, _smartTextBox.GetNumberOfConnectors(_text));
             _text = "כמו אבל אולם נספור כך, בשל לאור לפיכך כבר 6";
             Assert.AreEqual(6, _smartTextBox.GetNumberOfConnectors(_text));
+            _text = "נרצה לוודא עבוד מילים מסובכות בזמן שננסה יש 1";
+            Assert.AreEqual(1, _smartTextBox.GetNumberOfConnectors(_text));
             _text = "במשפט הזה אני לא אשים שום מילת חיבור";
             Assert.AreEqual(0, _smartTextBox.GetNumberOfConnectors(_text));
 
