@@ -34,5 +34,10 @@
         {
             base.Delete(entity);
         }
+
+        public T GetByTestID (int Id)//FOR TESTING ONLY
+        {
+            return this.DbSet.Local.Where(e => e.TestID == Id).FirstOrDefault();
+        }
     }
 }

@@ -11,11 +11,15 @@ using Entities.Models;
 using Dal.Repositories;
 using System.Data.Common;
 using Effort;
+using Common;
 
 namespace Dal_Tests
 {
     [TestFixture(typeof(Answer))]
     [TestFixture(typeof(Subject))]
+    [TestFixture(typeof(Homework))]
+    [TestFixture(typeof(Text))]
+    [TestFixture(typeof(SchoolClass))]
     class DeletableEntityRepositoryTests<T> where T : class, IDeletableEntity, new()
     {
         private IApplicationDbContext ctx;
@@ -26,10 +30,21 @@ namespace Dal_Tests
 
         private T entity;
 
+        private int _testId;
+
+        public int TestId
+        {
+            get
+            {
+                _testId++;
+                return _testId;
+            }
+        }
+
         [OneTimeSetUp]
         public void oneTimeSetUp()
         {
-            
+            _testId = 0;
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
             this.repo = new DeletableEntityRepository<T>(ctx);
@@ -48,6 +63,7 @@ namespace Dal_Tests
         {
             set = ctx.Set<T>();
             entity = new T();
+            entity.TestID = TestId;
         }
 
         [TearDown]
@@ -62,17 +78,29 @@ namespace Dal_Tests
         public void testCreate()
         {
             // Arrange
-            int count = set.Count();
+            int count = set.Local.Count();
             // Act
             repo.Add(entity);
 
             // Assert
+            Assert.AreEqual(entity.TestID, set.Local.FirstOrDefault().TestID);//general check
+
             Assert.AreEqual(count+1, set.Local.Count());
 
-            //TODO add existing test
 
-            //Clean
-            repo.HardDelete(entity);
+            //TODO add existing test in Subjects
+        }
+
+        [Test]
+        public void testGet()
+        {
+            // Act
+            repo.Add(entity);
+
+            // Assert
+            Assert.NotNull(repo.GetByTestID(entity.TestID));//this is fine, because of course the DB is empty beforehand.
+
+            //TODO add existing test
         }
     }
     

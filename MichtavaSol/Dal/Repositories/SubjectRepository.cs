@@ -19,12 +19,12 @@
 
             return sub;
         }
-        
+      
 
         //OVERRIDE
         public new void Add(Subject subject)
         {
-            if (this.GetById(subject.Id) == null)
+            if (this.GetByName(subject.Name) == null)
             {
                 base.Add(subject);
             }

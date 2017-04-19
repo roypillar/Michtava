@@ -7,5 +7,8 @@
         IQueryable<T> AllWithDeleted();
 
         void HardDelete(T entity);
+
+
+        T GetByTestID(int Id);
     }
 }
