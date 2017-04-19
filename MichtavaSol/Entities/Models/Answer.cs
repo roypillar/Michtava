@@ -9,7 +9,7 @@ namespace Entities.Models
 {
     public class Answer : DeletableEntity
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         public string Content { get; set; }
@@ -21,6 +21,10 @@ namespace Entities.Models
         public Question question { get; set; }
 
         public Student Submitted_By { get; set; }
+        public override void setId(Guid id)
+        {
+            Id = id;
+        }
 
     }
 }

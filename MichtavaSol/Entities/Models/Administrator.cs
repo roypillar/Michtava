@@ -19,5 +19,11 @@ namespace Entities.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public override void setId(Guid id)
+        {
+            Id = id;
+        }
+
     }
 }

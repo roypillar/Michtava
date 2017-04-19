@@ -7,6 +7,7 @@
     using Migrations;
     using Entities.Models;
     using System.Collections.Generic;
+    using System.Data.Common;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
@@ -15,6 +16,12 @@
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
         }
+
+        public ApplicationDbContext(DbConnection connection) : base(connection, true)
+        {
+            //FOR TESTING ONLY
+        }
+
 
         public IDbSet<Administrator> Administrators { get; set; }
 
@@ -30,8 +37,6 @@
         public IDbSet<SchoolClass> SchoolClasses { get; set; }
 
         public IDbSet<Homework> Homeworks { get; set; }
-
-        //public IDbSet<Grade> Grades { get; set; }
 
         public IDbSet<Answer> Answers { get; set; }
 
@@ -79,26 +84,19 @@
             return base.Set<TEntity>();
         }
 
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    // Do not pluralize the db tables
-        //    modelBuilder.Conventions.Remove<System.Data.Entity.ModelConfiguration.Conventions.PluralizingTableNameConvention>();
-        //    base.OnModelCreating(modelBuilder);
 
-
-        //}
+        //Manually add a migration:
         // add-migration -ProjectName Dal -StartUpProject Frontend
 
-
-
-
+        //enable migrations (should not be used, we already have them enabled)
         //enable-migrations -ContextProjectName Dal -StartUpProjectName Frontend -ContextTypeName Dal.ApplicationDbContext -ProjectName Dal -force
 
+        //update database, migrate automatically
         //Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal
+        
 
-        //
-
-        //ONLY ONE TIME! (16.04.2017) : Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal -TargetMigration test1604 -verbose
+        //ONLY ONE TIME! (16.04.2017) :
+        //Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal -TargetMigration test1604 -verbose
 
 
 

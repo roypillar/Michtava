@@ -41,6 +41,10 @@ namespace Entities.Models
         [MaxLength(255, ErrorMessage = "טלפון ארוך מדי")]
         public string PhoneNumber { get; set; }
 
-       
+        public override void setId(Guid id)
+        {
+            Id = id;
+        }
+
     }
 }

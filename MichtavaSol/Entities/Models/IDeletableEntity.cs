@@ -11,5 +11,11 @@ namespace Entities.Models
         DateTime? DeletedOn { get; set; }
 
         string DeletedBy { get; set; }
+
+         int TestID { get; set; }
+
+         void setId(Guid id);
+       
+
     }
 }

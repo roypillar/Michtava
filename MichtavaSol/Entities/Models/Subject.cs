@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
@@ -8,7 +9,7 @@ namespace Entities.Models
     public class Subject : DeletableEntity
     {
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         public string Name { get; set; }
@@ -16,6 +17,10 @@ namespace Entities.Models
         public string Description { get; set; }
 
         public int TotalHours { get; set; }
+        public override void setId(Guid id)
+        {
+            Id = id;
+        }
 
     }
 }
