@@ -8,6 +8,8 @@
     {
         IQueryable<T> All();
 
+        int Count();
+
         T GetById(Guid id);
 
         T GetById(int id);

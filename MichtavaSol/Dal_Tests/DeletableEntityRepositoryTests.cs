@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using Entities.Models;
 using Dal.Repositories;
+using System.Data.Common;
+using Effort;
 
 namespace Dal_Tests
 {
@@ -27,7 +29,9 @@ namespace Dal_Tests
         [OneTimeSetUp]
         public void oneTimeSetUp()
         {
-            this.ctx = ApplicationDbContext.Create();
+            
+            var connection = DbConnectionFactory.CreateTransient();
+            this.ctx = new ApplicationDbContext(connection);
             this.repo = new DeletableEntityRepository<T>(ctx);
 
         }
@@ -63,9 +67,9 @@ namespace Dal_Tests
             repo.Add(entity);
 
             // Assert
-            Assert.AreEqual(set.Count(), count+1);
+            Assert.AreEqual(count+1, set.Local.Count());
 
-            //TODO add existing
+            //TODO add existing test
 
             //Clean
             repo.HardDelete(entity);

@@ -101,5 +101,10 @@
 
             entry.State = state;
         }
+
+        public int Count()
+        {
+            return this.DbSet.Count();
+        }
     }
 }

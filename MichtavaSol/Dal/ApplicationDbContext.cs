@@ -7,6 +7,7 @@
     using Migrations;
     using Entities.Models;
     using System.Collections.Generic;
+    using System.Data.Common;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
@@ -15,6 +16,12 @@
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
         }
+
+        public ApplicationDbContext(DbConnection connection) : base(connection, true)
+        {
+            //FOR TESTING ONLY
+        }
+
 
         public IDbSet<Administrator> Administrators { get; set; }
 
