@@ -20,7 +20,7 @@ namespace Dal_Tests
     [TestFixture(typeof(Homework))]
     [TestFixture(typeof(Text))]
     [TestFixture(typeof(SchoolClass))]
-    class DeletableEntityRepositoryTests<T> where T : class, IDeletableEntity, new()
+    class DeletableEntityRepositoryTests<T> where T :  DeletableEntity, new()
     {
         private IApplicationDbContext ctx;
 
@@ -31,6 +31,7 @@ namespace Dal_Tests
         private T entity;
 
         private int _testId;
+
 
         public int TestId
         {
@@ -63,19 +64,19 @@ namespace Dal_Tests
         {
             set = ctx.Set<T>();
             entity = new T();
+            entity.setId(Guid.NewGuid());
             entity.TestID = TestId;
         }
 
         [TearDown]
         public void tearDown()
         {
-            set = null;
-            entity = null;
+
         }
 
 
         [Test]
-        public void testCreate()
+        public void testAdd()
         {
             // Arrange
             int count = set.Local.Count();
@@ -92,15 +93,57 @@ namespace Dal_Tests
         }
 
         [Test]
-        public void testGet()
+        public void testRead()
         {
-            // Act
+            // Arrange
+            int count = set.Local.Count();
             repo.Add(entity);
+            Assert.AreEqual(count + 1, set.Local.Count());
+
+
+            // Act
 
             // Assert
             Assert.NotNull(repo.GetByTestID(entity.TestID));//this is fine, because of course the DB is empty beforehand.
 
             //TODO add existing test
+        }
+
+
+        [Test]
+        public void testUpdate()
+        {
+            // Arrange
+            int count = set.Local.Count();
+            repo.Add(entity);
+            Assert.AreEqual(count + 1, set.Local.Count());
+
+            int expected = entity.TestID + GlobalConstants.numOfTests;
+            entity.TestID += GlobalConstants.numOfTests;
+
+            // Act
+            repo.Update(entity);
+            // Assert
+            Assert.NotNull(repo.GetByTestID(expected));//this is fine, because of course the DB is empty beforehand.
+
+            //TODO add existing test
+        }
+
+        [Test]
+        public void testDelete()
+        {
+            // Arrange
+            int count = set.Local.Count();
+            repo.Add(entity);
+            Assert.AreEqual(count + 1, set.Local.Count());
+
+            // Act
+            repo.Delete(entity);
+            // Assert
+
+            Assert.IsTrue(repo.GetByTestID(entity.TestID).IsDeleted);//this is fine, because of course the DB is empty beforehand.
+
+            //TODO add all remaining methods
         }
     }
     

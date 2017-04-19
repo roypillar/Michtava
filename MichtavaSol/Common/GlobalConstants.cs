@@ -23,5 +23,7 @@ namespace Common
 
         public const string StudentsProfileImagesUploadDirectory = "/Content/Images/Profile_Images/Students";//TODO
 
+        public const int numOfTests = 1000;
+
     }
 }

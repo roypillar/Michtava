@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
     public class SchoolClass : DeletableEntity
@@ -19,7 +20,7 @@
 
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         public string ClassLetter { get; set; }
@@ -42,6 +43,10 @@
         {
             get { return this.activeHomeworks; }
             set { this.activeHomeworks = value; }
+        }
+        public override void setId(Guid id)
+        {
+            Id = id;
         }
 
     }

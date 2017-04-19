@@ -35,5 +35,11 @@ namespace Entities.Models
             get { return this.homeworks; }
             set { this.homeworks = value; }
         }
+
+        public override void setId(Guid id)
+        {
+            Id = id;
+        }
+
     }
 }

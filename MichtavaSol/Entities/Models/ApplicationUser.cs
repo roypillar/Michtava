@@ -18,6 +18,12 @@ namespace Entities.Models
 
         public int TestID { get; set; }
 
+        public void setId(Guid id)
+        {
+           //TODO
+        }
+
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -26,5 +32,7 @@ namespace Entities.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+
     }
 }

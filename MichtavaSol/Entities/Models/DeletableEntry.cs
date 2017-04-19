@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    public class DeletableEntity : IDeletableEntity
+    public abstract class DeletableEntity : IDeletableEntity
     {
         public bool IsDeleted { get; set; }
 
@@ -15,5 +15,8 @@ namespace Entities.Models
         public string DeletedBy { get; set; }
 
         public int TestID { get; set; }
+
+        public abstract void setId(Guid Id);//for testing only
+
     }
 }

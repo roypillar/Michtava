@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,7 @@ namespace Entities.Models
         //public enum FileFormats { doc, docx, pdf, txt };
 
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         public string FileName { get; set; }
@@ -25,5 +26,10 @@ namespace Entities.Models
         public string FilePath { get; set; }
 
         public Subject Subject { get; set; }
+        public override void setId(Guid id)
+        {
+            Id = id;
+        }
+
     }
 }
