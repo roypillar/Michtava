@@ -110,6 +110,27 @@ namespace Frontend.Controllers
                 TempData["NumberOfConnectorWords"] = "0";
             }
 
+            Policy policy = new Policy()
+            {
+                MaxConnectors = model.MaxConnectors,
+                MinConnectors = model.MinConnectors,
+                MaxWords = model.MaxWords,
+                MinWords = model.MinWords,
+                KeySentences = new HashSet<string>(model.KeySentences)
+            };
+
+            Question question = new Question()
+            {
+                Content = model.Question,
+                Policy = policy,
+                Date_Added = DateTime.Now,
+                Suggested_Openings = new HashSet<string>(model.KeySentences)
+            };
+
+            // TODO: add the question and the policy to DB
+
+            TempData["msg"] = "<script>alert('השאלה נוספה למערכת בהצלחה');</script>";
+
             return View("Policy");
         }
 
