@@ -23,6 +23,7 @@ namespace Frontend.Controllers
         private Dictionary<string, string> _subjectsDictionary = new Dictionary<string, string>();
         private Dictionary<string, string> _textsDictionary = new Dictionary<string, string>();
 
+
         public TeachersController(ISubjectService subjectService, ITextService textService)
         {
             _subjectService = subjectService;
@@ -65,6 +66,7 @@ namespace Frontend.Controllers
             //string subject = Request.Form["CurrentSubject"];
             if (!string.IsNullOrEmpty(CurrentSubject))
             {
+                Session["CurrentSubject"] = CurrentSubject;
                 InitializeTexts(CurrentSubject);
                 TempData["msg"] = CurrentSubject;
             }
@@ -143,11 +145,12 @@ namespace Frontend.Controllers
             ViewBag.Title = "רשימת טקסטים";
 
             InitializeSubjects();
+            InitializeTexts(Session["CurrentSubject"].ToString());
 
             var txtKey = _textsDictionary.FirstOrDefault(x => x.Value == CurrentText).Key;
+            txtKey = txtKey.Substring(0, txtKey.Length - 3);
 
-            // TODO: change TextService to support ID of type string
-            //_textService.Delete(_textService.GetById(int.Parse(txtKey)));
+            _textService.Delete(_textService.GetById(new Guid(txtKey)));
 
             // TODO: handle situation where Texts have the same name
 
@@ -177,5 +180,6 @@ namespace Frontend.Controllers
 
             return View();
         }
+
     }
 }
