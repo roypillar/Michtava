@@ -135,14 +135,45 @@
         });
 
         $('#btAdd').click(function() {
-            if (iCnt <= 19) {
+            if (iCnt <= 7) {
 
                 iCnt = iCnt + 1;
 
-                // TODO: dinamicaly choose index for inserting the key sentence:
-                $(container)
+                if (iCnt == 1) {
+                    $(container)
                     .append('@Html.TextBoxFor(m => m.KeySentences[0],
-                                                 new { @type = "text", @id = "tb", @value = "משפט פתיחה" })');
+                                                 new { @type = "text", @id = "tb1", @value = "משפט פתיחה" })');
+                }
+                else if (iCnt == 2) {
+                    $(container)
+                    .append('@Html.TextBoxFor(m => m.KeySentences[1],
+                                                 new { @type = "text", @id = "tb2", @value = "משפט פתיחה" })');
+                }
+                else if (iCnt == 3) {
+                    $(container)
+                    .append('@Html.TextBoxFor(m => m.KeySentences[2],
+                                                 new { @type = "text", @id = "tb3", @value = "משפט פתיחה" })');
+                }
+                else if (iCnt == 4) {
+                    $(container)
+                    .append('@Html.TextBoxFor(m => m.KeySentences[3],
+                                                 new { @type = "text", @id = "tb4", @value = "משפט פתיחה" })');
+                }
+                else if (iCnt == 5) {
+                    $(container)
+                    .append('@Html.TextBoxFor(m => m.KeySentences[4],
+                                                 new { @type = "text", @id = "tb5", @value = "משפט פתיחה" })');
+                }
+                else if (iCnt == 6) {
+                    $(container)
+                    .append('@Html.TextBoxFor(m => m.KeySentences[5],
+                                                 new { @type = "text", @id = "tb6", @value = "משפט פתיחה" })');
+                }
+                else if (iCnt == 7) {
+                    $(container)
+                    .append('@Html.TextBoxFor(m => m.KeySentences[6],
+                                                 new { @type = "text", @id = "tb7", @value = "משפט פתיחה" })');
+                }
 
                 // ADD TEXTBOX.
                 /*$(container).append('<input type=text class="input" id=tb' + iCnt + ' ' +

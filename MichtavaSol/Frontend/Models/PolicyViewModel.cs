@@ -7,7 +7,8 @@ namespace Frontend.Models
 {
     public class PolicyViewModel
     {
-        // ----------------------------------------------------------------- Policy fields:
+        // -------------------------------- Policy fields ---------------------------------
+
         public int Id { get; set; }
 
         public int MinWords { get; set; }
