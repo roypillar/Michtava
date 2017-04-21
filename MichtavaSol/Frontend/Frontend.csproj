@@ -265,6 +265,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddSubjectViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PolicyViewModel.cs" />
     <Compile Include="Models\SmartTextViewModel.cs" />
     <Compile Include="Models\SubjectsListViewModel.cs" />
     <Compile Include="Models\TextViewModel.cs" />

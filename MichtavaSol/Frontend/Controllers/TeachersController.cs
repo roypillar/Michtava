@@ -102,7 +102,7 @@ namespace Frontend.Controllers
             return View("Policy");
         }
 
-        public ActionResult SubmitPolicy()
+        public ActionResult SubmitPolicy(PolicyViewModel model)
         {
             if (TempData["NumberOfWords"] == null && TempData["NumberOfConnectorWords"] == null)
             {
