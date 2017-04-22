@@ -171,7 +171,24 @@
     <br/>
     <div class="row">
         <div class="col-md-12">
-            <textarea name="TextBoxArea" id="Input" placeholder="הכנס את התשובה כאן..." cols="50" rows="10" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
+            <textarea name="TextBoxArea" id="Input" onkeypress="DynamicWordsCounter(this.value)" placeholder="הכנס את התשובה כאן..." cols="50" rows="10" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
+            
+            <script>
+                function DynamicWordsCounter(value) {
+
+                    var str = value;
+                    var words = str.split(" ");
+                    var first = words[0];
+                    var count = 0;
+                    for (var i = 0, len = words.length; i < len; i++) {
+                        count++;
+                    }
+                    document.getElementById("NumOfWords").innerHTML = "מספר מילים:" + @Model.Policy.MaxWords +  "/"  + count;
+                   // alert(count);
+
+                }
+            </script>
+
         </div>
     </div>
 
@@ -220,6 +237,22 @@
 <!-------------------------------------------------------->
 
 <script>
+
+  /*  function DynamicWordsCounter(event) {
+
+
+       if (event.which == 13) {
+        $("#Input").keypress(function () {
+            alert("I found Hogwarts.");
+        });
+       }
+
+       // var TmpAnswer = document.getElementByName("TextBoxArea");
+      //  var str = TmpAnswer.value;
+
+    }
+
+    */
 
     function GetKeySentence(val) {
         if (val != null) 
