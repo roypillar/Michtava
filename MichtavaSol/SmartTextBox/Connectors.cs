@@ -10,7 +10,7 @@ namespace SmartTextBox
     {
         private static List<string> AddingConnectors = new List<string> { "ו", "בנוסף", "ורק", "גם", "וכן" }; //מילות קישור הוספה וצירוף
         private static List<string> TimeConnectors = new List<string> { "בזמן ש", "בשעה ש", "בטרם", "במשך", "כאשר" }; //מילות קישור זמן
-        private static List<string> OppositConnectors = new List<string> { "אלא", "עם זאת", "אולם", "אבל", "בעוד" }; //מילות קישור ניגוד
+        private static List<string> OppositConnectors = new List<string> { "אלא", "עם זאת", "אולם", "אבל", "בעוד" , "אך"}; //מילות קישור ניגוד
         private static List<string> ReasonConnectors = new List<string> { "לאור", "בשל", "שכן", "כי" }; //מילות קישור סיבה
         private static List<string> ConseqConnectors = new List<string> { "לכן", "לפיכך", "לאור זאת", "מכאן ש", "כך ש" }; //מילות קישור תוצאה
         private static List<string> PurposeConnectors = new List<string> { "במטרה ש", "לכבוד ה", "כדי ש" }; //מילות קישור תכלית(מטרה)ההה

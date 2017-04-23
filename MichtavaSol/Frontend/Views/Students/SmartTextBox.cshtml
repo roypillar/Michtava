@@ -1,5 +1,5 @@
 ﻿@model Entities.Models.Question
-
+@using SmartTextBox
 @{
     ViewBag.Title = "תיבת טקסט חכמה";
 }
@@ -183,7 +183,17 @@
                     for (var i = 0, len = words.length; i < len; i++) {
                         count++;
                     }
-                    document.getElementById("NumOfWords").innerHTML = "מספר מילים:" + @Model.Policy.MaxWords +  "/"  + count;
+                    document.getElementById("NumOfWords").innerHTML = "מספר מילים:" + @Model.Policy.MaxWords +  "/" + count;
+
+                    if (count >@Model.Policy.MaxWords){
+                        document.getElementById("toManyConnectors").innerHTML = "הכנסת " + count + " מילים, אבל מותר לכל היותר " + @Model.Policy.MaxWords + " מילים.";
+                    }
+                    //SmartTextBoxImpl.SuggestAlternativeWord("מילה");
+                    
+                  //  document.getElementById("NumOfConnectorWords").innerHTML = SmartTextBoxImpl.GetNumberOfConnectors(value)
+                    
+                    //if numofwords bigger then policy.. dinamic alert.  ..TempData["AlternativeWords"]
+
                    // alert(count);
 
                 }
@@ -221,7 +231,7 @@
             <input type="submit" value="הגשה סופית" style="width: 7em; font-size: 20px; background-color: crimson"/>
         </div>
         <div class="col-md-6">
-            <input name="questionNumber" type="submit" value="@Model.Question_Number" style="width: 5em"/>
+            <input name="questionNumber" type="submit" value="בדיקת שאלה @Model.Question_Number" style="width: 8em"/>
         </div>
     </div>
     <br/>

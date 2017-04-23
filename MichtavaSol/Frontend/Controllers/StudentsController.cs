@@ -154,15 +154,23 @@ namespace Frontend.Controllers
             Session["WithQuestion?"] = "With";
             if (questionNumber != null)
             {
-                tmpQuestNumber = Int32.Parse(questionNumber);
+                string[] tmpStringArray = questionNumber.Split(' ');
+
+                if (tmpStringArray.Length == 2)
+                {
+                    tmpQuestNumber = Int32.Parse(tmpStringArray[1]);
+                }
+                else
+                    tmpQuestNumber = Int32.Parse(tmpStringArray[2]);
+
             }
-            
+
 
             if (TempData["NumberOfWords"] == null && TempData["NumberOfConnectorWords"] == null)
             {
                 TempData["NumberOfWords"] = "0";
                 TempData["NumberOfConnectorWords"] = "0";
-                TempData["toManyWords"] = "";
+              //  TempData["toManyWords"] = "";
             }
 
             //InitializeSmartView();
@@ -194,8 +202,20 @@ namespace Frontend.Controllers
 
         public ActionResult AnalyzeAnswer(string questionNumber)
         {
+            int tmpQuestNumber = 1;
 
-            int tmpQuestNumber = Int32.Parse(questionNumber);
+            if (questionNumber != null)
+            {
+                string[] tmpStringArray = questionNumber.Split(' ');
+
+                if (tmpStringArray.Length == 2)
+                {
+                    tmpQuestNumber = Int32.Parse(tmpStringArray[1]);
+                }
+                else
+                    tmpQuestNumber = Int32.Parse(tmpStringArray[2]);
+
+            }
 
 
             string input = Request.Form["TextBoxArea"];
@@ -218,10 +238,7 @@ namespace Frontend.Controllers
             TempData["Answer"] = input;
             TempData["AlternativeWords"] = repeatedWordsString;
 
-            if (numOfWords > _policy.MaxWords)
-            {
-                TempData["toManyWords"] = "הכנסת " + numOfWords + " מילים, אבל מותר לכל היותר " + _policy.MaxWords + " מילים.";
-            }
+            
             if (numOfConnectors > _policy.MaxConnectors)
             {
                 TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy.MaxConnectors + " מילות קישור.";
