@@ -72,29 +72,43 @@ namespace Frontend
 
             // --------------------------------------------------------------------------------------------------------------
 
+
+
+            // ------------------------------------------------- Teachers -------------------------------------------------
+
+            routes.MapRoute(
+                name: "TeacherHome",
+                url: "Home/{action}/{username}",
+                defaults: new { controller = "Teachers", action = "Index", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
             routes.MapRoute(
                 name: "AddSubject",
-                url: "AddSubject/{action}/{username}",
+                url: "NavigateToAddSubject/{action}/{username}",
                 defaults: new { controller = "Teachers", action = "NavigateToAddSubject", username = string.Empty },
                 namespaces: new string[] { "Frontend.Controllers" });
 
             routes.MapRoute(
                 name: "TextsView",
-                url: "TextsView/{action}/{username}",
+                url: "NavigateToTextsView/{action}/{username}",
                 defaults: new { controller = "Teachers", action = "NavigateToTextsView", username = string.Empty },
                 namespaces: new string[] { "Frontend.Controllers" });
 
             routes.MapRoute(
                 name: "TextAdding",
-                url: "TextAdding/{action}/{username}",
+                url: "NavigateToTextAdding/{action}/{username}",
                 defaults: new { controller = "Teachers", action = "NavigateToTextAdding", username = string.Empty },
                 namespaces: new string[] { "Frontend.Controllers" });
 
             routes.MapRoute(
                 name: "Policy",
-                url: "Policy/{action}/{username}",
+                url: "NavigateToPolicy/{action}/{username}",
                 defaults: new { controller = "Teachers", action = "NavigateToPolicy", username = string.Empty },
                 namespaces: new string[] { "Frontend.Controllers" });
+
+            // --------------------------------------------------------------------------------------------------------------
+
+
 
             routes.MapRoute(
                 name: "Login",

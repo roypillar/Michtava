@@ -33,8 +33,17 @@
                 </div>
             </div>
             <br /><br />
-
+        
+        @foreach (var cls in TempData.Values)
+        {
             <div class="row">
+                <div class="col-sm-10">
+                    <input type="submit" value="@cls" />
+                </div>
+            </div>
+        }
+
+        <div class="row">
                 <div class="col-sm-10">
                     <form class="col-xs-12" action="NavigateToTextsView" method="post">
                         <input type="submit" value="טקסטים"/>
@@ -55,13 +64,7 @@
                 </form>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-10">
-                <form class="col-xs-12" action="NavigateToClassesView" method="post">
-                    <input type="submit" value="כיתות" />
-                </form>
-            </div>
-        </div>
+        
     </div>
     <br /><br /><br /><br /><br /><br /><br />
 </body>

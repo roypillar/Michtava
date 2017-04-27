@@ -118,7 +118,7 @@ namespace Frontend.Controllers
                         }
                         else if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.TeacherRoleName))//if the user is a teacher
                         {
-                            return RedirectToAction("Index", "Home", new { area = "Teachers" });
+                            return RedirectToAction("Index", "Teachers");
                         }
                         else if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.StudentRoleName))//if the user is a student
                         {

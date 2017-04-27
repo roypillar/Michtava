@@ -35,7 +35,9 @@ namespace Frontend.Controllers
         // GET: Teachers
         public ActionResult Index()
         {
-            ViewBag.Title = "בחר אפשרות";
+            InitializeClasses();
+
+            ViewBag.Title = "בחר/י כיתה";
 
             return View("TeachersMenu");
         }
@@ -210,15 +212,6 @@ namespace Frontend.Controllers
             {
                 TempData[cls.Id + ""] = cls.ClassLetter + " " + cls.GradeYear;
             }
-        }
-
-        public ActionResult NavigateToClassesView()
-        {
-            InitializeClasses();
-
-            ViewBag.Title = "כיתות לימוד";
-
-            return View("ClassesView");
         }
     }
 }
