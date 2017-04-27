@@ -17,6 +17,7 @@ namespace Frontend.Controllers
     {
         private readonly ISubjectService _subjectService;
         private readonly ITextService _textService;
+        private readonly ISchoolClassService _classService;
 
         private readonly IFileManager _fileManager = new FileManager();
 
@@ -24,10 +25,11 @@ namespace Frontend.Controllers
         private Dictionary<string, string> _textsDictionary = new Dictionary<string, string>();
 
 
-        public TeachersController(ISubjectService subjectService, ITextService textService)
+        public TeachersController(ISubjectService subjectService, ITextService textService, ISchoolClassService classService)
         {
             _subjectService = subjectService;
             _textService = textService;
+            _classService = classService;
         }
 
         // GET: Teachers
@@ -202,5 +204,21 @@ namespace Frontend.Controllers
             return View();
         }
 
+        private void InitializeClasses()
+        {
+            foreach (var cls in _classService.All())
+            {
+                TempData[cls.Id + ""] = cls.ClassLetter + " " + cls.GradeYear;
+            }
+        }
+
+        public ActionResult NavigateToClassesView()
+        {
+            InitializeClasses();
+
+            ViewBag.Title = "כיתות לימוד";
+
+            return View("ClassesView");
+        }
     }
 }
