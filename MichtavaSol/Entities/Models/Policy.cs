@@ -22,7 +22,5 @@ namespace Entities.Models
 
         [Required]
         public int MaxConnectors { get; set; }
-
-        public HashSet<string> KeySentences { get; set; }
     }
 }

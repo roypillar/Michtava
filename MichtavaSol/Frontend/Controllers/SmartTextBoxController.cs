@@ -32,7 +32,7 @@ namespace Frontend.Controllers
             Policy _policy = new Policy();
             HashSet<string> _keySentencesList = new HashSet<string>();
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
-            _policy = new Policy() { Id = 1, MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
+            _policy = new Policy() { Id = 1, MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8 };
 
             //----------------------------------------------------------
 
@@ -55,7 +55,7 @@ namespace Frontend.Controllers
             Policy _policy = new Policy();
             HashSet<string> _keySentencesList = new HashSet<string>();
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא");
-            _policy = new Policy() { Id = 1, MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
+            _policy = new Policy() { Id = 1, MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8 };
 
             if(numOfWords>_policy.MaxWords)
             {

@@ -116,7 +116,7 @@ namespace Frontend.Controllers
                 MinConnectors = model.MinConnectors,
                 MaxWords = model.MaxWords,
                 MinWords = model.MinWords,
-                KeySentences = new HashSet<string>(model.KeySentences)
+                //KeySentences = new HashSet<string>(model.KeySentences)
             };
 
             Question question = new Question()

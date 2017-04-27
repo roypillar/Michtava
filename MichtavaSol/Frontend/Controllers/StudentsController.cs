@@ -276,7 +276,7 @@ namespace Frontend.Controllers
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא 4");
 
 
-            _policy = new Policy() { Id = 1, MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8, KeySentences = _keySentencesList };
+            _policy = new Policy() { Id = 1, MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8 };
         }
 
         private void InitializeSmartView()
