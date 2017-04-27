@@ -92,12 +92,31 @@ namespace Dal.Migrations
             this.SeedRoles(context);
             this.SeedAdministrators(context);
             this.SeedOtherUsers(context);
+            this.SeedSchoolClasses(context);
             //this.SeedAcademicYears(context, AcademicYearsCount);
 
             this.SeedSubjects(context);
 
             context.Configuration.AutoDetectChangesEnabled = true;
            
+        }
+
+        private void SeedSchoolClasses(ApplicationDbContext context)
+        {
+            if (context.SchoolClasses.Any())
+                return;
+
+            SchoolClass g3 = new SchoolClass() { ClassLetter = "â", GradeYear = 3};
+
+           g3.Students.Add(context.Students.FirstOrDefault());
+            foreach (Subject s in context.Subjects) {
+                g3.Subjects.Add(s);
+                    }
+
+            context.SchoolClasses.Add(g3);
+
+            context.SaveChanges();
+
         }
 
         private void SeedOtherUsers(ApplicationDbContext context)
@@ -119,6 +138,7 @@ namespace Dal.Migrations
                 subject.TotalHours = 80;
                 context.Subjects.AddOrUpdate(subject);
             }
+            context.SaveChanges();
         }
 
         private void SeedRoles(ApplicationDbContext context)
