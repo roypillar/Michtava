@@ -213,5 +213,12 @@ namespace Frontend.Controllers
                 TempData[cls.Id + ""] = cls.ClassLetter + " " + cls.GradeYear;
             }
         }
+
+        public ActionResult NavigateToClassView(string className)
+        {
+            ViewBag.Title = className;
+
+            return View("ClassView");
+        }
     }
 }
