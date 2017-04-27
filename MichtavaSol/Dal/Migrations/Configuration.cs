@@ -91,12 +91,20 @@ namespace Dal.Migrations
 
             this.SeedRoles(context);
             this.SeedAdministrators(context);
+            this.SeedOtherUsers(context);
             //this.SeedAcademicYears(context, AcademicYearsCount);
 
             this.SeedSubjects(context);
 
             context.Configuration.AutoDetectChangesEnabled = true;
            
+        }
+
+        private void SeedOtherUsers(ApplicationDbContext context)
+        {
+            this.SeedStudents(context);
+            this.SeedTeachers(context);
+
         }
 
         private void SeedSubjects(ApplicationDbContext context)
@@ -198,6 +206,108 @@ namespace Dal.Migrations
                 {
                     this.userManager.AddToRole(adminUser.Id, GlobalConstants.SuperAdministratorRoleName);
                 }
+            }
+        }
+
+        private void SeedStudents(ApplicationDbContext context)
+        {
+
+            if (context.Students.Any())
+            {
+                return;
+            }
+
+            var prof = new Student()
+            {
+                Name = "Student Studentson"
+            };
+
+            var user = new ApplicationUser()
+            {
+                UserName = "student111",
+                Email = "student@gmail.com",
+                PhoneNumber = "1111111111"
+                
+            };
+
+            const string Password = "111";
+
+            this.SeedStudentApplicationUser(user, Password);
+
+            prof.ApplicationUser = user;
+
+            context.Students.Add(prof);
+
+            context.SaveChanges();
+        }
+
+        private void SeedTeachers(ApplicationDbContext context)
+        {
+
+            if (context.Teachers.Any())
+            {
+                return;
+            }
+
+            var prof = new Teacher()
+            {
+                Name = "Teacher Teacherson"
+            };
+
+            var user = new ApplicationUser()
+            {
+                UserName = "teacher111",
+                Email = "teacher@gmail.com",
+                PhoneNumber = "1111111111"
+
+            };
+
+            const string Password = "111";
+
+            this.SeedTeacherApplicationUser(user, Password);
+
+            prof.ApplicationUser = user;
+
+            context.Teachers.Add(prof);
+
+            context.SaveChanges();
+        }
+
+        private void SeedStudentApplicationUser(ApplicationUser user, string password)
+        {
+            if (!this.roleManager.RoleExists(GlobalConstants.StudentRoleName))
+            {
+                this.roleManager.Create(new IdentityRole(GlobalConstants.StudentRoleName));
+            }
+
+          
+
+            var result = this.userManager.Create(user, password);
+
+            if (result.Succeeded)
+            {
+                this.userManager.AddToRole(user.Id, GlobalConstants.StudentRoleName);
+
+        
+            }
+        }
+
+        private void SeedTeacherApplicationUser(ApplicationUser user, string password)
+        {
+            if (!this.roleManager.RoleExists(GlobalConstants.TeacherRoleName))
+            {
+                this.roleManager.Create(new IdentityRole(GlobalConstants.TeacherRoleName));
+            }
+
+
+
+            var result = this.userManager.Create(user, password);
+
+            if (result.Succeeded)
+            {
+                this.userManager.AddToRole(user.Id, GlobalConstants.TeacherRoleName);
+
+
             }
         }
 
