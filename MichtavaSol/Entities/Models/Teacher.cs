@@ -31,7 +31,7 @@ namespace Entities.Models
 
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-        [MaxLength(12, ErrorMessage = "שם המשתמש ארוך מדי")]
+      
         [Required]
         public string Name { get; set; }
 

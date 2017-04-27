@@ -384,7 +384,6 @@ namespace Frontend.Controllers
 
 
             _homework.Text = text;
-            _homework.SchoolClasses = tmpSchoolClassList;
             _homework.Created_By = teacher;
             _homework.Questions = qlist;
 

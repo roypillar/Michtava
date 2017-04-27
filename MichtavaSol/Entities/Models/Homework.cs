@@ -11,12 +11,10 @@ namespace Entities.Models
     {
 
         private ICollection<Question> questions;
-        private ICollection<SchoolClass> schoolClasses;
 
         public Homework()
         {
 
-            this.schoolClasses = new HashSet<SchoolClass>();
             this.questions = new HashSet<Question>();
 
         }
@@ -48,18 +46,9 @@ namespace Entities.Models
             }
         }
 
-        public ICollection<SchoolClass> SchoolClasses
-        {
-            get
-            {
-                return this.schoolClasses;
-            }
+       
 
-            set
-            {
-                this.schoolClasses = value;
-            }
-        }
+
         public override void setId(Guid id)
         {
             Id = id;

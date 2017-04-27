@@ -11,17 +11,22 @@ namespace Entities.Models
 
         public Student()
         {
-            homeworks = new HashSet<Homework>();
+            Homeworks = new HashSet<Homework>();
 
         }
 
-        private ICollection<Homework> homeworks;
+        public ICollection<Homework> Homeworks
+        {
+            get; set;
+        }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         [Required]
         public string Name { get; set; }
+
+        public bool isNotified { get; set; }
 
         public SchoolClass SchoolClass { get; set; }
         
@@ -30,11 +35,7 @@ namespace Entities.Models
 
         public virtual ApplicationUser ApplicationUser { get; set; }
 
-        public virtual ICollection<Homework> Homeworks
-        {
-            get { return this.homeworks; }
-            set { this.homeworks = value; }
-        }
+
 
         public override void setId(Guid id)
         {
