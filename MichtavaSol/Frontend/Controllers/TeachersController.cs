@@ -18,6 +18,7 @@ namespace Frontend.Controllers
         private readonly ISubjectService _subjectService;
         private readonly ITextService _textService;
         private readonly ISchoolClassService _classService;
+        private readonly IStudentService _studentService;
 
         private readonly IFileManager _fileManager = new FileManager();
 
@@ -25,11 +26,12 @@ namespace Frontend.Controllers
         private Dictionary<string, string> _textsDictionary = new Dictionary<string, string>();
 
 
-        public TeachersController(ISubjectService subjectService, ITextService textService, ISchoolClassService classService)
+        public TeachersController(ISubjectService subjectService, ITextService textService, ISchoolClassService classService, IStudentService studentService)
         {
             _subjectService = subjectService;
             _textService = textService;
             _classService = classService;
+            _studentService = studentService;
         }
 
         // GET: Teachers
@@ -214,11 +216,80 @@ namespace Frontend.Controllers
             }
         }
 
+        private SchoolClass GetClass(string className)
+        {
+            foreach (var cls in _classService.All())
+            {
+                if (className.Equals(cls.ClassLetter + " " + cls.GradeYear))
+                    return cls;
+            }
+
+            return null;
+        }
+
+        private void InitializeClassView(SchoolClass cls)
+        {
+            foreach (var std in cls.Students)
+            {
+                TempData[std.Id + "_student"] = std.Name;
+            }
+
+            foreach (var sbj in cls.Subjects)
+            {
+                TempData[sbj.Id + "_subject"] = sbj.Name;
+            }
+        }
+
         public ActionResult NavigateToClassView(string className)
         {
             ViewBag.Title = className;
 
+            var currentClass = GetClass(className);
+            InitializeClassView(currentClass);
+
             return View("ClassView");
+        }
+
+        private Student GetStudent(string student)
+        {
+            foreach (var std in _studentService.All())
+            {
+                if (std.Name.Equals(student))
+                    return std;
+            }
+
+            return null;
+        }
+
+        private void InitializeStudentView(Student std)
+        {
+            //TempData["Name"] = std.Name;
+            TempData["userName"] = "שם משתמש: " + std.ApplicationUser.UserName;
+            TempData["email"] = "אימייל: " + std.ApplicationUser.Email;
+            TempData["phoneNumber"] = "טלפון: " + std.ApplicationUser.PhoneNumber;
+
+            if (std.SchoolClass == null)
+            {
+                TempData["class"] = "כיתה: אין";
+            }
+            else
+            {
+                TempData["class"] = "כיתה: " + std.SchoolClass.ClassLetter + " " + std.SchoolClass.GradeYear;
+            }   
+
+            foreach (var hw in std.Homeworks)
+            {
+                TempData[hw.Id + "_homework"] = "שיעורי בית: " + hw.Title + ", תאריך הגשה: " + hw.Deadline;
+            }
+        }
+
+        public ActionResult NavigateToStudentView(string student)
+        {
+            ViewBag.Title = student;
+
+            InitializeStudentView(GetStudent(student));
+
+            return View("StudentView");
         }
     }
 }

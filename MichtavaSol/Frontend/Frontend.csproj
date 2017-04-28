@@ -394,6 +394,7 @@
     <Content Include="Views\Teachers\AddSubject.cshtml" />
     <Content Include="Views\Teachers\TextsView.cshtml" />
     <Content Include="Views\Teachers\ClassView.cshtml" />
+    <Content Include="Views\Teachers\StudentView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
