@@ -26,41 +26,41 @@
 </head>
 
 <body>
+<div class="row">
     <div class="row">
-        <div class="row">
-            <div class="col-sm-10">
-                <b><h2>@ViewBag.Title</h2></b>
-            </div>
+        <div class="col-sm-10">
+            <b>
+                <h2>@ViewBag.Title</h2></b>
         </div>
-        <br />     
-        <div class="row">
-            <h4>@TempData["email"]</h4>
-        </div>
-        <br />  
-        <div class="row">
-            <h4>@TempData["phoneNumber"]</h4>
-        </div>
-        <br />  
-        <div class="row">
-            <h4>@TempData["class"]</h4>
-        </div>
-        <br />  
-        <div class="row">
-            <h4>@TempData["userName"]</h4>
-        </div>
-        <br />  
-        
-        @foreach (var data in TempData)
-        {
-            if (data.Key.Contains("homework"))
-            {
-                <div class="row">
-                    <h4>@data.Value</h4>
-                </div>
-            }
-        }
-        
     </div>
-    <br /><br /><br /><br /><br /><br /><br />
+    <br/>
+    <div class="row">
+        <h4>@TempData["email"]</h4>
+    </div>
+    <br/>
+    <div class="row">
+        <h4>@TempData["phoneNumber"]</h4>
+    </div>
+    <br/>
+    <div class="row">
+        <h4>@TempData["class"]</h4>
+    </div>
+    <br/>
+    <div class="row">
+        <h4>@TempData["userName"]</h4>
+    </div>
+    <br/>
+
+    @foreach (var data in TempData)
+    {
+        if (data.Key.Contains("homework"))
+        {
+            <div class="row">
+                <h4>@data.Value</h4>
+            </div>
+        }
+    }
+
+</div>
 </body>
 
