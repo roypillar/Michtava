@@ -20,6 +20,11 @@ namespace Dal_Tests
     [TestFixture(typeof(Homework))]
     [TestFixture(typeof(Text))]
     [TestFixture(typeof(SchoolClass))]
+    [TestFixture(typeof(Administrator))]
+    [TestFixture(typeof(Teacher))]
+    [TestFixture(typeof(Student))]
+    //[TestFixture(typeof(ApplicationUser))]
+
     class DeletableEntityRepositoryTests<T> where T :  DeletableEntity, new()
     {
         private IApplicationDbContext ctx;
