@@ -407,6 +407,7 @@ namespace Dal.Migrations
                 }
 
                 context.SchoolClasses.AddOrUpdate(sc);
+                context.SaveChanges();
 
                 //if (System.Diagnostics.Debugger.IsAttached == false)
                 //{
@@ -415,9 +416,10 @@ namespace Dal.Migrations
 
                 //}
 
-                SchoolClass scPersistant = context.SchoolClasses.Where(x => (x.GradeYear==sc.GradeYear && x.ClassLetter==sc.ClassLetter)).FirstOrDefault();
+                SchoolClass scPersistant = context.SchoolClasses.Where(x => (x.GradeYear==pair.Value && x.ClassLetter== pair.Key)).FirstOrDefault();
 
                 for (int i = 0; i < studentsPerClass; i++) {
+                    
                     Student s = students.Dequeue();
                     scPersistant.Students.Add(s);
                     s.SchoolClass = scPersistant;
@@ -437,10 +439,10 @@ namespace Dal.Migrations
 
 
 
-                context.SaveChanges();
 
             }
-           
+
+            context.SaveChanges();
 
         }
 
