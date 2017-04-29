@@ -100,6 +100,38 @@ namespace Dal.Migrations
             new KeyValuePair<string, int>("ח",18),
         };
 
+        private static readonly string text1 =
+
+        "כדי להצליח בהתפחה, מונעים מגע ישיר בין השמרים לשמן זית או מלח, שעלולים לפגוע בפעולתם.מכאן יצא המנהג להתסיס את השמרים בסוכר ומים לפני שמתחילים את הבצק.אבל זה לא הכרחי אלא אם אתם חושדים בטריותם, ואז זה טסט מצוין (אין בועות אחרי 10 דקות? אפשר להתחיל שוב)." + "\n\n" +
+
+"מתחילים מערבבים שמרים עם קמח ומים(עדיף פושרים), ואם יש במתכון — אז גם סוכר או דבש.רק כאשר השמרים כבר מעורבבים בנוח בקערה מוסיפים את שאר הרכיבים כולל מלח ושמן." + "\n" +
+
+"לשים גם אם אתם מכינים את הבצק במיקסר, אל תוותרו על זמני הלישה." + "\n" +
+
+"מכסים רצוי לכסות בניילון נצמד ובמגבת מעל (וכך המגבת לא תידבק), כדי שיהיה לשמרים חמים וגם קצת חשוך." + "\n" +
+
+"מקום חמים לא מתפיחים מול המזגן! מתפיחים במקום חמים עד שעה וחצי להכפלת הנפח.אל תגזימו, כי לבצק שמרים שתפח יותר מדי יש טעם לוואי." + "\n" +
+
+"מקום קריר כשמכינים מראש אפשר להתפיח במקרר במשך 8 שעות." + "\n" +
+
+"אל תגזימו, כי לבצק שמרים שתפח יותר מדי יש טעם לוואי.";
+
+        private readonly List<string> textStrings = new List<string>(){
+            text1,
+            "אבא ואמא אומרים לבחור טוב בין קז'ואל פריידי ללבוש פורמאלי",
+            "טקסט שלישי חמאת בוטנים? לא תודה ענה אבינועם. לאחר מכן,\n\n "+"בחר שללכת לנוח בחדר התינוקות השכונתי."
+        };
+
+        private readonly List<string> textNames = new List<string>()
+        {
+            "מתכון לפוקאצ'ה מתקדמת",
+            "מה ללבוש היום?",
+            "בחירתו של אבינועם"
+        };
+
+        
+
+
         private const string PASSWORD = "111";
 
         private readonly DateTime startDate = new DateTime(2016, 3, 22);
@@ -139,6 +171,9 @@ namespace Dal.Migrations
             this.SeedStudents(context);
             this.SeedTeachers(context);
             this.SeedSchoolClasses(context);
+            this.SeedTexts(context);
+            //this.SeedHomeworks(context);
+            //this.SeedAnswers(context);
             //this.SeedAcademicYears(context, AcademicYearsCount);
 
 
@@ -381,11 +416,14 @@ namespace Dal.Migrations
             }
         }
 
-
+        
         private void SeedSchoolClasses(ApplicationDbContext context)
         {
 
-         
+            if (context.SchoolClasses.Any())
+            {
+                return;
+            }
 
             IQueryable<Student> rtn = from temp in context.Students select temp;
             var students = new Queue<Student>(rtn.ToList());
@@ -443,6 +481,41 @@ namespace Dal.Migrations
             }
 
             context.SaveChanges();
+
+        }
+
+
+        private void SeedTexts(ApplicationDbContext context)
+        {
+            if (context.Texts.Any())
+            {
+                return;
+            }
+
+
+            List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>>();
+            for (int i = 0; i < textStrings.Count; i++)
+            {
+                pairs.Add(new KeyValuePair<string, string>(textNames.ElementAt(i), textStrings.ElementAt(i)));
+            }
+
+            foreach (KeyValuePair<string, string> pair in pairs)
+            {
+                Random rnd = new Random();
+                int r = rnd.Next(textNames.Count);
+                string sName = SubjectNames.ElementAt(r);
+                Subject subject = context.Subjects.Where(x => x.Name== sName).FirstOrDefault();
+
+                Text t = new Text();
+                t.Name = pair.Key;
+                t.Content = pair.Value;
+                t.Subject = subject;
+
+                context.Texts.Add(t);
+
+                context.SaveChanges();
+
+            }
 
         }
 

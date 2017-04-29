@@ -10,7 +10,10 @@ namespace Entities.Models
     public class Text : DeletableEntity
     {
         //public enum FileFormats { doc, docx, pdf, txt };
-
+        public Text()
+        {
+            UploadTime = DateTime.Now;
+        }
 
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -19,9 +22,9 @@ namespace Entities.Models
 
         public string Name { get; set; }
 
-        public DateTime UploadTime { get; set; }
+        public string Content { get; set; }
 
-        //public FileFormats Format { get; set; }
+        public DateTime UploadTime { get; set; }
 
         public string FilePath { get; set; }
 
