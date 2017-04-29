@@ -9,12 +9,14 @@
     {
 
         private ICollection<Student> students;
+        private ICollection<Teacher> teachers;
         private ICollection<Subject> subjects;
         private ICollection<Homework> activeHomeworks;
 
         public SchoolClass()
         {
             students = new HashSet<Student>();
+            teachers = new HashSet<Teacher>();
             subjects = new HashSet<Subject>();
             activeHomeworks = new HashSet<Homework>();
 
@@ -27,10 +29,17 @@
 
         public int GradeYear { get; set; }
 
-        public virtual ICollection<Student> Students
+        public ICollection<Student> Students
         {
             get { return this.students; }
             set { this.students = value; }
+
+        }
+
+        public  ICollection<Teacher> Teachers
+        {
+            get { return this.teachers; }
+            set { this.teachers = value; }
         }
 
         public virtual ICollection<Subject> Subjects

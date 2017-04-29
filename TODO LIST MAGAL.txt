@@ -1,0 +1,1 @@
+teacher needs to be able to see the answers the students submitted to homeworks (he can go to classX=>homework_number_y=>answers=>gets a list of all answers submitted to that homework by members of classX

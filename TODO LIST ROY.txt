@@ -1,1 +1,22 @@
 talk to cs helpdesk make ip external
+
+populate frontend.automapperconfig.organizationprofile.cs
+
+seed method 
+
+populate registerareas
+
+administrationarea 
+
+check that Map<RegisterViewModel,Student> transfers the applicationUser
+
+in areas/students/accountcontroller/, uncomment register-related code when ready.
+
+write test for adding an existing subject
+
+write test for getbyname and such
+
+strings all over the site - validation, header, footer, etc
+
+
+

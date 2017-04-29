@@ -17,6 +17,10 @@ namespace Entities.Models
         public string Description { get; set; }
 
         public int TotalHours { get; set; }
+
+        public ICollection<SchoolClass> schoolClasses { get; set; }//DO NOT USE THIS FIELD
+
+
         public override void setId(Guid id)
         {
             Id = id;

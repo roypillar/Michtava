@@ -92,7 +92,7 @@
         //enable-migrations -ContextProjectName Dal -StartUpProjectName Frontend -ContextTypeName Dal.ApplicationDbContext -ProjectName Dal -force
 
         //update database, migrate automatically
-        //Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal
+        //Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal -verbose
         
 
         //ONLY ONE TIME! (16.04.2017) :

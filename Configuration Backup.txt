@@ -4,6 +4,7 @@ namespace Dal.Migrations
     using Entities.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using Repositories;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -22,13 +23,14 @@ namespace Dal.Migrations
 
         private RoleManager<IdentityRole> roleManager;
 
+
         private const int HighestGrade = 12;
 
         private const int ClassStudentsNumber = 20;
 
         private const int GradeClassesNumber = 5;
 
-        private readonly List<string> personNames = new List<string>()
+        private readonly List<string> studentNames = new List<string>()//11
         {
             "טדי פררה",
             "דיאן פישר",
@@ -40,7 +42,23 @@ namespace Dal.Migrations
             "בובי קורנפילד",
             "קריסטינה אגואילרה",
             "אלכסנדר בן ינאי",
-            "סימון בן סימון",
+            "סימון בן סימון" };
+
+        private readonly List<string> studentUserNames = new List<string>()//11
+        {
+            "teddy125",
+            "fishbomb_forever",
+            "callmeanna",
+            "immaculate_conception997",
+            "fiverfourfivee",
+            "roygbivbabyy33",
+            "יעקב מגריזו",
+            "conr5",
+            "xtina662",
+            "rara",
+            "סימון בן סימון" };
+
+        private readonly List<string> teacherNames = new List<string>() { //9
             "פיטר מקלאופלאן",
             "אשלי הונג",
             "היידן ג'אקס",
@@ -52,7 +70,19 @@ namespace Dal.Migrations
             "סמי מגריזו",
         };
 
-        private readonly List<string> SubjectNames = new List<string>()
+        private readonly List<string> teacherUserNames = new List<string>() {//9
+            "peteFastBoy555",
+            "hongster",
+            "mcHeyHey",
+            "IdrisElba2020",
+            "yeahItsOkay",
+            "camelOrNext",
+            "classact123",
+            "אייבי קירני",
+            "סמי מגריזו",
+        };
+
+        private readonly List<string> SubjectNames = new List<string>()//7
         {
             "ספרות",
             "לשון",
@@ -63,6 +93,14 @@ namespace Dal.Migrations
             "ספורט"
         };
 
+        private readonly List<KeyValuePair<string, int>> SchoolClasses = new List<KeyValuePair<string, int>>()//3
+        {
+            new KeyValuePair<string, int>("ג",3),
+            new KeyValuePair<string, int>("ז",8),
+            new KeyValuePair<string, int>("ח",18),
+        };
+
+        private const string PASSWORD = "111";
 
         private readonly DateTime startDate = new DateTime(2016, 3, 22);
 
@@ -84,18 +122,46 @@ namespace Dal.Migrations
 
         protected override void Seed(Dal.ApplicationDbContext context)
         {
+            //SchoolClassRepository scRepo = new SchoolClassRepository(context);
+
+
+
             this.userManager = this.CreateUserManager(context);
             this.roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
             context.Configuration.AutoDetectChangesEnabled = false;
 
             this.SeedRoles(context);
+            this.SeedSubjects(context);
             this.SeedAdministrators(context);
+
+
+            this.SeedStudents(context);
+            this.SeedTeachers(context);
+            this.SeedSchoolClasses(context);
             //this.SeedAcademicYears(context, AcademicYearsCount);
+
 
             context.Configuration.AutoDetectChangesEnabled = true;
            
         }
+
+
+        private void SeedSubjects(ApplicationDbContext context)
+        {
+            if (context.Subjects.Any())
+                return;
+
+            foreach (var subjectName in SubjectNames)
+            {
+                Subject subject = new Subject();
+                subject.Name = subjectName;
+                subject.TotalHours = 80;
+                context.Subjects.AddOrUpdate(subject);
+            }
+            context.SaveChanges();
+        }
+
         private void SeedRoles(ApplicationDbContext context)
         {
             if (context.Roles.Any())
@@ -130,9 +196,9 @@ namespace Dal.Migrations
                 Email = "superadmin@superadmin.com"
             };
 
-            const string Password = "111";
 
-            this.SeedAdminApplicationUser(adminUser, Password);
+
+            this.SeedAdminApplicationUser(adminUser, PASSWORD);
 
             adminProfile.ApplicationUser = adminUser;
 
@@ -150,7 +216,7 @@ namespace Dal.Migrations
                 Email = "admin@admin.com"
             };
 
-            this.SeedAdminApplicationUser(adminUser, Password);
+            this.SeedAdminApplicationUser(adminUser, PASSWORD);
 
             adminProfile.ApplicationUser = adminUser;
 
@@ -182,6 +248,197 @@ namespace Dal.Migrations
                     this.userManager.AddToRole(adminUser.Id, GlobalConstants.SuperAdministratorRoleName);
                 }
             }
+        }
+
+        private void SeedStudents(ApplicationDbContext context)
+        {
+
+            if (context.Students.Any())
+            {
+                return;
+            }
+
+
+            
+            for(int i = 0; i < studentNames.Count; i++)
+            {
+                string name = studentNames.ElementAt(i);
+                string userName = studentUserNames.ElementAt(i);
+
+                 Student prof = new Student()
+                {
+                    Name = name
+                };
+
+                ApplicationUser user = new ApplicationUser()
+                {
+                    UserName = userName,
+                    Email = userName + "@gmail.com",
+                    PhoneNumber = RandomDigits(10)
+
+                };
+
+                this.SeedStudentApplicationUser(user, PASSWORD);
+
+                prof.ApplicationUser = user;
+
+                context.Students.Add(prof);
+
+                context.SaveChanges();
+
+            }
+
+
+
+
+
+           
+        }
+
+        private void SeedStudentApplicationUser(ApplicationUser user, string password)
+        {
+            if (!this.roleManager.RoleExists(GlobalConstants.StudentRoleName))
+            {
+                this.roleManager.Create(new IdentityRole(GlobalConstants.StudentRoleName));
+            }
+
+
+
+            var result = this.userManager.Create(user, password);
+
+            if (result.Succeeded)
+            {
+                this.userManager.AddToRole(user.Id, GlobalConstants.StudentRoleName);
+            }
+        }
+
+        public string RandomDigits(int length)
+        {
+            var random = new Random();
+            string s = string.Empty;
+            for (int i = 0; i < length; i++)
+                s = String.Concat(s, random.Next(10).ToString());
+            return s;
+        }
+
+        private void SeedTeachers(ApplicationDbContext context)
+        {
+
+            if (context.Teachers.Any())
+            {
+                return;
+            }
+
+            for (int i = 0; i < teacherNames.Count; i++)
+            {
+                string name = teacherNames.ElementAt(i);
+                string userName = teacherUserNames.ElementAt(i);
+
+                Teacher prof = new Teacher()
+                {
+                    Name = name
+                };
+
+                ApplicationUser user = new ApplicationUser()
+                {
+                    UserName = userName,
+                    Email = userName + "@gmail.com",
+                    PhoneNumber = RandomDigits(10)
+
+                };
+
+                this.SeedTeacherApplicationUser(user, PASSWORD);
+
+                prof.ApplicationUser = user;
+
+                context.Teachers.Add(prof);
+
+                context.SaveChanges();
+
+            }
+        }
+
+         
+
+       
+
+        private void SeedTeacherApplicationUser(ApplicationUser user, string password)
+        {
+            if (!this.roleManager.RoleExists(GlobalConstants.TeacherRoleName))
+            {
+                this.roleManager.Create(new IdentityRole(GlobalConstants.TeacherRoleName));
+            }
+
+
+
+            var result = this.userManager.Create(user, password);
+
+            if (result.Succeeded)
+            {
+                this.userManager.AddToRole(user.Id, GlobalConstants.TeacherRoleName);
+
+
+            }
+        }
+
+
+        private void SeedSchoolClasses(ApplicationDbContext context)
+        {
+            if (context.SchoolClasses.Any())
+                return;
+
+
+            System.Diagnostics.Debug.Write("got here");
+
+            IQueryable<Student> rtn = from temp in context.Students select temp;
+            var students = rtn.ToList();
+
+            IQueryable<Teacher> rtn2 = from temp in context.Teachers select temp;
+            var teachers = rtn2.ToList();
+
+            const  int studentsPerClass = 3;
+            const  int teachersPerClass = 3;
+
+            foreach (KeyValuePair<string,int> pair in SchoolClasses) {
+
+                SchoolClass sc = new SchoolClass() { ClassLetter=pair.Key, GradeYear = pair.Value };
+
+
+                foreach (Subject s in context.Subjects)
+                {
+                    sc.Subjects.Add(s);
+                }
+
+                context.SchoolClasses.Add(sc);
+                context.SaveChanges();
+
+                SchoolClass scPersistant = context.SchoolClasses.Last();
+
+                for (int i = 0; i < studentsPerClass; i++) {
+                    Student s = students.ElementAt(i);
+                    scPersistant.Students.Add(s);
+                    s.SchoolClass = scPersistant;
+                    context.Students.AddOrUpdate(s);
+                }
+
+                for (int i = 0; i < teachersPerClass; i++)
+                {
+                    Teacher t = teachers.ElementAt(i);
+                    scPersistant.Teachers.Add(t);
+                    t.SchoolClasses.Add(scPersistant);
+                    context.Teachers.AddOrUpdate(t);
+                }
+
+
+                context.SchoolClasses.AddOrUpdate(sc);
+
+
+
+                context.SaveChanges();
+
+            }
+           
+
         }
 
         private UserManager<ApplicationUser> CreateUserManager(ApplicationDbContext context)
