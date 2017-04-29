@@ -187,9 +187,9 @@ namespace Frontend.Controllers
         }
 
        
-        public List<int> GetAnswersNumbers(Homework hw)
+        public List<Guid> GetAnswersNumbers(Homework hw)
         {
-            List<int> tmp = new List<int>();
+            List<Guid> tmp = new List<Guid>();
             foreach(var question in hw.Questions)
             {
                 tmp.Add(question.Id);
@@ -276,7 +276,7 @@ namespace Frontend.Controllers
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא 4");
 
 
-            _policy = new Policy() { Id = 1, MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8 };
+            _policy = new Policy() { Id = Guid.NewGuid(), MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8 };
         }
 
         private void InitializeSmartView()
@@ -303,7 +303,7 @@ namespace Frontend.Controllers
 
             
             Question q = new Question(); //local question init
-            q.Id = i*10;
+            q.Id = Guid.NewGuid();
             q.Content = "שאלה לדוגמא שנשלוף מהבסיס נתונים, מהו מיהו וכד'.. עוד כמה דברים.. ענה בנימוק." + i + i + i + i;
             q.Policy = _policy;
             q.Question_Number = i;

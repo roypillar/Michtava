@@ -29,6 +29,9 @@ namespace Entities.Models
         public string FilePath { get; set; }
 
         public Subject Subject { get; set; }
+
+        [ForeignKey("Subject")]
+        public Guid Subject_Id { get; set; }
         public override void setId(Guid id)
         {
             Id = id;

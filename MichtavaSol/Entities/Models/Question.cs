@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -8,8 +9,23 @@ namespace Entities.Models
 {
     public class Question
     {
-        [Required]
-        public int Id { get; set; }
+
+        public Question()
+        {
+            Date_Added = DateTime.Now;
+        }
+
+        public Question(string content,HashSet<string> so)
+        {
+            Date_Added = DateTime.Now;
+            this.Content = content;
+            this.Suggested_Openings = so;
+            this.Policy = new Policy();
+     
+        }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
         public int Question_Number { get; set; }
 

@@ -30,7 +30,13 @@ namespace Entities.Models
 
         public virtual Teacher Created_By { get; set; }
 
+        [ForeignKey("Created_By")]
+        public Guid Teacher_Id { get; set; }
+
         public Text Text { get; set; }
+
+        [ForeignKey("Text")]
+        public Guid Text_Id { get; set; }
 
 
         public ICollection<Question> Questions

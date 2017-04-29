@@ -83,7 +83,7 @@
         {
             return base.Set<TEntity>();
         }
-
+       
 
         //Manually add a migration:
         // add-migration -ProjectName Dal -StartUpProject Frontend
@@ -95,8 +95,8 @@
         //Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal -verbose
         
 
-        //ONLY ONE TIME! (16.04.2017) :
-        //Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal -TargetMigration test1604 -verbose
+        //ONLY ONE TIME! (29.04.2017) :
+        //Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal -TargetMigration last2904 -verbose
 
 
 
