@@ -11,7 +11,7 @@ namespace Dal.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Dal.ApplicationDbContext> , IDisposable
+    internal sealed class Configuration : DbMigrationsConfiguration<Dal.ApplicationDbContext>, IDisposable
     {
 
         //superadmin: U:superadmin P:111
@@ -100,6 +100,79 @@ namespace Dal.Migrations
             new KeyValuePair<string, int>("ח",18),
         };
 
+        private static readonly string text1 =
+
+        "כדי להצליח בהתפחה, מונעים מגע ישיר בין השמרים לשמן זית או מלח, שעלולים לפגוע בפעולתם.מכאן יצא המנהג להתסיס את השמרים בסוכר ומים לפני שמתחילים את הבצק.אבל זה לא הכרחי אלא אם אתם חושדים בטריותם, ואז זה טסט מצוין (אין בועות אחרי 10 דקות? אפשר להתחיל שוב)." + "\n\n" +
+
+"מתחילים מערבבים שמרים עם קמח ומים(עדיף פושרים), ואם יש במתכון — אז גם סוכר או דבש.רק כאשר השמרים כבר מעורבבים בנוח בקערה מוסיפים את שאר הרכיבים כולל מלח ושמן." + "\n" +
+
+"לשים גם אם אתם מכינים את הבצק במיקסר, אל תוותרו על זמני הלישה." + "\n" +
+
+"מכסים רצוי לכסות בניילון נצמד ובמגבת מעל (וכך המגבת לא תידבק), כדי שיהיה לשמרים חמים וגם קצת חשוך." + "\n" +
+
+"מקום חמים לא מתפיחים מול המזגן! מתפיחים במקום חמים עד שעה וחצי להכפלת הנפח.אל תגזימו, כי לבצק שמרים שתפח יותר מדי יש טעם לוואי." + "\n" +
+
+"מקום קריר כשמכינים מראש אפשר להתפיח במקרר במשך 8 שעות." + "\n" +
+
+"אל תגזימו, כי לבצק שמרים שתפח יותר מדי יש טעם לוואי.";
+
+        private readonly List<string> textStrings = new List<string>(){
+            text1,
+            "אבא ואמא אומרים לבחור טוב בין קז'ואל פריידי ללבוש פורמאלי",
+            "טקסט שלישי חמאת בוטנים? לא תודה ענה אבינועם. לאחר מכן,\n\n "+"בחר שללכת לנוח בחדר התינוקות השכונתי."
+        };
+
+        private readonly List<string> textNames = new List<string>()
+        {
+            "מתכון לפוקאצ'ה מתקדמת",
+            "מה ללבוש היום?",
+            "בחירתו של אבינועם"
+        };
+
+        private readonly List<string> HWtitles = new List<string>(){
+            text1,
+            "תקופת הרנסנס: תחיה מחדש",
+            "השכלה גבוה: המסלול הבטוח להצלחה?",
+            "הפיצה וחשיבותה לתושבי שמעוני 3א"
+        };
+
+        private readonly List<string> HWdescs = new List<string>(){
+            text1,
+            "תקופת הרנסנס שינתה את פניה של אירופה של המאה 17. מה אתם יודעים על התקופה הססגונית הזאת?",
+            "ביל גייטס, סטיב ג'ובות,ועוד אלפי יזמים מצליחים עזבו את הואר בטרם סיימו אותו. האם האוניברסיטה היא אכן הכלי האולטימטיבי לפאוור ריינג'רס?",
+            "ענו על מספר שאלות הקשורות בפיצה ורחוב חשוב בשכונה ב' בבאר שבע מיקוד 44444."
+        };
+
+
+        private static readonly HashSet<string> suggested_openings = new HashSet<string>() {
+            "ההשלכות למעשיה הן להלן:",
+            "ריקודי החורף מגיעים בין התאריכים:",
+            "this is a suggested opening in english",
+            " ריקושט הם יותר יקרים משאר חנויות המטיילים מכיוון ש",
+            "התשובה לשאלה היא התשובה הבאה:",
+             "ההשלכות של המעשים של אליס הם להלן;",
+             "ההשלכות של מעשי אליס הן: \n 1)טרה לה לה"
+        };
+
+
+        private readonly List<Question> questions = new List<Question>()
+        {
+            new Question("הסבר מהם ההשלכות של הדברים שאמרה אליס מקארת'י",suggested_openings),
+            new Question("מנה את כל הדרכים בהן אליס עברה על החוק הרומני:",suggested_openings),
+            new Question("רציתי להגיד לך שאני מאוהב בך בטירוף, ולא לא עשית ____? (השלם את החסר)",suggested_openings),
+            new Question("באיזה שנה \"גילה\" קולומבוס את העולם החדש, לרוע מזלם של המקומיים?",suggested_openings),
+            new Question("איזו שרת כנסת בכירה נכחה בהפגנה נגד הקהילה הלהטבית?",suggested_openings),
+            new Question("מה היא בירת קרואטיה (2017)?",suggested_openings),
+            new Question("this is a question in english",suggested_openings),
+            new Question("מי האמן הכי רווחי בכל הזמנים, בכל העולם?",suggested_openings),
+            new Question("מי האמן הכי רווחי בכל הזמנים, בכל העולם?",suggested_openings),
+            new Question("מה היה הצבע של העץ מפלסטיק שקנו למרגולית צנעני?",suggested_openings),
+
+        };
+
+
+
+
         private const string PASSWORD = "111";
 
         private readonly DateTime startDate = new DateTime(2016, 3, 22);
@@ -118,7 +191,7 @@ namespace Dal.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-    
+
 
         protected override void Seed(Dal.ApplicationDbContext context)
         {
@@ -139,11 +212,13 @@ namespace Dal.Migrations
             this.SeedStudents(context);
             this.SeedTeachers(context);
             this.SeedSchoolClasses(context);
-            //this.SeedAcademicYears(context, AcademicYearsCount);
+            this.SeedTexts(context);
+            this.SeedHomeworks(context);
+            //this.SeedAnswers(context);
 
 
             context.Configuration.AutoDetectChangesEnabled = true;
-           
+
         }
 
 
@@ -259,13 +334,13 @@ namespace Dal.Migrations
             }
 
 
-            
-            for(int i = 0; i < studentNames.Count; i++)
+
+            for (int i = 0; i < studentNames.Count; i++)
             {
                 string name = studentNames.ElementAt(i);
                 string userName = studentUserNames.ElementAt(i);
 
-                 Student prof = new Student()
+                Student prof = new Student()
                 {
                     Name = name
                 };
@@ -292,7 +367,7 @@ namespace Dal.Migrations
 
 
 
-           
+
         }
 
         private void SeedStudentApplicationUser(ApplicationUser user, string password)
@@ -358,9 +433,9 @@ namespace Dal.Migrations
             }
         }
 
-         
 
-       
+
+
 
         private void SeedTeacherApplicationUser(ApplicationUser user, string password)
         {
@@ -385,20 +460,24 @@ namespace Dal.Migrations
         private void SeedSchoolClasses(ApplicationDbContext context)
         {
 
-         
+            if (context.SchoolClasses.Any())
+            {
+                return;
+            }
 
             IQueryable<Student> rtn = from temp in context.Students select temp;
             var students = new Queue<Student>(rtn.ToList());
 
             IQueryable<Teacher> rtn2 = from temp in context.Teachers select temp;
-            var teachers = new Queue<Teacher>( rtn2.ToList());
+            var teachers = new Queue<Teacher>(rtn2.ToList());
 
-            const  int studentsPerClass = 3;
-            const  int teachersPerClass = 3;
-            foreach (KeyValuePair<string,int> pair in SchoolClasses) {
+            const int studentsPerClass = 3;
+            const int teachersPerClass = 3;
+            foreach (KeyValuePair<string, int> pair in SchoolClasses)
+            {
 
-                SchoolClass sc = new SchoolClass() { ClassLetter=pair.Key, GradeYear = pair.Value };
-               
+                SchoolClass sc = new SchoolClass() { ClassLetter = pair.Key, GradeYear = pair.Value };
+
 
 
                 foreach (Subject s in context.Subjects)
@@ -409,17 +488,12 @@ namespace Dal.Migrations
                 context.SchoolClasses.AddOrUpdate(sc);
                 context.SaveChanges();
 
-                //if (System.Diagnostics.Debugger.IsAttached == false)
-                //{
 
-                //    System.Diagnostics.Debugger.Launch();
+                SchoolClass scPersistant = context.SchoolClasses.Where(x => (x.GradeYear == pair.Value && x.ClassLetter == pair.Key)).FirstOrDefault();
 
-                //}
+                for (int i = 0; i < studentsPerClass; i++)
+                {
 
-                SchoolClass scPersistant = context.SchoolClasses.Where(x => (x.GradeYear==pair.Value && x.ClassLetter== pair.Key)).FirstOrDefault();
-
-                for (int i = 0; i < studentsPerClass; i++) {
-                    
                     Student s = students.Dequeue();
                     scPersistant.Students.Add(s);
                     s.SchoolClass = scPersistant;
@@ -445,6 +519,147 @@ namespace Dal.Migrations
             context.SaveChanges();
 
         }
+
+
+        private void SeedTexts(ApplicationDbContext context)
+        {
+            if (context.Texts.Any())
+            {
+                return;
+            }
+
+
+            List<KeyValuePair<string, string>> pairs = new List<KeyValuePair<string, string>>();
+            for (int i = 0; i < textStrings.Count; i++)
+            {
+                pairs.Add(new KeyValuePair<string, string>(textNames.ElementAt(i), textStrings.ElementAt(i)));
+            }
+
+            foreach (KeyValuePair<string, string> pair in pairs)
+            {
+                Random rnd = new Random();
+                int r = rnd.Next(SubjectNames.Count);
+                string sName = SubjectNames.ElementAt(r);
+
+               
+
+                Subject subject = context.Subjects.Where(x => x.Name == sName).FirstOrDefault();
+
+                Text t = new Text();
+                t.Name = pair.Key;
+                t.Content = pair.Value;
+                t.Subject = subject;
+
+
+          
+                context.Texts.Add(t);
+
+                context.SaveChanges();
+
+            }
+
+        }
+
+        //assumes only 3 texts
+        private void SeedHomeworks(ApplicationDbContext context)
+        {
+
+           
+
+            IQueryable<Text> rtn = from temp in context.Texts select temp;
+            var texts = new Queue<Text>(rtn.ToList());
+
+            for (int i=0;i<3;i++)
+            {
+                Text t = texts.Dequeue();
+
+                Subject subject = context.Subjects.Where(x=> x.Id == t.Subject_Id).FirstOrDefault();
+
+                if(subject ==null)
+                    if (System.Diagnostics.Debugger.IsAttached == false)
+                    {
+
+                        System.Diagnostics.Debugger.Launch();
+
+                    }
+
+                string Title = HWtitles.ElementAt(i);
+                string Description = HWdescs.ElementAt(i);
+                DateTime dead = DateTime.Now.AddYears(1);//הלוואי
+                Teacher creator = null;
+
+                if (i == 0)
+                    creator = context.Teachers.Where(x => x.Name == "פיטר מקלאופלאן").FirstOrDefault();
+                else if (i == 1)
+                    creator = context.Teachers.Where(x => x.Name == "פיטר מקלאופלאן").FirstOrDefault();
+                else if (i == 2)
+                    creator = context.Teachers.Where(x => x.Name == "מיכאל קאיסר").FirstOrDefault();
+
+
+
+                List<Question> hwQuestions = new List<Question>();//not the prettiest but oh well
+
+                if (i == 0)
+                {
+                    hwQuestions.Add(questions.ElementAt(0));
+                    hwQuestions.Add(questions.ElementAt(1));
+                    hwQuestions.Add(questions.ElementAt(2));
+                }
+                else if (i == 1)
+                {
+                    hwQuestions.Add(questions.ElementAt(3));
+                    hwQuestions.Add(questions.ElementAt(4));
+                    hwQuestions.Add(questions.ElementAt(5));
+                }
+                else if (i == 2)
+                {
+                    hwQuestions.Add(questions.ElementAt(6));
+                    hwQuestions.Add(questions.ElementAt(7));
+                    hwQuestions.Add(questions.ElementAt(8));
+                    hwQuestions.Add(questions.ElementAt(9));
+           
+                }
+
+
+
+                Homework hw = new Homework();
+                hw.Title = Title;
+                hw.Description = Description;
+                hw.Deadline = dead;
+                hw.Created_By = creator;
+                hw.Text = t;
+
+                if (System.Diagnostics.Debugger.IsAttached == false)
+                {
+
+                    System.Diagnostics.Debugger.Launch();
+
+                }
+
+                foreach (Question q in hwQuestions) 
+                 hw.Questions.Add(q);
+
+                context.Homeworks.Add(hw);
+
+                context.SaveChanges();
+
+                SchoolClass getHomeworked = context.Teachers.Where(x => x.Id == creator.Id).FirstOrDefault().SchoolClasses.FirstOrDefault();//check this yo
+
+                getHomeworked.ActiveHomeworks.Add(hw);
+                foreach(Student s in getHomeworked.Students)
+                {
+                    s.Homeworks.Add(hw);
+                    context.Students.AddOrUpdate(s);
+
+                }
+
+                context.SchoolClasses.AddOrUpdate(getHomeworked);
+                context.SaveChanges();
+
+            }
+        }
+
+
 
         private UserManager<ApplicationUser> CreateUserManager(ApplicationDbContext context)
         {
