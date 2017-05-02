@@ -9,15 +9,19 @@ namespace Entities.Models
     public class Student : DeletableEntity
     {
 
+
+        private ICollection<Homework> homeworks;
+
         public Student()
         {
-            Homeworks = new HashSet<Homework>();
+            homeworks = new List<Homework>();
 
         }
 
         public ICollection<Homework> Homeworks
         {
-            get; set;
+            get { return this.homeworks; }
+            set { this.homeworks = value; }
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

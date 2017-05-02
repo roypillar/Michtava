@@ -11,14 +11,14 @@
         private ICollection<Student> students;
         private ICollection<Teacher> teachers;
         private ICollection<Subject> subjects;
-        private ICollection<Homework> activeHomeworks;
+        private ICollection<Homework> homeworks;
 
         public SchoolClass()
         {
             students = new HashSet<Student>();
             teachers = new HashSet<Teacher>();
             subjects = new HashSet<Subject>();
-            activeHomeworks = new HashSet<Homework>();
+            homeworks = new HashSet<Homework>();
 
         }
 
@@ -27,7 +27,7 @@
 
         public string ClassLetter { get; set; }
 
-        public int GradeYear { get; set; }
+        public int ClassNumber { get; set; }
 
         public ICollection<Student> Students
         {
@@ -48,10 +48,10 @@
             set { this.subjects = value; }
         }
 
-        public virtual ICollection<Homework> ActiveHomeworks
+        public virtual ICollection<Homework> Homeworks
         {
-            get { return this.activeHomeworks; }
-            set { this.activeHomeworks = value; }
+            get { return this.homeworks; }
+            set { this.homeworks = value; }
         }
         public override void setId(Guid id)
         {

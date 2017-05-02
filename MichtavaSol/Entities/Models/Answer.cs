@@ -16,11 +16,22 @@ namespace Entities.Models
 
         public Homework Answer_To { get; set; }
 
+        [ForeignKey("Answer_To")]
+        public Guid Homework_Id { get; set; }
+
+
+       
+
+
         public string Content { get; set; }
 
         public Dictionary<Question, string> answers { get; set; }
 
         public Student Submitted_By { get; set; }
+
+        [ForeignKey("Submitted_By")]
+        public Guid Student_Id { get; set; }
+
         public override void setId(Guid id)
         {
             Id = id;

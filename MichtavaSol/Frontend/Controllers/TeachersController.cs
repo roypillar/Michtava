@@ -212,7 +212,7 @@ namespace Frontend.Controllers
         {
             foreach (var cls in _classService.All())
             {
-                TempData[cls.Id + ""] = cls.ClassLetter + " " + cls.GradeYear;
+                TempData[cls.Id + ""] = cls.ClassLetter + " " + cls.ClassNumber;
             }
         }
 
@@ -220,7 +220,7 @@ namespace Frontend.Controllers
         {
             foreach (var cls in _classService.All())
             {
-                if (className.Equals(cls.ClassLetter + " " + cls.GradeYear))
+                if (className.Equals(cls.ClassLetter + " " + cls.ClassNumber))
                     return cls;
             }
 
@@ -274,7 +274,7 @@ namespace Frontend.Controllers
             }
             else
             {
-                TempData["class"] = "כיתה: " + std.SchoolClass.ClassLetter + " " + std.SchoolClass.GradeYear;
+                TempData["class"] = "כיתה: " + std.SchoolClass.ClassLetter + " " + std.SchoolClass.ClassNumber;
             }   
 
             foreach (var hw in std.Homeworks)

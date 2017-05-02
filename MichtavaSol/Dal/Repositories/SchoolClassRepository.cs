@@ -10,11 +10,11 @@
         {
         }
 
-        public SchoolClass GetByDetails(int gradeYear, string letter)
+        public SchoolClass GetByDetails(int classNumber, string letter)
         {
             SchoolClass schoolClass = this.All()
                 .FirstOrDefault(
-                    sc => sc.GradeYear == gradeYear &&
+                    sc => sc.ClassNumber == classNumber &&
                           sc.ClassLetter == letter);
             return schoolClass;
         }

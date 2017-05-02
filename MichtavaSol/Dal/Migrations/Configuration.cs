@@ -476,7 +476,7 @@ namespace Dal.Migrations
             foreach (KeyValuePair<string, int> pair in SchoolClasses)
             {
 
-                SchoolClass sc = new SchoolClass() { ClassLetter = pair.Key, GradeYear = pair.Value };
+                SchoolClass sc = new SchoolClass() { ClassLetter = pair.Key, ClassNumber = pair.Value };
 
 
 
@@ -486,10 +486,11 @@ namespace Dal.Migrations
                 }
 
                 context.SchoolClasses.AddOrUpdate(sc);
+
                 context.SaveChanges();
 
 
-                SchoolClass scPersistant = context.SchoolClasses.Where(x => (x.GradeYear == pair.Value && x.ClassLetter == pair.Key)).FirstOrDefault();
+                SchoolClass scPersistant = context.SchoolClasses.Where(x => (x.ClassNumber == pair.Value && x.ClassLetter == pair.Key)).FirstOrDefault();
 
                 for (int i = 0; i < studentsPerClass; i++)
                 {
@@ -498,6 +499,7 @@ namespace Dal.Migrations
                     scPersistant.Students.Add(s);
                     s.SchoolClass = scPersistant;
                     context.Students.AddOrUpdate(s);
+
                 }
 
                 for (int i = 0; i < teachersPerClass; i++)
@@ -518,6 +520,7 @@ namespace Dal.Migrations
 
             context.SaveChanges();
 
+          
         }
 
 
@@ -564,7 +567,7 @@ namespace Dal.Migrations
         private void SeedHomeworks(ApplicationDbContext context)
         {
 
-           
+        
 
             IQueryable<Text> rtn = from temp in context.Texts select temp;
             var texts = new Queue<Text>(rtn.ToList());
@@ -577,14 +580,14 @@ namespace Dal.Migrations
 
                 if (subject == null) {
                  subject = context.Subjects.Local.Where(x => x.Id == t.Subject_Id).FirstOrDefault();
-                //if (subject == null)
-                //    if (System.Diagnostics.Debugger.IsAttached == false)
-                //{
+                    if (subject == null)
+                        if (System.Diagnostics.Debugger.IsAttached == false)
+                        {
 
-                //    System.Diagnostics.Debugger.Launch();
+                            System.Diagnostics.Debugger.Launch();
 
-                //}
-            }
+                        }
+                }
 
                 string Title = HWtitles.ElementAt(i);
                 string Description = HWdescs.ElementAt(i);
@@ -632,28 +635,24 @@ namespace Dal.Migrations
                 hw.Created_By = creator;
                 hw.Text = t;
 
-                //if (System.Diagnostics.Debugger.IsAttached == false)
-                //{
-
-                //    System.Diagnostics.Debugger.Launch();
-
-                //}
+               
 
                 foreach (Question q in hwQuestions) 
-                 hw.Questions.Add(q);
+                  hw.Questions.Add(q);
 
                 context.Homeworks.Add(hw);
 
                 context.SaveChanges();
 
-                SchoolClass getHomeworked = context.Teachers.Where(x => x.Id == creator.Id).FirstOrDefault().SchoolClasses.FirstOrDefault();//check this yo
+                //check this yo
+                SchoolClass getHomeworked = context.Teachers.Include("SchoolClasses").Where(x => x.Id == creator.Id).FirstOrDefault().SchoolClasses.FirstOrDefault();
 
-                getHomeworked.ActiveHomeworks.Add(hw);
-                foreach(Student s in getHomeworked.Students)
+                getHomeworked.Homeworks.Add(hw);
+                var stus = context.SchoolClasses.Include("Students").Where(x => x.Id == getHomeworked.Id).FirstOrDefault().Students;
+                foreach(Student s in stus)
                 {
                     s.Homeworks.Add(hw);
                     context.Students.AddOrUpdate(s);
-
                 }
 
                 context.SchoolClasses.AddOrUpdate(getHomeworked);

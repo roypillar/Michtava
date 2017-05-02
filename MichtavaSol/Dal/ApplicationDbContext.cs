@@ -83,7 +83,18 @@
         {
             return base.Set<TEntity>();
         }
-       
+
+
+        protected override void OnModelCreating(DbModelBuilder mb)
+        {
+            base.OnModelCreating(mb);
+
+
+            mb.Entity<Student>().HasMany(m => m.Homeworks).WithMany();
+
+            mb.Entity<SchoolClass>().HasMany(m => m.Homeworks).WithMany();
+        }
+
 
         //Manually add a migration:
         // add-migration -ProjectName Dal -StartUpProject Frontend
@@ -93,7 +104,7 @@
 
         //update database, migrate automatically
         //Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal -verbose
-        
+
 
         //ONLY ONE TIME! (29.04.2017) :
         //Update-Database -ConfigurationTypeName Dal.Migrations.Configuration -ProjectName Dal -TargetMigration last2904 -verbose
