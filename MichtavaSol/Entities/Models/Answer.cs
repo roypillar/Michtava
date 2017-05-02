@@ -9,6 +9,14 @@ namespace Entities.Models
 {
     public class Answer : DeletableEntity
     {
+
+        public Answer()
+        {
+            Date_Submitted = DateTime.Now;
+            answers = new Dictionary<Question, string>();
+        }
+
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
@@ -19,11 +27,6 @@ namespace Entities.Models
         [ForeignKey("Answer_To")]
         public Guid Homework_Id { get; set; }
 
-
-       
-
-
-        public string Content { get; set; }
 
         public Dictionary<Question, string> answers { get; set; }
 

@@ -170,6 +170,21 @@ namespace Dal.Migrations
 
         };
 
+        private readonly List<string> answerContents = new List<string>()
+        {
+            "ההשלכות הן אכן מרחיקות לכת, אך לא נפרט על כך פה",
+           "אליס עברה את העבירות הבאות: חוסר רפלקסיביות, שאננות בעת מילוי תפקיד, והזנחת רכשים שלא לצורך",
+           "כישוף מינימלי עולמות מקבילים צ'יקו ודיקו חברים הכי קרובים",
+           "לדעתי זה קרה בשנת 1492 וזה מצער נורא מצד שני בגלל זה יש לנו מקדונלדס וכדומה",
+           "בואו נגיד שזאת לא זהבה גלאון כי היא מלאכית שרת",
+           "התשובה לשאלה הנ\"ל היא זאגרב, כדאי לבקר מומלץ בקור",
+           "this is an answer  in english",
+           "התשובה היא כנראה אלביס פרסלי, אבל אין לדעת מה טומן בחובו הגורל.",
+            "התשובה היא כנראה מרגולית צנעני, שעבור הסינגל עץ פיסטוק ירוק גרפה הזמרת 2 מיליארד שקלים נקי ממס",
+          "וקנית לי עץ ירוק מפלסטיק, היית בטוח שהכל מתברך "
+
+        };
+
 
 
 
@@ -214,12 +229,13 @@ namespace Dal.Migrations
             this.SeedSchoolClasses(context);
             this.SeedTexts(context);
             this.SeedHomeworks(context);
-            //this.SeedAnswers(context);
+            this.SeedAnswers(context);
 
 
             context.Configuration.AutoDetectChangesEnabled = true;
 
         }
+
 
 
         private void SeedSubjects(ApplicationDbContext context)
@@ -513,14 +529,11 @@ namespace Dal.Migrations
 
                 context.SchoolClasses.AddOrUpdate(sc);
 
-
-
-
             }
 
             context.SaveChanges();
 
-          
+
         }
 
 
@@ -544,7 +557,7 @@ namespace Dal.Migrations
                 int r = rnd.Next(SubjectNames.Count);
                 string sName = SubjectNames.ElementAt(r);
 
-               
+
 
                 Subject subject = context.Subjects.Where(x => x.Name == sName).FirstOrDefault();
 
@@ -554,7 +567,7 @@ namespace Dal.Migrations
                 t.Subject = subject;
 
 
-          
+
                 context.Texts.Add(t);
 
                 context.SaveChanges();
@@ -567,7 +580,17 @@ namespace Dal.Migrations
         private void SeedHomeworks(ApplicationDbContext context)
         {
 
-        
+         
+            if (context.Homeworks.Any())
+            {
+                return;
+            }
+            if (System.Diagnostics.Debugger.IsAttached == false)
+            {
+
+                System.Diagnostics.Debugger.Launch();
+
+            }
 
             IQueryable<Text> rtn = from temp in context.Texts select temp;
             var texts = new Queue<Text>(rtn.ToList());
@@ -576,10 +599,11 @@ namespace Dal.Migrations
             {
                 Text t = texts.Dequeue();
 
-                Subject subject = context.Subjects.Where(x => x.Id == t.Subject_Id).FirstOrDefault();
+                Subject subject = context.Subjects.Where(x => x.Id == t.Subject_Id).FirstOrDefault();//ok
 
-                if (subject == null) {
-                 subject = context.Subjects.Local.Where(x => x.Id == t.Subject_Id).FirstOrDefault();
+                if (subject == null)
+                {
+                    subject = context.Subjects.Local.Where(x => x.Id == t.Subject_Id).FirstOrDefault();
                     if (subject == null)
                         if (System.Diagnostics.Debugger.IsAttached == false)
                         {
@@ -623,7 +647,7 @@ namespace Dal.Migrations
                     hwQuestions.Add(questions.ElementAt(7));
                     hwQuestions.Add(questions.ElementAt(8));
                     hwQuestions.Add(questions.ElementAt(9));
-           
+
                 }
 
 
@@ -635,21 +659,21 @@ namespace Dal.Migrations
                 hw.Created_By = creator;
                 hw.Text = t;
 
-               
 
-                foreach (Question q in hwQuestions) 
-                  hw.Questions.Add(q);
+
+                foreach (Question q in hwQuestions)
+                    hw.Questions.Add(q);
 
                 context.Homeworks.Add(hw);
 
                 context.SaveChanges();
 
-                //check this yo
-                SchoolClass getHomeworked = context.Teachers.Include("SchoolClasses").Where(x => x.Id == creator.Id).FirstOrDefault().SchoolClasses.FirstOrDefault();
+                //ok
+                SchoolClass getHomeworked = context.Teachers.Where(x => x.Id == creator.Id).Include(teac => teac.SchoolClasses).FirstOrDefault().SchoolClasses.FirstOrDefault();
 
                 getHomeworked.Homeworks.Add(hw);
-                var stus = context.SchoolClasses.Include("Students").Where(x => x.Id == getHomeworked.Id).FirstOrDefault().Students;
-                foreach(Student s in stus)
+                var stus = context.SchoolClasses.Where(x => x.Id == getHomeworked.Id).Include(sch => sch.Students).FirstOrDefault().Students;
+                foreach (Student s in stus)
                 {
                     s.Homeworks.Add(hw);
                     context.Students.AddOrUpdate(s);
@@ -661,7 +685,54 @@ namespace Dal.Migrations
             }
         }
 
+        private void SeedAnswers(ApplicationDbContext context)
+        {
+            //if (context.Answers.Any())
+            //{
+            //    return;
+            //}
 
+            if (System.Diagnostics.Debugger.IsAttached == false)
+            {
+
+                System.Diagnostics.Debugger.Launch();
+
+            }
+
+            IQueryable<Student> rtn = from temp in context.Students.Include(s => s.Homeworks) select temp;
+            var students = new Queue<Student>(rtn.ToList());
+
+            foreach(Student s in students)
+            {
+                Homework ans_to = s.Homeworks.FirstOrDefault();//chickitty check
+
+                if (ans_to == null)//either a weird error, or the student has no homework
+                    continue;
+
+                IEnumerable<Question> questionsOfHw = context.Homeworks.
+                    Where(x => x.Id == ans_to.Id).Include(home => home.Questions).FirstOrDefault().Questions;//chleck
+
+                Answer ans = new Answer();
+                ans.Answer_To = ans_to;
+                ans.Submitted_By = s;
+
+                foreach (Question q in questionsOfHw)
+                {
+                    ans.answers.Add(q, RandomAnswerString());
+                }
+
+                context.Answers.Add(ans);
+            }
+
+            context.SaveChanges();
+
+        }
+
+        public string RandomAnswerString()
+        {
+            return answerContents.ElementAt(new Random().Next(answerContents.Count));
+             
+        }
 
         private UserManager<ApplicationUser> CreateUserManager(ApplicationDbContext context)
         {
