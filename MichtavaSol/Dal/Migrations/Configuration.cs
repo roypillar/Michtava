@@ -632,12 +632,12 @@ namespace Dal.Migrations
                 hw.Created_By = creator;
                 hw.Text = t;
 
-                if (System.Diagnostics.Debugger.IsAttached == false)
-                {
+                //if (System.Diagnostics.Debugger.IsAttached == false)
+                //{
 
-                    System.Diagnostics.Debugger.Launch();
+                //    System.Diagnostics.Debugger.Launch();
 
-                }
+                //}
 
                 foreach (Question q in hwQuestions) 
                  hw.Questions.Add(q);
