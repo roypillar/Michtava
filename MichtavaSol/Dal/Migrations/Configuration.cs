@@ -569,19 +569,22 @@ namespace Dal.Migrations
             IQueryable<Text> rtn = from temp in context.Texts select temp;
             var texts = new Queue<Text>(rtn.ToList());
 
-            for (int i=0;i<3;i++)
+            for (int i = 0; i < 3; i++)
             {
                 Text t = texts.Dequeue();
 
-                Subject subject = context.Subjects.Where(x=> x.Id == t.Subject_Id).FirstOrDefault();
+                Subject subject = context.Subjects.Where(x => x.Id == t.Subject_Id).FirstOrDefault();
 
-                if(subject ==null)
-                    if (System.Diagnostics.Debugger.IsAttached == false)
-                    {
+                if (subject == null) {
+                 subject = context.Subjects.Local.Where(x => x.Id == t.Subject_Id).FirstOrDefault();
+                //if (subject == null)
+                //    if (System.Diagnostics.Debugger.IsAttached == false)
+                //{
 
-                        System.Diagnostics.Debugger.Launch();
+                //    System.Diagnostics.Debugger.Launch();
 
-                    }
+                //}
+            }
 
                 string Title = HWtitles.ElementAt(i);
                 string Description = HWdescs.ElementAt(i);
