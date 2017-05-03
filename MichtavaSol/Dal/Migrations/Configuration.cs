@@ -585,12 +585,12 @@ namespace Dal.Migrations
             {
                 return;
             }
-            if (System.Diagnostics.Debugger.IsAttached == false)
-            {
+            //if (System.Diagnostics.Debugger.IsAttached == false)
+            //{
 
-                System.Diagnostics.Debugger.Launch();
+            //    System.Diagnostics.Debugger.Launch();
 
-            }
+            //}
 
             IQueryable<Text> rtn = from temp in context.Texts select temp;
             var texts = new Queue<Text>(rtn.ToList());
@@ -692,12 +692,12 @@ namespace Dal.Migrations
             //    return;
             //}
 
-            if (System.Diagnostics.Debugger.IsAttached == false)
-            {
+            //if (System.Diagnostics.Debugger.IsAttached == false)
+            //{
 
-                System.Diagnostics.Debugger.Launch();
+            //    System.Diagnostics.Debugger.Launch();
 
-            }
+            //}
 
             IQueryable<Student> rtn = from temp in context.Students.Include(s => s.Homeworks) select temp;
             var students = new Queue<Student>(rtn.ToList());
