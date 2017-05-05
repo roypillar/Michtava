@@ -45,7 +45,6 @@ namespace Frontend.Controllers
             return View("TeachersMenu");
         }
 
-        [HttpPost]
         public ActionResult NavigateToTextAdding(string CurrentSubject)
         {
             ViewBag.Title = CurrentSubject;
@@ -56,7 +55,6 @@ namespace Frontend.Controllers
             return View("TextAdding");
         }
 
-        [HttpPost]
         public ActionResult NavigateToTextsView(string subject)
         {
             ViewBag.Title = "רשימת טקסטים";
@@ -265,7 +263,13 @@ namespace Frontend.Controllers
 
         public ActionResult NavigateToClassView(string className)
         {
+            if (string.IsNullOrEmpty(className))
+            {
+                className = Session["CurrentClass"].ToString();
+            }
+
             ViewBag.Title = className;
+            Session["CurrentClass"] = className;
 
             var currentClass = GetClass(className);
             InitializeClassView(currentClass);
