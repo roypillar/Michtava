@@ -45,11 +45,13 @@ namespace Frontend.Controllers
             return View("TeachersMenu");
         }
 
-        public ActionResult NavigateToTextAdding()
+        [HttpPost]
+        public ActionResult NavigateToTextAdding(string CurrentSubject)
         {
-            ViewBag.Title = "בחר אפשרות";
+            ViewBag.Title = CurrentSubject;
 
             InitializeSubjects();
+            TempData["Subject"] = CurrentSubject;
 
             return View("TextAdding");
         }
@@ -65,13 +67,13 @@ namespace Frontend.Controllers
             {
                 Session["CurrentSubject"] = subject;
                 InitializeTexts(subject);
-                TempData["msg"] = subject;
+                TempData["CurrentSubject"] = subject;
             }
 
             return View("TextsView");
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public ActionResult ShowTexts(string CurrentSubject)
         {
             ViewBag.Title = "רשימת טקסטים";
@@ -87,7 +89,7 @@ namespace Frontend.Controllers
             }
 
             return View("TextsView");
-        }
+        }*/
 
         private void InitializeTexts(string subject)
         {
@@ -162,9 +164,12 @@ namespace Frontend.Controllers
                 return View("TextAdding");
             }
 
-            string txtSubjectID = _subjectsDictionary.FirstOrDefault(x => x.Value == model.SubjectID).Key;
+            var subjectName = string.IsNullOrEmpty(model.SubjectID) ? Session["CurrentSubject"] : model.SubjectID;
+            Session["CurrentSubject"] = subjectName;
+
+            string txtSubjectID = _subjectsDictionary.FirstOrDefault(x => x.Value.Equals(subjectName)).Key;
             var txtFinalSubjectID = new Guid(txtSubjectID);
-            Subject subject = _subjectService.GetById(txtFinalSubjectID);//small change here (int-> Guid)
+            Subject subject = _subjectService.GetById(txtFinalSubjectID); //small change here (int-> Guid)
 
             Text txt = _fileManager.UploadText(Server.MapPath("~/uploads"), subject, model.Name,
                 Request.Form["filecontents"]);
@@ -172,9 +177,16 @@ namespace Frontend.Controllers
 
             _textService.Add(txt);
 
-            TempData["msg"] = "<script>alert('הטקסט הועלה בהצלחה    : )');</script>";            
+            TempData["msg"] = "<script>alert('הטקסט הועלה בהצלחה    : )');</script>";
 
-            return View("TextAdding");
+
+            ViewBag.Title = "רשימת טקסטים";
+
+            InitializeSubjects();
+            InitializeTexts(Session["CurrentSubject"].ToString());
+            TempData["CurrentSubject"] = Session["CurrentSubject"];
+
+            return View("TextsView");
         }
 
         [HttpPost]

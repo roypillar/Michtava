@@ -71,7 +71,7 @@
 
 <body>
 
-<button id="myBtn" class="hidden"></button>
+@*<button id="myBtn" class="hidden"></button>*@
 
 <div class="row">
     <div class="row">
@@ -80,12 +80,18 @@
                 <h2>@ViewBag.Title:</h2></b>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-10">
+            <b><h4>@Session["CurrentSubject"]</h4></b>
+        </div>
+    </div>
     <br/>
 
     <div class="row">       
         <div class="col-sm-3 pull-right">
             <form class="col-xs-12" action="NavigateToTextAdding" method="post" >
                 <input type="submit" value="הוסף טקסט חדש" style="background-color: green; border-color: green;" />
+                <textarea id="CurrentSubject" name="CurrentSubject" value="@Html.Raw(TempData["CurrentSubject"])" style="visibility: hidden;"></textarea>
             </form>
         </div>
         <div class="col-sm-3 pull-right">

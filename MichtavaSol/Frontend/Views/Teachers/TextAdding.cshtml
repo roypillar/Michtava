@@ -88,8 +88,9 @@
 {
     <div class="row">
         <div class="col-md-3 pull-right">
+            
             <h3>
-                <label for="myBtn" class="label label-warning" style = "background-color: green; color: white">בחר נושא</label>
+                <label for="myBtn" class="label label-warning" style="background-color: green; color: white">החלף נושא</label>
             </h3>
             <div id="myModal" class="modal">
 
@@ -115,9 +116,10 @@
 
             </div>
         </div>
-        <div class="col-md-3 pull-right">
-            <h3 style="color: green;"><b><span id="title">&nbsp;</span></b>
-            </h3>
+        <div class="col-md-6 pull-right">
+            <h3 id="CrntSubj1" style="color: green; display: none;"><b><span id="title">&nbsp;</span></b></h3>
+            
+            <h3 id="CrntSubj2" style="color: green; display: block;"><b><span id="title">@Session["CurrentSubject"]</span></b></h3>
         </div>
     </div>
 
@@ -132,8 +134,8 @@
             <div class="form-group">
                 <div class="col-md-3 pull-right">
                     @Html.TextBoxFor(m => m.Name,
-                        new {@type = "file", @name = "FilePath", @id = "txtfiletoread", accept = ".txt"})
-                    @Html.ValidationMessageFor(m => m.Name, "", new {@class = "text-danger"})
+                        new {@type = "file", @name = "FilePath", @id = "txtfiletoread", accept = ".txt" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new {@class = "text-danger" })
                 </div>
             </div>
 
@@ -183,7 +185,10 @@
     function ChooseSubject(val) {
         if (val != null) {
             document.getElementById("title").firstChild.nodeValue = val;
-            $('#SubmitBtn').show();
+
+            $('#CrntSubj1').show();
+            $('#CrntSubj2').hide();
+            //$('#SubmitBtn').show();
         }
 
         // close the modal:
@@ -191,22 +196,23 @@
     }
 
     window.onload = function() {
-        //Check the support for the File API support 
+        //Check the support for the File API support
         if (window.File && window.FileReader && window.FileList && window.Blob) {
             var fileSelected = document.getElementById('txtfiletoread');
             fileSelected.addEventListener('change',
                 function(e) {
-                    //Set the extension for the file 
+                    //Set the extension for the file
                     var fileExtension = /text.*/;
-                    //Get the file object 
+                    //Get the file object
                     var fileTobeRead = fileSelected.files[0];
-                    //Check of the extension match 
+                    //Check of the extension match
                     if (fileTobeRead.type.match(fileExtension)) {
-                        //Initialize the FileReader object to read the 2file 
+                        //Initialize the FileReader object to read the 2file
                         var fileReader = new FileReader();
                         fileReader.onload = function(e) {
                             var fileContents = document.getElementById('filecontents');
                             document.getElementById("filecontents").value = fileReader.result;
+                            $('#SubmitBtn').show();
                         }
                         fileReader.readAsText(fileTobeRead);
                     } else {
@@ -219,6 +225,7 @@
             alert("Files are not supported");
         }
     }
+
 </script>
 
 @section Scripts {

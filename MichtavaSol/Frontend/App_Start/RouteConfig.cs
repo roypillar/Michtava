@@ -77,6 +77,12 @@ namespace Frontend
             // ------------------------------------------------- Teachers -------------------------------------------------
 
             routes.MapRoute(
+                name: "TextsViewAfterAddingText",
+                url: "NavigateToClassView/NavigateToTextsView/{action}/{username}",
+                defaults: new { controller = "Teachers", action = "NavigateToTextsView", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
+            routes.MapRoute(
                 name: "ClassView",
                 url: "NavigateToClassView/{action}/{username}",
                 defaults: new { controller = "Teachers", action = "NavigateToClassView", username = string.Empty },
