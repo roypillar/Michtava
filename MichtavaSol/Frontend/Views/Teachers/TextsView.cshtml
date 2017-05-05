@@ -94,10 +94,13 @@
                 <textarea id="CurrentText" name="CurrentText" value="" placeholder="אנא בחר טקסט" style="visibility: hidden;"></textarea>
             </form>
         </div>
+        <div class="col-sm-3 pull-right">
+            <b><span id="title">&nbsp;@Html.Raw(TempData["msg"])</span></b>
+        </div>
     </div>
     <hr/>
     
-@using (Html.BeginForm("ShowTexts", "Teachers", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+@*@using (Html.BeginForm("ShowTexts", "Teachers", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
 {
     <div class="row">
         <div class="col-sm-2 pull-right">
@@ -137,7 +140,7 @@
                 <input type="submit" id="showTexts" value="הצג טקסטים" style="display: none;"/>
         </div>
     </div>
-}
+}*@
     
     <div class="row">
         @foreach (var txt in TempData)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -53,11 +54,19 @@ namespace Frontend.Controllers
             return View("TextAdding");
         }
 
-        public ActionResult NavigateToTextsView()
+        [HttpPost]
+        public ActionResult NavigateToTextsView(string subject)
         {
             ViewBag.Title = "רשימת טקסטים";
 
             InitializeSubjects();
+
+            if (!string.IsNullOrEmpty(subject))
+            {
+                Session["CurrentSubject"] = subject;
+                InitializeTexts(subject);
+                TempData["msg"] = subject;
+            }
 
             return View("TextsView");
         }
@@ -154,10 +163,12 @@ namespace Frontend.Controllers
             }
 
             string txtSubjectID = _subjectsDictionary.FirstOrDefault(x => x.Value == model.SubjectID).Key;
-            Subject subject = _subjectService.GetById(new Guid(txtSubjectID));//small change here (int-> Guid)
+            var txtFinalSubjectID = new Guid(txtSubjectID);
+            Subject subject = _subjectService.GetById(txtFinalSubjectID);//small change here (int-> Guid)
 
             Text txt = _fileManager.UploadText(Server.MapPath("~/uploads"), subject, model.Name,
-                Request.Form["filecontents"]);                       
+                Request.Form["filecontents"]);
+            txt.Subject_Id = txtFinalSubjectID;
 
             _textService.Add(txt);
 
@@ -218,7 +229,7 @@ namespace Frontend.Controllers
 
         private SchoolClass GetClass(string className)
         {
-            foreach (var cls in _classService.All())
+            foreach (var cls in _classService.All().Include(x => x.Students))
             {
                 if (className.Equals(cls.ClassLetter + " " + cls.ClassNumber))
                     return cls;
