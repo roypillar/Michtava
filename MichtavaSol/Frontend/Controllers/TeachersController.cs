@@ -61,12 +61,14 @@ namespace Frontend.Controllers
 
             InitializeSubjects();
 
-            if (!string.IsNullOrEmpty(subject))
+            if (string.IsNullOrEmpty(subject))
             {
-                Session["CurrentSubject"] = subject;
-                InitializeTexts(subject);
-                TempData["CurrentSubject"] = subject;
+                subject = Session["CurrentSubject"].ToString();
             }
+
+            Session["CurrentSubject"] = subject;
+            InitializeTexts(subject);
+            TempData["CurrentSubject"] = subject;
 
             return View("TextsView");
         }
@@ -91,6 +93,7 @@ namespace Frontend.Controllers
 
         private void InitializeTexts(string subject)
         {
+            _textsDictionary.Clear();
             foreach (var txt in _textService.All())
             {
                 if (!string.IsNullOrEmpty(subject) && txt.Subject.Name.Equals(subject))
@@ -103,6 +106,7 @@ namespace Frontend.Controllers
 
         private void InitializeSubjects()
         {
+            _subjectsDictionary.Clear();
             foreach (var subject in _subjectService.All())
             {
                 _subjectsDictionary["" + subject.Id] = subject.Name;
@@ -195,12 +199,21 @@ namespace Frontend.Controllers
             InitializeSubjects();
             InitializeTexts(Session["CurrentSubject"].ToString());
 
+            if (string.IsNullOrEmpty(CurrentText))
+            {                
+                TempData["msg"] = "<script>alert('לא סומן טקסט למחיקה');</script>";
+                return View("TextsView");
+            }
+
             var txtKey = _textsDictionary.FirstOrDefault(x => x.Value == CurrentText).Key;
             txtKey = txtKey.Substring(0, txtKey.Length - 3);
 
+            // TODO: handle situation where Texts have the same name
             _textService.Delete(_textService.GetById(new Guid(txtKey)));
 
-            // TODO: handle situation where Texts have the same name
+            TempData.Clear();
+            InitializeSubjects();
+            InitializeTexts(Session["CurrentSubject"].ToString());
 
             TempData["msg"] = "<script>alert('הטקסט נמחק בהצלחה');</script>";
 
