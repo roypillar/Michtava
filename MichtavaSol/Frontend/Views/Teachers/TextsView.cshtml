@@ -142,6 +142,12 @@
             </form>
         </div>
         <div class="col-sm-3 pull-right">
+            <form class="col-xs-12" action="NavigateToPolicy" method="post">
+                <input type="submit" id="AddHomework" value="הוסף מטלה" style="background-color: goldenrod; border-color: goldenrod;" onclick="ChooseText($('input[type=radio]:checked').val())" />
+                <textarea id="text" name="text" value="" placeholder="אנא בחר טקסט" style="visibility: hidden;"></textarea>
+            </form>
+        </div>
+        <div class="col-sm-3 pull-right">
             <b><span id="title">&nbsp;@Html.Raw(TempData["msg"])</span></b>
         </div>
     </div>
@@ -247,6 +253,7 @@
     function ChooseText(val) {
         if (val != null) {
             document.getElementById("CurrentText").value = val;
+            document.getElementById("text").value = val;
         }
     }
 </script>

@@ -114,9 +114,16 @@ namespace Frontend.Controllers
             }
         }
 
-        public ActionResult NavigateToPolicy()
+        public ActionResult NavigateToPolicy(string text)
         {
             ViewBag.Title = "בחר אפשרות";
+
+            if (string.IsNullOrEmpty(text))
+            {
+                InitializeTextsViewPage();
+                TempData["msg"] = "<script>alert('בחר/י טקסט עליו תסתמך המטלה');</script>";
+                return View("TextsView");
+            }
 
             return View("Policy");
         }
@@ -191,13 +198,18 @@ namespace Frontend.Controllers
             return View("TextsView");
         }
 
+        private void InitializeTextsViewPage()
+        {
+            InitializeSubjects();
+            InitializeTexts(Session["CurrentSubject"].ToString());
+        }
+
         [HttpPost]
         public ActionResult RemoveText(string CurrentText)
         {
             ViewBag.Title = "רשימת טקסטים";
 
-            InitializeSubjects();
-            InitializeTexts(Session["CurrentSubject"].ToString());
+            InitializeTextsViewPage();
 
             if (string.IsNullOrEmpty(CurrentText))
             {                
@@ -212,8 +224,7 @@ namespace Frontend.Controllers
             _textService.Delete(_textService.GetById(new Guid(txtKey)));
 
             TempData.Clear();
-            InitializeSubjects();
-            InitializeTexts(Session["CurrentSubject"].ToString());
+            InitializeTextsViewPage();
 
             TempData["msg"] = "<script>alert('הטקסט נמחק בהצלחה');</script>";
 

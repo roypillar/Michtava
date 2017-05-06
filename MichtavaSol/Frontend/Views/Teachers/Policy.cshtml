@@ -23,14 +23,56 @@
             background-size: 100% 100%;
             background-repeat: no-repeat;
         }
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #f4511e;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 16px;
+            padding: 10px;
+            width: 100px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button span:after {
+            content: '<<';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: 20px;
+            transition: 0.5s;
+        }
+
+        .button:hover span {
+            padding-right: 25px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
     </style>
 </head>
 <body>
+
+<button class="button" onclick="location.href = '@Url.Action("NavigateToTextsView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
+
 <div class="row">
     <form class="text-right" action="SubmitPolicy" method="post" id="policyData">
         <div class="row">
             <div class="col-sm-10">
-                @Html.TextAreaFor(model => model.Question, new { cols = 50, @rows = 5, @placeholder = "הוסף שאלה..." })
+                @Html.TextAreaFor(model => model.Question, new {cols = 50, @rows = 5, @placeholder = "הוסף שאלה..."})
             </div>
         </div>
         <br/>
@@ -69,46 +111,46 @@
                                                  new {@type = "number", @name = "MaxConnectors", @id = "MaxConnectors", @min = "0", @max = "100", @style = "width: 5em"})
             </div>
         </div>
-        
+
         <br/><br/><br/>
         <hr/>
 
-    <div class="row">
-        <div class="col-sm-4 pull-right">
-            <div id="main">
-                <input type="button" id="btAdd" value="הוסף משפט פתיחה" class="bt" style="width: 10em; background-color: green; color: white"/>
+        <div class="row">
+            <div class="col-sm-4 pull-right">
+                <div id="main">
+                    <input type="button" id="btAdd" value="הוסף משפט פתיחה" class="bt" style="width: 10em; background-color: green; color: white"/>
+                </div>
+            </div>
+            <div class="col-sm-4 pull-right">
+                <div id="main">
+                    <input type="button" id="btRemove" value="הסר משפט פתיחה" class="bt" style="width: 10em; background-color: orange; color: white"/>
+                </div>
+            </div>
+            <div class="col-sm-4 pull-right">
+                <div id="main">
+                    <input type="button" id="btRemoveAll" value="הסר הכל" class="bt" style="width: 10em; background-color: red; color: white"/><br/>
+                </div>
             </div>
         </div>
-        <div class="col-sm-4 pull-right">
-            <div id="main">
-                <input type="button" id="btRemove" value="הסר משפט פתיחה" class="bt" style="width: 10em; background-color: orange; color: white"/>
+        <hr/>
+
+        <div class="row">
+            <div class="col-sm-4 pull-right">
+                <div>
+                    <input type="button" value="הוסף פירוש למילה" onclick="addWord()" class="bt" style="width: 10em; background-color: green; color: white"/>
+                </div>
+            </div>
+            <div class="col-sm-4 pull-right">
+                <div>
+                    <input type="button" value="הסר פירוש למילה" onclick="removeTranslation()" class="bt" style="width: 10em; background-color: orange; color: white"/>
+                </div>
+            </div>
+            <div class="col-sm-4 pull-right">
+                <div>
+                    <input type="button" value="הסר הכל" onclick="removeAllTranslations()" class="bt" style="width: 10em; background-color: red; color: white"/><br/>
+                </div>
             </div>
         </div>
-        <div class="col-sm-4 pull-right">
-            <div id="main">
-                <input type="button" id="btRemoveAll" value="הסר הכל" class="bt" style="width: 10em; background-color: red; color: white"/><br/>
-            </div>
-        </div>
-    </div>
-        <hr />
-  
-    <div class="row">
-        <div class="col-sm-4 pull-right">
-            <div>
-                <input type="button" value="הוסף פירוש למילה" onclick="addWord()" class="bt" style="width: 10em; background-color: green; color: white" />
-            </div>
-        </div>
-        <div class="col-sm-4 pull-right">
-            <div>
-                <input type="button" value="הסר פירוש למילה" onclick="removeTranslation()" class="bt" style="width: 10em; background-color: orange; color: white" />
-            </div>
-        </div>
-        <div class="col-sm-4 pull-right">
-            <div>
-                <input type="button" value="הסר הכל" onclick="removeAllTranslations()" class="bt" style="width: 10em; background-color: red; color: white" /><br />
-            </div>
-        </div>
-    </div>
         <div class="row">
             <div class="col-sm-10 pull-right">
                 <span id="wordTranslation">&nbsp;</span>
@@ -124,113 +166,120 @@
 </div>
 
 <script>
-    $(document).ready(function() {
+    $(document)
+        .ready(function() {
 
-        var iCnt = 0;
-        // CREATE A "DIV" ELEMENT AND DESIGN IT USING jQuery ".css()" CLASS.
-        var container = $(document.createElement('div')).css({
-            padding: '5px', margin: '20px', width: '170px', border: '1px dashed',
-            borderTopColor: '#999', borderBottomColor: '#999',
-            borderLeftColor: '#999', borderRightColor: '#999'
-        });
-
-        $('#btAdd').click(function() {
-            if (iCnt <= 7) {
-
-                iCnt = iCnt + 1;
-
-                if (iCnt == 1) {
-                    $(container)
-                    .append('@Html.TextBoxFor(m => m.KeySentences[0],
-                                                 new { @type = "text", @id = "tb1", @value = "משפט פתיחה" })');
-                }
-                else if (iCnt == 2) {
-                    $(container)
-                    .append('@Html.TextBoxFor(m => m.KeySentences[1],
-                                                 new { @type = "text", @id = "tb2", @value = "משפט פתיחה" })');
-                }
-                else if (iCnt == 3) {
-                    $(container)
-                    .append('@Html.TextBoxFor(m => m.KeySentences[2],
-                                                 new { @type = "text", @id = "tb3", @value = "משפט פתיחה" })');
-                }
-                else if (iCnt == 4) {
-                    $(container)
-                    .append('@Html.TextBoxFor(m => m.KeySentences[3],
-                                                 new { @type = "text", @id = "tb4", @value = "משפט פתיחה" })');
-                }
-                else if (iCnt == 5) {
-                    $(container)
-                    .append('@Html.TextBoxFor(m => m.KeySentences[4],
-                                                 new { @type = "text", @id = "tb5", @value = "משפט פתיחה" })');
-                }
-                else if (iCnt == 6) {
-                    $(container)
-                    .append('@Html.TextBoxFor(m => m.KeySentences[5],
-                                                 new { @type = "text", @id = "tb6", @value = "משפט פתיחה" })');
-                }
-                else if (iCnt == 7) {
-                    $(container)
-                    .append('@Html.TextBoxFor(m => m.KeySentences[6],
-                                                 new { @type = "text", @id = "tb7", @value = "משפט פתיחה" })');
-                }
-
-                // ADD TEXTBOX.
-                /*$(container).append('<input type=text class="input" id=tb' + iCnt + ' ' +
-                    'value="משפט פתיחה ' + iCnt + '" />');*/
-
-                // SHOW SUBMIT BUTTON IF ATLEAST "1" ELEMENT HAS BEEN CREATED.
-                if (iCnt == 1) {
-
-                    var divSubmit = $(document.createElement('div'));
-                    //$(divSubmit).append('<input type=button class="bt"' +
-                    //    'onclick="GetTextValue()"' +
-                    //    'id=btSubmit value=Submit />');
-
-                }
-
-                // ADD BOTH THE DIV ELEMENTS TO THE "main" CONTAINER.
-                $('#main').after(container, divSubmit);
-            }
-            // AFTER REACHING THE SPECIFIED LIMIT, DISABLE THE "ADD" BUTTON.
-            // (20 IS THE LIMIT WE HAVE SET)
-            else {
-                $(container).append('<label>Reached the limit</label>');
-                $('#btAdd').attr('class', 'bt-disable');
-                $('#btAdd').attr('disabled', 'disabled');
-            }
-        });
-
-        // REMOVE ONE ELEMENT PER CLICK.
-        $('#btRemove').click(function() {
-            if (iCnt != 0) { $('#tb' + iCnt).remove(); iCnt = iCnt - 1; }
-
-            if (iCnt == 0) {
-                $(container)
-                    .empty()
-                    .remove();
-
-                $('#btSubmit').remove();
-                $('#btAdd')
-                    .removeAttr('disabled')
-                    .attr('class', 'bt');
-            }
-        });
-
-        // REMOVE ALL THE ELEMENTS IN THE CONTAINER.
-        $('#btRemoveAll').click(function() {
-            $(container)
-                .empty()
-                .remove();
-
-            $('#btSubmit').remove();
-            iCnt = 0;
+            var iCnt = 0;
+            // CREATE A "DIV" ELEMENT AND DESIGN IT USING jQuery ".css()" CLASS.
+            var container = $(document.createElement('div'))
+                .css({
+                    padding: '5px',
+                    margin: '20px',
+                    width: '170px',
+                    border: '1px dashed',
+                    borderTopColor: '#999',
+                    borderBottomColor: '#999',
+                    borderLeftColor: '#999',
+                    borderRightColor: '#999'
+                });
 
             $('#btAdd')
-                .removeAttr('disabled')
-                .attr('class', 'bt');
+                .click(function() {
+                    if (iCnt <= 7) {
+
+                        iCnt = iCnt + 1;
+
+                        if (iCnt == 1) {
+                            $(container)
+                                .append('@Html.TextBoxFor(m => m.KeySentences[0],
+                                             new {@type = "text", @id = "tb1", @value = "משפט פתיחה"})');
+                        } else if (iCnt == 2) {
+                            $(container)
+                                .append('@Html.TextBoxFor(m => m.KeySentences[1],
+                                             new {@type = "text", @id = "tb2", @value = "משפט פתיחה"})');
+                        } else if (iCnt == 3) {
+                            $(container)
+                                .append('@Html.TextBoxFor(m => m.KeySentences[2],
+                                             new {@type = "text", @id = "tb3", @value = "משפט פתיחה"})');
+                        } else if (iCnt == 4) {
+                            $(container)
+                                .append('@Html.TextBoxFor(m => m.KeySentences[3],
+                                             new {@type = "text", @id = "tb4", @value = "משפט פתיחה"})');
+                        } else if (iCnt == 5) {
+                            $(container)
+                                .append('@Html.TextBoxFor(m => m.KeySentences[4],
+                                             new {@type = "text", @id = "tb5", @value = "משפט פתיחה"})');
+                        } else if (iCnt == 6) {
+                            $(container)
+                                .append('@Html.TextBoxFor(m => m.KeySentences[5],
+                                             new {@type = "text", @id = "tb6", @value = "משפט פתיחה"})');
+                        } else if (iCnt == 7) {
+                            $(container)
+                                .append('@Html.TextBoxFor(m => m.KeySentences[6],
+                                             new {@type = "text", @id = "tb7", @value = "משפט פתיחה"})');
+                        }
+
+                        // ADD TEXTBOX.
+                        /*$(container).append('<input type=text class="input" id=tb' + iCnt + ' ' +
+                            'value="משפט פתיחה ' + iCnt + '" />');*/
+
+                        // SHOW SUBMIT BUTTON IF ATLEAST "1" ELEMENT HAS BEEN CREATED.
+                        if (iCnt == 1) {
+
+                            var divSubmit = $(document.createElement('div'));
+                            //$(divSubmit).append('<input type=button class="bt"' +
+                            //    'onclick="GetTextValue()"' +
+                            //    'id=btSubmit value=Submit />');
+
+                        }
+
+                        // ADD BOTH THE DIV ELEMENTS TO THE "main" CONTAINER.
+                        $('#main').after(container, divSubmit);
+                    }
+                    // AFTER REACHING THE SPECIFIED LIMIT, DISABLE THE "ADD" BUTTON.
+                    // (20 IS THE LIMIT WE HAVE SET)
+                    else {
+                        $(container).append('<label>Reached the limit</label>');
+                        $('#btAdd').attr('class', 'bt-disable');
+                        $('#btAdd').attr('disabled', 'disabled');
+                    }
+                });
+
+            // REMOVE ONE ELEMENT PER CLICK.
+            $('#btRemove')
+                .click(function() {
+                    if (iCnt != 0) {
+                        $('#tb' + iCnt).remove();
+                        iCnt = iCnt - 1;
+                    }
+
+                    if (iCnt == 0) {
+                        $(container)
+                            .empty()
+                            .remove();
+
+                        $('#btSubmit').remove();
+                        $('#btAdd')
+                            .removeAttr('disabled')
+                            .attr('class', 'bt');
+                    }
+                });
+
+            // REMOVE ALL THE ELEMENTS IN THE CONTAINER.
+            $('#btRemoveAll')
+                .click(function() {
+                    $(container)
+                        .empty()
+                        .remove();
+
+                    $('#btSubmit').remove();
+                    iCnt = 0;
+
+                    $('#btAdd')
+                        .removeAttr('disabled')
+                        .attr('class', 'bt');
+                });
         });
-    });
 
     // PICK THE VALUES FROM EACH TEXTBOX WHEN "SUBMIT" BUTTON IS CLICKED.
     var divValue, values = '';
@@ -243,12 +292,15 @@
 
         values = '';
 
-        $('.input').each(function() {
-            divValue = $(document.createElement('div')).css({
-                padding:'5px', width:'200px'
+        $('.input')
+            .each(function() {
+                divValue = $(document.createElement('div'))
+                    .css({
+                        padding: '5px',
+                        width: '200px'
+                    });
+                values += this.value + '<br />'
             });
-            values += this.value + '<br />'
-        });
 
         $(divValue).append('<p><b>Your selected values</b></p>' + values);
         $('body').append(divValue);
