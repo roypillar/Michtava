@@ -4,9 +4,6 @@
     ViewBag.Title = "הוספת שאלה";
 }
 
-<h2>@ViewBag.Title</h2>
-<h3>@ViewBag.Message</h3>
-
 <!DOCTYPE HTML>
 <html lang="he" dir="rtl">
 <head>
@@ -65,8 +62,18 @@
     </style>
 </head>
 <body>
-
+    <br/>
 <button class="button" onclick="location.href = '@Url.Action("NavigateToTextsView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
+
+<div class="row">
+    <div class="col-sm-10">
+        <textarea cols="70" rows="5">@TempData["TextForHomework"]</textarea>
+    </div>
+</div>
+<hr/>
+    
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
 
 <div class="row">
     <form class="text-right" action="SubmitPolicy" method="post" id="policyData">

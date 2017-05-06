@@ -44,7 +44,8 @@ namespace FileHandler
                 Name = RemoveExtension(txtName),
                 FilePath = pathToSave,
                 Subject = subject,
-                UploadTime = DateTime.Now
+                UploadTime = DateTime.Now,
+                Content = txtContent
             };
 
             return uploadedTxt;

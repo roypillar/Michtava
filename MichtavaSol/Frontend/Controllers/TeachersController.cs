@@ -125,7 +125,21 @@ namespace Frontend.Controllers
                 return View("TextsView");
             }
 
+            Text textForHomework = getText(text);
+            TempData["TextForHomework"] = textForHomework.Content;
+
             return View("Policy");
+        }
+
+        private Text getText(string text)
+        {
+            foreach (var txt in _textService.All())
+            {
+                if (txt.Name.Equals(text))
+                    return txt;
+            }
+
+            return null;
         }
 
         public ActionResult SubmitPolicy(PolicyViewModel model)
