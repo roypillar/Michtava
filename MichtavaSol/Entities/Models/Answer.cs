@@ -35,6 +35,9 @@ namespace Entities.Models
         [ForeignKey("Submitted_By")]
         public Guid Student_Id { get; set; }
 
+        [Range(0,100)]
+        public int Grade { get; set; }
+
         public override void setId(Guid id)
         {
             Id = id;

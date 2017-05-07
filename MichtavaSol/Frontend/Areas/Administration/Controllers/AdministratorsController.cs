@@ -23,8 +23,8 @@
         public ActionResult Index()
         {
             IQueryable<AdministratorListViewModel> administrators =
-                this.administratorService.All().Project().To<AdministratorListViewModel>();//this uses a mapping for AutoMapper
-            return View(administrators);//TODO check this works
+                this.administratorService.All().Project().To<AdministratorListViewModel>();
+            return View(administrators);
         }
 
         public ActionResult Details(string username)

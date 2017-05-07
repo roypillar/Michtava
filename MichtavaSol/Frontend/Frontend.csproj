@@ -237,6 +237,8 @@
     <Compile Include="Areas\Administration\Controllers\AccountController.cs" />
     <Compile Include="Areas\Administration\Controllers\AdministratorsController.cs" />
     <Compile Include="Areas\Administration\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Administration\Controllers\StudentsController.cs" />
+    <Compile Include="Areas\Administration\Controllers\TeachersController.cs" />
     <Compile Include="Areas\Administration\Models\AccountDetailsEditModel.cs" />
     <Compile Include="Areas\Administration\Models\AdministratorDeleteSubmitModel.cs" />
     <Compile Include="Areas\Administration\Models\AdministratorDetailsEditModel.cs" />
@@ -398,6 +400,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Administration\Views\Students\" />
+    <Folder Include="Areas\Administration\Views\Teachers\" />
     <Folder Include="Areas\Students\Views\Shared\" />
     <Folder Include="Areas\Teachers\Controllers\" />
     <Folder Include="Areas\Teachers\Models\" />
