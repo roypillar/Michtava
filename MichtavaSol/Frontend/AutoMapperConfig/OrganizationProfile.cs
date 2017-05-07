@@ -59,6 +59,17 @@
             //admin - edit students details
             Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.Students.StudentDetailsEditModel>();
 
+            //admin - details to student
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Students.StudentDetailsEditModel, Student>();
+
+            //admin - list to student
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Students.StudentListViewModel, Student>();
+
+
+            //admin - student to edit student
+            Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.Students.StudentDetailsEditModel>();
+
+            //admin - student details to student
             Mapper.CreateMap<Frontend.Areas.Administration.Models.Students.StudentDetailsEditModel, Student>();
 
             //subjects - view list of subjects
