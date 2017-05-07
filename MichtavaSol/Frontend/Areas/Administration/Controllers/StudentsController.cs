@@ -115,7 +115,7 @@
 
             if (student == null)
             {
-                ModelState.AddModelError(string.Empty, "Such user does not exist");
+                ModelState.AddModelError(string.Empty, "Such a user does not exist");
                 return View();
             }
 
@@ -168,14 +168,7 @@
             Mapper.Map<AccountDetailsEditModel, ApplicationUser>(
                 studentModel.AccountDetailsEditModel, student.ApplicationUser);
 
-            List<string> validImageTypes = new List<string>()
-            {
-                "image/gif",
-                "image/jpeg",
-                "image/pjpeg",
-                "image/png"
-            };
-                  
+            
 
             this.studentService.Update(student);
 
