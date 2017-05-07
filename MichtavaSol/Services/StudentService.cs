@@ -36,6 +36,11 @@ namespace Services
             return this.studentRepository.GetByUserName(username);
         }
 
+        public Student GetById(int id)
+        {
+            return this.studentRepository.GetById(id);
+        }
+
         public void Add(Student student)
         {
             this.studentRepository.Add(student);
@@ -72,5 +77,7 @@ namespace Services
         {
             return this.studentRepository.IsEmailUniqueOnEdit(student, email);
         }
+
+
     }
 }

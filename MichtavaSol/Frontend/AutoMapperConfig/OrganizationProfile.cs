@@ -22,44 +22,44 @@
 
 
             //admin - edit my applicationuser attributes 
-            Mapper.CreateMap<ApplicationUser, Frontend.Areas.Administration.Models.AccountDetailsEditModel>();
+            Mapper.CreateMap<ApplicationUser, Frontend.Areas.Administration.Models.Account.AccountDetailsEditModel>();
 
-            Mapper.CreateMap<Frontend.Areas.Administration.Models.AccountDetailsEditModel, ApplicationUser>();
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Account.AccountDetailsEditModel, ApplicationUser>();
 
 
             //registery - admins non-applicationuser attributes
-            Mapper.CreateMap<Frontend.Areas.Administration.Models.AdministratorRegisterSubmitModel, Administrator>();
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Admins.AdministratorRegisterSubmitModel, Administrator>();
 
 
             //admin  - edit an admins details
-            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.AdministratorDetailsEditModel>()
+            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.Admins.AdministratorDetailsEditModel>()
                 .ForMember(dest => dest.AccountDetailsEditModel, opt => opt.MapFrom(src => src.ApplicationUser));
 
-            Mapper.CreateMap<Frontend.Areas.Administration.Models.AdministratorDetailsEditModel, Administrator>()
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Admins.AdministratorDetailsEditModel, Administrator>()
                 .ForMember(dest => dest.ApplicationUser, opt => opt.MapFrom(src => src.AccountDetailsEditModel));
 
 
             //admin - view list of admins
-            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.AdministratorListViewModel>()
+            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.Admins.AdministratorListViewModel>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email));
 
-            Mapper.CreateMap<Frontend.Areas.Administration.Models.AdministratorListViewModel, Administrator>();
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Admins.AdministratorListViewModel, Administrator>();
 
             //admin - delete admin
-            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.AdministratorDeleteSubmitModel>();
+            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.Admins.AdministratorDeleteSubmitModel>();
 
-            ////admin - list all students
-            //Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.StudentListViewModel>()
-            //    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
-            //    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email));
+            //admin - list all students
+            Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.Students.StudentListViewModel>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email));
 
-            //Mapper.CreateMap<Frontend.Areas.Administration.Models.StudentListViewModel, Student>();
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Students.StudentListViewModel, Student>();
 
-            ////admin - edit students details
-            //Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.StudentDetailsEditModel>();
+            //admin - edit students details
+            Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.Students.StudentDetailsEditModel>();
 
-            //Mapper.CreateMap<Frontend.Areas.Administration.Models.StudentDetailsEditModel, Student>();
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Students.StudentDetailsEditModel, Student>();
 
             //subjects - view list of subjects
             Mapper.CreateMap<Subject, Frontend.Models.SubjectsListViewModel>()

@@ -13,8 +13,13 @@
 
         Task<Student> GetByUserName(string username);
 
+
+        Student GetById(int id);
+
+
         bool IsUserNameUniqueOnEdit(Student student, string username);
 
         bool IsEmailUniqueOnEdit(Student student, string email);
     }
+
 }

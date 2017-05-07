@@ -1,0 +1,23 @@
+﻿namespace Frontend.Areas.Administration.Models.Students
+{
+    using System.ComponentModel.DataAnnotations;
+
+    public class StudentListViewModel
+    {
+        public int Id { get; set; }
+
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
+
+        
+        public string Name { get; set; }
+
+        [EmailAddress]
+        [Display(Name = "E-mail")]
+        public string Email { get; set; }
+
+        [Display(Name = "Phone Number")]
+        [Phone]
+        public string Phone { get; set; }
+    }
+}

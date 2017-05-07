@@ -8,7 +8,7 @@
     using Common;
     using Entities.Models;
     using Services.Interfaces;
-    using Frontend.Areas.Administration.Models;
+    using Frontend.Areas.Administration.Models.Admins;
 
     [Authorize(Roles = GlobalConstants.SuperAdministratorRoleName)]
     public class AdministratorsController : Controller

@@ -18,5 +18,7 @@ write test for getbyname and such
 
 strings all over the site - validation, header, footer, etc
 
+profile pictures?
+
 
 
