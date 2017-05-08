@@ -2,3 +2,10 @@
 	(he can go to classX=>homework_number_y=>answers=>gets a list of all answers submitted to that homework by members of classX)
 
 2) Notify students for a new homework assignment
+
+
+3) !!NEW!! every time a teacher logs in, access their schoolclasses, and check
+		if there are any homeworks that reached their deadline for submission.
+		if so, notify the teacher that homeworks are ready to be checked.
+		you can find the answers to this homework through, for example,
+			answerService.All().Where(ans => ans.Homework_Id == .....)

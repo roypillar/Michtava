@@ -245,6 +245,7 @@
     <Compile Include="Areas\Administration\Controllers\AccountController.cs" />
     <Compile Include="Areas\Administration\Controllers\AdministratorsController.cs" />
     <Compile Include="Areas\Administration\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Administration\Controllers\SchoolClassesController.cs" />
     <Compile Include="Areas\Administration\Controllers\StudentsController.cs" />
     <Compile Include="Areas\Administration\Controllers\TeachersController.cs" />
     <Compile Include="Areas\Administration\Models\Account\AccountDetailsEditModel.cs" />
@@ -253,6 +254,8 @@
     <Compile Include="Areas\Administration\Models\Admins\AdministratorRegisterSubmitModel.cs" />
     <Compile Include="Areas\Administration\Models\Account\RegisterViewModel.cs" />
     <Compile Include="Areas\Administration\Models\Admins\AdministratorListViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassesCreateSubmitModel.cs" />
+    <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassesListViewModel.cs" />
     <Compile Include="Areas\Administration\Models\Students\StudentDetailsEditModel.cs" />
     <Compile Include="Areas\Administration\Models\Students\StudentListViewModel.cs" />
     <Compile Include="Areas\Administration\Models\Teachers\TeacherDetailsEditModel.cs" />
@@ -421,6 +424,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Administration\Views\SchoolClasses\" />
     <Folder Include="Areas\Students\Views\Shared\" />
     <Folder Include="Areas\Teachers\Controllers\" />
     <Folder Include="Areas\Teachers\Models\" />

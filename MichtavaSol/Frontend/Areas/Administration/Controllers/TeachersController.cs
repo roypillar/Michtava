@@ -26,7 +26,7 @@
             this.teacherService = teacherService;
         }
 
-        // GET: Administration/Students
+        // GET: Administration/Teachers
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
