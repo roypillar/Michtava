@@ -54,17 +54,23 @@ textarea {
 .navbar-header:hover{
     color: white;
 }
-}
+
 
 .navbar-inverse .navbar-brand {
-    color: white;
+    color: black;
     font-size: 25px;
     font-weight: bold; 
 }
 
 .navbar-inverse .navbar-nav > li > a{
-    color: orange;
+    color: black;
+    font-weight: bold; 
+
 }
+.navbar-inverse .navbar-nav > li > a:hover{
+    color: white;
+}
+
 
 
 
