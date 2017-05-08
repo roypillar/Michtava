@@ -8,7 +8,7 @@
         
     public class StudentDetailsEditModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The name must not be more than 20 characters.")]

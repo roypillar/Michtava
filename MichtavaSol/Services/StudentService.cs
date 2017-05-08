@@ -36,7 +36,7 @@ namespace Services
             return this.studentRepository.GetByUserName(username);
         }
 
-        public Student GetById(int id)
+        public Student GetById(Guid id)
         {
             return this.studentRepository.GetById(id);
         }

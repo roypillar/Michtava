@@ -50,7 +50,7 @@
             //admin - delete admin
             Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.Admins.AdministratorDeleteSubmitModel>();
 
-            //admin - list all students
+            //admin - student to studentList
             Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.Students.StudentListViewModel>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email));

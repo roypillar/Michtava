@@ -187,7 +187,7 @@
             return RedirectToAction("Index", "Students");
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Guid id)
         {
             /*if (id == null)
             {
@@ -206,7 +206,7 @@
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(Guid id)
         {
             Student student = this.studentService.GetById(id);
 
