@@ -19,28 +19,47 @@
 
     </style>
 
+
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top" style="background-color: darkorange">
-    
-    <div class="navbar-collapse collapse">
-        @*<ul class="nav navbar-nav navbar-right">
-            <li>@Html.ActionLink("פרופיל אישי", "Contact", "Home", new { @class = "michtava-main navbar-brand" })</li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("הוספת שאלה", "../Policy/Policy", "../Policy", new {@class = "michtava-main navbar-brand"})</li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("הוספת טקסט", "TextAdding", "Home", new { @class = "michtava-main navbar-brand" })</li>
-    </ul>*@
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: darkorange"
+">
+            <div class="navbar-header" style="float: right; color: black">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink(
+                    "מכתבה",
+                    "Index",
+                    new { controller = "Home", area = "" },
+                    new { @class = "navbar-brand" })
+            </div>
 
-        <ul class="nav navbar-nav navbar-right">
-            <li>@Html.ActionLink("התנתק", "../Home/Index", "Home", new {@class = "michtava-main navbar-brand "})</li>
-        </ul>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        @Html.ActionLink("דף הבית", "Index", "Home", new { area = "" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("צור קשר", "Contact", "Home", new { area = "" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("אודות", "About", "Home", new { area = "" })
+                    </li>
 
-        @*@Html.Partial("_LoginPartial")*@
+                    @if (User.IsInRole(Common.GlobalConstants.SuperAdministratorRoleName))
+                    {
+
+                        <li>
+                            @Html.ActionLink("Admin Area", "Index", "Home", new { area = "Administration" }, new { })
+                        </li>
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
     </div>
-</div>
 
         
 

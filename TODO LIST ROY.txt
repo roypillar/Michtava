@@ -1,4 +1,4 @@
-talk to cs helpdesk make ip external
+talk to cs helpdesk make ip external IN PROGRESS
 
 populate registerareas IN PROGRESS
 
@@ -13,6 +13,10 @@ write tests for services
 write black box selenium tests
 
 strings all over the site - validation, header, footer, etc
+
+take add(create) functionality all over the site from seed method
+
+implement delete functionality all over the admins area
 
 
 

@@ -351,6 +351,9 @@ namespace Frontend.Controllers
 
 
 
+        /// <summary>
+        /// you don't need this anymore, all the data is seeded to the DB.
+        /// </summary>
         public void initStudent()
         {
             student.Name = "student";
