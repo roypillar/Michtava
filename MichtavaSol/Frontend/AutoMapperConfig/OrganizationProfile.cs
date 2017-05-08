@@ -21,9 +21,10 @@
             Mapper.CreateMap<Frontend.Areas.Students.Models.AccountViewModels.RegisterViewModel, Student>();//create a map from 1 model to the other, so that later we won't have to do type: {x.name = y.name} 50 times. 
 
 
-            //admin - edit my applicationuser attributes 
+            //admin - applicationuser to accountDetails 
             Mapper.CreateMap<ApplicationUser, Frontend.Areas.Administration.Models.Account.AccountDetailsEditModel>();
 
+            //admin - other way around
             Mapper.CreateMap<Frontend.Areas.Administration.Models.Account.AccountDetailsEditModel, ApplicationUser>();
 
 
@@ -71,6 +72,19 @@
 
             //admin - student details to student
             Mapper.CreateMap<Frontend.Areas.Administration.Models.Students.StudentDetailsEditModel, Student>();
+
+            //admin - teacher to teacherList
+            Mapper.CreateMap<Teacher, Frontend.Areas.Administration.Models.Teachers.TeacherListViewModel>()
+              .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
+              .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email));
+
+            //admin - teacher to teacherDetails
+            Mapper.CreateMap<Teacher, Frontend.Areas.Administration.Models.Teachers.TeacherDetailsEditModel>();
+
+            //admin - teacherDetails to teacher
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Teachers.TeacherDetailsEditModel, Teacher>();
+
+
 
             //subjects - view list of subjects
             Mapper.CreateMap<Subject, Frontend.Models.SubjectsListViewModel>()
