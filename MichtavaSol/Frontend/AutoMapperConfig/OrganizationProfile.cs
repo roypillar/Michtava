@@ -40,7 +40,7 @@
                 .ForMember(dest => dest.ApplicationUser, opt => opt.MapFrom(src => src.AccountDetailsEditModel));
 
 
-            //admin - view list of admins
+            //admin - admins to listview of admins
             Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.Admins.AdministratorListViewModel>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email));
@@ -83,6 +83,44 @@
 
             //admin - teacherDetails to teacher
             Mapper.CreateMap<Frontend.Areas.Administration.Models.Teachers.TeacherDetailsEditModel, Teacher>();
+
+
+            Mapper.CreateMap<SchoolClass, Frontend.Areas.Administration.Models.SchoolClasses.SchoolClassesListViewModel>()
+              .ForMember(dest => dest.ClassNumber, opt => opt.MapFrom(src => src.ClassNumber))
+              .ForMember(
+                  dest => dest.StudentsNumber,
+                  opt => opt.MapFrom(src => src.Students.Count(s => s.IsDeleted == false)));
+
+            //Mapper.CreateMap<SchoolClass, School.Web.Areas.Administration.Models.SchoolClassDetailsViewModel>()
+            //    .ForMember(dest => dest.GradeYear, opt => opt.MapFrom(src => src.Grade.GradeYear))
+            //    .ForMember(
+            //        dest => dest.StudentsNumber,
+            //        opt => opt.MapFrom(src => src.Students.Count(s => s.IsDeleted == false)))
+            //    .ForMember(
+            //        dest => dest.Students,
+            //        opt => opt.MapFrom(src => src.Students.Where(s => s.IsDeleted == false)))
+            //    .ForMember(dest => dest.AcademicYear, opt => opt.MapFrom(src => src.Grade.AcademicYear));
+
+            //Mapper.CreateMap<SchoolClass, School.Web.Areas.Administration.Models.SchoolClassEditViewModel>()
+            //    .ForMember(dest => dest.AcademicYearId, opt => opt.MapFrom(src => src.Grade.AcademicYearId));
+
+            //Mapper.CreateMap<School.Web.Areas.Administration.Models.SchoolClassEditViewModel, SchoolClass>();
+
+            Mapper.CreateMap<SchoolClass, Frontend.Areas.Administration.Models.SchoolClasses.SchoolClassCreateSubmitModel>();
+
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.SchoolClasses.SchoolClassCreateSubmitModel, SchoolClass>();
+
+            //Mapper.CreateMap<SchoolClass, School.Web.Areas.Administration.Models.SchoolClassDeleteViewModel>()
+            //    .ForMember(dest => dest.GradeYear, opt => opt.MapFrom(src => src.Grade.GradeYear))
+            //    .ForMember(
+            //        dest => dest.AcademicYearStartDate,
+            //        opt => opt.MapFrom(src => src.Grade.AcademicYear.StartDate))
+            //    .ForMember(
+            //        dest => dest.AcademicYearEndDate,
+            //        opt => opt.MapFrom(src => src.Grade.AcademicYear.EndDate))
+            //    .ForMember(
+            //        dest => dest.StudentsNumber,
+            //        opt => opt.MapFrom(src => src.Students.Count()));
 
 
 
