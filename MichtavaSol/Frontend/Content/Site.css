@@ -181,7 +181,7 @@ input:focus, textarea:focus{
 
 textarea{
 	height: 100px;	
-	resize: none; 
+	resize: both; 
 	overflow: auto;
 }
 
