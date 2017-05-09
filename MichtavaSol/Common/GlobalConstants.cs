@@ -25,5 +25,7 @@ namespace Common
 
         public const int numOfTests = 1000;
 
+        public const string testingUrlRoot = "http://localhost:14980";
+
     }
 }

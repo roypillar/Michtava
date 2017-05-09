@@ -21,45 +21,108 @@
             Mapper.CreateMap<Frontend.Areas.Students.Models.AccountViewModels.RegisterViewModel, Student>();//create a map from 1 model to the other, so that later we won't have to do type: {x.name = y.name} 50 times. 
 
 
-            //admin - edit my applicationuser attributes 
-            Mapper.CreateMap<ApplicationUser, Frontend.Areas.Administration.Models.AccountDetailsEditModel>();
+            //admin - applicationuser to accountDetails 
+            Mapper.CreateMap<ApplicationUser, Frontend.Areas.Administration.Models.Account.AccountDetailsEditModel>();
 
-            Mapper.CreateMap<Frontend.Areas.Administration.Models.AccountDetailsEditModel, ApplicationUser>();
+            //admin - other way around
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Account.AccountDetailsEditModel, ApplicationUser>();
 
 
             //registery - admins non-applicationuser attributes
-            Mapper.CreateMap<Frontend.Areas.Administration.Models.AdministratorRegisterSubmitModel, Administrator>();
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Admins.AdministratorRegisterSubmitModel, Administrator>();
 
 
             //admin  - edit an admins details
-            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.AdministratorDetailsEditModel>()
+            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.Admins.AdministratorDetailsEditModel>()
                 .ForMember(dest => dest.AccountDetailsEditModel, opt => opt.MapFrom(src => src.ApplicationUser));
 
-            Mapper.CreateMap<Frontend.Areas.Administration.Models.AdministratorDetailsEditModel, Administrator>()
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Admins.AdministratorDetailsEditModel, Administrator>()
                 .ForMember(dest => dest.ApplicationUser, opt => opt.MapFrom(src => src.AccountDetailsEditModel));
 
 
-            //admin - view list of admins
-            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.AdministratorListViewModel>()
+            //admin - admins to listview of admins
+            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.Admins.AdministratorListViewModel>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email));
 
-            Mapper.CreateMap<Frontend.Areas.Administration.Models.AdministratorListViewModel, Administrator>();
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Admins.AdministratorListViewModel, Administrator>();
 
             //admin - delete admin
-            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.AdministratorDeleteSubmitModel>();
+            Mapper.CreateMap<Administrator, Frontend.Areas.Administration.Models.Admins.AdministratorDeleteSubmitModel>();
 
-            ////admin - list all students
-            //Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.StudentListViewModel>()
-            //    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
-            //    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email));
+            //admin - student to studentList
+            Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.Students.StudentListViewModel>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email));
 
-            //Mapper.CreateMap<Frontend.Areas.Administration.Models.StudentListViewModel, Student>();
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Students.StudentListViewModel, Student>();
 
-            ////admin - edit students details
-            //Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.StudentDetailsEditModel>();
+            //admin - edit students details
+            Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.Students.StudentDetailsEditModel>();
 
-            //Mapper.CreateMap<Frontend.Areas.Administration.Models.StudentDetailsEditModel, Student>();
+            //admin - details to student
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Students.StudentDetailsEditModel, Student>();
+
+            //admin - list to student
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Students.StudentListViewModel, Student>();
+
+
+            //admin - student to edit student
+            Mapper.CreateMap<Student, Frontend.Areas.Administration.Models.Students.StudentDetailsEditModel>();
+
+            //admin - student details to student
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Students.StudentDetailsEditModel, Student>();
+
+            //admin - teacher to teacherList
+            Mapper.CreateMap<Teacher, Frontend.Areas.Administration.Models.Teachers.TeacherListViewModel>()
+              .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
+              .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email));
+
+            //admin - teacher to teacherDetails
+            Mapper.CreateMap<Teacher, Frontend.Areas.Administration.Models.Teachers.TeacherDetailsEditModel>();
+
+            //admin - teacherDetails to teacher
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.Teachers.TeacherDetailsEditModel, Teacher>();
+
+
+            Mapper.CreateMap<SchoolClass, Frontend.Areas.Administration.Models.SchoolClasses.SchoolClassesListViewModel>()
+              .ForMember(dest => dest.ClassNumber, opt => opt.MapFrom(src => src.ClassNumber))
+              .ForMember(
+                  dest => dest.StudentsNumber,
+                  opt => opt.MapFrom(src => src.Students.Count(s => s.IsDeleted == false)));
+
+            //Mapper.CreateMap<SchoolClass, School.Web.Areas.Administration.Models.SchoolClassDetailsViewModel>()
+            //    .ForMember(dest => dest.GradeYear, opt => opt.MapFrom(src => src.Grade.GradeYear))
+            //    .ForMember(
+            //        dest => dest.StudentsNumber,
+            //        opt => opt.MapFrom(src => src.Students.Count(s => s.IsDeleted == false)))
+            //    .ForMember(
+            //        dest => dest.Students,
+            //        opt => opt.MapFrom(src => src.Students.Where(s => s.IsDeleted == false)))
+            //    .ForMember(dest => dest.AcademicYear, opt => opt.MapFrom(src => src.Grade.AcademicYear));
+
+            //Mapper.CreateMap<SchoolClass, School.Web.Areas.Administration.Models.SchoolClassEditViewModel>()
+            //    .ForMember(dest => dest.AcademicYearId, opt => opt.MapFrom(src => src.Grade.AcademicYearId));
+
+            //Mapper.CreateMap<School.Web.Areas.Administration.Models.SchoolClassEditViewModel, SchoolClass>();
+
+            Mapper.CreateMap<SchoolClass, Frontend.Areas.Administration.Models.SchoolClasses.SchoolClassCreateSubmitModel>();
+
+            Mapper.CreateMap<Frontend.Areas.Administration.Models.SchoolClasses.SchoolClassCreateSubmitModel, SchoolClass>();
+
+            //Mapper.CreateMap<SchoolClass, School.Web.Areas.Administration.Models.SchoolClassDeleteViewModel>()
+            //    .ForMember(dest => dest.GradeYear, opt => opt.MapFrom(src => src.Grade.GradeYear))
+            //    .ForMember(
+            //        dest => dest.AcademicYearStartDate,
+            //        opt => opt.MapFrom(src => src.Grade.AcademicYear.StartDate))
+            //    .ForMember(
+            //        dest => dest.AcademicYearEndDate,
+            //        opt => opt.MapFrom(src => src.Grade.AcademicYear.EndDate))
+            //    .ForMember(
+            //        dest => dest.StudentsNumber,
+            //        opt => opt.MapFrom(src => src.Students.Count()));
+
+
 
             //subjects - view list of subjects
             Mapper.CreateMap<Subject, Frontend.Models.SubjectsListViewModel>()

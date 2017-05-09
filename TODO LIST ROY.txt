@@ -1,22 +1,22 @@
-talk to cs helpdesk make ip external
+talk to cs helpdesk make ip external IN PROGRESS
 
-populate frontend.automapperconfig.organizationprofile.cs
+populate registerareas IN PROGRESS
 
-seed method 
+administrationarea IN PROGRESS
 
-populate registerareas
+test administrationarea IN PROGRESS
 
-administrationarea 
+write test for overriden methods in services and repos.
 
-check that Map<RegisterViewModel,Student> transfers the applicationUser
+write tests for services
 
-in areas/students/accountcontroller/, uncomment register-related code when ready.
-
-write test for adding an existing subject
-
-write test for getbyname and such
+write black box selenium tests
 
 strings all over the site - validation, header, footer, etc
+
+take add(create) functionality all over the site from seed method
+
+implement delete functionality all over the admins area
 
 
 

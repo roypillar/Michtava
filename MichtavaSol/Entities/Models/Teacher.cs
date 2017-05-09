@@ -21,7 +21,7 @@ namespace Entities.Models
         public virtual ICollection<SchoolClass> SchoolClasses
         {
             get { return this.schoolClasses; }
-            set { this.schoolClasses = value; }
+            set { this.schoolClasses = value;  }
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

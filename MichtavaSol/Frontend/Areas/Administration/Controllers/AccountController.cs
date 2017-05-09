@@ -10,7 +10,7 @@
     using Entities.Models;
     using Services.Interfaces;
     using Frontend.App_Start.Identity;
-    using Frontend.Areas.Administration.Models;
+    using Frontend.Areas.Administration.Models.Admins;
 
     [Authorize(Roles = GlobalConstants.SuperAdministratorRoleName)]
     public class AccountController : Controller
@@ -103,7 +103,6 @@
             base.Dispose(disposing);
         }
 
-        // Helpers
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)

@@ -8,7 +8,7 @@
     using Common;
     using Entities.Models;
     using Services.Interfaces;
-    using Frontend.Areas.Administration.Models;
+    using Frontend.Areas.Administration.Models.Admins;
 
     [Authorize(Roles = GlobalConstants.SuperAdministratorRoleName)]
     public class AdministratorsController : Controller
@@ -23,8 +23,8 @@
         public ActionResult Index()
         {
             IQueryable<AdministratorListViewModel> administrators =
-                this.administratorService.All().Project().To<AdministratorListViewModel>();//this uses a mapping for AutoMapper
-            return View(administrators);//TODO check this works
+                this.administratorService.All().Project().To<AdministratorListViewModel>();
+            return View(administrators);
         }
 
         public ActionResult Details(string username)

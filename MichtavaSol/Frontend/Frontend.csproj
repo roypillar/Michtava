@@ -101,6 +101,14 @@
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -237,12 +245,21 @@
     <Compile Include="Areas\Administration\Controllers\AccountController.cs" />
     <Compile Include="Areas\Administration\Controllers\AdministratorsController.cs" />
     <Compile Include="Areas\Administration\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Administration\Models\AccountDetailsEditModel.cs" />
-    <Compile Include="Areas\Administration\Models\AdministratorDeleteSubmitModel.cs" />
-    <Compile Include="Areas\Administration\Models\AdministratorDetailsEditModel.cs" />
-    <Compile Include="Areas\Administration\Models\AdministratorRegisterSubmitModel.cs" />
-    <Compile Include="Areas\Administration\Models\AccountViewModels\RegisterViewModel.cs" />
-    <Compile Include="Areas\Administration\Models\AdministratorListViewModel.cs" />
+    <Compile Include="Areas\Administration\Controllers\SchoolClassesController.cs" />
+    <Compile Include="Areas\Administration\Controllers\StudentsController.cs" />
+    <Compile Include="Areas\Administration\Controllers\TeachersController.cs" />
+    <Compile Include="Areas\Administration\Models\Account\AccountDetailsEditModel.cs" />
+    <Compile Include="Areas\Administration\Models\Admins\AdministratorDeleteSubmitModel.cs" />
+    <Compile Include="Areas\Administration\Models\Admins\AdministratorDetailsEditModel.cs" />
+    <Compile Include="Areas\Administration\Models\Admins\AdministratorRegisterSubmitModel.cs" />
+    <Compile Include="Areas\Administration\Models\Account\RegisterViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\Admins\AdministratorListViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassesCreateSubmitModel.cs" />
+    <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassesListViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\Students\StudentDetailsEditModel.cs" />
+    <Compile Include="Areas\Administration\Models\Students\StudentListViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\Teachers\TeacherDetailsEditModel.cs" />
+    <Compile Include="Areas\Administration\Models\Teachers\TeacherListViewModel.cs" />
     <Compile Include="Areas\Students\Controllers\AccountController.cs" />
     <Compile Include="Areas\Students\Models\AccountViewModels\RegisterViewModel.cs" />
     <Compile Include="Areas\Students\StudentsAreaRegistration.cs" />
@@ -282,6 +299,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -315,6 +333,14 @@
     <Content Include="Areas\Administration\Views\Administrators\Details.cshtml" />
     <Content Include="Areas\Administration\Views\Administrators\Edit.cshtml" />
     <Content Include="Areas\Administration\Views\Administrators\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Students\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Students\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Students\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Students\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Teachers\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Teachers\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Teachers\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Teachers\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\dfs.pubxml" />
     <None Include="Properties\PublishProfiles\profile28031.pubxml" />
     <None Include="Properties\Settings.settings">
@@ -398,6 +424,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Administration\Views\SchoolClasses\" />
     <Folder Include="Areas\Students\Views\Shared\" />
     <Folder Include="Areas\Teachers\Controllers\" />
     <Folder Include="Areas\Teachers\Models\" />

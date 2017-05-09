@@ -30,7 +30,10 @@ namespace Entities.Models
         [Required]
         public string Name { get; set; }
 
-        public bool isNotified { get; set; }
+        public bool notifyForNewHomework { get; set; }
+
+        public bool notifyForNewGrade { get; set; }
+
 
         public SchoolClass SchoolClass { get; set; }
         

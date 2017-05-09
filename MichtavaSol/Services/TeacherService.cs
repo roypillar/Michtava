@@ -66,5 +66,10 @@
         {
             return this.teacherRepository.IsUserNameUniqueOnEdit(teacher, username);
         }
+
+        public Teacher GetById(Guid id)
+        {
+            return this.teacherRepository.GetById(id);
+        }
     }
 }

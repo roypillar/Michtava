@@ -6,17 +6,17 @@
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-left">
+       
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">יציאה</a></li>
         <li>
             @Html.ActionLink("שלום " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">יציאה</a></li>
     </ul>
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-left navbar-inner" style="float:right" >
-            <li>@Html.ActionLink("הרשמה (Debug)", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li> 
+    <ul class="nav navbar-nav navbar-left">
             <li>@Html.ActionLink("כניסה", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
 </ul>
 }

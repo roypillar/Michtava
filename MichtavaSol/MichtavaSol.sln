@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dal_Tests", "Dal_Tests\Dal_Tests.csproj", "{8340BBAB-D5E1-4B0B-A0FD-AC3E447E9C55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selenium_Tests", "Selenium_Tests\Selenium_Tests.csproj", "{BB07D65B-D7DA-4C7C-BC2A-FD0B018F9211}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{8340BBAB-D5E1-4B0B-A0FD-AC3E447E9C55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8340BBAB-D5E1-4B0B-A0FD-AC3E447E9C55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8340BBAB-D5E1-4B0B-A0FD-AC3E447E9C55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB07D65B-D7DA-4C7C-BC2A-FD0B018F9211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB07D65B-D7DA-4C7C-BC2A-FD0B018F9211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB07D65B-D7DA-4C7C-BC2A-FD0B018F9211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB07D65B-D7DA-4C7C-BC2A-FD0B018F9211}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
