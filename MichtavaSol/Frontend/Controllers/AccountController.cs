@@ -122,7 +122,7 @@ namespace Frontend.Controllers
                         }
                         else if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.StudentRoleName))//if the user is a student
                         {
-                            return RedirectToAction("Index", "Home", new { area = "Students" });
+                            return RedirectToAction("Index", "Students");
                         }
                         else
                         {

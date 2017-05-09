@@ -22,10 +22,11 @@ namespace Frontend
 
             // ----------------------------------------------- Students -----------------------------------------------
 
+
             routes.MapRoute(
-                name: "Students",
-                url: "Students/{action}/{username}",
-                defaults: new { controller = "Students", action = "Subjects", username = string.Empty },
+                name: "StudentsHome",
+                url: "Home/{action}/{username}",
+                defaults: new { controller = "Students", action = "Index", username = string.Empty },
                 namespaces: new string[] { "Frontend.Controllers" });
 
             routes.MapRoute(

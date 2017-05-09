@@ -1,5 +1,5 @@
 ﻿@model Entities.Models.Question
-@using SmartTextBox
+
 @{
     ViewBag.Title = "תיבת טקסט חכמה";
 }
@@ -171,14 +171,14 @@
     <br/>
     <div class="row">
         <div class="col-md-12">
-            <textarea name="TextBoxArea" id="Input" onkeypress="DynamicWordsCounter(this.value)" placeholder="הכנס את התשובה כאן..." cols="50" rows="10" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
-            
+            <textarea name="TextBoxArea" id="Input" runat="server" onkeypress="DynamicWordsCounter(this.value)" placeholder="הכנס את התשובה כאן..." cols="50" rows="10" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@TempData["Answer"]</textarea>
+           
             <script>
                 function DynamicWordsCounter(value) {
 
                     var str = value;
                     var words = str.split(" ");
-                    var first = words[0];
+                    //var first = words[0];
                     var count = 0;
                     for (var i = 0, len = words.length; i < len; i++) {
                         count++;
@@ -188,9 +188,15 @@
                     if (count >@Model.Policy.MaxWords){
                         document.getElementById("toManyConnectors").innerHTML = "הכנסת " + count + " מילים, אבל מותר לכל היותר " + @Model.Policy.MaxWords + " מילים.";
                     }
+
+
+                   // var connNum = PageMethods.GetCurrentTime(name, OnSuccess);
+
+                  
+
                     //SmartTextBoxImpl.SuggestAlternativeWord("מילה");
-                    
-                  //  document.getElementById("NumOfConnectorWords").innerHTML = SmartTextBoxImpl.GetNumberOfConnectors(value)
+
+                  //  document.getElementById("NumOfConnectorWords").innerHTML = smartxtbox.GetNumberOfConnectors(value);
                     
                     //if numofwords bigger then policy.. dinamic alert.  ..TempData["AlternativeWords"]
 

@@ -10,13 +10,14 @@ using Frontend.Areas.Administration.Models;
 using SmartTextBox;
 using Frontend.Models;
 using Services.Interfaces;
+using Frontend.App_Start.Identity;
 
 namespace Frontend.Controllers
 {
     public class StudentsController : Controller
     {
         private IFileManager _fileManager = new FileManager();
-        private ISmartTextBox _smartTextBox = new SmartTextBoxImpl();
+        public static ISmartTextBox _smartTextBox = new SmartTextBoxImpl();
         private Policy _policy = new Policy();
         private Homework _homework = new Homework();
         private SmartTextViewModel smartView = new SmartTextViewModel();
@@ -33,11 +34,13 @@ namespace Frontend.Controllers
         private readonly IStudentService _studentService;
         private readonly IAnswerService _answerService;
 
-        public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService, IAnswerService answerService)
+        public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService, IAnswerService answerService, IStudentService studentService)
         {
             _subjectServiceService = subjectServiceService;
             _homeworkService = homeworkService;
             _answerService = answerService;
+
+            _studentService = studentService;
             initStudent();
 
             dictionary.Add("סירותיהם", "הסירות שלהם, פירוש מעניין..");
@@ -46,13 +49,19 @@ namespace Frontend.Controllers
 
         }
 
+      
         // GET: Students
-        public ActionResult Subjects()
-        {
+        public ActionResult Index()
+        { 
+            //ViewBag["StudentName"] = _studentService.GetByUserName(User.Identity.Name);
             ViewBag.Title = "בחר נושא";
 
             IQueryable<Subject> Allsubjects =
-                _subjectServiceService.All();                   //this uses a mapping for AutoMapper
+                _subjectServiceService.All();
+
+            //                _subjectServiceService.All().Where(x => x.Name == "היסטוריה");
+
+            //this uses a mapping for AutoMapper
             List<Subject> subjects = new List<Subject>();
             
             foreach(Subject subj in Allsubjects)
@@ -76,11 +85,12 @@ namespace Frontend.Controllers
 
             }
 
-            return View(subjects);
+            return View("Subjects",subjects);
         }
 
         public ActionResult ChooseSubject()
         {
+            Session["UserName"] = student.Name;
             ViewBag.Title = "בחר תת-נושא";
 
             return View("SubSubjects");
@@ -257,7 +267,11 @@ namespace Frontend.Controllers
 
 
 
-
+        [System.Web.Services.WebMethod]
+        public static int NumOfConnectors(string text)
+        {
+            return  _smartTextBox.GetNumberOfConnectors(text);
+        }
 
 
 
@@ -269,14 +283,10 @@ namespace Frontend.Controllers
         private void InitializePolicy()
         {
             _policy = new Policy();
-            HashSet<string> _keySentencesList = new HashSet<string>();
-            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 1");
-            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 2");
-            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 3");
-            _keySentencesList.Add("התשובה לשאלה שנשאלה היא 4");
+           
 
 
-            _policy = new Policy() { Id = Guid.NewGuid(), MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8 };
+            _policy = new Policy() {Id = _policy.Id , MinWords = 20, MaxWords = 30, MinConnectors = 3, MaxConnectors = 8};
         }
 
         private void InitializeSmartView()
@@ -303,7 +313,7 @@ namespace Frontend.Controllers
 
             
             Question q = new Question(); //local question init
-            q.Id = Guid.NewGuid();
+           // q.Id = i*10;
             q.Content = "שאלה לדוגמא שנשלוף מהבסיס נתונים, מהו מיהו וכד'.. עוד כמה דברים.. ענה בנימוק." + i + i + i + i;
             q.Policy = _policy;
             q.Question_Number = i;
@@ -387,6 +397,7 @@ namespace Frontend.Controllers
 
 
             _homework.Text = text;
+          //  _homework.SchoolClasses = tmpSchoolClassList;
             _homework.Created_By = teacher;
             _homework.Questions = qlist;
 
