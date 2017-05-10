@@ -60,20 +60,9 @@ namespace Frontend.Controllers
         public ActionResult Index()
         {
             string userid = User.Identity.GetUserId();
-         //   ViewBag["StudentName"] = username;
             ViewBag.Title = "בחר נושא";
 
-            IQueryable<Subject> Allsubjects =
-                _subjectServiceService.All();
-
-            //                _subjectServiceService.All().Where(x => x.Name == "היסטוריה");
-
-            //this uses a mapping for AutoMapper
             List<Subject> subjects = new List<Subject>();
-            //     Guid ownerIdGuid = Guid.Empty;
-            //   ownerIdGuid = new Guid(User.Identity.GetUserId());
-            //  student = _studentService.GetByUserName(username).;
-
 
             foreach (var std in _studentService.All())
             {
@@ -101,12 +90,13 @@ namespace Frontend.Controllers
             return View("Subjects",subjects);
         }
 
+
+
         public ActionResult ChooseSubject()
         {
-            Session["UserName"] = student.Name;
-            ViewBag.Title = "בחר תת-נושא";
+            //ViewBag.Title = "בחר תת-נושא";
 
-            return View("SubSubjects");
+            return RedirectToAction("ChooseSubSubject");
         }
 
         public ActionResult ChooseSubSubject()
