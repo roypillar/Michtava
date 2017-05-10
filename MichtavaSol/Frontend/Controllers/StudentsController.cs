@@ -37,9 +37,11 @@ namespace Frontend.Controllers
         private readonly IStudentService _studentService;
         private readonly IAnswerService _answerService;
         private readonly ISchoolClassService _schoolClassService;
+        private readonly ITextService _textService;
 
-        public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService, IAnswerService answerService, IStudentService studentService, ISchoolClassService schoolClassService)
+        public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService, IAnswerService answerService, IStudentService studentService, ISchoolClassService schoolClassService, ITextService textService)
         {
+            _textService = textService;
             _schoolClassService = schoolClassService;
             _subjectServiceService = subjectServiceService;
             _homeworkService = homeworkService;
@@ -47,7 +49,7 @@ namespace Frontend.Controllers
 
             _studentService = studentService;
             
-            initStudent();
+           
 
             dictionary.Add("סירותיהם", "הסירות שלהם, פירוש מעניין..");
             dictionary.Add("נמרצות", "מלא מרץ, מלא חיות, אנרגטי");
@@ -59,10 +61,12 @@ namespace Frontend.Controllers
         // GET: Students
         public ActionResult Index()
         {
-            string userid = User.Identity.GetUserId();
             ViewBag.Title = "בחר נושא";
-
+    
             List<Subject> subjects = new List<Subject>();
+
+
+            string userid = User.Identity.GetUserId();
 
             foreach (var std in _studentService.All())
             {
@@ -75,7 +79,6 @@ namespace Frontend.Controllers
 
             Session["StudentName"] = student.Name;
 
-
             foreach (var sch_cls in _schoolClassService.All())
             {
                 if (sch_cls.Id.Equals(student.SchoolClass.Id))
@@ -85,25 +88,33 @@ namespace Frontend.Controllers
                 }
             }
 
+
+
             subjects = schoolClass.Subjects.ToList();
 
             return View("Subjects",subjects);
         }
 
+        //todo- pull all textx from subject that is choosen, get into ChooseSubSubject the input like choose text!
 
-
-        public ActionResult ChooseSubject()
+   /*     public ActionResult ChooseSubject()
         {
             //ViewBag.Title = "בחר תת-נושא";
 
             return RedirectToAction("ChooseSubSubject");
         }
+        */
 
-        public ActionResult ChooseSubSubject()
+        public ActionResult ChooseSubSubject(string subjName)
         {
             ViewBag.Title = "בחר טקסט";
+            List<Text> texts = new List<Text>();
 
-            return View("Texts");
+            Subject tempSubj = _subjectServiceService.GetByName(subjName);
+
+            texts = _textService.All().Where(x => x.Subject_Id == tempSubj.Id).ToList();
+
+            return View("Texts",texts);
         }
 
         public ActionResult ChooseText(string textName)
@@ -267,7 +278,7 @@ namespace Frontend.Controllers
 
         }
 
-
+       
 
 
         [System.Web.Services.WebMethod]
@@ -367,49 +378,8 @@ namespace Frontend.Controllers
         /// <summary>
         /// you don't need this anymore, all the data is seeded to the DB.
         /// </summary>
-        public void initStudent()
-        {
-            student.Name = "student";
-            teacher.Name = "teacher";
-            
-            subj.Name = "ספרות";
-            text.Name = "הסיפור הישן על הספינה";
-            text.FilePath = @"C:\Users\mweiss\Desktop\Test.txt";
-
-
-            List<Subject> tmpSubList = new List<Subject>();
-            tmpSubList.Add(subj);
-                
-            List<Student> tmpStudentList = new List<Student>();
-            tmpStudentList.Add(student);
-
-            schoolClass.Students = tmpStudentList;
-            schoolClass.Subjects = tmpSubList;
-
-            List<SchoolClass> tmpSchoolClassList = new List<SchoolClass>();
-            tmpSchoolClassList.Add(schoolClass);
-
-
-            teacher.SchoolClasses = tmpSchoolClassList;
-
-            List<Question> qlist = new List<Question>();
-            qlist.Add(getQuestionSample(1));
-            qlist.Add(getQuestionSample(2));
-            qlist.Add(getQuestionSample(3));
-            qlist.Add(getQuestionSample(4));
-
-
-            _homework.Text = text;
-          //  _homework.SchoolClasses = tmpSchoolClassList;
-            _homework.Created_By = teacher;
-            _homework.Questions = qlist;
-
-            List<Homework> tmpHwList = new List<Homework>();
-            tmpHwList.Add(_homework);
-            student.Homeworks = tmpHwList;
-            student.SchoolClass = schoolClass;
-
-
-        }
+       
+        
+       
     }
 }

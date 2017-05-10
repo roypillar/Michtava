@@ -1,4 +1,7 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+
+@model List<Entities.Models.Text>
+
 
 <br /><br /><br />
 <head>
@@ -37,20 +40,18 @@
             <br /><br />
 
             <div class="row">
-                <div class="col-sm-10">
-                    <input name="textName" type="submit" value="המסמר / נאווי אליהו" />
-                </div>
+
+                @foreach (var subject in Model)
+            {
+                    <div class="col-sm-4 pull-right">
+                        <input name="textName" type="submit" value="@subject.Name" />
+                    </div>
+                }
             </div>
-            <div class="row">
-                <div class="col-sm-10">
-                    <input name="textName" type="submit" value="אם לא למעלה מזה / פרץ יצחק לייבוש" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-10">
-                    <input name="textName" type="submit" value="שלוש הטבעות / בוקאצ'יו ג'ובאני" />
-                </div>
-            </div>
+
+         
+
+
         </form>
     </div>
     <br /><br /><br /><br /><br /><br /><br />
