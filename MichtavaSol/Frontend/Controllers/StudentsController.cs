@@ -11,6 +11,9 @@ using SmartTextBox;
 using Frontend.Models;
 using Services.Interfaces;
 using Frontend.App_Start.Identity;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+
 
 namespace Frontend.Controllers
 {
@@ -33,14 +36,17 @@ namespace Frontend.Controllers
         private readonly IHomeworkService _homeworkService;
         private readonly IStudentService _studentService;
         private readonly IAnswerService _answerService;
+        private readonly ISchoolClassService _schoolClassService;
 
-        public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService, IAnswerService answerService, IStudentService studentService)
+        public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService, IAnswerService answerService, IStudentService studentService, ISchoolClassService schoolClassService)
         {
+            _schoolClassService = schoolClassService;
             _subjectServiceService = subjectServiceService;
             _homeworkService = homeworkService;
             _answerService = answerService;
 
             _studentService = studentService;
+            
             initStudent();
 
             dictionary.Add("סירותיהם", "הסירות שלהם, פירוש מעניין..");
@@ -52,8 +58,9 @@ namespace Frontend.Controllers
       
         // GET: Students
         public ActionResult Index()
-        { 
-            //ViewBag["StudentName"] = _studentService.GetByUserName(User.Identity.Name);
+        {
+            string userid = User.Identity.GetUserId();
+         //   ViewBag["StudentName"] = username;
             ViewBag.Title = "בחר נושא";
 
             IQueryable<Subject> Allsubjects =
@@ -63,27 +70,33 @@ namespace Frontend.Controllers
 
             //this uses a mapping for AutoMapper
             List<Subject> subjects = new List<Subject>();
-            
-            foreach(Subject subj in Allsubjects)
+            //     Guid ownerIdGuid = Guid.Empty;
+            //   ownerIdGuid = new Guid(User.Identity.GetUserId());
+            //  student = _studentService.GetByUserName(username).;
+
+
+            foreach (var std in _studentService.All())
             {
-                try
+                if (std.ApplicationUserId.Equals(userid))
                 {
-                    //***************************//
-                    //still doing problems.. ask roi..
-                    //***************************//
-                    if (student.SchoolClass.Subjects.Contains(_subjectServiceService.GetByName("היסטוריה")))
-                    {
-                        subjects.Add(subj);
-                    }
-
+                    student = std;
+                    break;
                 }
-                catch(Exception e)
-                {
-                    subjects.Add(subj);
-                }
-
-
             }
+
+            Session["StudentName"] = student.Name;
+
+
+            foreach (var sch_cls in _schoolClassService.All())
+            {
+                if (sch_cls.Id.Equals(student.SchoolClass.Id))
+                {
+                    schoolClass = sch_cls;
+                    break;
+                }
+            }
+
+            subjects = schoolClass.Subjects.ToList();
 
             return View("Subjects",subjects);
         }
@@ -369,7 +382,7 @@ namespace Frontend.Controllers
             student.Name = "student";
             teacher.Name = "teacher";
             
-            subj.Name = "היסטוריה";
+            subj.Name = "ספרות";
             text.Name = "הסיפור הישן על הספינה";
             text.FilePath = @"C:\Users\mweiss\Desktop\Test.txt";
 
