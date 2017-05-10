@@ -33,10 +33,7 @@
             return this.DbSet.Find(id);
         }
 
-        public virtual T GetById(int id)
-        {
-            return this.DbSet.Find(id);
-        }
+
 
         public virtual IQueryable<T> Get(
             Expression<Func<T, bool>> filter = null,

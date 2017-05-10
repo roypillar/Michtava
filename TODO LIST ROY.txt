@@ -1,14 +1,12 @@
-talk to cs helpdesk make ip external IN PROGRESS
-
 populate registerareas IN PROGRESS
 
 administrationarea IN PROGRESS
 
 test administrationarea IN PROGRESS
 
-write test for overriden methods in services and repos.
+write test for overriden methods in services and repos. IN PROGRESS
 
-write tests for services
+write tests for services IN PROGRESS
 
 write black box selenium tests
 

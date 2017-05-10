@@ -12,7 +12,6 @@
 
         T GetById(Guid id);
 
-        T GetById(int id);
 
         IQueryable<T> Get(
             Expression<Func<T, bool>> filter = null,
