@@ -41,15 +41,6 @@
         public IDbSet<Answer> Answers { get; set; }
 
 
-        public ICollection<Text> getTexts(string t)
-        {
-            return (
-                    from text in Texts
-                    where text.Name.Contains(t)
-                    select text
-                 ).ToList<Text>();
-        }
-
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
@@ -93,6 +84,11 @@
             mb.Entity<Student>().HasMany(m => m.Homeworks).WithMany();
 
             mb.Entity<SchoolClass>().HasMany(m => m.Homeworks).WithMany();
+
+
+            //mb.Entity<Question>().HasMany(p => p.Suggested_Openings).WithMany();
+
+
         }
 
 

@@ -12,10 +12,13 @@
 
         public SchoolClass GetByDetails(int classNumber, string letter)
         {
-            SchoolClass schoolClass = this.All()
-                .FirstOrDefault(
-                    sc => sc.ClassNumber == classNumber &&
-                          sc.ClassLetter == letter);
+            if (classNumber <= 0 || classNumber > 100 || letter.Length != 1)
+                return null;//robust this thing up
+
+            SchoolClass schoolClass = this.All().
+                Where(sc => sc.ClassNumber == classNumber &&
+                         sc.ClassLetter == letter)
+                .FirstOrDefault();
             return schoolClass;
         }
     }

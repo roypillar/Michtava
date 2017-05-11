@@ -164,7 +164,7 @@ namespace Frontend.Controllers
                 Content = model.Question,
                 Policy = policy,
                 Date_Added = DateTime.Now,
-                Suggested_Openings = new HashSet<string>(model.KeySentences)
+                Suggested_Openings = SuggestedOpening.convert(model.KeySentences)
             };
 
             // TODO: add the question and the policy to DB

@@ -144,29 +144,31 @@ namespace Dal.Migrations
         };
 
 
-        private static readonly HashSet<string> suggested_openings = new HashSet<string>() {
-            "ההשלכות למעשיה הן להלן:",
-            "ריקודי החורף מגיעים בין התאריכים:",
-            "this is a suggested opening in english",
-            " ריקושט הם יותר יקרים משאר חנויות המטיילים מכיוון ש",
-            "התשובה לשאלה היא התשובה הבאה:",
-             "ההשלכות של המעשים של אליס הם להלן;",
-             "ההשלכות של מעשי אליס הן: \n 1)טרה לה לה"
+        private static List<SuggestedOpening> suggested_openings = new List<SuggestedOpening>() {
+            new SuggestedOpening("ההשלכות למעשיה הן להלן:"),
+             new SuggestedOpening("ריקודי החורף מגיעים בין התאריכים:"),
+             new SuggestedOpening("this is a suggested opening in english"),
+             new SuggestedOpening(" ריקושט הם יותר יקרים משאר חנויות המטיילים מכיוון ש"),
+             new SuggestedOpening("התשובה לשאלה היא התשובה הבאה:"),
+              new SuggestedOpening("ההשלכות של המעשים של אליס הם להלן;"),
+              new SuggestedOpening("ההשלכות של מעשי אליס הן: \n 1)טרה לה לה")
         };
+
+        
 
 
         private readonly List<Question> questions = new List<Question>()
         {
-            new Question("הסבר מהם ההשלכות של הדברים שאמרה אליס מקארת'י",suggested_openings),
-            new Question("מנה את כל הדרכים בהן אליס עברה על החוק הרומני:",suggested_openings),
-            new Question("רציתי להגיד לך שאני מאוהב בך בטירוף, ולא לא עשית ____? (השלם את החסר)",suggested_openings),
-            new Question("באיזה שנה \"גילה\" קולומבוס את העולם החדש, לרוע מזלם של המקומיים?",suggested_openings),
-            new Question("איזו שרת כנסת בכירה נכחה בהפגנה נגד הקהילה הלהטבית?",suggested_openings),
-            new Question("מה היא בירת קרואטיה (2017)?",suggested_openings),
-            new Question("this is a question in english",suggested_openings),
-            new Question("מי האמן הכי רווחי בכל הזמנים, בכל העולם?",suggested_openings),
-            new Question("מי האמן הכי רווחי בכל הזמנים, בכל העולם?",suggested_openings),
-            new Question("מה היה הצבע של העץ מפלסטיק שקנו למרגולית צנעני?",suggested_openings),
+            new Question("הסבר מהם ההשלכות של הדברים שאמרה אליס מקארת'י"),
+            new Question("מנה את כל הדרכים בהן אליס עברה על החוק הרומני:"),
+            new Question("רציתי להגיד לך שאני מאוהב בך בטירוף, ולא לא עשית ____? (השלם את החסר)"),
+            new Question("באיזה שנה \"גילה\" קולומבוס את העולם החדש, לרוע מזלם של המקומיים?"),
+            new Question("איזו שרת כנסת בכירה נכחה בהפגנה נגד הקהילה הלהטבית?"),
+            new Question("מה היא בירת קרואטיה (2017)?"),
+            new Question("this is a question in english"),
+            new Question("מי האמן הכי רווחי בכל הזמנים, בכל העולם?"),
+            new Question("מי האמן הכי רווחי בכל הזמנים, בכל העולם?"),
+            new Question("מה היה הצבע של העץ מפלסטיק שקנו למרגולית צנעני?"),
 
         };
 
@@ -585,12 +587,7 @@ namespace Dal.Migrations
             {
                 return;
             }
-            //if (System.Diagnostics.Debugger.IsAttached == false)
-            //{
 
-            //    System.Diagnostics.Debugger.Launch();
-
-            //}
 
             IQueryable<Text> rtn = from temp in context.Texts select temp;
             var texts = new Queue<Text>(rtn.ToList());
@@ -629,6 +626,8 @@ namespace Dal.Migrations
 
                 List<Question> hwQuestions = new List<Question>();//not the prettiest but oh well
 
+           
+
                 if (i == 0)
                 {
                     hwQuestions.Add(questions.ElementAt(0));
@@ -659,10 +658,23 @@ namespace Dal.Migrations
                 hw.Created_By = creator;
                 hw.Text = t;
 
+                //if (System.Diagnostics.Debugger.IsAttached == false)
+                //{
 
+                //    System.Diagnostics.Debugger.Launch();
+
+                //}
 
                 foreach (Question q in hwQuestions)
+                {
+                    int till = new Random().Next(suggested_openings.Count);
+
+                    for(int l=0;l<till;l++)
+                        q.Suggested_Openings.Add(new SuggestedOpening(suggested_openings.ElementAt(new Random().Next(suggested_openings.Count))));
+
                     hw.Questions.Add(q);
+
+                }
 
                 context.Homeworks.Add(hw);
 

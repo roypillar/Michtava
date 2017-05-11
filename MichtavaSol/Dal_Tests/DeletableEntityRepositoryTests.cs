@@ -25,7 +25,7 @@ namespace Dal_Tests
     [TestFixture(typeof(Student))]
     //[TestFixture(typeof(ApplicationUser))]
 
-    class DeletableEntityRepositoryTests<T> where T :  DeletableEntity, new()
+    class DeletableEntityRepositoryTests<T> where T : DeletableEntity, new()
     {
         private IApplicationDbContext ctx;
 
@@ -65,7 +65,7 @@ namespace Dal_Tests
 
 
         [SetUp]
-        public  void setUp()
+        public void setUp()
         {
             set = ctx.Set<T>();
             entity = new T();
@@ -91,7 +91,7 @@ namespace Dal_Tests
             // Assert
             Assert.AreEqual(entity.TestID, set.Local.FirstOrDefault().TestID);//general check
 
-            Assert.AreEqual(count+1, set.Local.Count());
+            Assert.AreEqual(count + 1, set.Local.Count());
 
 
             //TODO add existing test in Subjects
@@ -151,5 +151,5 @@ namespace Dal_Tests
             //TODO add all remaining methods
         }
     }
-    
+
 }
