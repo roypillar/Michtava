@@ -323,7 +323,7 @@ namespace Frontend.Controllers
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא " + i*3);
             _keySentencesList.Add("התשובה לשאלה שנשאלה היא " + i*4);
 
-            q.Suggested_Openings = _keySentencesList;
+            q.Suggested_Openings = SuggestedOpening.convert(_keySentencesList);
             return q;
         }
 

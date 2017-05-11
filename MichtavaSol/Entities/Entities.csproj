@@ -67,6 +67,7 @@
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\SchoolClass.cs" />
     <Compile Include="Models\Subject.cs" />
+    <Compile Include="Models\SuggestedOpening.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\Text.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

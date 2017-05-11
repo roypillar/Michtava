@@ -2,19 +2,33 @@ populate registerareas IN PROGRESS
 
 administrationarea IN PROGRESS
 
-test administrationarea IN PROGRESS
-
-write test for overriden methods in services and repos. IN PROGRESS
-
-write tests for services IN PROGRESS
-
-write black box selenium tests
-
 strings all over the site - validation, header, footer, etc
 
 take add(create) functionality all over the site from seed method
 
 implement delete functionality all over the admins area
+
+error handling - learn remote validation IN PROGRESS
+
+
+find more possible errors: 
+
+	errors are: {add: entry exists},
+
+-----TESTING---------
+
+test administrationarea 
+
+write test for overriden methods in services and repos. IN PROGRESS MAIN
+
+write tests for services IN PROGRESS
+
+write black box selenium tests
+
+remove testID fields
+
+
+
 
 
 

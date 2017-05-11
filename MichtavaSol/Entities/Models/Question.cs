@@ -13,15 +13,24 @@ namespace Entities.Models
         public Question()
         {
             Date_Added = DateTime.Now;
+            Suggested_Openings = new List<SuggestedOpening>();
         }
 
-        public Question(string content,HashSet<string> so)
+        public Question(string content, ICollection<SuggestedOpening> so)
         {
             Date_Added = DateTime.Now;
             this.Content = content;
             this.Suggested_Openings = so;
             this.Policy = new Policy();
      
+        }
+        public Question(string content)
+        {
+            Date_Added = DateTime.Now;
+            this.Content = content;
+            Suggested_Openings = new List<SuggestedOpening>();
+            this.Policy = new Policy();
+
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -33,7 +42,7 @@ namespace Entities.Models
 
         public DateTime Date_Added { get; set; }
 
-        public HashSet<string> Suggested_Openings { get; set; }
+        public ICollection<SuggestedOpening> Suggested_Openings { get; set; }
 
         public Policy Policy { get; set; }
 

@@ -15,38 +15,20 @@ using Common;
 
 namespace Dal_Tests
 {
-  
-    [TestFixture]
     class SchoolClassRepositoryTests
-    {
+    { 
         private IApplicationDbContext ctx;
 
         private SchoolClassRepository repo;
 
-        private IDbSet<SchoolClass> set;
-
         private SchoolClass entity;
-
-        private int _testId;
-
-
-        public int TestId
-        {
-            get
-            {
-                _testId++;
-                return _testId;
-            }
-        }
 
         [OneTimeSetUp]
         public void oneTimeSetUp()
         {
-            _testId = 0;
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
             this.repo = new SchoolClassRepository(ctx);
-            this.repo.SaveChanges();
 
         }
 
@@ -60,10 +42,8 @@ namespace Dal_Tests
         [SetUp]
         public void setUp()
         {
-            set = ctx.Set<SchoolClass>();
             entity = new SchoolClass();
-            entity.setId(Guid.NewGuid());
-            entity.TestID = TestId;
+            entity.setId(Guid.NewGuid());//consider using
         }
 
         [TearDown]
@@ -74,25 +54,114 @@ namespace Dal_Tests
 
 
         [Test]
+        public void testAdd()
+        {
+            // Arrange
+            int count = repo.All().Count();
+
+
+            // Act
+            repo.Add(entity);
+            repo.SaveChanges();
+
+            // Assert
+            Assert.AreEqual(count + 1, repo.All().Count());
+
+
+            //TODO add existing test in Subjects
+        }
+
+        [Test]
+        public void testGetById()
+        {
+            // Arrange
+            int count = repo.All().Count();
+            repo.Add(entity);
+            repo.SaveChanges();
+            Assert.AreEqual(count + 1, repo.All().Count());
+
+
+            // Act
+            SchoolClass actual = repo.GetById(entity.Id);
+            // Assert
+            Assert.NotNull(actual);
+
+            //TODO add existing test
+        }
+
+        [Test]
+        public void testGet()
+        {
+            // Arrange
+            int count = repo.All().Count();
+            repo.Add(entity);
+            repo.SaveChanges();
+            Assert.AreEqual(count + 1, repo.All().Count());
+
+
+            // Act
+            SchoolClass actual = repo.GetById(entity.Id);
+            // Assert
+            Assert.NotNull(actual);
+
+            //TODO add existing test
+        }
+
+
+        [Test]
+        public void testUpdate()
+        {
+            // Arrange
+            int count = repo.All().Count();
+            repo.Add(entity);
+            Assert.AreEqual(count + 1, repo.All().Count());
+
+            int expected = entity.TestID + GlobalConstants.numOfTests;
+            entity.TestID += GlobalConstants.numOfTests;
+
+            // Act
+            repo.Update(entity);
+            // Assert
+            Assert.NotNull(repo.GetByTestID(expected));//this is fine, because of course the DB is empty beforehand.
+
+            //TODO add existing test
+        }
+
+        [Test]
+        public void testDelete()
+        {
+            // Arrange
+            int count = repo.All().Count();
+            repo.Add(entity);
+            Assert.AreEqual(count + 1, repo.All().Count());
+
+            // Act
+            repo.Delete(entity);
+            // Assert
+
+            Assert.IsTrue(repo.GetByTestID(entity.TestID).IsDeleted);//this is fine, because of course the DB is empty beforehand.
+
+            //TODO add all remaining methods
+        }
+
+        [Test]
         public void testGetByDetails()
         {
             // Arrange
-            int count = set.Local.Count();
+            int count = repo.All().Count();
             entity.ClassLetter = "ט";
             entity.ClassNumber = 7;
 
             repo.Add(entity);
-            Assert.AreEqual(count + 1, set.Local.Count());
+            Assert.AreEqual(count + 1, repo.All().Count());
 
 
             // Act
             // Assert
             Assert.NotNull(repo.GetByTestID(entity.TestID));//this is fine, because of course the DB is empty beforehand.
-            Assert.NotNull(repo.GetByDetails(7,"ט"));
+            Assert.NotNull(repo.GetByDetails(7, "ט"));
 
         }
-
-
     }
 
 }
