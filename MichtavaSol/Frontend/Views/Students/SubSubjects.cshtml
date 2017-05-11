@@ -22,7 +22,7 @@
             background-repeat: no-repeat;
         }
     </style>
-    <text> ברוך הבא למכתבה @Session["UserName"].</text>
+    
 </head>
 
 <body>
@@ -30,10 +30,19 @@
         <form class="text-right" action="ChooseSubSubject" method="post" id="SubjectsMenu">
             
             <div class="row">
+
                 <div class="col-sm-10">
                     <b><u><h2>@ViewBag.Title:</h2></u></b>
                 </div>
+
+                <div class="col-sm-2 pull-left">
+                    <h3>@Session["StudentName"]</h3>
+                </div>
+
             </div>
+
+            
+
             <br/><br />
 
             <div class="row">

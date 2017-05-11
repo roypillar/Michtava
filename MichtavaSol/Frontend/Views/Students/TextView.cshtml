@@ -113,6 +113,8 @@
 </div>
     
     @if ((string)Session["WithQuestion?"] == "Without") {
+        if ((string)Session["NoHomeWork"] == "1")
+        {
     <form class="text-right" action="GotoSmartTextBox" method="post">
         <div class="row">
             <div class="col-sm-4 pull-left">
@@ -120,12 +122,23 @@
             </div>
         </div>
     </form>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-sm-4 pull-left">
+                    <h2>לסיפור זה אין שאלות</h2>
+                </div>
+            </div>
                 }
-       else {
+            }
+
+            else
+            {
          <form class="text-right" action="ChooseAction" method="post">
         <div class="row">
             <div class="col-sm-3 pull-left">
-                <input name="submit" type = "submit" value="לסיפור" />
+                <input name="submit" type = "submit" value="בחזרה לסיפור" />
             </div>
         </div>
     </form>
@@ -155,7 +168,7 @@
 
     function changeTextFont() {
 
-        
+
         var tArea = document.getElementById("textArea");
 
         var selectBox = document.getElementById("TextfontSize");
@@ -175,7 +188,7 @@
             }
         }
         $("#textArea").html(dvHTML);
-       
+
     }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,6 +12,9 @@ using SmartTextBox;
 using Frontend.Models;
 using Services.Interfaces;
 using Frontend.App_Start.Identity;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+
 
 namespace Frontend.Controllers
 {
@@ -26,6 +30,8 @@ namespace Frontend.Controllers
         private Student student = new Student();
         private SchoolClass schoolClass = new SchoolClass();
         private Subject subj = new Subject();
+        private Guid schoolClassGuid;
+        private Guid textGuid;
 
         private Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
@@ -33,74 +39,92 @@ namespace Frontend.Controllers
         private readonly IHomeworkService _homeworkService;
         private readonly IStudentService _studentService;
         private readonly IAnswerService _answerService;
+        private readonly ISchoolClassService _schoolClassService;
+        private readonly ITextService _textService;
+      //  private readonly iquestionsservice
 
-        public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService, IAnswerService answerService, IStudentService studentService)
+        public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService, IAnswerService answerService, IStudentService studentService, ISchoolClassService schoolClassService, ITextService textService)
         {
+            _textService = textService;
+            _schoolClassService = schoolClassService;
             _subjectServiceService = subjectServiceService;
             _homeworkService = homeworkService;
             _answerService = answerService;
-
             _studentService = studentService;
-            initStudent();
+            
+           
 
             dictionary.Add("סירותיהם", "הסירות שלהם, פירוש מעניין..");
             dictionary.Add("נמרצות", "מלא מרץ, מלא חיות, אנרגטי");
             dictionary.Add("עמך", "יחד, בצוותא, בשיתוף; אחד עם השני");
+
+           
 
         }
 
       
         // GET: Students
         public ActionResult Index()
-        { 
-            //ViewBag["StudentName"] = _studentService.GetByUserName(User.Identity.Name);
-            ViewBag.Title = "בחר נושא";
+        {
+            string userid = User.Identity.GetUserId();
 
-            IQueryable<Subject> Allsubjects =
-                _subjectServiceService.All();
-
-            //                _subjectServiceService.All().Where(x => x.Name == "היסטוריה");
-
-            //this uses a mapping for AutoMapper
-            List<Subject> subjects = new List<Subject>();
-            
-            foreach(Subject subj in Allsubjects)
+            foreach (var std in _studentService.All())
             {
-                try
+                if (std.ApplicationUserId.Equals(userid))
                 {
-                    //***************************//
-                    //still doing problems.. ask roi..
-                    //***************************//
-                    if (student.SchoolClass.Subjects.Contains(_subjectServiceService.GetByName("היסטוריה")))
-                    {
-                        subjects.Add(subj);
-                    }
-
+                    student = std;
+                    break;
                 }
-                catch(Exception e)
-                {
-                    subjects.Add(subj);
-                }
-
-
             }
+
+            Session["StudentName"] = student.Name;
+
+            foreach (var sch_cls in _schoolClassService.All())
+            {
+                if (sch_cls.Id.Equals(student.SchoolClass.Id))
+                {
+                    schoolClass = sch_cls;
+                    break;
+                }
+            }
+
+            schoolClassGuid = schoolClass.Id;
+
+            ViewBag.Title = "בחר נושא";
+    
+            List<Subject> subjects = new List<Subject>();
+
+
+       
+            Session["SchoolClassID"] = schoolClass.Id.ToString();
+
+
+
+            subjects = schoolClass.Subjects.ToList();
 
             return View("Subjects",subjects);
         }
 
-        public ActionResult ChooseSubject()
+        //todo- pull all textx from subject that is choosen, get into ChooseSubSubject the input like choose text!
+
+   /*     public ActionResult ChooseSubject()
         {
-            Session["UserName"] = student.Name;
-            ViewBag.Title = "בחר תת-נושא";
+            //ViewBag.Title = "בחר תת-נושא";
 
-            return View("SubSubjects");
+            return RedirectToAction("ChooseSubSubject");
         }
+        */
 
-        public ActionResult ChooseSubSubject()
+        public ActionResult ChooseSubSubject(string subjName)
         {
             ViewBag.Title = "בחר טקסט";
+            List<Text> texts = new List<Text>();
 
-            return View("Texts");
+            Subject tempSubj = _subjectServiceService.GetByName(subjName);
+
+            texts = _textService.All().Where(x => x.Subject_Id == tempSubj.Id).ToList();
+
+            return View("Texts",texts);
         }
 
         public ActionResult ChooseText(string textName)
@@ -125,28 +149,53 @@ namespace Frontend.Controllers
         {
             Session["title"] = submit;
 
-            switch (submit)
+           // switch (submit)
+           // {
+              //  case "לסיפור":
+            Session["WithQuestion?"] = "Without";
+
+            Session["TextContent"] = _fileManager.GetText(text.FilePath);
+                    //init words definition
+            Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
+            string tmpName = (string)Session["textName"];
+            string userid = User.Identity.GetUserId();
+
+            foreach (var std in _studentService.All().Include(x => x.Homeworks))
             {
-                case "לסיפור":
-                    Session["WithQuestion?"] = "Without";
-
-                    Session["TextContent"] = _fileManager.GetText(text.FilePath);
-                    //init words definition
-                    Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
-                    return View("TextView");
-
-                case "משחקי אוצר מילים":
-                    Session["WithQuestion?"] = "Without";
-
-                    Session["TextContent"] = _fileManager.GetText(text.FilePath);
-                    //init words definition
-                    Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
-                    return View("TextView");
-                    //for games an stuff..
-
+                if (std.ApplicationUserId.Equals(userid))
+                {
+                    student = std;
+                    break;
+                }
             }
 
+            textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
+
+            /*    schoolClass = student.SchoolClass;
+
+                schoolClassGuid = schoolClass.Id;
+                SchoolClass SC = _schoolClassService.All().Where(x => x.Id == schoolClassGuid).FirstOrDefault();
+              //  _homework = _homeworkService.All().Include(x=>x.) // GetById(SC.Homeworks.FirstOrDefault().Id);
+
+          /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
+              */
+
+            foreach (var hw in student.Homeworks)
+            {
+                if (hw.Text_Id == textGuid)
+                {
+                    Session["NoHomeWork"] = "1";
+                    return View("TextView");
+                }
+            }
+            Session["NoHomeWork"] = "0";
+
             return View("TextView");
+
+
+            //}
+
+           // return View("TextView");
         
         }
 
@@ -185,15 +234,64 @@ namespace Frontend.Controllers
 
             //InitializeSmartView();
             smartView.QuestionNumber = tmpQuestNumber;
-            smartView.question = student.Homeworks.First(x => x.Text == text).Questions.First(m => m.Question_Number == tmpQuestNumber);
-            smartView.Questions = student.Homeworks.First(x => x.Text == text).Questions.Cast<Question>().ToList();
 
-            //List<int> answersNumber = GetAnswersNumbers(student.Homeworks.First(x => x.Text == text));
+            string userid = User.Identity.GetUserId();
 
-            //smartView.CompleteQuestions = _answerService.All().Select(x => answersNumber.Contains(x.question.Id)).Cast<Answer>().ToList();
+            foreach (var std in _studentService.All().Include(x=>x.Homeworks))
+            {
+                if (std.ApplicationUserId.Equals(userid))
+                {
+                    student = std;
+                    break;
+                }
+            }
 
+            string tmpName = (string)Session["textName"];
+            textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
 
-            return View("QuestionsView", smartView);
+            /*    schoolClass = student.SchoolClass;
+
+                schoolClassGuid = schoolClass.Id;
+                SchoolClass SC = _schoolClassService.All().Where(x => x.Id == schoolClassGuid).FirstOrDefault();
+              //  _homework = _homeworkService.All().Include(x=>x.) // GetById(SC.Homeworks.FirstOrDefault().Id);
+
+          /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
+              */
+
+            foreach (var hw in student.Homeworks)
+            {
+                if(hw.Text_Id == textGuid)
+                {
+                    List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
+                    smartView.question = tmpQuestionsList.Where(x=>x.Question_Number == tmpQuestNumber).FirstOrDefault();
+                    smartView.Questions = tmpQuestionsList;
+                  
+                    foreach(var q in smartView.Questions)
+                    {
+                        q.Suggested_Openings = new HashSet<string>();
+                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר "+ q.Question_Number);
+                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר " + q.Question_Number*2);
+                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר " + q.Question_Number*3);
+                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר " + q.Question_Number*4);
+                    }
+                    /*
+                     * need to ask from roi question service and then cross all questions per hw.id here and add it to questions list!
+                     * 
+                     * List<Question> qlist = _
+                       smartView.question = hw.Questions.First(m => m.Question_Number == tmpQuestNumber);
+                       smartView.Questions = hw.Questions.Cast<Question>().ToList();
+                       */
+
+                }
+            }
+
+                
+
+                //List<int> answersNumber = GetAnswersNumbers(student.Homeworks.First(x => x.Text == text));
+
+                //smartView.CompleteQuestions = _answerService.All().Select(x => answersNumber.Contains(x.question.Id)).Cast<Answer>().ToList();
+                return View("QuestionsView", smartView);
+             
         }
 
        
@@ -264,7 +362,7 @@ namespace Frontend.Controllers
 
         }
 
-
+       
 
 
         [System.Web.Services.WebMethod]
@@ -364,49 +462,8 @@ namespace Frontend.Controllers
         /// <summary>
         /// you don't need this anymore, all the data is seeded to the DB.
         /// </summary>
-        public void initStudent()
-        {
-            student.Name = "student";
-            teacher.Name = "teacher";
-            
-            subj.Name = "היסטוריה";
-            text.Name = "הסיפור הישן על הספינה";
-            text.FilePath = @"C:\Users\mweiss\Desktop\Test.txt";
-
-
-            List<Subject> tmpSubList = new List<Subject>();
-            tmpSubList.Add(subj);
-                
-            List<Student> tmpStudentList = new List<Student>();
-            tmpStudentList.Add(student);
-
-            schoolClass.Students = tmpStudentList;
-            schoolClass.Subjects = tmpSubList;
-
-            List<SchoolClass> tmpSchoolClassList = new List<SchoolClass>();
-            tmpSchoolClassList.Add(schoolClass);
-
-
-            teacher.SchoolClasses = tmpSchoolClassList;
-
-            List<Question> qlist = new List<Question>();
-            qlist.Add(getQuestionSample(1));
-            qlist.Add(getQuestionSample(2));
-            qlist.Add(getQuestionSample(3));
-            qlist.Add(getQuestionSample(4));
-
-
-            _homework.Text = text;
-          //  _homework.SchoolClasses = tmpSchoolClassList;
-            _homework.Created_By = teacher;
-            _homework.Questions = qlist;
-
-            List<Homework> tmpHwList = new List<Homework>();
-            tmpHwList.Add(_homework);
-            student.Homeworks = tmpHwList;
-            student.SchoolClass = schoolClass;
-
-
-        }
+       
+        
+       
     }
 }

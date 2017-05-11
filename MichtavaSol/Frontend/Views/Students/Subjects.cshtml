@@ -31,27 +31,37 @@
 
 <body>
     <div class="row">
-        <form class="text-right" action="ChooseSubject" method="post" id="SubjectsMenu">
+        <form class="text-right" action="ChooseSubSubject" method="post" id="SubjectsMenu">
             <div class="row">
                 <div class="col-sm-10">
                     <b>
                         <u>
-                            <h2>@ViewBag.Title:</h2>
+                            <h2>@ViewBag.Title:</h2>                            
                         </u>
                     </b>
                 </div>
+                
+                <div class="col-sm-2 pull-left">
+                   
+                      
+                            <h3>@Session["StudentName"]</h3>
+                     
+                 
+                </div>
+
             </div>
             <br /><br />
 
-            @foreach (var subject in Model)
-            {
-                <div class="row">
-                    <div class="col-sm-10">
-                        <input type="submit" value="@subject.Name" />
-                    </div>
-                </div>
-            }
+            <div class="row">
+                @foreach (var subject in Model)
+                {
 
+                    <div class="col-sm-4 pull-right">
+                        <input name="subjName" type="submit" value="@subject.Name" />
+                    </div>
+
+                }
+            </div>
         </form>
     </div>
     <br /><br /><br /><br /><br /><br /><br />
