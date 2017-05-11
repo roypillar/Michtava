@@ -663,7 +663,7 @@ namespace Dal.Migrations
 
                 //    System.Diagnostics.Debugger.Launch();
 
-                //}
+                //}hgfdhg
 
                 foreach (Question q in hwQuestions)
                 {
