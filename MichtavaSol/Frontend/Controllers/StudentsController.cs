@@ -29,6 +29,8 @@ namespace Frontend.Controllers
         private Student student = new Student();
         private SchoolClass schoolClass = new SchoolClass();
         private Subject subj = new Subject();
+        private Guid schoolClassGuid;
+        private Guid textGuid;
 
         private Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
@@ -38,6 +40,7 @@ namespace Frontend.Controllers
         private readonly IAnswerService _answerService;
         private readonly ISchoolClassService _schoolClassService;
         private readonly ITextService _textService;
+      //  private readonly iquestionsservice
 
         public StudentsController(ISubjectService subjectServiceService, IHomeworkService homeworkService, IAnswerService answerService, IStudentService studentService, ISchoolClassService schoolClassService, ITextService textService)
         {
@@ -46,7 +49,6 @@ namespace Frontend.Controllers
             _subjectServiceService = subjectServiceService;
             _homeworkService = homeworkService;
             _answerService = answerService;
-
             _studentService = studentService;
             
            
@@ -55,17 +57,14 @@ namespace Frontend.Controllers
             dictionary.Add("נמרצות", "מלא מרץ, מלא חיות, אנרגטי");
             dictionary.Add("עמך", "יחד, בצוותא, בשיתוף; אחד עם השני");
 
+           
+
         }
 
       
         // GET: Students
         public ActionResult Index()
         {
-            ViewBag.Title = "בחר נושא";
-    
-            List<Subject> subjects = new List<Subject>();
-
-
             string userid = User.Identity.GetUserId();
 
             foreach (var std in _studentService.All())
@@ -87,6 +86,16 @@ namespace Frontend.Controllers
                     break;
                 }
             }
+
+            schoolClassGuid = schoolClass.Id;
+
+            ViewBag.Title = "בחר נושא";
+    
+            List<Subject> subjects = new List<Subject>();
+
+
+       
+            Session["SchoolClassID"] = schoolClass.Id.ToString();
 
 
 
@@ -139,28 +148,35 @@ namespace Frontend.Controllers
         {
             Session["title"] = submit;
 
-            switch (submit)
+           // switch (submit)
+           // {
+              //  case "לסיפור":
+            Session["WithQuestion?"] = "Without";
+
+            Session["TextContent"] = _fileManager.GetText(text.FilePath);
+                    //init words definition
+            Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
+            string tmpName = (string)Session["textName"];
+            textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
+             
+            //need to check if this text can be in several classes, some gets homework and some not.
+            //if so, we need to check to check school class hw contains this.
+           
+            List<Homework> tmpHW = _homeworkService.All().Where(x => x.Text_Id == textGuid).ToList();
+
+            if (tmpHW.Count() > 0)
             {
-                case "לסיפור":
-                    Session["WithQuestion?"] = "Without";
-
-                    Session["TextContent"] = _fileManager.GetText(text.FilePath);
-                    //init words definition
-                    Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
-                    return View("TextView");
-
-                case "משחקי אוצר מילים":
-                    Session["WithQuestion?"] = "Without";
-
-                    Session["TextContent"] = _fileManager.GetText(text.FilePath);
-                    //init words definition
-                    Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
-                    return View("TextView");
-                    //for games an stuff..
-
+                Session["NoHomeWork"] = "1";
             }
+            else
+                Session["NoHomeWork"] = "0";
 
             return View("TextView");
+
+
+            //}
+
+           // return View("TextView");
         
         }
 
@@ -199,15 +215,54 @@ namespace Frontend.Controllers
 
             //InitializeSmartView();
             smartView.QuestionNumber = tmpQuestNumber;
-            smartView.question = student.Homeworks.First(x => x.Text == text).Questions.First(m => m.Question_Number == tmpQuestNumber);
-            smartView.Questions = student.Homeworks.First(x => x.Text == text).Questions.Cast<Question>().ToList();
 
-            //List<int> answersNumber = GetAnswersNumbers(student.Homeworks.First(x => x.Text == text));
+            string userid = User.Identity.GetUserId();
 
-            //smartView.CompleteQuestions = _answerService.All().Select(x => answersNumber.Contains(x.question.Id)).Cast<Answer>().ToList();
+            foreach (var std in _studentService.All())
+            {
+                if (std.ApplicationUserId.Equals(userid))
+                {
+                    student = std;
+                    break;
+                }
+            }
 
+            foreach (var sch_cls in _schoolClassService.All())
+            {
+                if (sch_cls.Id.Equals(student.SchoolClass.Id))
+                {
+                    schoolClass = sch_cls;
+                    break;
+                }
+            }
 
-            return View("QuestionsView", smartView);
+            schoolClassGuid = schoolClass.Id;
+            string tmpName = (string)Session["textName"];
+            textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
+            SchoolClass SC = _schoolClassService.All().Where(x => x.Id == schoolClassGuid).FirstOrDefault();
+            
+            foreach(var hw in SC.Homeworks)
+            {
+                if(hw.Text_Id == textGuid)
+                {
+                 /*
+                  * need to ask from roi question service and then cross all questions per hw.id here and add it to questions list!
+                  * 
+                  * List<Question> qlist = _
+                    smartView.question = hw.Questions.First(m => m.Question_Number == tmpQuestNumber);
+                    smartView.Questions = hw.Questions.Cast<Question>().ToList();
+                    */
+                    
+                }
+            }
+
+                
+
+                //List<int> answersNumber = GetAnswersNumbers(student.Homeworks.First(x => x.Text == text));
+
+                //smartView.CompleteQuestions = _answerService.All().Select(x => answersNumber.Contains(x.question.Id)).Cast<Answer>().ToList();
+                return View("QuestionsView", smartView);
+             
         }
 
        
