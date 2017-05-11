@@ -105,7 +105,6 @@ namespace Frontend.Controllers
             return View("Subjects",subjects);
         }
 
-        //todo- pull all textx from subject that is choosen, get into ChooseSubSubject the input like choose text!
 
    /*     public ActionResult ChooseSubject()
         {
@@ -138,13 +137,6 @@ namespace Frontend.Controllers
         }
 
 
-
-        //להמשיך לטעון דינאמית מסטודנט את מה שצריך
-        //להעביר כל מה שצריך מגו טו סמארט טקסט בוקס אל הטקטס ויו, ומאנאלייז.
-        //לנסות לעבוד עם session
-        //נשאר קבוע עד שישנו כמו למשל טקסט של הסיפור..
-        //לקבל לפעולות כמו פה מידע ולעבוד איתו
-        //להפוך את סמארט טקסט ויו מודל להחזיק שיעורי בית ומספר של שאלה וככה להציג אותה בתיבה החכמה..
         public ActionResult ChooseAction(string submit)
         {
             Session["title"] = submit;
@@ -171,14 +163,8 @@ namespace Frontend.Controllers
 
             textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
 
-            /*    schoolClass = student.SchoolClass;
-
-                schoolClassGuid = schoolClass.Id;
-                SchoolClass SC = _schoolClassService.All().Where(x => x.Id == schoolClassGuid).FirstOrDefault();
-              //  _homework = _homeworkService.All().Include(x=>x.) // GetById(SC.Homeworks.FirstOrDefault().Id);
-
           /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
-              */
+              
 
             foreach (var hw in student.Homeworks)
             {
@@ -192,10 +178,6 @@ namespace Frontend.Controllers
 
             return View("TextView");
 
-
-            //}
-
-           // return View("TextView");
         
         }
 
@@ -204,10 +186,6 @@ namespace Frontend.Controllers
         {
             int tmpQuestNumber = 1;
 
-
-            //************need to complete*************
-            //init by specific policy... get the question policy from the real question..
-            //************need to complete*************
 
             InitializePolicy();
             Session["WithQuestion?"] = "With";
@@ -249,43 +227,38 @@ namespace Frontend.Controllers
             string tmpName = (string)Session["textName"];
             textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
 
-            /*    schoolClass = student.SchoolClass;
-
-                schoolClassGuid = schoolClass.Id;
-                SchoolClass SC = _schoolClassService.All().Where(x => x.Id == schoolClassGuid).FirstOrDefault();
-              //  _homework = _homeworkService.All().Include(x=>x.) // GetById(SC.Homeworks.FirstOrDefault().Id);
 
           /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
-              */
+              
 
             foreach (var hw in student.Homeworks)
             {
                 if(hw.Text_Id == textGuid)
                 {
-                    List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
+                    List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q=>q.Policy)).Include(x=>x.Questions.Select(q=>q.Suggested_Openings)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
                     smartView.question = tmpQuestionsList.Where(x=>x.Question_Number == tmpQuestNumber).FirstOrDefault();
                     smartView.Questions = tmpQuestionsList;
-                  
-                    foreach(var q in smartView.Questions)
+
+                    if (smartView.question.Suggested_Openings.Count == 0)
                     {
-                        q.Suggested_Openings = new HashSet<string>();
-                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר "+ q.Question_Number);
-                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר " + q.Question_Number*2);
-                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר " + q.Question_Number*3);
-                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר " + q.Question_Number*4);
+                        SuggestedOpening noSuggOpen = new SuggestedOpening("אין משפטי פתיחה לשאלה זו");
+                        SuggestedOpening noSuggOpen2 = new SuggestedOpening("התשובה לשאלה נמצאת בגוף השאלה");
+                        smartView.question.Suggested_Openings.Add(noSuggOpen);
+                        smartView.question.Suggested_Openings.Add(noSuggOpen2);
+
                     }
-                    /*
-                     * need to ask from roi question service and then cross all questions per hw.id here and add it to questions list!
-                     * 
-                     * List<Question> qlist = _
-                       smartView.question = hw.Questions.First(m => m.Question_Number == tmpQuestNumber);
-                       smartView.Questions = hw.Questions.Cast<Question>().ToList();
-                       */
+
+
+                    //handle the answers..
+                    //_answerService.All().Where(x => x.Homework_Id == hw.Id)
+
+
 
                 }
             }
 
-                
+            Answer ans = new Answer();
+
 
                 //List<int> answersNumber = GetAnswersNumbers(student.Homeworks.First(x => x.Text == text));
 
@@ -295,7 +268,7 @@ namespace Frontend.Controllers
         }
 
        
-        public List<Guid> GetAnswersNumbers(Homework hw)
+  /*      public List<Guid> GetAnswersNumbers(Homework hw)
         {
             List<Guid> tmp = new List<Guid>();
             foreach(var question in hw.Questions)
@@ -305,6 +278,8 @@ namespace Frontend.Controllers
             return tmp;
         }
 
+    */
+        //todo- fix analyze answer like gotosmartTextbox, check for already answered questions and mark them or load the answer or dont present them?
 
 
 
@@ -354,8 +329,39 @@ namespace Frontend.Controllers
 
 
             smartView.QuestionNumber = tmpQuestNumber;
-            smartView.question = student.Homeworks.First(x => x.Text == text).Questions.First(m => m.Question_Number == tmpQuestNumber);
-            smartView.Questions = student.Homeworks.First(x => x.Text == text).Questions.Cast<Question>().ToList();
+            smartView.QuestionNumber = tmpQuestNumber;
+
+            string userid = User.Identity.GetUserId();
+
+            foreach (var std in _studentService.All().Include(x => x.Homeworks))
+            {
+                if (std.ApplicationUserId.Equals(userid))
+                {
+                    student = std;
+                    break;
+                }
+            }
+
+            string tmpName = (string)Session["textName"];
+            textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
+
+
+            /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
+
+
+            foreach (var hw in student.Homeworks)
+            {
+                if (hw.Text_Id == textGuid)
+                {
+                    List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q => q.Policy)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
+                    smartView.question = tmpQuestionsList.Where(x => x.Question_Number == tmpQuestNumber).FirstOrDefault();
+                    smartView.Questions = tmpQuestionsList;
+
+                  
+
+
+                }
+            }
 
 
             return View("QuestionsView", smartView);

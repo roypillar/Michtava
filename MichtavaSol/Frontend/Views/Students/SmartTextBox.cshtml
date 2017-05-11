@@ -128,8 +128,8 @@
                         @foreach (var suggOpen in Model.Suggested_Openings)
                         {
                             <div class="input-w">
-                                <input name="group" id="@suggOpen" type="radio" value="@suggOpen" />
-                                <label for="@suggOpen">@suggOpen</label>
+                                <input name="group" id="@suggOpen.Content" type="radio" value="@suggOpen.Content" />
+                                <label for="@suggOpen.Content">@suggOpen.Content</label>
                             </div>
                         }
 

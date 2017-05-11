@@ -14,6 +14,11 @@ namespace Entities.Models
             this.Content = Content;
         }
 
+        public SuggestedOpening()
+        {
+
+        }
+
         public SuggestedOpening(SuggestedOpening so)
         {
             this.Content = so.Content;
