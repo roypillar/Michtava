@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -157,19 +158,37 @@ namespace Frontend.Controllers
                     //init words definition
             Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
             string tmpName = (string)Session["textName"];
-            textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
-             
-            //need to check if this text can be in several classes, some gets homework and some not.
-            //if so, we need to check to check school class hw contains this.
-           
-            List<Homework> tmpHW = _homeworkService.All().Where(x => x.Text_Id == textGuid).ToList();
+            string userid = User.Identity.GetUserId();
 
-            if (tmpHW.Count() > 0)
+            foreach (var std in _studentService.All().Include(x => x.Homeworks))
             {
-                Session["NoHomeWork"] = "1";
+                if (std.ApplicationUserId.Equals(userid))
+                {
+                    student = std;
+                    break;
+                }
             }
-            else
-                Session["NoHomeWork"] = "0";
+
+            textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
+
+            /*    schoolClass = student.SchoolClass;
+
+                schoolClassGuid = schoolClass.Id;
+                SchoolClass SC = _schoolClassService.All().Where(x => x.Id == schoolClassGuid).FirstOrDefault();
+              //  _homework = _homeworkService.All().Include(x=>x.) // GetById(SC.Homeworks.FirstOrDefault().Id);
+
+          /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
+              */
+
+            foreach (var hw in student.Homeworks)
+            {
+                if (hw.Text_Id == textGuid)
+                {
+                    Session["NoHomeWork"] = "1";
+                    return View("TextView");
+                }
+            }
+            Session["NoHomeWork"] = "0";
 
             return View("TextView");
 
@@ -218,7 +237,7 @@ namespace Frontend.Controllers
 
             string userid = User.Identity.GetUserId();
 
-            foreach (var std in _studentService.All())
+            foreach (var std in _studentService.All().Include(x=>x.Homeworks))
             {
                 if (std.ApplicationUserId.Equals(userid))
                 {
@@ -227,32 +246,42 @@ namespace Frontend.Controllers
                 }
             }
 
-            foreach (var sch_cls in _schoolClassService.All())
-            {
-                if (sch_cls.Id.Equals(student.SchoolClass.Id))
-                {
-                    schoolClass = sch_cls;
-                    break;
-                }
-            }
-
-            schoolClassGuid = schoolClass.Id;
             string tmpName = (string)Session["textName"];
             textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
-            SchoolClass SC = _schoolClassService.All().Where(x => x.Id == schoolClassGuid).FirstOrDefault();
-            
-            foreach(var hw in SC.Homeworks)
+
+            /*    schoolClass = student.SchoolClass;
+
+                schoolClassGuid = schoolClass.Id;
+                SchoolClass SC = _schoolClassService.All().Where(x => x.Id == schoolClassGuid).FirstOrDefault();
+              //  _homework = _homeworkService.All().Include(x=>x.) // GetById(SC.Homeworks.FirstOrDefault().Id);
+
+          /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
+              */
+
+            foreach (var hw in student.Homeworks)
             {
                 if(hw.Text_Id == textGuid)
                 {
-                 /*
-                  * need to ask from roi question service and then cross all questions per hw.id here and add it to questions list!
-                  * 
-                  * List<Question> qlist = _
-                    smartView.question = hw.Questions.First(m => m.Question_Number == tmpQuestNumber);
-                    smartView.Questions = hw.Questions.Cast<Question>().ToList();
-                    */
-                    
+                    List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
+                    smartView.question = tmpQuestionsList.Where(x=>x.Question_Number == tmpQuestNumber).FirstOrDefault();
+                    smartView.Questions = tmpQuestionsList;
+                  
+                    foreach(var q in smartView.Questions)
+                    {
+                        q.Suggested_Openings = new HashSet<string>();
+                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר "+ q.Question_Number);
+                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר " + q.Question_Number*2);
+                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר " + q.Question_Number*3);
+                        q.Suggested_Openings.Add("משפט פתיחה אפשרי שאלה מספר " + q.Question_Number*4);
+                    }
+                    /*
+                     * need to ask from roi question service and then cross all questions per hw.id here and add it to questions list!
+                     * 
+                     * List<Question> qlist = _
+                       smartView.question = hw.Questions.First(m => m.Question_Number == tmpQuestNumber);
+                       smartView.Questions = hw.Questions.Cast<Question>().ToList();
+                       */
+
                 }
             }
 
