@@ -1,4 +1,4 @@
-﻿@model Entities.Models.Question
+﻿@model Frontend.Models.SmartTextViewModel
 
 @{
     ViewBag.Title = "תיבת טקסט חכמה";
@@ -100,7 +100,7 @@
   <div class="row">
       <div class="row">
           <div class="col-md-10 pull-right">
-              <p style="font-size:200%">@Model.Content</p>
+              <p style="font-size:200%">@Model.question.Content</p>
           </div>
       </div>    
 
@@ -125,7 +125,7 @@
                     <div dir="rtl">
                        
 
-                        @foreach (var suggOpen in Model.Suggested_Openings)
+                        @foreach (var suggOpen in Model.question.Suggested_Openings)
                         {
                             <div class="input-w">
                                 <input name="group" id="@suggOpen.Content" type="radio" value="@suggOpen.Content" />

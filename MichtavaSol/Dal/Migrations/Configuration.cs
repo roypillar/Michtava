@@ -727,10 +727,12 @@ namespace Dal.Migrations
                 Answer ans = new Answer();
                 ans.Answer_To = ans_to;
                 ans.Submitted_By = s;
-
+                int k = 1;
                 foreach (Question q in questionsOfHw)
                 {
-                    ans.answers.Add(q, RandomAnswerString());
+                    ans.QuestionNumber = k;
+                    ans.QuestionAnswer = "תשובה רנדומלית לשאלה רנדומלית בלה בלה בלה";
+                    k++;
                 }
 
                 context.Answers.Add(ans);

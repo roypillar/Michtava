@@ -13,9 +13,8 @@ namespace Entities.Models
         public Answer()
         {
             Date_Submitted = DateTime.Now;
-            answers = new Dictionary<Question, string>();
         }
-
+     
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -27,8 +26,11 @@ namespace Entities.Models
         [ForeignKey("Answer_To")]
         public Guid Homework_Id { get; set; }
 
+       // [ForeignKey("QuestionNumber")]
+        public int QuestionNumber { get; set; }
 
-        public Dictionary<Question, string> answers { get; set; }
+        
+        public string QuestionAnswer { get; set; } 
 
         public Student Submitted_By { get; set; }
 

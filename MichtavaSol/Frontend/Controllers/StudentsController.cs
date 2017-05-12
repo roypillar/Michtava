@@ -249,20 +249,28 @@ namespace Frontend.Controllers
                     }
 
 
-                    //handle the answers..
-                    //_answerService.All().Where(x => x.Homework_Id == hw.Id)
+                    List<int> SmartViewQuestionsNumbers = new List<int>();
+
+                    List<Answer> QuestionsAlreadyAnswered = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).ToList();
+                   if (QuestionsAlreadyAnswered == null)
+                   {
 
 
+
+                   }
+                    else
+                    {
+                        smartView.CompleteQuestions = QuestionsAlreadyAnswered;
+                        foreach (var Ans in QuestionsAlreadyAnswered)
+                        {
+                            SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
+                        }
+                        smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
+                    }
 
                 }
             }
 
-            Answer ans = new Answer();
-
-
-                //List<int> answersNumber = GetAnswersNumbers(student.Homeworks.First(x => x.Text == text));
-
-                //smartView.CompleteQuestions = _answerService.All().Select(x => answersNumber.Contains(x.question.Id)).Cast<Answer>().ToList();
                 return View("QuestionsView", smartView);
              
         }
@@ -357,7 +365,14 @@ namespace Frontend.Controllers
                     smartView.question = tmpQuestionsList.Where(x => x.Question_Number == tmpQuestNumber).FirstOrDefault();
                     smartView.Questions = tmpQuestionsList;
 
-                  
+                    if (smartView.question.Suggested_Openings.Count == 0)
+                    {
+                        SuggestedOpening noSuggOpen = new SuggestedOpening("אין משפטי פתיחה לשאלה זו");
+                        SuggestedOpening noSuggOpen2 = new SuggestedOpening("התשובה לשאלה נמצאת בגוף השאלה");
+                        smartView.question.Suggested_Openings.Add(noSuggOpen);
+                        smartView.question.Suggested_Openings.Add(noSuggOpen2);
+
+                    }
 
 
                 }
