@@ -374,6 +374,26 @@ namespace Frontend.Controllers
 
                     }
 
+                    List<int> SmartViewQuestionsNumbers = new List<int>();
+
+                    List<Answer> QuestionsAlreadyAnswered = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).ToList();
+                    if (QuestionsAlreadyAnswered == null)
+                    {
+
+
+
+                    }
+                    else
+                    {
+                        smartView.CompleteQuestions = QuestionsAlreadyAnswered;
+                        foreach (var Ans in QuestionsAlreadyAnswered)
+                        {
+                            SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
+                        }
+                        smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
+                    }
+
+
 
                 }
             }
@@ -384,6 +404,15 @@ namespace Frontend.Controllers
         }
 
        
+        public ActionResult FinalAnswer()
+        {
+            string input = Request.Form["TextBoxArea"];
+
+            //need to complete final answer- add it to answers..
+            
+           // _answerService.Add()
+            return View("QuestionsView", smartView);
+        }
 
 
         [System.Web.Services.WebMethod]
