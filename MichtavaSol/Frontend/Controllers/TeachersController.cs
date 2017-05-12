@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using AutoMapper;
-using Common;
 using Entities.Models;
 using FileHandler;
 using Services.Interfaces;
@@ -20,6 +16,7 @@ namespace Frontend.Controllers
         private readonly ITextService _textService;
         private readonly ISchoolClassService _classService;
         private readonly IStudentService _studentService;
+        private readonly IHomeworkService _homeworkService;
 
         private readonly IFileManager _fileManager = new FileManager();
 
@@ -27,12 +24,13 @@ namespace Frontend.Controllers
         private Dictionary<string, string> _textsDictionary = new Dictionary<string, string>();
 
 
-        public TeachersController(ISubjectService subjectService, ITextService textService, ISchoolClassService classService, IStudentService studentService)
+        public TeachersController(ISubjectService subjectService, ITextService textService, ISchoolClassService classService, IStudentService studentService, IHomeworkService homeworkService)
         {
             _subjectService = subjectService;
             _textService = textService;
             _classService = classService;
             _studentService = studentService;
+            _homeworkService = homeworkService;
         }
 
         // GET: Teachers
@@ -72,24 +70,6 @@ namespace Frontend.Controllers
 
             return View("TextsView");
         }
-
-        /*[HttpPost]
-        public ActionResult ShowTexts(string CurrentSubject)
-        {
-            ViewBag.Title = "רשימת טקסטים";
-
-            InitializeSubjects();
-
-            //string subject = Request.Form["CurrentSubject"];
-            if (!string.IsNullOrEmpty(CurrentSubject))
-            {
-                Session["CurrentSubject"] = CurrentSubject;
-                InitializeTexts(CurrentSubject);
-                TempData["msg"] = CurrentSubject;
-            }
-
-            return View("TextsView");
-        }*/
 
         private void InitializeTexts(string subject)
         {
@@ -142,12 +122,14 @@ namespace Frontend.Controllers
             return null;
         }
 
-        public ActionResult SubmitPolicy(PolicyViewModel model)
+        public ActionResult SubmitPolicy(PolicyViewModel model, string text)
         {
-            if (TempData["NumberOfWords"] == null && TempData["NumberOfConnectorWords"] == null)
+            TempData["TextForHomework"] = text;
+
+            if (model == null || string.IsNullOrEmpty(model.Question))
             {
-                TempData["NumberOfWords"] = "0";
-                TempData["NumberOfConnectorWords"] = "0";
+                TempData["msg"] = "<script>alert('לא הכנסת שאלה');</script>";
+                return View("Policy");
             }
 
             Policy policy = new Policy()
@@ -164,9 +146,21 @@ namespace Frontend.Controllers
                 Content = model.Question,
                 Policy = policy,
                 Date_Added = DateTime.Now,
-                Suggested_Openings = SuggestedOpening.convert(model.KeySentences)
+                Suggested_Openings = SuggestedOpening.convert(model.KeySentences),
+                Question_Number = 0 // TODO: add question number
             };
 
+           /* var homework = new Homework()
+            {
+                Text = null,
+                Text_Id = new Guid(),
+                Questions = null,
+                Deadline = DateTime.Now,
+                Created_By = null,
+                Teacher_Id = new Guid()    
+            };*/
+
+            //_homeworkService.Add(homework);
             // TODO: add the question and the policy to DB
 
             TempData["msg"] = "<script>alert('השאלה נוספה למערכת בהצלחה');</script>";

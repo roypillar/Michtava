@@ -62,37 +62,38 @@
     </style>
 </head>
 <body>
-    <br/>
+@Html.Raw(TempData["msg"])
+<br/>
 <button class="button" onclick="location.href = '@Url.Action("NavigateToTextsView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
 
-<div class="row">
-    <div class="col-sm-10">
-        <textarea cols="70" rows="5">@TempData["TextForHomework"]</textarea>
-    </div>
-</div>
-    <br/><hr />
-<div class="row">
-    <div class="col-sm-10">
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary" style="background-color: green">+</button>
-            <button type="button" class="btn btn-primary">שאלה 3</button>
-            <button type="button" class="btn btn-primary">שאלה 2</button>
-            <button type="button" class="btn btn-primary">שאלה 1</button>
-        </div>
-    </div>
-</div>
 <hr/>
-    
-<h2>@ViewBag.Title</h2>
-<h3>@ViewBag.Message</h3>
-
 <div class="row">
     <form class="text-right" action="SubmitPolicy" method="post" id="policyData">
+        <div class="row">
+            <div class="col-sm-10">
+                <textarea id="text" name="text" cols="70" rows="5">@TempData["TextForHomework"]</textarea>
+            </div>
+        </div>
+        
+        <h2>@ViewBag.Title</h2>
+        <h3>@ViewBag.Message</h3>
+
         <div class="row">
             <div class="col-sm-10">
                 @Html.TextAreaFor(model => model.Question, new {cols = 50, @rows = 5, @placeholder = "הוסף שאלה..."})
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" style="background-color: green">+</button>
+                    <button type="button" class="btn btn-primary">שאלה 3</button>
+                    <button type="button" class="btn btn-primary">שאלה 2</button>
+                    <button type="button" class="btn btn-primary">שאלה 1</button>
+                </div>
+            </div>
+        </div>
+        <hr />
         <br/>
         <div class="row">
             <div class="col-sm-10 pull-right">
@@ -105,7 +106,7 @@
             <div class="col-sm-7 pull-right"><h6><label for="MinWords">כמות מילים מינימלית:</label></h6>
             </div>
             <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m.MinWords,
-                                                 new {@type = "number", @name = "MinWords", @id = "MinWords", @min = "1", @max = "1000", @style = "width: 5em"})
+                                                 new {@type = "number", @name = "MinWords", @id = "MinWords", @min = "1", @max = "1000", @style = "width: 5em", value = "@IIf(Model.MinWords= 0"})
             </div>
         </div>
         <div class="row">
