@@ -7,7 +7,7 @@
     {
         public Guid Id { get; set; }
 
-        [Display(Name = "שם מתשמש")]
+        [Display(Name = "שם משתמש")]
         public string UserName { get; set; }
 
         [Display(Name = "שם פרטי")]

@@ -90,25 +90,7 @@ namespace Frontend.Controllers
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
 
-            /*---------------------------------------------------------------------------------
-             * -
-             * ---------------------------------------------------------------------------------
-             * 
-             * --------------------------------------------------------------------------------
-
-            /*  מגלוס נראה לי שבגלל שלמורים ולתלמידים ולאדמינים יש מסכים ולוגיקה שונים לגמרי לדעתי כדאי להפריד ל
-            areas
-             כמו שעשיתי באדמיניסטרציה כי מקבלים המון דברים חינם אם בוחרים לחלק ככה אבל אם לא אז אין לי בעיה שתעשה בדרך שהתחלת
-             
-
-            _---------------------------------------------------------------------------------------
-            -
-
-            -------------------------------------------------------------------------------------
-
-            --------------------------------------------------------------------------------------
-             */
-
+            
 
             switch (result)
             {
@@ -147,7 +129,7 @@ namespace Frontend.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "ניסיון התחברות לא צלח ");
                     return View(model);
             }
 

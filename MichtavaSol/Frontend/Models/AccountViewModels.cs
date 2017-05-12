@@ -29,7 +29,7 @@ namespace Frontend.Models
         public string Provider { get; set; }
 
         [Required]
-        [Display(Name = "Code")]
+        [Display(Name = "קוד")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
 
@@ -42,7 +42,7 @@ namespace Frontend.Models
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "אימייל")]
         public string Email { get; set; }
     }
 
@@ -87,16 +87,17 @@ namespace Frontend.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "ה {0} חייבת להיות באורך {2} לפחות.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "סיסמא")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "אימות סיסמא")]
+        [Compare("Password", ErrorMessage = "הסיסמאות שהוזנו לא תואמות.")]
         public string ConfirmPassword { get; set; }
 
+        [Display(Name = "קוד")]
         public string Code { get; set; }
     }
 
@@ -104,7 +105,7 @@ namespace Frontend.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "אימייל")]
         public string Email { get; set; }
     }
 }
