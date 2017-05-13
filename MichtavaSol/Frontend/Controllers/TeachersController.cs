@@ -108,9 +108,20 @@ namespace Frontend.Controllers
                 return View("TextsView");
             }
 
+            Teacher currentTeacher = GetCurrentUser();
+            var currentTeacherId = currentTeacher.Id;
+
             Text textForHomework = getText(text);
+            Guid currentTextId = textForHomework.Id;
+
             TempData["textName"] = textForHomework.Name;
             TempData["TextContent"] = textForHomework.Content;
+
+            var currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
+            if (currentHomework != null && currentHomework.Count > 0)
+            {
+                InitializeHomework(currentHomework);
+            }
 
             return View("Policy");
         }
@@ -137,14 +148,15 @@ namespace Frontend.Controllers
             TempData["textName"] = textForHomework.Name;
             TempData["TextContent"] = textForHomework.Content;
 
-            var currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
-            if (currentHomework != null && currentHomework.Count > 0)
-            {
-                InitializeHomework(currentHomework);
-            }
-
+            Dictionary<int, string> currentHomework;
             if (string.IsNullOrEmpty(model?.Question))
             {
+                currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
+                if (currentHomework != null && currentHomework.Count > 0)
+                {
+                    InitializeHomework(currentHomework);
+                }
+
                 TempData["msg"] = "<script>alert('לא הכנסת שאלה');</script>";
                 return View("Policy");
             }
@@ -163,11 +175,18 @@ namespace Frontend.Controllers
                 Policy = policy,
                 Date_Added = DateTime.Now,
                 Suggested_Openings = SuggestedOpening.convert(model.KeySentences),
-                Question_Number = 0 // TODO: add question number
+                Question_Number = _fileManager.GetNextQuestionNumber(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId)
             };
 
-            var questions = new List<Question> {question};
+            _fileManager.SaveQuestion(Server.MapPath("~/TemporaryFiles/Homeworks"), question, currentTeacherId, currentTextId);
 
+            currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
+            if (currentHomework != null && currentHomework.Count > 0)
+            {
+                InitializeHomework(currentHomework);
+            }
+
+            /*var questions = new List<Question> {question};
 
             // TODO: Move Homework adding to a different action:
             var homework = new Homework()
@@ -181,13 +200,9 @@ namespace Frontend.Controllers
                 Created_By = currentTeacher,
                 Teacher_Id = currentTeacherId
             };
+            _homeworkService.Add(homework);*/
 
-            _fileManager.SaveQuestion(Server.MapPath("~/TemporaryFiles/Homeworks"), question, currentTeacherId, currentTextId);
-
-            //_homeworkService.Add(homework);
-            // TODO: add the question and the policy to DB
-
-            TempData["msg"] = "<script>alert('השאלה נוספה למערכת בהצלחה');</script>";
+            TempData["msg"] = "<script>alert('השאלה נוספה למערכת. רק כאשר תוסיף/י את שיעורי הבית, התלמידים יוכלו לראות את השאלה');</script>";
 
             return View("Policy");
         }
@@ -196,7 +211,7 @@ namespace Frontend.Controllers
         {
             foreach (var question in currentHomework)
             {
-                TempData["Question" + question.Key] = question.Value;
+                TempData["שאלה " + question.Key] = question.Value;
             }
         }
 
