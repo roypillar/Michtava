@@ -15,6 +15,8 @@ namespace FileHandler
         Text GetTextById(string id);
 
         Text UploadText(string serverUploadDirPath, Subject subject, string txtName, string txtContent);
+        void SaveQuestion(string serverTemporaryFilesrPath, Question question, Guid currentTeacherId, Guid relatedText);
+        List<string> GetCurrentHomework(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid relatedText);
     }
 
     public class FileManager : IFileManager
@@ -49,6 +51,40 @@ namespace FileHandler
             };
 
             return uploadedTxt;
+        }
+
+        public void SaveQuestion(string serverTemporaryFilesrPath, Question question, Guid currentTeacherId, Guid relatedText)
+        {
+            string path = Path.Combine(serverTemporaryFilesrPath, currentTeacherId.ToString(), relatedText.ToString());
+            CreateIfMissing(path);
+
+            if (question != null)
+            {
+                File.WriteAllText(Path.Combine(path, "Content.txt"), question.Content);
+                File.WriteAllText(Path.Combine(path, "MinWords.txt"), question.Policy.MinWords.ToString());
+                File.WriteAllText(Path.Combine(path, "MaxWords.txt"), question.Policy.MaxWords.ToString());
+                File.WriteAllText(Path.Combine(path, "MinConnectors.txt"), question.Policy.MinConnectors.ToString());
+                File.WriteAllText(Path.Combine(path, "MaxConnectors.txt"), question.Policy.MaxConnectors.ToString());
+
+                int suggetedOpeningNumber = 1;
+                foreach (var suggestedOpening in question.Suggested_Openings)
+                {
+                    File.WriteAllText(Path.Combine(path, "suggestedOpening" + suggetedOpeningNumber + ".txt"), suggestedOpening.Content);
+                    suggetedOpeningNumber++;
+                }
+            }
+        }
+
+        public List<string> GetCurrentHomework(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid relatedText)
+        {
+            string path = Path.Combine(serverTemporaryFilesrPath, currentTeacherId.ToString(), relatedText.ToString());
+
+            if (!Directory.Exists(path) || new DirectoryInfo(path).GetFileSystemInfos().Length == 0)
+            {
+                return new List<string>();
+            }
+
+            return Directory.GetFiles(path, "*.txt").ToList();
         }
 
         private void CreateIfMissing(string path)

@@ -33,10 +33,14 @@ namespace Entities.Models
         public static List<SuggestedOpening> convert(ICollection<string> col)
         {
             List<SuggestedOpening> res = new List<SuggestedOpening>();
-            foreach(string s in col)
+
+            if (col == null) return res;
+
+            foreach (string s in col)
             {
                 res.Add(new SuggestedOpening(s));
             }
+
             return res;
         }
     }

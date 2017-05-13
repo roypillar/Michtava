@@ -128,9 +128,20 @@ namespace Frontend.Controllers
 
         public ActionResult SubmitPolicy(PolicyViewModel model, string textName)
         {
+            Teacher currentTeacher = GetCurrentUser();
+            var currentTeacherId = currentTeacher.Id;
+
             Text textForHomework = getText(textName);
+            Guid currentTextId = textForHomework.Id;
+
             TempData["textName"] = textForHomework.Name;
             TempData["TextContent"] = textForHomework.Content;
+
+            var currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
+            if (currentHomework != null && currentHomework.Count > 0)
+            {
+                InitializeHomework(currentHomework);
+            }
 
             if (string.IsNullOrEmpty(model?.Question))
             {
@@ -156,19 +167,22 @@ namespace Frontend.Controllers
             };
 
             var questions = new List<Question> {question};
-            Teacher currentTeacher = GetCurrentUser();
 
+
+            // TODO: Move Homework adding to a different action:
             var homework = new Homework()
             {
                 Text = textForHomework,
-                Text_Id = textForHomework.Id,
+                Text_Id = currentTextId,
 
                 Questions = questions,
                 Deadline = DateTime.Now,
 
                 Created_By = currentTeacher,
-                Teacher_Id = currentTeacher.Id
+                Teacher_Id = currentTeacherId
             };
+
+            _fileManager.SaveQuestion(Server.MapPath("~/TemporaryFiles/Homeworks"), question, currentTeacherId, currentTextId);
 
             //_homeworkService.Add(homework);
             // TODO: add the question and the policy to DB
@@ -176,6 +190,16 @@ namespace Frontend.Controllers
             TempData["msg"] = "<script>alert('השאלה נוספה למערכת בהצלחה');</script>";
 
             return View("Policy");
+        }
+
+        private void InitializeHomework(List<string> currentHomework)
+        {
+            int questionNumber = 1;
+            foreach (var question in currentHomework)
+            {
+                TempData["Question" + questionNumber] = question;
+                questionNumber++;
+            }
         }
 
         private Teacher GetCurrentUser()
