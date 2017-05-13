@@ -192,13 +192,11 @@ namespace Frontend.Controllers
             return View("Policy");
         }
 
-        private void InitializeHomework(List<string> currentHomework)
+        private void InitializeHomework(Dictionary<int, string> currentHomework)
         {
-            int questionNumber = 1;
             foreach (var question in currentHomework)
             {
-                TempData["Question" + questionNumber] = question;
-                questionNumber++;
+                TempData["Question" + question.Key] = question.Value;
             }
         }
 

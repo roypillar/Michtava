@@ -16,7 +16,7 @@ namespace FileHandler
 
         Text UploadText(string serverUploadDirPath, Subject subject, string txtName, string txtContent);
         void SaveQuestion(string serverTemporaryFilesrPath, Question question, Guid currentTeacherId, Guid relatedText);
-        List<string> GetCurrentHomework(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid relatedText);
+        Dictionary<int, string> GetCurrentHomework(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid relatedText);
     }
 
     public class FileManager : IFileManager
@@ -55,7 +55,7 @@ namespace FileHandler
 
         public void SaveQuestion(string serverTemporaryFilesrPath, Question question, Guid currentTeacherId, Guid relatedText)
         {
-            string path = Path.Combine(serverTemporaryFilesrPath, currentTeacherId.ToString(), relatedText.ToString());
+            string path = Path.Combine(serverTemporaryFilesrPath, currentTeacherId.ToString(), relatedText.ToString(), question.Question_Number.ToString());
             CreateIfMissing(path);
 
             if (question != null)
@@ -75,16 +75,36 @@ namespace FileHandler
             }
         }
 
-        public List<string> GetCurrentHomework(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid relatedText)
+        public Dictionary<int, string> GetCurrentHomework(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid relatedText)
         {
             string path = Path.Combine(serverTemporaryFilesrPath, currentTeacherId.ToString(), relatedText.ToString());
+            var currentHomework = new Dictionary<int, string>();
 
             if (!Directory.Exists(path) || new DirectoryInfo(path).GetFileSystemInfos().Length == 0)
             {
-                return new List<string>();
+                return currentHomework;
             }
 
-            return Directory.GetFiles(path, "*.txt").ToList();
+            foreach (var questionDir in Directory.GetDirectories(path))
+            {
+                int questionNumber = int.Parse(new DirectoryInfo(questionDir).Name);
+
+                currentHomework.Add(questionNumber, ReadQuestion(questionDir));
+            }
+
+            return currentHomework;
+        }
+
+        private string ReadQuestion(string questionPath)
+        {
+            string questionAsString = "מספר שאלה: " +  new DirectoryInfo(questionPath).Name + "\n";
+
+            foreach (var file in Directory.GetFiles(questionPath, "*.txt"))
+            {
+                questionAsString += new DirectoryInfo(file).Name + ": " + File.ReadAllText(file) + "\n";
+            }
+
+            return questionAsString;
         }
 
         private void CreateIfMissing(string path)
