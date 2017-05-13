@@ -71,7 +71,9 @@
     <form class="text-right" action="SubmitPolicy" method="post" id="policyData">
         <div class="row">
             <div class="col-sm-10">
-                <textarea id="text" name="text" cols="70" rows="5">@TempData["TextForHomework"]</textarea>
+                <label for="textContent">@TempData["textName"]</label>
+                <textarea id="textName" name="textName" style="display: none">@TempData["textName"]</textarea>
+                <textarea id="textContent" name="textContent" cols="70" rows="5">@TempData["TextContent"]</textarea>
             </div>
         </div>
         

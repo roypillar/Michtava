@@ -7,6 +7,7 @@ using Entities.Models;
 using FileHandler;
 using Services.Interfaces;
 using Frontend.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Frontend.Controllers
 {
@@ -16,6 +17,7 @@ namespace Frontend.Controllers
         private readonly ITextService _textService;
         private readonly ISchoolClassService _classService;
         private readonly IStudentService _studentService;
+        private readonly ITeacherService _teacherService;
         private readonly IHomeworkService _homeworkService;
 
         private readonly IFileManager _fileManager = new FileManager();
@@ -24,13 +26,14 @@ namespace Frontend.Controllers
         private Dictionary<string, string> _textsDictionary = new Dictionary<string, string>();
 
 
-        public TeachersController(ISubjectService subjectService, ITextService textService, ISchoolClassService classService, IStudentService studentService, IHomeworkService homeworkService)
+        public TeachersController(ISubjectService subjectService, ITextService textService, ISchoolClassService classService, IStudentService studentService, IHomeworkService homeworkService, ITeacherService teacherService)
         {
             _subjectService = subjectService;
             _textService = textService;
             _classService = classService;
             _studentService = studentService;
             _homeworkService = homeworkService;
+            _teacherService = teacherService;
         }
 
         // GET: Teachers
@@ -106,7 +109,8 @@ namespace Frontend.Controllers
             }
 
             Text textForHomework = getText(text);
-            TempData["TextForHomework"] = textForHomework.Content;
+            TempData["textName"] = textForHomework.Name;
+            TempData["TextContent"] = textForHomework.Content;
 
             return View("Policy");
         }
@@ -122,11 +126,13 @@ namespace Frontend.Controllers
             return null;
         }
 
-        public ActionResult SubmitPolicy(PolicyViewModel model, string text)
+        public ActionResult SubmitPolicy(PolicyViewModel model, string textName)
         {
-            TempData["TextForHomework"] = text;
+            Text textForHomework = getText(textName);
+            TempData["textName"] = textForHomework.Name;
+            TempData["TextContent"] = textForHomework.Content;
 
-            if (model == null || string.IsNullOrEmpty(model.Question))
+            if (string.IsNullOrEmpty(model?.Question))
             {
                 TempData["msg"] = "<script>alert('לא הכנסת שאלה');</script>";
                 return View("Policy");
@@ -138,7 +144,6 @@ namespace Frontend.Controllers
                 MinConnectors = model.MinConnectors,
                 MaxWords = model.MaxWords,
                 MinWords = model.MinWords,
-                //KeySentences = new HashSet<string>(model.KeySentences)
             };
 
             Question question = new Question()
@@ -150,15 +155,20 @@ namespace Frontend.Controllers
                 Question_Number = 0 // TODO: add question number
             };
 
-           /* var homework = new Homework()
+            var questions = new List<Question> {question};
+            Teacher currentTeacher = GetCurrentUser();
+
+            var homework = new Homework()
             {
-                Text = null,
-                Text_Id = new Guid(),
-                Questions = null,
+                Text = textForHomework,
+                Text_Id = textForHomework.Id,
+
+                Questions = questions,
                 Deadline = DateTime.Now,
-                Created_By = null,
-                Teacher_Id = new Guid()    
-            };*/
+
+                Created_By = currentTeacher,
+                Teacher_Id = currentTeacher.Id
+            };
 
             //_homeworkService.Add(homework);
             // TODO: add the question and the policy to DB
@@ -166,6 +176,20 @@ namespace Frontend.Controllers
             TempData["msg"] = "<script>alert('השאלה נוספה למערכת בהצלחה');</script>";
 
             return View("Policy");
+        }
+
+        private Teacher GetCurrentUser()
+        {
+            var userId = User.Identity.GetUserId();
+            foreach (var teacher in _teacherService.All())
+            {
+                if (teacher.ApplicationUserId.Equals(userId))
+                {
+                    return teacher;
+                }
+            }
+
+            return null;
         }
 
         [HttpPost]
