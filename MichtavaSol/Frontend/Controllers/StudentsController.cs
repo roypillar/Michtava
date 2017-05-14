@@ -57,6 +57,8 @@ namespace Frontend.Controllers
             dictionary.Add("סירותיהם", "הסירות שלהם, פירוש מעניין..");
             dictionary.Add("נמרצות", "מלא מרץ, מלא חיות, אנרגטי");
             dictionary.Add("עמך", "יחד, בצוותא, בשיתוף; אחד עם השני");
+            dictionary.Add("שטה", "מפליגה בים");
+           // dictionary.Add("יפהפייה", "מהממת ביופיה");
 
            
 
