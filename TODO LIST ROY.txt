@@ -28,6 +28,9 @@ write black box selenium tests
 remove testID fields
 
 
+--- Add a model for word definitions (NEW!)
+
+
 
 
 
