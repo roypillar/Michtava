@@ -57,6 +57,8 @@ namespace Frontend.Controllers
             dictionary.Add("סירותיהם", "הסירות שלהם, פירוש מעניין..");
             dictionary.Add("נמרצות", "מלא מרץ, מלא חיות, אנרגטי");
             dictionary.Add("עמך", "יחד, בצוותא, בשיתוף; אחד עם השני");
+            dictionary.Add("שטה", "מפליגה בים");
+           // dictionary.Add("יפהפייה", "מהממת ביופיה");
 
            
 
@@ -187,19 +189,12 @@ namespace Frontend.Controllers
             int tmpQuestNumber = 1;
 
 
-            InitializePolicy();
             Session["WithQuestion?"] = "With";
             if (questionNumber != null)
             {
                 string[] tmpStringArray = questionNumber.Split(' ');
-
-                if (tmpStringArray.Length == 2)
-                {
-                    tmpQuestNumber = Int32.Parse(tmpStringArray[1]);
-                }
-                else
-                    tmpQuestNumber = Int32.Parse(tmpStringArray[2]);
-
+                tmpQuestNumber = Int32.Parse(tmpStringArray.Last());
+        
             }
 
 
@@ -254,18 +249,31 @@ namespace Frontend.Controllers
                     List<Answer> QuestionsAlreadyAnswered = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).ToList();
                    if (QuestionsAlreadyAnswered == null)
                    {
+                        ///*************************************************////
+                        ///*************************************************////
+                        //here cant be empty.. take care for analyze and gotosmart text box..
+                        smartView.CompleteQuestions = new List<Answer>();
 
+                        SmartViewQuestionsNumbers.Add(-1);
 
+                        smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
 
-                   }
+                        Session["percentage"] = 0;
+
+                    }
                     else
                     {
                         smartView.CompleteQuestions = QuestionsAlreadyAnswered;
+                        double k = 0;
                         foreach (var Ans in QuestionsAlreadyAnswered)
                         {
                             SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
+                            k++;
                         }
                         smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
+
+                        Session["percentage"] = (int)(k/smartView.Questions.Count() * 100);
+
                     }
 
                 }
@@ -298,13 +306,14 @@ namespace Frontend.Controllers
             if (questionNumber != null)
             {
                 string[] tmpStringArray = questionNumber.Split(' ');
+                
+                    tmpQuestNumber = Int32.Parse(tmpStringArray.Last());
 
-                if (tmpStringArray.Length == 2)
+                if (tmpStringArray.Length > 4)
                 {
-                    tmpQuestNumber = Int32.Parse(tmpStringArray[1]);
+                    return RedirectToAction("FinalAnswerSubmit", new { questionNumber = tmpQuestNumber, textContent = Request.Form["TextBoxArea"]
+                });
                 }
-                else
-                    tmpQuestNumber = Int32.Parse(tmpStringArray[2]);
 
             }
 
@@ -336,7 +345,6 @@ namespace Frontend.Controllers
             }
 
 
-            smartView.QuestionNumber = tmpQuestNumber;
             smartView.QuestionNumber = tmpQuestNumber;
 
             string userid = User.Identity.GetUserId();
@@ -379,7 +387,129 @@ namespace Frontend.Controllers
                     List<Answer> QuestionsAlreadyAnswered = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).ToList();
                     if (QuestionsAlreadyAnswered == null)
                     {
+                        ///*************************************************////
+                        ///*************************************************////
+                        //here cant be empty.. take care for analyze and gotosmart text box..
+                        smartView.CompleteQuestions = new List<Answer>();
 
+                        SmartViewQuestionsNumbers.Add(-1);
+
+                        smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
+
+                        Session["percentage"] = 0;
+
+
+                    }
+                    else
+                    {
+                        smartView.CompleteQuestions = QuestionsAlreadyAnswered;
+                        int k = 0;
+             
+                        foreach (var Ans in QuestionsAlreadyAnswered)
+                        {
+                            SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
+                            k++;
+                        }
+                        smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
+                        Session["percentage"] = (k / smartView.Questions.Count * 100);
+
+                    }
+
+
+
+                }
+            }
+
+
+            return View("QuestionsView", smartView);
+
+        }
+
+       
+        public ActionResult FinalAnswerSubmit(int questionNumber, string textContent)
+        {
+            string input = textContent;
+
+
+
+            int numOfWords = _smartTextBox.GetNumberOfWords(input);
+            int numOfConnectors = _smartTextBox.GetNumberOfConnectors(input);
+            IDictionary<string, int> repeatedWords = _smartTextBox.GetRepeatedWords(input);
+
+         
+
+            TempData["NumberOfWords"] = numOfWords;
+            TempData["NumberOfConnectorWords"] = numOfConnectors;
+            TempData["Answer"] = input;
+
+           
+            smartView.QuestionNumber = questionNumber;
+
+
+            Answer ans = new Answer();
+
+            string userid = User.Identity.GetUserId();
+
+            foreach (var std in _studentService.All().Include(x => x.Homeworks))
+            {
+                if (std.ApplicationUserId.Equals(userid))
+                {
+                    student = std;
+                    break;
+                }
+            }
+
+            string tmpName = (string)Session["textName"];
+            textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
+
+
+            /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
+
+
+            foreach (var hw in student.Homeworks)
+            {
+                if (hw.Text_Id == textGuid)
+                {
+                    ans.Answer_To = _homeworkService.All().Where(x => x.Id == hw.Id).FirstOrDefault();
+                    ans.Date_Submitted = DateTime.Now;
+                    ans.Homework_Id = hw.Id;
+                    ans.Id = Guid.NewGuid();
+                    ans.IsDeleted = false;
+                    ans.QuestionAnswer = input;
+                    ans.QuestionNumber = questionNumber;
+                    ans.Student_Id = student.Id;
+                    ans.Submitted_By = student;
+
+                    _answerService.Add(ans);
+
+
+
+                    List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q => q.Policy)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
+                    smartView.question = tmpQuestionsList.Where(x => x.Question_Number == questionNumber).FirstOrDefault();
+                    smartView.Questions = tmpQuestionsList;
+
+                    if (smartView.question.Suggested_Openings.Count == 0)
+                    {
+                        SuggestedOpening noSuggOpen = new SuggestedOpening("אין משפטי פתיחה לשאלה זו");
+                        SuggestedOpening noSuggOpen2 = new SuggestedOpening("התשובה לשאלה נמצאת בגוף השאלה");
+                        smartView.question.Suggested_Openings.Add(noSuggOpen);
+                        smartView.question.Suggested_Openings.Add(noSuggOpen2);
+
+                    }
+
+                    List<int> SmartViewQuestionsNumbers = new List<int>();
+
+                    List<Answer> QuestionsAlreadyAnswered = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).ToList();
+                    if (QuestionsAlreadyAnswered == null)
+                    {
+                        ///*************************************************////
+                        ///*************************************************////
+                        //here cant be empty.. take care for analyze and gotosmart text box..
+                        smartView.CompleteQuestions = new List<Answer>();
+                        
+                        SmartViewQuestionsNumbers.Add(-1);
+                        
+                        smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
 
 
                     }
@@ -399,19 +529,16 @@ namespace Frontend.Controllers
             }
 
 
-            return View("QuestionsView", smartView);
-
-        }
-
-       
-        public ActionResult FinalAnswer()
-        {
-            string input = Request.Form["TextBoxArea"];
+            //  ans.Answer_To = 
+            //  _answerService.Add()
 
             //need to complete final answer- add it to answers..
-            
-           // _answerService.Add()
-            return View("QuestionsView", smartView);
+
+            // _answerService.Add()
+            TempData["toManyConnectors"] = "התשובה הוגשה בהצלחה למערכת. תוכל לשנות אותה עד לתאריך ההגשה האחרון";
+
+            string tmpstring = "שאלה מספר " + questionNumber;
+            return RedirectToAction("GotoSmartTextBox", new { questionNumber = tmpstring });
         }
 
 

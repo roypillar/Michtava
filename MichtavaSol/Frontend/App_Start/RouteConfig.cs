@@ -71,6 +71,12 @@ namespace Frontend
                 defaults: new { controller = "Students", action = "GotoSmartTextBox", username = string.Empty },
                 namespaces: new string[] { "Frontend.Controllers" });
 
+            routes.MapRoute(
+                name: "FinalAnswerSubmit",
+                url: "FinalAnswerSubmit/{action}/{username}",
+                defaults: new { controller = "Students", action = "FinalAnswerSubmit", username = string.Empty },
+                namespaces: new string[] { "Frontend.Controllers" });
+
             // --------------------------------------------------------------------------------------------------------------
 
 

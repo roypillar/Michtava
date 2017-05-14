@@ -699,10 +699,10 @@ namespace Dal.Migrations
 
         private void SeedAnswers(ApplicationDbContext context)
         {
-            //if (context.Answers.Any())
-            //{
-            //    return;
-            //}
+            if (context.Answers.Any())
+            {
+                return;
+            }
 
             //if (System.Diagnostics.Debugger.IsAttached == false)
             //{
