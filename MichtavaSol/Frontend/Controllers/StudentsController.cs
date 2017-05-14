@@ -190,17 +190,21 @@ namespace Frontend.Controllers
 
             textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
 
-          /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
-              
+            /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
+            List<Homework> AllStudentHW = _homeworkService.All().Where(x => x.Text.Id == textGuid).ToList();
+            /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
 
-            foreach (var hw in student.Homeworks)
+
+
+            Homework hw = AllStudentHW.First();
+
+
+            if (hw.Text_Id == textGuid)
             {
-                if (hw.Text_Id == textGuid)
-                {
-                    Session["NoHomeWork"] = "1";
-                    return View("TextView");
-                }
+                Session["NoHomeWork"] = "1";
+                return View("TextView");
             }
+            
             Session["NoHomeWork"] = "0";
 
             return View("TextView");
@@ -252,62 +256,57 @@ namespace Frontend.Controllers
             string tmpName = (string)Session["textName"];
             textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
 
+            List<Homework> AllStudentHW = _homeworkService.All().Where(x=>x.Text.Id == textGuid).ToList();
 
-          /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
-              
+            Homework hw = AllStudentHW.First();
+            List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q => q.Policy)).Include(x => x.Questions.Select(q => q.Suggested_Openings)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
+            smartView.question = tmpQuestionsList.Where(x => x.Question_Number == tmpQuestNumber).FirstOrDefault();
+            smartView.Questions = tmpQuestionsList;
 
-            foreach (var hw in student.Homeworks)
+            if (smartView.question.Suggested_Openings.Count == 0)
             {
-                if(hw.Text_Id == textGuid)
-                {
-                    List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q=>q.Policy)).Include(x=>x.Questions.Select(q=>q.Suggested_Openings)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
-                    smartView.question = tmpQuestionsList.Where(x=>x.Question_Number == tmpQuestNumber).FirstOrDefault();
-                    smartView.Questions = tmpQuestionsList;
+                SuggestedOpening noSuggOpen = new SuggestedOpening("אין משפטי פתיחה לשאלה זו");
+                SuggestedOpening noSuggOpen2 = new SuggestedOpening("התשובה לשאלה נמצאת בגוף השאלה");
+                smartView.question.Suggested_Openings.Add(noSuggOpen);
+                smartView.question.Suggested_Openings.Add(noSuggOpen2);
 
-                    if (smartView.question.Suggested_Openings.Count == 0)
-                    {
-                        SuggestedOpening noSuggOpen = new SuggestedOpening("אין משפטי פתיחה לשאלה זו");
-                        SuggestedOpening noSuggOpen2 = new SuggestedOpening("התשובה לשאלה נמצאת בגוף השאלה");
-                        smartView.question.Suggested_Openings.Add(noSuggOpen);
-                        smartView.question.Suggested_Openings.Add(noSuggOpen2);
-
-                    }
-
-
-                    List<int> SmartViewQuestionsNumbers = new List<int>();
-
-                    List<Answer> QuestionsAlreadyAnswered = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).ToList();
-                   if (QuestionsAlreadyAnswered == null)
-                   {
-                        ///*************************************************////
-                        ///*************************************************////
-                        //here cant be empty.. take care for analyze and gotosmart text box..
-                        smartView.CompleteQuestions = new List<Answer>();
-
-                        SmartViewQuestionsNumbers.Add(-1);
-
-                        smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
-
-                        Session["percentage"] = 0;
-
-                    }
-                    else
-                    {
-                        smartView.CompleteQuestions = QuestionsAlreadyAnswered;
-                        double k = 0;
-                        foreach (var Ans in QuestionsAlreadyAnswered)
-                        {
-                            SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
-                            k++;
-                        }
-                        smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
-
-                        Session["percentage"] = (int)(k/smartView.Questions.Count() * 100);
-
-                    }
-
-                }
             }
+
+
+            List<int> SmartViewQuestionsNumbers = new List<int>();
+
+            List<Answer> QuestionsAlreadyAnswered = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).ToList();
+            if (QuestionsAlreadyAnswered == null)
+            {
+                ///*************************************************////
+                ///*************************************************////
+                //here cant be empty.. take care for analyze and gotosmart text box..
+                smartView.CompleteQuestions = new List<Answer>();
+
+                SmartViewQuestionsNumbers.Add(-1);
+
+                smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
+
+                Session["percentage"] = 0;
+
+            }
+            else
+            {
+                smartView.CompleteQuestions = QuestionsAlreadyAnswered;
+                double k = 0;
+                foreach (var Ans in QuestionsAlreadyAnswered)
+                {
+                    SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
+                    k++;
+                }
+                smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
+
+                Session["percentage"] = (int)(k / smartView.Questions.Count() * 100);
+
+            }
+
+                
+            
 
                 return View("QuestionsView", smartView);
              
@@ -395,11 +394,11 @@ namespace Frontend.Controllers
             /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
 
 
-            foreach (var hw in student.Homeworks)
-            {
-                if (hw.Text_Id == textGuid)
-                {
-                    List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q => q.Policy)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
+            List<Homework> AllStudentHW = _homeworkService.All().Where(x => x.Text.Id == textGuid).ToList();
+
+            Homework hw = AllStudentHW.First();
+
+            List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q => q.Policy)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
                     smartView.question = tmpQuestionsList.Where(x => x.Question_Number == tmpQuestNumber).FirstOrDefault();
                     smartView.Questions = tmpQuestionsList;
 
@@ -443,12 +442,8 @@ namespace Frontend.Controllers
                         smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
                         Session["percentage"] = (k / smartView.Questions.Count * 100);
 
-                    }
-
-
-
-                }
             }
+
 
 
             return View("QuestionsView", smartView);
@@ -496,11 +491,11 @@ namespace Frontend.Controllers
             /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
 
 
-            foreach (var hw in student.Homeworks)
-            {
-                if (hw.Text_Id == textGuid)
-                {
-                    ans.Answer_To = _homeworkService.All().Where(x => x.Id == hw.Id).FirstOrDefault();
+            List<Homework> AllStudentHW = _homeworkService.All().Where(x => x.Text.Id == textGuid).ToList();
+
+            Homework hw = AllStudentHW.First();
+
+            ans.Answer_To = _homeworkService.All().Where(x => x.Id == hw.Id).FirstOrDefault();
                     ans.Date_Submitted = DateTime.Now;
                     ans.Homework_Id = hw.Id;
                     ans.Id = Guid.NewGuid();
@@ -510,61 +505,72 @@ namespace Frontend.Controllers
                     ans.Student_Id = student.Id;
                     ans.Submitted_By = student;
 
-                    _answerService.Add(ans);
 
+            //continue from here.. for some reason its null..
+            //can 
+            if (_answerService.All().Include(y => y.Answer_To).Where(x => x.Answer_To.Id == ans.Answer_To.Id && questionNumber == x.QuestionNumber).Count() == 0 )
+            {
+                _answerService.Add(ans);
+            }
+            else
+            {
+                ans = _answerService.All().Where(x => x.Answer_To.Id == ans.Answer_To.Id && questionNumber == x.QuestionNumber).FirstOrDefault();
+                ans.Date_Submitted = DateTime.Now;
+                ans.QuestionAnswer = input;
+                _answerService.Update(ans);
+            }
 
 
                     List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q => q.Policy)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
                     smartView.question = tmpQuestionsList.Where(x => x.Question_Number == questionNumber).FirstOrDefault();
                     smartView.Questions = tmpQuestionsList;
 
-                    if (smartView.question.Suggested_Openings.Count == 0)
-                    {
-                        SuggestedOpening noSuggOpen = new SuggestedOpening("אין משפטי פתיחה לשאלה זו");
-                        SuggestedOpening noSuggOpen2 = new SuggestedOpening("התשובה לשאלה נמצאת בגוף השאלה");
-                        smartView.question.Suggested_Openings.Add(noSuggOpen);
-                        smartView.question.Suggested_Openings.Add(noSuggOpen2);
+            if (smartView.question.Suggested_Openings.Count == 0)
+            {
+                SuggestedOpening noSuggOpen = new SuggestedOpening("אין משפטי פתיחה לשאלה זו");
+                SuggestedOpening noSuggOpen2 = new SuggestedOpening("התשובה לשאלה נמצאת בגוף השאלה");
+                smartView.question.Suggested_Openings.Add(noSuggOpen);
+                smartView.question.Suggested_Openings.Add(noSuggOpen2);
 
-                    }
+            }
 
-                    List<int> SmartViewQuestionsNumbers = new List<int>();
+            List<int> SmartViewQuestionsNumbers = new List<int>();
 
-                    List<Answer> QuestionsAlreadyAnswered = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).ToList();
-                    if (QuestionsAlreadyAnswered == null)
-                    {
-                        ///*************************************************////
-                        ///*************************************************////
-                        //here cant be empty.. take care for analyze and gotosmart text box..
-                        smartView.CompleteQuestions = new List<Answer>();
-                        
-                        SmartViewQuestionsNumbers.Add(-1);
-                        
-                        smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
+            List<Answer> QuestionsAlreadyAnswered = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).ToList();
+            if (QuestionsAlreadyAnswered == null)
+            {
+                ///*************************************************////
+                ///*************************************************////
+                //here cant be empty.. take care for analyze and gotosmart text box..
+                smartView.CompleteQuestions = new List<Answer>();
 
+                SmartViewQuestionsNumbers.Add(-1);
 
-                    }
-                    else
-                    {
-                        smartView.CompleteQuestions = QuestionsAlreadyAnswered;
-                        foreach (var Ans in QuestionsAlreadyAnswered)
-                        {
-                            SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
-                        }
-                        smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
-                    }
+                smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
 
 
+            }
+            else
+            {
+                smartView.CompleteQuestions = QuestionsAlreadyAnswered;
+                int k = 0;
 
+                foreach (var Ans in QuestionsAlreadyAnswered)
+                {
+                    SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
+                    k++;
+                }
+                smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
+
+                if ((int)(k / smartView.Questions.Count() * 100) > 99)
+                {
+                    student.Homeworks.Remove(hw);
+                    _studentService.Update(student);
                 }
             }
 
+                    
 
-            //  ans.Answer_To = 
-            //  _answerService.Add()
-
-            //need to complete final answer- add it to answers..
-
-            // _answerService.Add()
             TempData["toManyConnectors"] = "התשובה הוגשה בהצלחה למערכת. תוכל לשנות אותה עד לתאריך ההגשה האחרון";
 
             string tmpstring = "שאלה מספר " + questionNumber;
