@@ -210,7 +210,7 @@ namespace Dal.Migrations
 
 
 
-        protected override void Seed(Dal.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             //SchoolClassRepository scRepo = new SchoolClassRepository(context);
 

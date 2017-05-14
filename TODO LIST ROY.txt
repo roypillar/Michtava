@@ -1,3 +1,5 @@
+-----NON_TESTING--------
+
 populate registerareas IN PROGRESS
 
 administrationarea IN PROGRESS
@@ -15,6 +17,12 @@ find more possible errors:
 
 	errors are: {add: entry exists},
 
+word definitions dictionary
+
+answers dictionary
+
+fix seed in answers
+
 -----TESTING---------
 
 test administrationarea 
@@ -25,10 +33,11 @@ write tests for services IN PROGRESS
 
 write black box selenium tests
 
-remove testID fields
+remove testID fields OPTIONAL
 
 
---- Add a model for word definitions (NEW!)
+
+
 
 
 
