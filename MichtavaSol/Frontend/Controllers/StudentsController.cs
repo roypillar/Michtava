@@ -70,7 +70,7 @@ namespace Frontend.Controllers
         {
             string userid = User.Identity.GetUserId();
 
-            foreach (var std in _studentService.All())
+            foreach (var std in _studentService.All().Include(x => x.Homeworks.Select(t=>t.Text)))
             {
                 if (std.ApplicationUserId.Equals(userid))
                 {
@@ -78,8 +78,22 @@ namespace Frontend.Controllers
                     break;
                 }
             }
+            
 
             Session["StudentName"] = student.Name;
+
+      /*      if(student.notifyForNewHomework == true)
+            {
+                student.notifyForNewHomework = false;
+                _studentService.Update(student);
+            }
+
+            if (student.notifyForNewGrade == true)
+            {
+
+            }
+            */
+
 
             foreach (var sch_cls in _schoolClassService.All())
             {
@@ -100,11 +114,22 @@ namespace Frontend.Controllers
        
             Session["SchoolClassID"] = schoolClass.Id.ToString();
 
-
+            List<Guid> subjectsIDList = new List<Guid>();
 
             subjects = schoolClass.Subjects.ToList();
 
-            return View("Subjects",subjects);
+            foreach(var hw in student.Homeworks)
+            {
+                if (subjects.Contains(hw.Text.Subject))
+                {
+                    subjectsIDList.Add(hw.Text.Subject_Id);
+                }
+            }
+
+            SubjectsNotificationsViewModel model = new SubjectsNotificationsViewModel();
+            model.Subjects = subjects;
+            model.subjectsIDList = subjectsIDList;
+            return View("Subjects",model);
         }
 
 
@@ -186,8 +211,13 @@ namespace Frontend.Controllers
 
         public ActionResult GotoSmartTextBox(string questionNumber)
         {
+
             int tmpQuestNumber = 1;
 
+            if(questionNumber == "בחזרה לסיפור")
+            {
+                return View("TextView");
+            }
 
             Session["WithQuestion?"] = "With";
             if (questionNumber != null)

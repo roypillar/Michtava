@@ -1,7 +1,7 @@
 ﻿
 @using Microsoft.AspNet.Identity
 
-@model List<Entities.Models.Subject>
+@model Frontend.Models.SubjectsNotificationsViewModel
 
 
 <br /><br /><br />
@@ -18,6 +18,32 @@
             border-color: darkorange;
         }
 
+        div.button-wrapper {
+            position: relative;
+        }
+
+
+
+        .notification-on {
+            position: absolute;
+            top: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            border-radius: 10px;
+            background-color: red;
+            width: 20px;
+            font-weight: bold;
+        }
+
+        abbr[title] {
+            border-bottom: none !important;
+            cursor: inherit !important;
+            text-decoration: none !important;
+        }
+
+
+
         body {
             background-image: url("../../Backgrounds/background.jpg");
             width: 100%;
@@ -30,6 +56,7 @@
 </head>
 
 <body>
+
     <div class="row">
         <form class="text-right" action="ChooseSubSubject" method="post" id="SubjectsMenu">
             <div class="row">
@@ -53,17 +80,43 @@
             <br /><br />
 
             <div class="row">
-                @foreach (var subject in Model)
+
+          
+
+                @foreach (var subject in Model.Subjects)
                 {
+                    if (Model.subjectsIDList.Contains(subject.Id))
+                    {
+                        
+                        <div class="col-sm-12 pull-right" style="margin-bottom:10px">
+                            <div class=" col-sm-2 pull-right">
+                                <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
+                                
+                                <input name="subjName" type="submit" value="@subject.Name" />
+                            </div>
+                            <div class=" col-sm-8 pull-right">
+                                <h4 style="color:red">קיימים שיעורי בית שעלייך להשלים ב @subject.Name</h4>
+                            </div>
+                           
+                        </div>
+                       
+                    }
+                    else
+                    {
+                        <div class="col-sm-12 pull-right" style="margin-bottom:10px">
+                            <div class="col-sm-4 pull-right">
+                            <input name="subjName" type="submit" value="@subject.Name" />
+                            </div>
+                            
+                        </div>
 
-                    <div class="col-sm-4 pull-right">
-                        <input name="subjName" type="submit" value="@subject.Name" />
-                    </div>
-
+                    }
+                
                 }
+
             </div>
         </form>
     </div>
-    <br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br />
 </body>
 
