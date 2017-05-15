@@ -29,6 +29,7 @@ namespace Dal_Tests
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
             this.repo = new SchoolClassRepository(ctx);
+            new DatabaseSeeder().CreateDependenciesAndSeed(ctx);//heavy duty
 
         }
 
@@ -42,10 +43,8 @@ namespace Dal_Tests
         [SetUp]
         public void setUp()
         {
-
-            new DatabaseSeeder().CreateDependenciesAndSeed(ctx);
-            entity = new SchoolClass();
-            entity.setId(Guid.NewGuid());//consider using
+            entity = new SchoolClass(22,"ס");
+            //entity.setId(Guid.NewGuid());//consider using
         }
 
         [TearDown]
@@ -56,7 +55,7 @@ namespace Dal_Tests
 
 
         [Test]
-        public void testAdd()
+        public void testAddStandalone()
         {
             // Arrange
             int count = repo.All().Count();
@@ -68,29 +67,10 @@ namespace Dal_Tests
 
             // Assert
             Assert.AreEqual(count + 1, repo.All().Count());
-
-
-            //TODO add existing test in Subjects
+            Assert.NotNull(repo.GetByDetails(22,"ס"));
         }
 
-        [Test]
-        public void testAddToSchoolClass()
-        {
-            // Arrange
-            int count = repo.All().Count();
-
-
-            // Act
-            repo.Add(entity);
-            //this.ctx.Set<Student>().
-            repo.SaveChanges();
-
-            // Assert
-            Assert.AreEqual(count + 1, repo.All().Count());
-
-
-            //TODO add existing test in Subjects
-        }
+       
 
         [Test]
         public void testGetById()

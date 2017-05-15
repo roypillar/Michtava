@@ -25,6 +25,10 @@ fix seed in answers
 
 fix seed in suggested
 
+all queries in services
+
+update diagram arrow from subject to text
+
 -----TESTING---------
 
 test administrationarea 

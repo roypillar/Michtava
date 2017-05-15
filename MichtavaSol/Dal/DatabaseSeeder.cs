@@ -701,17 +701,17 @@ namespace Dal
 
         private void SeedAnswers(ApplicationDbContext context)
         {
-            //if (context.Answers.Any())
-            //{
-            //    return;
-            //}
-
-            if (System.Diagnostics.Debugger.IsAttached == false)
+            if (context.Answers.Any())
             {
-
-                System.Diagnostics.Debugger.Launch();
-
+                return;
             }
+
+            //if (System.Diagnostics.Debugger.IsAttached == false)
+            //{
+
+            //    System.Diagnostics.Debugger.Launch();
+
+            //}
 
             IQueryable<Student> rtn = from temp in context.Students.Include(s => s.Homeworks) select temp;
             var students = new Queue<Student>(rtn.ToList());
