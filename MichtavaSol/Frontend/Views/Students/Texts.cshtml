@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 
-@model List<Entities.Models.Text>
-
+@model Frontend.Models.TextsNotificationsViewModel
 
 <br /><br /><br />
 <head>
@@ -15,6 +14,30 @@
             font-size: 32px;
             background-color: darkorange;
             border-color: darkorange;
+        }
+
+        div.button-wrapper {
+            position: relative;
+        }
+
+
+
+        .notification-on {
+            position: absolute;
+            top: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            border-radius: 10px;
+            background-color: red;
+            width: 20px;
+            font-weight: bold;
+        }
+
+        abbr[title] {
+            border-bottom: none !important;
+            cursor: inherit !important;
+            text-decoration: none !important;
         }
 
         body {
@@ -41,12 +64,40 @@
 
             <div class="row">
 
-                @foreach (var subject in Model)
-            {
-                    <div class="col-sm-4 pull-right">
-                        <input name="textName" type="submit" value="@subject.Name" />
-                    </div>
+                @foreach (var text in Model.Texts)
+                {
+                    
+
+                    if (Model.TextsIDList.Contains(text.Id))
+                    {
+
+                        <div class="col-sm-12 pull-right" style="margin-bottom:10px">
+                            <div class=" col-sm-10 pull-right">
+                                <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
+
+                                <input name="textName" type="submit" value="@text.Name" />
+                            </div>
+                            <div class="col-sm-10 pull-right">
+                                <h5 style="color:red">קיימים שיעורי בית שעלייך להשלים בטקסט @text.Name</h5>
+                            </div>
+
+                        </div>
+
+                        
+                    }
+                    else
+                    {
+                        <div class="col-sm-12 pull-right" style="margin-bottom:10px">
+                            <div class="col-sm-4 pull-right">
+                                <input name="textName" type="submit" value="@text.Name" />
+                            </div>
+
+                        </div>
+
+                    }
                 }
+
+
             </div>
 
          

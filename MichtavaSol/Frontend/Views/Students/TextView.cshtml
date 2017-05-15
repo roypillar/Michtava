@@ -30,6 +30,31 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        div.button-wrapper {
+            position: relative;
+        }
+
+
+
+        .notification-on {
+            position: absolute;
+            top: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            border-radius: 10px;
+            background-color: red;
+            width: 20px;
+            font-weight: bold;
+        }
+
+        abbr[title] {
+            border-bottom: none !important;
+            cursor: inherit !important;
+            text-decoration: none !important;
+        }
+
         body {
             background-image: url("../../Backgrounds/homeworkBackground.jpg");
             width: 100%;
@@ -115,12 +140,33 @@
     @if ((string)Session["WithQuestion?"] == "Without") {
         if ((string)Session["NoHomeWork"] == "1")
         {
+
     <form class="text-right" action="GotoSmartTextBox" method="post">
+
+
+        @if ((string)Session["notificationFlag"] == "true")
+        {
+            <div class="row">
+              <div class="col-sm-4 pull-left">
+                <div class=" col-sm-12" style="margin-bottom:10px">
+                    <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
+
+                    <input name="1" type="submit" value="המשך לשאלות" />
+                </div>
+                <div class="col-sm-12">
+                    <h5 style="color:red">קיימים שיעורי בית שעלייך להשלים בטקסט @Session["textName"]</h5>
+                </div>
+             </div>
+            </div>
+        }
+        else
+        {
         <div class="row">
             <div class="col-sm-4 pull-left">
                 <input name="1" type="submit" value="המשך לשאלות" />
             </div>
         </div>
+        }
     </form>
         }
         else
