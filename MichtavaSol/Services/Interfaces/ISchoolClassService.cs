@@ -8,7 +8,7 @@
     {
         SchoolClass GetById(Guid id);
 
-        SchoolClass GetByDetails(int gradeYear, string letter, int startYear);
+        SchoolClass GetByDetails(int gradeYear, string letter);
 
          MichtavaResult addStudentToSchoolClass(Student s, SchoolClass c);
         

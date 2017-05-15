@@ -12,12 +12,15 @@
         private readonly ISchoolClassRepository schoolClassRepository;
         private readonly IStudentRepository studentRepository;
 
-        public SchoolClassService(ISchoolClassRepository schoolClassRepository)
+        public SchoolClassService(ISchoolClassRepository schoolClassRepository,
+                                    IStudentRepository studentRepository)
         {
             this.schoolClassRepository = schoolClassRepository;
+            this.studentRepository = studentRepository;
+
         }
 
-        public MichtavaResult addStudentToSchoolClass(Student s, SchoolClass c)
+        public MichtavaResult addStudentToSchoolClass(Student s, SchoolClass c)//test
         {
             if (this.GetById(c.Id) == null)
                 return new MichtavaFailure("Class was not found in system.");
@@ -52,7 +55,7 @@
             return this.schoolClassRepository.GetById(id);
         }
 
-        public SchoolClass GetByDetails(int gradeYear, string letter, int startYear)
+        public SchoolClass GetByDetails(int gradeYear, string letter)
         {
             return this.schoolClassRepository.GetByDetails(gradeYear, letter);
         }

@@ -29,27 +29,36 @@ namespace Services_Tests
         {
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
-            this.serv = new SchoolClassService(new SchoolClassRepository(ctx));
+            this.serv = new SchoolClassService(new SchoolClassRepository(ctx), new StudentRepository(ctx));
             new DatabaseSeeder().CreateDependenciesAndSeed(ctx);//heavy duty
 
         }
 
+        [SetUp]
+        public void setUp()
+        {
+            entity = new SchoolClass(23, "ע");
+        }
+
         [Test]
-        public void testAddToSchoolClass()
+        public void testAddToSchoolClassSuccess()
         {
             // Arrange
-            int count = serv.All().Count();
             serv.Add(entity);
-            this.ctx.Set<Student>().FirstOrDefault(x => x.SchoolClass != null);
+            Student dummy = this.ctx.Set<Student>().FirstOrDefault(x => x.SchoolClass == null);
 
 
             // Act
+            MichtavaResult res = serv.addStudentToSchoolClass(dummy, entity);
+
 
             // Assert
-            Assert.AreEqual(count + 1, serv.All().Count());
+            Assert.IsInstanceOf(typeof(MichtavaSuccess),res);
+
+            Assert.True(ctx.Set<Student>().Find(dummy.Id).SchoolClass.Id ==
+                        serv.GetByDetails(23, "ע").Id);
 
 
-            //TODO add existing test in Subjects
         }
     }
 }
