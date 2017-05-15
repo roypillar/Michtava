@@ -17,7 +17,7 @@ namespace Dal_Tests
 {
     class SchoolClassRepositoryTests
     { 
-        private IApplicationDbContext ctx;
+        private ApplicationDbContext ctx;
 
         private SchoolClassRepository repo;
 
@@ -29,6 +29,7 @@ namespace Dal_Tests
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
             this.repo = new SchoolClassRepository(ctx);
+            new DatabaseSeeder().CreateDependenciesAndSeed(ctx);//heavy duty
 
         }
 
@@ -42,8 +43,8 @@ namespace Dal_Tests
         [SetUp]
         public void setUp()
         {
-            entity = new SchoolClass();
-            entity.setId(Guid.NewGuid());//consider using
+            entity = new SchoolClass(22,"ס");
+            //entity.setId(Guid.NewGuid());//consider using
         }
 
         [TearDown]
@@ -54,36 +55,19 @@ namespace Dal_Tests
 
 
         [Test]
-        public void testAdd()
-        {
-            // Arrange
-            int count = repo.All().Count();
-
-
-            // Act
-            repo.Add(entity);
-            repo.SaveChanges();
-
-            // Assert
-            Assert.AreEqual(count + 1, repo.All().Count());
-
-
-            //TODO add existing test in Subjects
-        }
-
-        [Test]
         public void testGetById()
         {
             // Arrange
             int count = repo.All().Count();
-            repo.Add(entity);
-            repo.SaveChanges();
-            Assert.AreEqual(count + 1, repo.All().Count());
+
+            SchoolClass c = repo.All().FirstOrDefault();
+            Assert.NotNull(c);
 
 
             // Act
-            SchoolClass actual = repo.GetById(entity.Id);
+            SchoolClass actual = repo.GetById(c.Id);
             // Assert
+
             Assert.NotNull(actual);
 
             //TODO add existing test
@@ -94,14 +78,15 @@ namespace Dal_Tests
         {
             // Arrange
             int count = repo.All().Count();
-            repo.Add(entity);
-            repo.SaveChanges();
-            Assert.AreEqual(count + 1, repo.All().Count());
-
+            this.repo.Add(entity);
+            this.repo.SaveChanges();
+               
 
             // Act
-            SchoolClass actual = repo.GetById(entity.Id);
+            SchoolClass actual = repo.Get(x => (x.ClassLetter == "ס" && x.ClassNumber == 22)).FirstOrDefault();
+
             // Assert
+
             Assert.NotNull(actual);
 
             //TODO add existing test
@@ -111,35 +96,46 @@ namespace Dal_Tests
         [Test]
         public void testUpdate()
         {
+
             // Arrange
             int count = repo.All().Count();
             repo.Add(entity);
-            Assert.AreEqual(count + 1, repo.All().Count());
+            this.repo.SaveChanges();
 
-            int expected = entity.TestID + GlobalConstants.numOfTests;
-            entity.TestID += GlobalConstants.numOfTests;
+            Assert.Null(repo.GetByDetails(99, "ס"));
+
+
+            Assert.AreEqual(count + 1, repo.All().Count());
+            entity.ClassNumber=99;
+
 
             // Act
             repo.Update(entity);
-            // Assert
-            Assert.NotNull(repo.GetByTestID(expected));//this is fine, because of course the DB is empty beforehand.
+            repo.SaveChanges();
 
-            //TODO add existing test
+            // Assert
+
+            Assert.NotNull(repo.GetByDetails(99,"ס"));
+
         }
 
         [Test]
         public void testDelete()
         {
             // Arrange
-            int count = repo.All().Count();
             repo.Add(entity);
-            Assert.AreEqual(count + 1, repo.All().Count());
+            repo.SaveChanges();
+            int count = repo.All().Count();
 
+            Guid id = repo.GetByDetails(22, "ס").Id;
             // Act
             repo.Delete(entity);
+            repo.SaveChanges();
             // Assert
 
-            Assert.IsTrue(repo.GetByTestID(entity.TestID).IsDeleted);//this is fine, because of course the DB is empty beforehand.
+            Assert.Null(repo.GetByDetails(22,"ס"));
+            Assert.True(repo.All().Count() == count - 1);
+            Assert.True(repo.GetById(id).IsDeleted);
 
             //TODO add all remaining methods
         }
@@ -149,17 +145,16 @@ namespace Dal_Tests
         {
             // Arrange
             int count = repo.All().Count();
-            entity.ClassLetter = "ט";
-            entity.ClassNumber = 7;
 
-            repo.Add(entity);
-            Assert.AreEqual(count + 1, repo.All().Count());
+            SchoolClass c = repo.All().FirstOrDefault();
+            Assert.NotNull(c);
 
 
             // Act
+            SchoolClass actual = repo.GetByDetails(22,"ס");
             // Assert
-            Assert.NotNull(repo.GetByTestID(entity.TestID));//this is fine, because of course the DB is empty beforehand.
-            Assert.NotNull(repo.GetByDetails(7, "ט"));
+
+            Assert.NotNull(actual);
 
         }
     }

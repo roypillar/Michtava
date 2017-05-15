@@ -42,6 +42,10 @@
   <ItemGroup>
     <Compile Include="Exceptions\NameDuplicateException.cs" />
     <Compile Include="GlobalConstants.cs" />
+    <Compile Include="MichtavaFailure.cs" />
+    <Compile Include="MichtavaResult.cs" />
+    <Compile Include="MichtavaSuccess.cs" />
+    <Compile Include="MichtavaSuccessWithWarning.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,6 +13,7 @@ namespace Entities.Models
         public Answer()
         {
             Date_Submitted = DateTime.Now;
+            questionAnswers = new List<QuestionAnswer>();
         }
      
 
@@ -26,11 +27,12 @@ namespace Entities.Models
         [ForeignKey("Answer_To")]
         public Guid Homework_Id { get; set; }
 
-       // [ForeignKey("QuestionNumber")]
-        public int QuestionNumber { get; set; }
+        //public int QuestionNumber { get; set; }
 
-        
-        public string QuestionAnswer { get; set; } 
+        public ICollection<QuestionAnswer> questionAnswers { get; set; }
+
+
+        //public string QuestionAnswer { get; set; } 
 
         public Student Submitted_By { get; set; }
 
@@ -38,7 +40,7 @@ namespace Entities.Models
         public Guid Student_Id { get; set; }
 
         [Range(0,100)]
-        public int Grade { get; set; }
+        public int? Grade { get; set; }
 
         public override void setId(Guid id)
         {

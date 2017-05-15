@@ -22,6 +22,12 @@
 
         }
 
+        public SchoolClass(int n, string l) : base()
+        {
+            this.ClassNumber = n;
+            this.ClassLetter = l;
+        }
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
