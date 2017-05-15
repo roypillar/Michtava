@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="DatabaseSeeder.cs" />
     <Compile Include="IApplicationDbContext.cs" />
     <Compile Include="Migrations\201704160946325_test1604.cs" />
     <Compile Include="Migrations\201704160946325_test1604.Designer.cs">

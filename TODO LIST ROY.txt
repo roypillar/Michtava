@@ -23,6 +23,8 @@ answers dictionary
 
 fix seed in answers
 
+fix seed in suggested
+
 -----TESTING---------
 
 test administrationarea 

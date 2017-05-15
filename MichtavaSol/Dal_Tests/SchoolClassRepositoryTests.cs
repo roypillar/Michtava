@@ -17,7 +17,7 @@ namespace Dal_Tests
 {
     class SchoolClassRepositoryTests
     { 
-        private IApplicationDbContext ctx;
+        private ApplicationDbContext ctx;
 
         private SchoolClassRepository repo;
 
@@ -42,6 +42,8 @@ namespace Dal_Tests
         [SetUp]
         public void setUp()
         {
+
+            new DatabaseSeeder().CreateDependenciesAndSeed(ctx);
             entity = new SchoolClass();
             entity.setId(Guid.NewGuid());//consider using
         }
@@ -62,6 +64,25 @@ namespace Dal_Tests
 
             // Act
             repo.Add(entity);
+            repo.SaveChanges();
+
+            // Assert
+            Assert.AreEqual(count + 1, repo.All().Count());
+
+
+            //TODO add existing test in Subjects
+        }
+
+        [Test]
+        public void testAddToSchoolClass()
+        {
+            // Arrange
+            int count = repo.All().Count();
+
+
+            // Act
+            repo.Add(entity);
+            //this.ctx.Set<Student>().
             repo.SaveChanges();
 
             // Assert
