@@ -701,17 +701,17 @@ namespace Dal
 
         private void SeedAnswers(ApplicationDbContext context)
         {
-            if (context.Answers.Any())
-            {
-                return;
-            }
-
-            //if (System.Diagnostics.Debugger.IsAttached == false)
+            //if (context.Answers.Any())
             //{
-
-            //    System.Diagnostics.Debugger.Launch();
-
+            //    return;
             //}
+
+            if (System.Diagnostics.Debugger.IsAttached == false)
+            {
+
+                System.Diagnostics.Debugger.Launch();
+
+            }
 
             IQueryable<Student> rtn = from temp in context.Students.Include(s => s.Homeworks) select temp;
             var students = new Queue<Student>(rtn.ToList());
@@ -726,15 +726,16 @@ namespace Dal
                 IEnumerable<Question> questionsOfHw = context.Homeworks.
                     Where(x => x.Id == ans_to.Id).Include(home => home.Questions).FirstOrDefault().Questions;//chleck
 
+
                 Answer ans = new Answer();
                 ans.Answer_To = ans_to;
                 ans.Submitted_By = s;
-                int k = 1;
+
                 foreach (Question q in questionsOfHw)
                 {
-                    ans.QuestionNumber = k;
-                    ans.QuestionAnswer = "תשובה רנדומלית לשאלה רנדומלית בלה בלה בלה";
-                    k++;
+                    QuestionAnswer qa = new QuestionAnswer(q, answerContents.ElementAt(new Random().Next(answerContents.Count)));
+                    qa.In_Answer = ans;
+                    ans.questionAnswers.Add(qa);
                 }
 
                 context.Answers.Add(ans);

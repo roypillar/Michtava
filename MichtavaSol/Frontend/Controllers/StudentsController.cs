@@ -267,7 +267,7 @@ namespace Frontend.Controllers
                         double k = 0;
                         foreach (var Ans in QuestionsAlreadyAnswered)
                         {
-                            SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
+                            //SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);// CHANGE 1/5
                             k++;
                         }
                         smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
@@ -407,7 +407,7 @@ namespace Frontend.Controllers
              
                         foreach (var Ans in QuestionsAlreadyAnswered)
                         {
-                            SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
+                            //SmartViewQuestionsNumbers.Add(Ans.QuestionNumber); CHANGE 2/5
                             k++;
                         }
                         smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
@@ -475,8 +475,8 @@ namespace Frontend.Controllers
                     ans.Homework_Id = hw.Id;
                     ans.Id = Guid.NewGuid();
                     ans.IsDeleted = false;
-                    ans.QuestionAnswer = input;
-                    ans.QuestionNumber = questionNumber;
+                    //ans.QuestionAnswer = input; //CHANGE 3/5
+                    //ans.QuestionNumber = questionNumber; //CHANGE 4/5
                     ans.Student_Id = student.Id;
                     ans.Submitted_By = student;
 
@@ -518,7 +518,7 @@ namespace Frontend.Controllers
                         smartView.CompleteQuestions = QuestionsAlreadyAnswered;
                         foreach (var Ans in QuestionsAlreadyAnswered)
                         {
-                            SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
+                            //SmartViewQuestionsNumbers.Add(Ans.QuestionNumber); //CHANGE 5/5
                         }
                         smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
                     }
