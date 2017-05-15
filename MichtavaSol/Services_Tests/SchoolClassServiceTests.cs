@@ -40,6 +40,8 @@ namespace Services_Tests
             entity = new SchoolClass(23, "ע");
         }
 
+      
+
         [Test]
         public void testAddToSchoolClassSuccess()
         {
@@ -59,6 +61,21 @@ namespace Services_Tests
                         serv.GetByDetails(23, "ע").Id);
 
 
+        }
+
+        [Test]
+        public void testAddStandalone()
+        {
+            // Arrange
+            int count = serv.All().Count();
+
+
+            // Act
+            serv.Add(entity);
+
+            // Assert
+            Assert.AreEqual(count + 1, serv.All().Count());
+            Assert.NotNull(serv.GetByDetails(23, "ע"));
         }
     }
 }

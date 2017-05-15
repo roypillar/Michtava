@@ -32,7 +32,7 @@
 
             SchoolClass schoolClass = this.All().
                 Where(sc => sc.ClassNumber == classNumber &&
-                         sc.ClassLetter == letter)
+                         sc.ClassLetter == letter && sc.IsDeleted == false)
                 .FirstOrDefault();
             return schoolClass;
         }

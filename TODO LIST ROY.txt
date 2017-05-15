@@ -39,7 +39,6 @@ write tests for services IN PROGRESS
 
 write black box selenium tests
 
-remove testID fields OPTIONAL
 
 
 
