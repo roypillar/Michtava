@@ -296,7 +296,7 @@ namespace Frontend.Controllers
                 double k = 0;
                 foreach (var Ans in QuestionsAlreadyAnswered)
                 {
-                    SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
+                    //SmartViewQuestionsNumbers.Add(Ans.QuestionNumber); //----------------------COMMENT 1/5
                     k++;
                 }
                 smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
@@ -436,8 +436,8 @@ namespace Frontend.Controllers
              
                         foreach (var Ans in QuestionsAlreadyAnswered)
                         {
-                            SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
-                            k++;
+                    //SmartViewQuestionsNumbers.Add(Ans.QuestionNumber); //----------------------COMMENT 2/5
+                    k++;
                         }
                         smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
                         Session["percentage"] = (k / smartView.Questions.Count * 100);
@@ -500,25 +500,32 @@ namespace Frontend.Controllers
                     ans.Homework_Id = hw.Id;
                     ans.Id = Guid.NewGuid();
                     ans.IsDeleted = false;
-                    ans.QuestionAnswer = input;
-                    ans.QuestionNumber = questionNumber;
-                    ans.Student_Id = student.Id;
+            //ans.QuestionAnswer = input;//----------------------COMMENT 3/5
+            //ans.QuestionNumber = questionNumber;
+            ans.Student_Id = student.Id;
                     ans.Submitted_By = student;
 
 
             //continue from here.. for some reason its null..
             //can 
-            if (_answerService.All().Include(y => y.Answer_To).Where(x => x.Answer_To.Id == ans.Answer_To.Id && questionNumber == x.QuestionNumber).Count() == 0 )
-            {
-                _answerService.Add(ans);
-            }
-            else
-            {
-                ans = _answerService.All().Where(x => x.Answer_To.Id == ans.Answer_To.Id && questionNumber == x.QuestionNumber).FirstOrDefault();
-                ans.Date_Submitted = DateTime.Now;
-                ans.QuestionAnswer = input;
-                _answerService.Update(ans);
-            }
+
+
+
+
+            //if (_answerService.All().Include(y => y.Answer_To).Where(x => x.Answer_To.Id == ans.Answer_To.Id && questionNumber == x.QuestionNumber).Count() == 0) //-----------COMMENT 4/5
+            //{
+            //    _answerService.Add(ans);
+            //}
+
+
+
+            //else //-------------COMMENT 5/5
+            //{
+            //    ans = _answerService.All().Where(x => x.Answer_To.Id == ans.Answer_To.Id && questionNumber == x.QuestionNumber).FirstOrDefault(); 
+            //    ans.Date_Submitted = DateTime.Now;
+            //    ans.QuestionAnswer = input;
+            //    _answerService.Update(ans);
+            //}
 
 
                     List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q => q.Policy)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
@@ -557,7 +564,7 @@ namespace Frontend.Controllers
 
                 foreach (var Ans in QuestionsAlreadyAnswered)
                 {
-                    SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);
+                    //SmartViewQuestionsNumbers.Add(Ans.QuestionNumber);//----------------------CHANGE 3/5
                     k++;
                 }
                 smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
