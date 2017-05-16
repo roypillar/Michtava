@@ -79,7 +79,7 @@
 
 
         body {
-            // background-image: url("../../Backgrounds/background.jpg");
+            background-image: url("../../Backgrounds/background.jpg");
             background-color: lightgoldenrodyellow;
             width: 100%;
             height: 100%;
@@ -236,6 +236,10 @@
 	section{
 		padding-left: 15px;
 	}
+
+        homeworkImg {
+            background-image: url("../../Backgrounds/homeworkBackground.jpg");
+        }
     </style>
 </head>
 
@@ -286,7 +290,7 @@
         </div>
     </nav>
       
-    <div class="col-sm-8 pull-left">
+    <div class="col-sm-6 pull-left col-sm-offset-2">
 
         <!-- Content Here -->
         <h2 style="text-align:center">שיעורי בית שעלייך לסיים:</h2>
@@ -294,13 +298,14 @@
         {
             <hr>
 
-            <div style="background-color: #f1f1f5;">
+            <div style="border-radius: 25px;background-color:cornflowerblue;border: 2px solid #73AD21;">
                 <h2>@content.Item3.Name</h2>
                 <h5><span class="glyphicon glyphicon-time"></span>נוצר על ידי- @content.Item1 , תאריך אחרון להגשה - @content.Item2</h5>
                 <h5><span class="label label-danger">text</span> <span class="label label-primary">Ipsum</span></h5><br>
                 <p>@content.Item3.Content</p>
-                <input class="pull-left" name="subjName" type="submit" value="לסיפור" />
-
+                
+                    <input class="pull-left" name="subjName" type="submit" value="לסיפור" />
+                
                 <br><br>
             </div>
                             <hr />
