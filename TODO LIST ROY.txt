@@ -14,10 +14,6 @@ error handling - learn remote validation IN PROGRESS
 
 fix SQL in university 
 
-find more possible errors: 
-
-	errors are: {add: entry exists},
-
 word definitions dictionary
 
 all queries in services
@@ -28,6 +24,7 @@ worddefinition service
 
 read mass queries from file => add students, add teachers, add admins, add definitions.
 
+map from requirements to tests
 -----TESTING---------
 
 test administrationarea 

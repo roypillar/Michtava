@@ -29,7 +29,9 @@ namespace Services_Tests
         {
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
-            this.serv = new SchoolClassService(new SchoolClassRepository(ctx), new StudentRepository(ctx));
+            this.serv = new SchoolClassService(new SchoolClassRepository(ctx),
+                                               new StudentRepository(ctx), 
+                                               new TeacherRepository(ctx));
             new DatabaseSeeder().CreateDependenciesAndSeed(ctx);//heavy duty
 
         }

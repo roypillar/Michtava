@@ -1,5 +1,6 @@
 ﻿namespace Dal.Repositories.Interfaces
 {
+    using Common;
     using System.Linq;
 
     public interface IDeletableEntityRepository<T> : IGenericRepository<T> where T : class

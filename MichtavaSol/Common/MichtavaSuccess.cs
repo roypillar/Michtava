@@ -11,6 +11,10 @@ namespace Common
         public MichtavaSuccess(string message) : base(message)
         {
         }
-       
+
+        public MichtavaSuccess() : base("פעולה בוצעה בהצלחה.")
+        {
+        }
+
     }
 }

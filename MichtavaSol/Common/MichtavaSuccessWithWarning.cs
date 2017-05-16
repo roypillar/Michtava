@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public class MichtavaSuccessWithWarning : MichtavaResult
+    public class MichtavaSuccessWithWarning : MichtavaSuccess
     {
         public MichtavaSuccessWithWarning(string message) : base(message)
         {

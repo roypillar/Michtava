@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System;
+using Common;
 
 namespace Services
 {
@@ -41,20 +42,23 @@ namespace Services
             return this.studentRepository.GetById(id);
         }
 
-        public void Add(Student student)
+        public MichtavaResult Add(Student student)
         {
             this.studentRepository.Add(student);
             this.studentRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
-        public void Update(Student student)
+        public MichtavaResult Update(Student student)
         {
             this.studentRepository.Update(student);
             this.studentRepository.SaveChanges();
+            return new MichtavaSuccess();
         }
 
 
-        public void Delete(Student student)
+        public MichtavaResult Delete(Student student)
         {
             student.ApplicationUser.DeletedBy = student.DeletedBy;
 
@@ -62,6 +66,8 @@ namespace Services
             this.studentRepository.Delete(student);
 
             this.studentRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
         public IQueryable<Student> SearchByName(string searchString)
