@@ -313,7 +313,7 @@
                                     
                                     @if (Model.CompleteQuestionsNumbers.Contains(Model.question.Question_Number) && @TempData["Answer"] == null)
                                     {  
-                                        <textarea name="TextBoxArea" id="Input" runat="server" onkeypress="DynamicWordsCounter(this.value)" cols="50" rows="10" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@Model.CompleteQuestions.Where(x=>x.QuestionNumber == Model.question.Question_Number).FirstOrDefault().QuestionAnswer</textarea>
+                                        <textarea name="TextBoxArea" id="Input" runat="server" onkeypress="DynamicWordsCounter(this.value)" cols="50" rows="10" style="background-color: #FCF5D8; color: #AD8C08; border: 5px double #AD8C08;">@Model.CompleteQuestions.Where(x=>x.Of_Question.Question_Number == Model.question.Question_Number).FirstOrDefault().Content</textarea>
                                     }
 
                                     else
