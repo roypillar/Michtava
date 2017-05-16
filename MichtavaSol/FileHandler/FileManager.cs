@@ -18,6 +18,7 @@ namespace FileHandler
         void SaveQuestion(string serverTemporaryFilesrPath, Question question, Guid currentTeacherId, Guid relatedText);
         Dictionary<int, string> GetCurrentHomework(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid relatedText);
         int GetNextQuestionNumber(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid relatedText);
+        ICollection<Question> ParseQuestions(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid currentTextId);
     }
 
     public class FileManager : IFileManager
@@ -129,6 +130,86 @@ namespace FileHandler
             }
 
             return maxQuestionNumber + 1;
+        }
+
+        public ICollection<Question> ParseQuestions(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid currentTextId)
+        {
+            string path = Path.Combine(serverTemporaryFilesrPath, currentTeacherId.ToString(), currentTextId.ToString());
+            List <Question> questions = new List<Question>();
+
+            if (!Directory.Exists(path) || new DirectoryInfo(path).GetFileSystemInfos().Length == 0)
+            {
+                return questions;
+            }
+
+            foreach (var questionDir in Directory.GetDirectories(path))
+            {
+                int questionNumber = int.Parse(new DirectoryInfo(questionDir).Name);
+
+                var question = ParseQuestion(questionDir, questionNumber);
+
+                questions.Add(question);
+            }
+            return questions;
+        }
+
+        private Question ParseQuestion(string questionDir, int questionNumber)
+        {
+            Question ParsedQuestion = new Question();
+            Policy ParsedPolicy = new Policy();
+
+            // Parse content and Policy
+            foreach (var questionParameter in Directory.GetFiles(questionDir))
+            {
+                switch (new DirectoryInfo(questionParameter).Name)
+                {
+                    case "Content.txt":
+                    {
+                        ParsedQuestion.Content = File.ReadAllText(questionParameter);
+                        break;
+                    }
+                    case "MinWords.txt":
+                    {
+                            ParsedPolicy.MinWords = int.Parse(File.ReadAllText(questionParameter));
+                            break;
+                    }
+                    case "MaxWords.txt":
+                    {
+                            ParsedPolicy.MaxWords = int.Parse(File.ReadAllText(questionParameter));
+                            break;
+                    }
+                    case "MinConnectors.txt":
+                    {
+                            ParsedPolicy.MinConnectors = int.Parse(File.ReadAllText(questionParameter));
+                            break;
+                    }
+                    case "MaxConnectors.txt":
+                    {
+                            ParsedPolicy.MaxConnectors = int.Parse(File.ReadAllText(questionParameter));
+                            break;
+                    }
+                    default:
+                    {
+                            break;
+                    }
+                }
+            }
+
+            // Parse suggested openings:
+            string[] suggestedOpeningFiles = Directory.GetFiles(questionDir, "suggestedOpening*.txt");
+            List<string> suggestedOpenings = new List<string>();
+            foreach (var suggestedOpening in suggestedOpeningFiles)
+            {
+                suggestedOpenings.Add(File.ReadAllText(suggestedOpening));
+            }
+
+            // Create Question:
+            ParsedQuestion.Policy = ParsedPolicy;
+            ParsedQuestion.Question_Number = questionNumber;
+            ParsedQuestion.Date_Added = DateTime.Now;
+            ParsedQuestion.Suggested_Openings = SuggestedOpening.convert(suggestedOpenings);
+
+            return ParsedQuestion;
         }
 
         private string ReadQuestion(string questionPath)

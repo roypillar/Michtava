@@ -137,7 +137,7 @@ namespace Frontend.Controllers
             return null;
         }
 
-        public ActionResult SubmitPolicy(PolicyViewModel model, string textName)
+        public ActionResult SubmitPolicy(PolicyViewModel model, string textName, string Submit)
         {
             Teacher currentTeacher = GetCurrentUser();
             var currentTeacherId = currentTeacher.Id;
@@ -147,6 +147,13 @@ namespace Frontend.Controllers
 
             TempData["textName"] = textForHomework.Name;
             TempData["TextContent"] = textForHomework.Content;
+
+            if (Submit.Equals("הוספת שיעורי הבית"))
+            {
+                SubmitHomework(textForHomework, currentTeacher, currentTeacherId, currentTextId);
+
+                return View("Policy");
+            }           
 
             Dictionary<int, string> currentHomework;
             if (string.IsNullOrEmpty(model?.Question))
@@ -186,7 +193,14 @@ namespace Frontend.Controllers
                 InitializeHomework(currentHomework);
             }
 
-            /*var questions = new List<Question> {question};
+            TempData["msg"] = "<script>alert('השאלה נוספה למערכת. רק כאשר תוסיף/י את שיעורי הבית, התלמידים יוכלו לראות את השאלה');</script>";
+
+            return View("Policy");
+        }
+
+        private void SubmitHomework(Text textForHomework, Teacher currentTeacher, Guid currentTeacherId, Guid currentTextId)
+        {
+            var questions = _fileManager.ParseQuestions(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
 
             // TODO: Move Homework adding to a different action:
             var homework = new Homework()
@@ -200,11 +214,9 @@ namespace Frontend.Controllers
                 Created_By = currentTeacher,
                 Teacher_Id = currentTeacherId
             };
-            _homeworkService.Add(homework);*/
+            _homeworkService.Add(homework);
 
-            TempData["msg"] = "<script>alert('השאלה נוספה למערכת. רק כאשר תוסיף/י את שיעורי הבית, התלמידים יוכלו לראות את השאלה');</script>";
-
-            return View("Policy");
+            TempData["msg"] = "<script>alert('שיעורי הבית נוספו בהצלחה, כעת התלמידים יוכלו לראות אותם');</script>";
         }
 
         private void InitializeHomework(Dictionary<int, string> currentHomework)

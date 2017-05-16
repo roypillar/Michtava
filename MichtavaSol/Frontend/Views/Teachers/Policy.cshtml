@@ -80,16 +80,16 @@
         <hr />
         <br/>
         <div class="row">            
-                @foreach (var question in TempData)
+            @foreach (var question in TempData)
+            {
+                if (question.Key.Contains("שאלה"))
                 {
-                    if (question.Key.Contains("שאלה"))
-                    {
-                        <div class="col-sm-3 pull-right">
-                            <input type="button" name="QuestionDisplay" value="@question.Key" onclick="showQuestion(document.getElementById('@question.Key'))" />
-                            <div id="@question.Key" style="display:none;" >@question.Value</div>
-                        </div>
-                    }
-                }                        
+                    <div class="col-sm-3 pull-right">
+                        <input type="button" name="QuestionDisplay" value="@question.Key" onclick="showQuestion(document.getElementById('@question.Key'))" />
+                        <div id="@question.Key" style="display:none;" >@question.Value</div>
+                    </div>
+                }
+            }                        
         </div>
 
         <h2>@ViewBag.Title</h2>
@@ -196,10 +196,19 @@
 
         <div class="row">
             <div class="col-sm-10 pull-right">
-                <input type="submit" value="הוסף שאלה" style="background-color: crimson"/>
+                <input type="submit" value="הוספת שאלה" style="background-color: crimson" id="QuestionSubmit" name="Submit" />
             </div>
         </div>
-    </form>
+        <br />
+        <div class="row">
+            <div class="col-sm-10 pull-right">
+                @*<form class="col-xs-12" action="SubmitHomework" method="post">*@
+                    <input type="submit" value="הוספת שיעורי הבית" style="background-color: forestgreen" id="HomeworkSubmit" name="Submit" />
+                @*</form>*@
+            </div>
+        </div>
+
+    </form>  
 </div>
 
 <script>
