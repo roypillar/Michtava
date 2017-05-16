@@ -27,5 +27,7 @@ namespace Common
 
         public const string testingUrlRoot = "http://localhost:14980";
 
+        public const char DEFINITION_SEPERATOR = '|';
+
     }
 }

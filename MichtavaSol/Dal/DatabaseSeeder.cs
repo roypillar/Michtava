@@ -23,7 +23,7 @@ namespace Dal
 
         private RoleManager<IdentityRole> roleManager;
 
-
+        #region consts
         private const int HighestGrade = 12;
 
         private const int ClassStudentsNumber = 20;
@@ -187,6 +187,25 @@ namespace Dal
 
         };
 
+        private readonly List<string> words = new List<string>() {
+        "צורותיהן",
+        "ספרה",
+        "כעכים",
+        "מיקסר",
+        "טעם לוואי",
+        "התפחה",
+        };
+
+        private readonly List<List<string>> definitionLists = new List<List<string>>() {
+        new List<string>() { "הצורה שלהן" },
+        new List<string>() { "מספר כלשהו בין 0 ל9, כולל" },
+        new List<string>() { "בייגלה","לחם בצורת טבעת העשויה מקמח חיטה" },
+        new List<string>() { "מכשיר לערבוב חומרים, בד\"כ נוזלים " },
+        new List<string>() { "טעם שלא תואם את הטעם המצופה של המנה" ,"טעם לא טוב ולא מתוכנן"},
+        new List<string>() { "הבאת הבצק\\בלילה לכדי צמיחה","החדרת אוויר לבצק או בלילה על מנת שהמוצר המוגמר יהיה רך וקל" },
+        };
+
+
 
 
 
@@ -196,11 +215,7 @@ namespace Dal
 
         private readonly DateTime endDate = new DateTime(2017, 3, 22);
 
-        //private int studentCounter = 1;
-
-        //private int teacherCounter = 1;
-
-
+        #endregion
         public void CreateDependenciesAndSeed(ApplicationDbContext context)
         {
             this.userManager = this.CreateUserManager(context);
@@ -233,15 +248,14 @@ namespace Dal
             this.SeedTexts(context);
             this.SeedHomeworks(context);
             this.SeedAnswers(context);
-            //seeddefinitions?
+            this.SeedDefinitions(context);
             //fixseed
 
             context.Configuration.AutoDetectChangesEnabled = true;
 
         }
 
-
-
+        
         private void SeedSubjects(ApplicationDbContext context)
         {
             if (context.Subjects.Any())
@@ -744,6 +758,36 @@ namespace Dal
             context.SaveChanges();
 
         }
+
+        private void SeedDefinitions(ApplicationDbContext context)
+        {
+            //if (context.Definitions.Any())
+            //{
+            //    return;
+            //}
+
+            //if (System.Diagnostics.Debugger.IsAttached == false)
+            //{
+
+            //    System.Diagnostics.Debugger.Launch();
+
+            //}
+
+
+            for (int j=0;j<words.Count;j++)
+            {
+
+                WordDefinition def = new WordDefinition();
+                def.Word = words.ElementAt(j);
+                def.addDefinitions(definitionLists.ElementAt(j));
+
+                context.Definitions.AddOrUpdate(def);
+            }
+
+            context.SaveChanges();
+        }
+
+
 
         public string RandomAnswerString()
         {

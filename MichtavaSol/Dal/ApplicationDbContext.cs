@@ -40,6 +40,8 @@
 
         public IDbSet<Answer> Answers { get; set; }
 
+        public IDbSet<WordDefinition> Definitions { get; set; }
+
 
 
         public static ApplicationDbContext Create()

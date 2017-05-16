@@ -42,6 +42,8 @@ namespace Entities.Models
         [Range(0,100)]
         public int? Grade { get; set; }
 
+        public string TeacherFeedback { get; set; }
+
         public override void setId(Guid id)
         {
             Id = id;
