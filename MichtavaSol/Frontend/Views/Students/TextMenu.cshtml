@@ -1,4 +1,163 @@
-﻿
+﻿<br /><br /><br />
+<!DOCTYPE html>
+<html lang="he">
+<head>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+    <style>
+        /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+        .row.content {
+            height: 1500px
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            background-color: #f1f1f1;
+            height: 100%;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #555;
+            color: white;
+            padding: 15px;
+        }
+
+
+        .row.content {
+            height: auto;
+        }
+
+        }
+
+        h2 {
+            font-weight: bold;
+            font: 50px arial, sans-serif;
+        }
+
+        input[type='submit'] {
+            font-size: 32px;
+            background-color: darkorange;
+            border-color: darkorange;
+        }
+
+        div.button-wrapper {
+            position: relative;
+        }
+
+
+
+        .notification-on {
+            position: absolute;
+            top: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            border-radius: 10px;
+            background-color: red;
+            width: 20px;
+            font-weight: bold;
+        }
+
+        abbr[title] {
+            border-bottom: none !important;
+            cursor: inherit !important;
+            text-decoration: none !important;
+        }
+
+
+
+        body {
+            // background-image: url("../../Backgrounds/background.jpg");
+            background-color: lightgoldenrodyellow;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <div class="container-fluid">
+        <div class="row content">
+            <form class="text-right" action="ChooseAction" method="post" id="TextMenu">
+
+                <div class="col-sm-3 sidenav pull-right">
+                    <h4>@ViewBag.Title:</h4>
+                   
+                        @if ((string)Session["notificationFlag"] == "true")
+                        {
+                            <div class="row">
+                                <div class=" col-sm-10 pull-right" style="margin-bottom:10px">
+                                    <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
+
+                                    <input name="submit" type="submit" value="לסיפור" />
+                                </div>
+                                <div class="col-sm-10 pull-right">
+                                    <h5 style="color:red">קיימים שיעורי בית שעלייך להשלים בטקסט @Session["textName"]</h5>
+                                </div>
+                            </div>
+                        }
+
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-sm-10 pull-right" style="margin-bottom:10px">
+                                    <input name="submit" type="submit" value="לסיפור" />
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-sm-10 pull-right" style="margin-bottom:10px">
+                                <input name="submit" type="submit" value="משחקי אוצר מילים" onclick="window.location.href = 'http://xlimud.telem-hit.net/'; return false;" />
+                            </div>
+                        </div>
+                                <div class="row">
+                                    <div class="col-sm-10 pull-right" style="margin-bottom:10px">
+                                        <input name="submit" type="submit" value="תרגול כתיבה" />
+                                    </div>
+                                </div>
+
+                    
+
+
+                </div>
+
+                <div class="col-sm-9 pull-right">
+
+                   
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="container-fluid">
+        <p>Footer Text</p>
+    </footer>
+
+</body>
+
+
+
+</html>
+
+
+<!--
+    
+
 
 <br /><br /><br />
 <head>
@@ -39,7 +198,7 @@
         }
 
         body {
-            background-image: url("../../Backgrounds/background.jpg");
+        //    background-image: url("../../Backgrounds/background.jpg");
             width: 100%;
             height: 100%;
             background-position: center;
@@ -96,5 +255,5 @@
     </div>
     <br /><br /><br /><br /><br /><br /><br />
 </body>
-
+    -->
 <!-- http://projects.telem-hit.net/CatchTheFish/ -->

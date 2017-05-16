@@ -148,6 +148,7 @@ namespace Frontend.Controllers
         {
             ViewBag.Title = "בחר טקסט";
             List<Text> texts = new List<Text>();
+            List<Tuple<string, string, Text>> textTuple = new List<Tuple<string, string, Text>>();
 
             string userid = User.Identity.GetUserId();
 
@@ -160,24 +161,39 @@ namespace Frontend.Controllers
                 }
             }
 
-            Subject tempSubj = _subjectServiceService.GetByName(subjName);
+            Guid tmpSubjectGuid = _subjectServiceService.All().Where(x => x.Name == subjName).FirstOrDefault().Id;
 
+            Subject tempSubj = _subjectServiceService.GetByName(subjName);
+            List<Guid> textsIDList = new List<Guid>();
             texts = _textService.All().Where(x => x.Subject_Id == tempSubj.Id).ToList();
 
-
-            List<Guid> textsIDList = new List<Guid>();
-            
-            foreach (var hw in student.Homeworks)
+            if (student.Homeworks.Where(x=> x.Text.Subject_Id == tmpSubjectGuid).Count() != 0)
             {
-                if (texts.Contains(hw.Text))
+                foreach (var hw in student.Homeworks)
                 {
-                    textsIDList.Add(hw.Text.Id);
+                    if (texts.Contains(hw.Text))
+                    {
+                        textsIDList.Add(hw.Text.Id);
+                        Tuple<string, string, Text> t = new Tuple<string, string, Text>(hw.Created_By.Name, hw.Deadline.ToString(), hw.Text);
+                        textTuple.Add(t);
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var text in texts)
+                {
+                    Tuple<string, string, Text> t = new Tuple<string, string, Text>("טקסט עממי", text.UploadTime.ToString(), text);
+                    textTuple.Add(t);
                 }
             }
+           
 
             TextsNotificationsViewModel model = new TextsNotificationsViewModel();
             model.Texts = texts;
             model.TextsIDList = textsIDList;
+            model.TextsTuple = textTuple;
 
             return View("Texts",model);
         }
@@ -216,9 +232,27 @@ namespace Frontend.Controllers
         }
 
 
-        public ActionResult ChooseAction(string submit)
+        public ActionResult ChooseAction(string textName)
         {
-            Session["title"] = submit;
+            string[] tmpStringArray = textName.Split(' ');
+            if (tmpStringArray[0].Equals("לסיפור"))
+            {
+                textName = "";
+                int i;
+                for (i = 1; i < tmpStringArray.Count(); i++)
+                {
+                    if (i == tmpStringArray.Count() - 1)
+                    {
+                        textName = textName + tmpStringArray[i];
+                    }
+                    else
+                    {
+                        textName = textName + tmpStringArray[i] + " ";
+                    }
+                }
+            }
+
+            Session["title"] = textName;
 
            // switch (submit)
            // {
@@ -228,7 +262,7 @@ namespace Frontend.Controllers
             Session["TextContent"] = _fileManager.GetText(text.FilePath);
                     //init words definition
             Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
-            string tmpName = (string)Session["textName"];
+            string tmpName = (string)Session["title"];
             string userid = User.Identity.GetUserId();
 
             foreach (var std in _studentService.All().Include(x => x.Homeworks))
@@ -239,7 +273,8 @@ namespace Frontend.Controllers
                     break;
                 }
             }
-
+            //todo- check if first == "לסיפור"
+           
             textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
 
             /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)

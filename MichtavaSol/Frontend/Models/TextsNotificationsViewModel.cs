@@ -12,5 +12,8 @@ namespace Frontend.Models
         public List<Guid> TextsIDList { get; set; }
 
         public List<Text> Texts { get; set; }
+
+        public List<Tuple<string, string, Text>> TextsTuple { get; set; }
+
     }
 }
