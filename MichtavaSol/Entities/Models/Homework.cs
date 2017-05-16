@@ -8,7 +8,7 @@ namespace Entities.Models
 {
 
 
-    public class Homework : DeletableEntity
+    public class Homework : DeletableEntity, HasId
     {
 
         private ICollection<Question> questions;

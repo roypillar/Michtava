@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Entities.Models
 {
-    public class Policy
+    public class Policy : HasId
     {
 
         public Policy()

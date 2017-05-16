@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Entities.Models
 {
   
-    public class Student : DeletableEntity
+    public class Student : DeletableEntity, HasId
     {
 
 

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Entities.Models
 {
-    public class Question
+    public class Question : HasId
     {
 
         public Question()
