@@ -115,7 +115,7 @@ namespace Frontend.Controllers
             Session["SchoolClassID"] = schoolClass.Id.ToString();
 
             List<Guid> subjectsIDList = new List<Guid>();
-
+            List<Tuple<string,string, Text>> tmpTexts = new List<Tuple<string,string, Text>>();
             subjects = schoolClass.Subjects.ToList();
 
             foreach(var hw in student.Homeworks)
@@ -123,12 +123,15 @@ namespace Frontend.Controllers
                 if (subjects.Contains(hw.Text.Subject))
                 {
                     subjectsIDList.Add(hw.Text.Subject_Id);
+                    Tuple<string,string, Text> t = new Tuple<string,string,Text>(hw.Created_By.Name,hw.Deadline.ToString(),hw.Text);
+                    tmpTexts.Add(t);
                 }
             }
 
             SubjectsNotificationsViewModel model = new SubjectsNotificationsViewModel();
             model.Subjects = subjects;
             model.subjectsIDList = subjectsIDList;
+            model.tmpTexts = tmpTexts;
             return View("Subjects",model);
         }
 
@@ -318,7 +321,7 @@ namespace Frontend.Controllers
                 SuggestedOpening noSuggOpen2 = new SuggestedOpening("התשובה לשאלה נמצאת בגוף השאלה");
                 smartView.question.Suggested_Openings.Add(noSuggOpen);
                 smartView.question.Suggested_Openings.Add(noSuggOpen2);
-
+                
             }
 
 
@@ -496,11 +499,6 @@ namespace Frontend.Controllers
             }
 
 
-            
-                  
-
-
-
             return View("QuestionsView", smartView);
 
         }
@@ -550,17 +548,19 @@ namespace Frontend.Controllers
 
             Homework hw = AllStudentHW.First();
 
-            List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
-            smartView.question = tmpQuestionsList.Where(x => x.Question_Number == questionNumber).FirstOrDefault();
-            smartView.Questions = tmpQuestionsList;
+            ICollection<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(p=>p.Policy)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions;
+            smartView.question = tmpQuestionsList.Where(x => x.Question_Number == questionNumber).FirstOrDefault();//include policy..
+            smartView.Questions = tmpQuestionsList.ToList();
 
             if (_answerService.All().Where(x => x.Student_Id == student.Id && x.Homework_Id == hw.Id).FirstOrDefault() == null) {
 
                 ans.Answer_To = _homeworkService.All().Where(x => x.Id == hw.Id).FirstOrDefault();
                 ans.Date_Submitted = DateTime.Now;
                 ans.Homework_Id = hw.Id;
-                ans.Id = Guid.NewGuid();
+             //   ans.Id = Guid.NewGuid();
                 ans.IsDeleted = false;
+                ans.TestID = 0;
+                ans.Grade = 0;
                 QuestionAnswer tmpQuestionAnswer = new QuestionAnswer();
                 tmpQuestionAnswer.In_Answer = ans;
                 tmpQuestionAnswer.Answer_Id = ans.Id;
@@ -584,7 +584,7 @@ namespace Frontend.Controllers
 
                 {
                     QuestionAnswer tmpQuestionAnswer = new QuestionAnswer();
-                    tmpQuestionAnswer.Id = Guid.NewGuid();
+                 //   tmpQuestionAnswer.Id = Guid.NewGuid();
                     tmpQuestionAnswer.Answer_Id = ans.Id;
                     tmpQuestionAnswer.Content = input;
                     tmpQuestionAnswer.Date_Submitted = DateTime.Now;

@@ -5,8 +5,41 @@
 
 
 <br /><br /><br />
+<!DOCTYPE html>
+<html lang="he">
 <head>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
     <style>
+
+        /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: 1500px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    
+      .row.content {height: auto;}
+    }
+
         h2 {
             font-weight: bold;
             font: 50px arial, sans-serif;
@@ -45,7 +78,8 @@
 
 
         body {
-            background-image: url("../../Backgrounds/background.jpg");
+            //background-image: url("../../Backgrounds/background.jpg");
+            background-color:lightgoldenrodyellow;
             width: 100%;
             height: 100%;
             background-position: center;
@@ -57,23 +91,100 @@
 
 <body>
 
-    <div class="row">
+
+
+        <div class="container-fluid">
+            <div class="row content">
+                <form class="text-right" action="ChooseSubSubject" method="post" id="SubjectsMenu">
+
+                    <div class="col-sm-3 sidenav pull-right">
+                        <h4>@ViewBag.Title:</h4>
+                        @foreach (var subject in Model.Subjects)
+                        {
+                            if (Model.subjectsIDList.Contains(subject.Id))
+                            {
+
+                                <div class="col-sm-12 pull-right" style="margin-bottom:10px">
+                                    <div class=" col-sm-10 pull-right">
+                                        <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
+
+                                        <input name="subjName" type="submit" value="@subject.Name" />
+                                    </div>
+                                    <div class=" col-sm-10 pull-right">
+                                        <h5 style="color:red">קיימים שיעורי בית שעלייך להשלים ב @subject.Name</h5>
+                                    </div>
+
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="col-sm-12 pull-right" style="margin-bottom:10px">
+                                    <div class="col-sm-4 pull-right">
+                                        <input name="subjName" type="submit" value="@subject.Name" />
+                                    </div>
+
+                                </div>
+
+                            }
+
+                        }
+
+
+                    </div>
+
+                    <div class="col-sm-9 pull-right">
+
+                        <h3>שיעורי בית</h3>
+                        @foreach (var content in Model.tmpTexts)
+                        {
+                        <hr>
+
+                            <div class=" col-sm-10 pull-right" style="background-color: #f1f1f5;">
+                                <h2>@content.Item3.Name</h2>
+                                <h5><span class="glyphicon glyphicon-time"></span>נוצר על ידי- @content.Item1 , תאריך אחרון להגשה - @content.Item2</h5>
+                                <h5><span class="label label-danger">text</span> <span class="label label-primary">Ipsum</span></h5><br>
+                                <p>@content.Item3.Content</p>
+                                <input class="pull-left" name="submit" type="submit" value="לסיפור" />
+
+                                <br><br>
+                            </div>
+                         <hr />
+                        }
+                    </div>
+                    </form>
+</div>
+        </div>
+
+        <footer class="container-fluid">
+            <p>Footer Text</p>
+        </footer>
+
+    </body>
+
+    
+
+</html>
+
+
+<!--
+<div class="row">
         <form class="text-right" action="ChooseSubSubject" method="post" id="SubjectsMenu">
             <div class="row">
                 <div class="col-sm-10">
                     <b>
                         <u>
-                            <h2>@ViewBag.Title:</h2>                            
+                            <h2>@ViewBag.Title:</h2>
                         </u>
                     </b>
                 </div>
-                
+
                 <div class="col-sm-2 pull-left">
-                   
-                      
-                            <h3>@Session["StudentName"]</h3>
-                     
-                 
+
+
+                    <h3>@Session["StudentName"]</h3>
+
+
                 </div>
 
             </div>
@@ -81,37 +192,37 @@
 
             <div class="row">
 
-          
+
 
                 @foreach (var subject in Model.Subjects)
                 {
                     if (Model.subjectsIDList.Contains(subject.Id))
                     {
-                        
+
                         <div class="col-sm-12 pull-right" style="margin-bottom:10px">
                             <div class=" col-sm-10 pull-right">
                                 <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
-                                
+
                                 <input name="subjName" type="submit" value="@subject.Name" />
                             </div>
                             <div class=" col-sm-10 pull-right">
                                 <h5 style="color:red">קיימים שיעורי בית שעלייך להשלים ב @subject.Name</h5>
                             </div>
-                           
+
                         </div>
-                       
+
                     }
                     else
                     {
                         <div class="col-sm-12 pull-right" style="margin-bottom:10px">
                             <div class="col-sm-4 pull-right">
-                            <input name="subjName" type="submit" value="@subject.Name" />
+                                <input name="subjName" type="submit" value="@subject.Name" />
                             </div>
-                            
+
                         </div>
 
                     }
-                
+
                 }
 
             </div>
@@ -119,4 +230,5 @@
     </div>
     <br /><br /><br /><br /><br /><br />
 </body>
-
+    
+-->
