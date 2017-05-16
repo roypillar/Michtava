@@ -19,6 +19,7 @@ namespace FileHandler
         Dictionary<int, string> GetCurrentHomework(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid relatedText);
         int GetNextQuestionNumber(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid relatedText);
         ICollection<Question> ParseQuestions(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid currentTextId);
+        void ClearTemporaryQuestions(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid currentTextId);
     }
 
     public class FileManager : IFileManager
@@ -151,6 +152,17 @@ namespace FileHandler
                 questions.Add(question);
             }
             return questions;
+        }
+
+        public void ClearTemporaryQuestions(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid currentTextId)
+        {
+            string path = Path.Combine(serverTemporaryFilesrPath, currentTeacherId.ToString(), currentTextId.ToString());
+            DirectoryInfo currentDir = new DirectoryInfo(path);
+
+            foreach (DirectoryInfo directory in currentDir.GetDirectories())
+            {
+                directory.Delete(true);
+            }
         }
 
         private Question ParseQuestion(string questionDir, int questionNumber)

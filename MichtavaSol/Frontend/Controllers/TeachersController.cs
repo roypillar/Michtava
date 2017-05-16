@@ -26,7 +26,9 @@ namespace Frontend.Controllers
         private Dictionary<string, string> _textsDictionary = new Dictionary<string, string>();
 
 
-        public TeachersController(ISubjectService subjectService, ITextService textService, ISchoolClassService classService, IStudentService studentService, IHomeworkService homeworkService, ITeacherService teacherService)
+        public TeachersController(ISubjectService subjectService, ITextService textService,
+            ISchoolClassService classService, IStudentService studentService, IHomeworkService homeworkService,
+            ITeacherService teacherService)
         {
             _subjectService = subjectService;
             _textService = textService;
@@ -117,7 +119,8 @@ namespace Frontend.Controllers
             TempData["textName"] = textForHomework.Name;
             TempData["TextContent"] = textForHomework.Content;
 
-            var currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
+            var currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"),
+                currentTeacherId, currentTextId);
             if (currentHomework != null && currentHomework.Count > 0)
             {
                 InitializeHomework(currentHomework);
@@ -153,12 +156,13 @@ namespace Frontend.Controllers
                 SubmitHomework(textForHomework, currentTeacher, currentTeacherId, currentTextId);
 
                 return View("Policy");
-            }           
+            }
 
             Dictionary<int, string> currentHomework;
             if (string.IsNullOrEmpty(model?.Question))
             {
-                currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
+                currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"),
+                    currentTeacherId, currentTextId);
                 if (currentHomework != null && currentHomework.Count > 0)
                 {
                     InitializeHomework(currentHomework);
@@ -182,41 +186,60 @@ namespace Frontend.Controllers
                 Policy = policy,
                 Date_Added = DateTime.Now,
                 Suggested_Openings = SuggestedOpening.convert(model.KeySentences),
-                Question_Number = _fileManager.GetNextQuestionNumber(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId)
+                Question_Number =
+                    _fileManager.GetNextQuestionNumber(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId,
+                        currentTextId)
             };
 
-            _fileManager.SaveQuestion(Server.MapPath("~/TemporaryFiles/Homeworks"), question, currentTeacherId, currentTextId);
+            _fileManager.SaveQuestion(Server.MapPath("~/TemporaryFiles/Homeworks"), question, currentTeacherId,
+                currentTextId);
 
-            currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
+            currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"),
+                currentTeacherId, currentTextId);
             if (currentHomework != null && currentHomework.Count > 0)
             {
                 InitializeHomework(currentHomework);
             }
 
-            TempData["msg"] = "<script>alert('השאלה נוספה למערכת. רק כאשר תוסיף/י את שיעורי הבית, התלמידים יוכלו לראות את השאלה');</script>";
+            TempData["msg"] =
+                "<script>alert('השאלה נוספה למערכת. רק כאשר תוסיף/י את שיעורי הבית, התלמידים יוכלו לראות את השאלה');</script>";
 
             return View("Policy");
         }
 
-        private void SubmitHomework(Text textForHomework, Teacher currentTeacher, Guid currentTeacherId, Guid currentTextId)
+        private void SubmitHomework(Text textForHomework, Teacher currentTeacher, Guid currentTeacherId,
+            Guid currentTextId)
         {
             var questions = _fileManager.ParseQuestions(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
 
-            // TODO: Move Homework adding to a different action:
+            if (questions == null || questions.Count == 0)
+            {
+                TempData["msg"] = "<script>alert('יש להוסיף שאלות לשיעורי הבית');</script>";
+                return;
+            }
+
             var homework = new Homework()
             {
                 Text = textForHomework,
                 Text_Id = currentTextId,
-
                 Questions = questions,
-                Deadline = DateTime.Now,
-
+                Deadline = DateTime.Now, // TODO: change to Teacher's input
                 Created_By = currentTeacher,
                 Teacher_Id = currentTeacherId
             };
-            _homeworkService.Add(homework);
+
+            try
+            {
+                _homeworkService.Add(homework);                
+            }
+            catch (Exception e)
+            {
+                TempData["msg"] = "<script>alert('אירעה תקלה בהוספת שיעורי הבית');</script>";
+                return;
+            }
 
             TempData["msg"] = "<script>alert('שיעורי הבית נוספו בהצלחה, כעת התלמידים יוכלו לראות אותם');</script>";
+            _fileManager.ClearTemporaryQuestions(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
         }
 
         private void InitializeHomework(Dictionary<int, string> currentHomework)
