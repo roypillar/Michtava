@@ -50,9 +50,28 @@ namespace Dal_Tests
         [TearDown]
         public void tearDown()
         {
+        }
+
+        [Test]
+        public void testAdd()
+        {
+            //Arrange
+            int count = repo.All().Count();
+           
+
+            // Act
+            this.repo.Add(entity);
+            this.repo.SaveChanges();
+            // Assert
+
+            Assert.NotNull(repo.GetByDetails(22,"ס"));
+
+            this.repo.HardDelete(entity);
+            this.repo.SaveChanges();
 
         }
 
+     
 
         [Test]
         public void testGetById()
@@ -89,7 +108,9 @@ namespace Dal_Tests
 
             Assert.NotNull(actual);
 
-            //TODO add existing test
+            this.repo.HardDelete(entity);
+            this.repo.SaveChanges();
+
         }
 
 
@@ -116,6 +137,8 @@ namespace Dal_Tests
             // Assert
 
             Assert.NotNull(repo.GetByDetails(99,"ס"));
+            this.repo.HardDelete(entity);
+            this.repo.SaveChanges();
 
         }
 
@@ -137,6 +160,9 @@ namespace Dal_Tests
             Assert.True(repo.All().Count() == count - 1);
             Assert.True(repo.GetById(id).IsDeleted);
 
+            this.repo.HardDelete(entity);
+            this.repo.SaveChanges();
+
             //TODO add all remaining methods
         }
 
@@ -145,13 +171,13 @@ namespace Dal_Tests
         {
             // Arrange
             int count = repo.All().Count();
-
-            SchoolClass c = repo.All().FirstOrDefault();
-            Assert.NotNull(c);
+            this.repo.Add(entity);
+            this.repo.SaveChanges();
 
 
             // Act
             SchoolClass actual = repo.GetByDetails(22,"ס");
+
             // Assert
 
             Assert.NotNull(actual);

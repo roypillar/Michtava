@@ -4,7 +4,7 @@
 2) Notify students for a new homework assignment
 
 
-3) !!NEW!! every time a teacher logs in, access their schoolclasses, and check
+3) every time a teacher logs in, access their schoolclasses, and check
 		if there are any homeworks that reached their deadline for submission.
 		if so, notify the teacher that homeworks are ready to be checked.
 		you can find the answers to this homework through, for example,

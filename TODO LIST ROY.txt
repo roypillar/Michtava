@@ -1,17 +1,18 @@
 -----NON_TESTING--------
 
-populate registerareas IN PROGRESS
+populate registerareas
 
-administrationarea IN PROGRESS
+administrationarea
 
 strings all over the site - validation, header, footer, etc
 
-take add(create) functionality all over the site from seed method
+take add(create) functionality from seed method to the services
 
 implement delete functionality all over the admins area
 
 error handling - learn remote validation IN PROGRESS
 
+fix SQL in university 
 
 find more possible errors: 
 
