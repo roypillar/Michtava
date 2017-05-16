@@ -228,8 +228,17 @@ namespace Frontend.Controllers
                 Teacher_Id = currentTeacherId
             };
 
+            // Add Homework to relevant tables in DB:
+            var currentClass = GetClass(Session["CurrentClass"].ToString());
+            var currentClassId = currentClass.Id;
             try
             {
+                _classService.GetById(currentClassId).Homeworks.Add(homework);
+                foreach (var student in _classService.GetById(currentClassId).Students)
+                {
+                    student.Homeworks.Add(homework);
+                }
+                
                 _homeworkService.Add(homework);                
             }
             catch (Exception e)
