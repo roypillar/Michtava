@@ -146,6 +146,12 @@ namespace Frontend.Controllers
 
         public ActionResult ChooseSubSubject(string subjName)
         {
+            if(_textService.All().Where(x=>x.Name == subjName).Count() > 0)
+            {
+                Session["textName"] = subjName;
+                return RedirectToAction("GotoSmartTextBox", 1);
+            }
+
             ViewBag.Title = subjName;
             List<Text> texts = new List<Text>();
             List<Tuple<string, string, Text>> textTuple = new List<Tuple<string, string, Text>>();
@@ -267,7 +273,7 @@ namespace Frontend.Controllers
               //  case "לסיפור":
             Session["WithQuestion?"] = "Without";
 
-            Session["TextContent"] = _fileManager.GetText(text.FilePath);
+            Session["TextContent"] = _textService.All().Where(x => x.Name == textName).FirstOrDefault().Content;
                     //init words definition
             Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
             string tmpName = (string)Session["title"];

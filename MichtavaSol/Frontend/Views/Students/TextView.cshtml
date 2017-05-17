@@ -1,4 +1,8 @@
 ﻿
+@{
+    ViewBag.Title = Session["textName"];
+}
+
 <br /><br /><br />
 <head>
     <style>
@@ -67,143 +71,134 @@
 </head>
 
 <body>
-<div class="row">
+    <div class="container-fluid">
 
-    <div class="row">
-        <div class="col-sm-10 pull-right" style="margin-bottom:10px">
-            <input name="submit" type="submit" value="משחקי אוצר מילים" onclick="window.location.href = 'http://xlimud.telem-hit.net/'; return false;" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-10 pull-right" style="margin-bottom:10px">
-            <input name="submit" type="submit" value="תרגול כתיבה" />
-        </div>
-    </div>
+        <div class="row">
 
-    <div class="row">
-        <div class="col-sm-10">
-            <b><u><h2>@Session["textName"]</h2></u></b>
-        </div>
-        <div class="col-sm-2 pull-left">
-            <div class="dropdown">
-                <input value="פירושי מילים" style="font-size: 16px; background-color: darkorange;"/>
-                <div class="dropdown-content">
-                    <p><span>@Html.Raw(HttpUtility.HtmlDecode((string)Session["WordsDefs"]))</span></p>
-                </div>
+            <div class="col-sm-1 pull-right">
+            <div>
+                <select class="styled-select" onchange="changeTextFont()" id="TextfontSize">
+                    <option>בחר גודל כתב</option>
+                    <option value="11pt">11</option>
+                    <option value="12pt">12</option>
+                    <option value="14pt">14</option>
+                    <option value="16pt">16</option>
+                    <option value="18pt">18</option>
+                    <option value="20pt">20</option>
+                    <option value="24pt">24</option>
+                    <option value="28pt">28</option>
+                    <option value="32pt">32</option>
+                </select>
             </div>
-        </div>  
-    </div>
-    <br /><br />
 
-    <div class="row">
-
-        @if ((string)Session["WithQuestion?"] == "Without")
-        {
-            <p class="col-md-10 col-md-offset-1" id="textArea" style="border:none; background: transparent; overflow-y:auto; max-height:400px" >
-                  @Session["TextContent"] 
-        </p>
-        }
-        else
-        {
-            <p class="col-md-10 col-md-offset-1" id="textArea" style="border:none; background: transparent; overflow-y:auto; max-height:400px">
-                @Session["TextContent"]
-                </p>
-        }
-
-
-</div>          
-
-    <br />
-    <div class="row">
-
-        <div class="col-md-3 col-md-offset-3 pull-left">
-            <select class="styled-select" onchange="changeTextFont()" id="TextfontSize">
-                <option>בחר גודל כתב</option>
-                <option value="11pt">11</option>
-                <option value="12pt">12</option>
-                <option value="14pt">14</option>
-                <option value="16pt">16</option>
-                <option value="18pt">18</option>
-                <option value="20pt">20</option>
-                <option value="24pt">24</option>
-                <option value="28pt">28</option>
-                <option value="32pt">32</option>
-            </select>
-        </div>
-
-        @if ((string)Session["WithQuestion?"] == "Without")
-        {
-                <div class="col-sm-3 pull-right">
+            @if ((string)Session["WithQuestion?"] == "Without")
+            {
+                <div>
                     <audio id="textAudio" controls="true" preload="auto">
                         <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.mp3" type="audio/mpeg">
                         <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.ogg" type="audio/ogg">
                     </audio>
                 </div>
-                <div class="col-sm-3 pull-right">
+                <div>
                     <button onclick="document.getElementById('textAudio').play()">PLAY</button>
                 </div>
-        }
-    </div>
-
-   
-
-</div>
-    
-    @if ((string)Session["WithQuestion?"] == "Without") {
-        if ((string)Session["NoHomeWork"] == "1")
-        {
-
-    <form class="text-right" action="GotoSmartTextBox" method="post">
-
-
-        @if ((string)Session["notificationFlag"] == "true")
-        {
-            <div class="row">
-              <div class="col-sm-4 pull-left">
-                <div class=" col-sm-12" style="margin-bottom:10px">
-                    <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
-
-                    <input name="1" type="submit" value="המשך לשאלות" />
-                </div>
-                <div class="col-sm-12">
-                    <h5 style="color:red">קיימים שיעורי בית שעלייך להשלים בטקסט @Session["textName"]</h5>
-                </div>
-             </div>
-            </div>
-        }
-        else
-        {
-        <div class="row">
-            <div class="col-sm-4 pull-left">
-                <input name="1" type="submit" value="המשך לשאלות" />
-            </div>
-        </div>
-        }
-    </form>
-        }
-        else
-        {
-            <div class="row">
-                <div class="col-sm-4 pull-left">
-                    <h2>לסיפור זה אין שאלות</h2>
-                </div>
-            </div>
-                }
             }
+        </div>
+            
+    <div class="col-sm-9 pull-right">
+         
+             <div class="col-sm-12">
+                 <b><u><h2>@Session["textName"]</h2></u></b>
+             </div>
+             <div class="col-sm-12 col-sm-offset-1">
+                 <p class="col-md-10" id="textArea" style="border:none; background: transparent; overflow-y:auto; max-height:400px">
+                     @Session["TextContent"]
+                 </p>
 
+             </div>
+
+        @if ((string)Session["WithQuestion?"] == "Without")
+        {
+            if ((string)Session["NoHomeWork"] == "1")
+            {
+
+                <form class="text-right" action="GotoSmartTextBox" method="post">
+
+
+                    @if ((string)Session["notificationFlag"] == "true")
+                    {
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class=" col-sm-12" style="margin-bottom:10px">
+                                    <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
+
+                                    <input name="1" type="submit" value="המשך לשאלות" />
+                                </div>
+                                <div class="col-sm-12">
+                                    <h5 style="color:red">קיימים שיעורי בית שעלייך להשלים בטקסט @Session["textName"]</h5>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <input name="1" type="submit" value="המשך לשאלות" />
+                            </div>
+                        </div>
+                    }
+                </form>
+            }
             else
             {
-         <form class="text-right" action="ChooseAction" method="post">
-        <div class="row">
-            <div class="col-sm-3 col-sm-push-3">
-                <br />
-                <input name="submit" type = "submit" value="בחזרה לסיפור" />
+                <div class="row">
+                    <div class="col-sm-4 pull-left">
+                        <h2>לסיפור זה אין שאלות</h2>
+                    </div>
+                </div>
+            }
+        }
+
+        else
+        {
+            <form class="text-right" action="ChooseAction" method="post">
+                <div class="row">
+                    <div class="col-sm-3 col-sm-push-3">
+                        <br />
+                        <input name="submit" type="submit" value="בחזרה לסיפור" />
+                    </div>
+                </div>
+            </form>
+        }
+    <br />
+ 
+</div>
+
+        <div class="col-sm-2">
+
+            <div class="row">
+                <div class="col-sm-12 pull-left" style="max-height:720px;float:left;background-color:orange;border-radius: 25px;overflow-y:auto;overflow-x:hidden">
+                    <p>פירושי מילים:</p>
+
+                    <p><span>@Html.Raw(HttpUtility.HtmlDecode((string)Session["WordsDefs"]))</span></p>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 pull-right" style="margin-bottom:10px">
+                    <a href="http://xlimud.telem-hit.net/">
+                        <h3>למעבר למשחקים</h3>
+                        <img src="../../Backgrounds/gamesLink.png" style=" width:100%; height: auto;" class="ribbon" />
+                    </a>
+                </div>
             </div>
         </div>
-    </form>
-    } 
+            </div>
+     
 
-        <br /><br /><br /><br /><br /><br /><br />
+        </div>
 </body>
 
 <script>
