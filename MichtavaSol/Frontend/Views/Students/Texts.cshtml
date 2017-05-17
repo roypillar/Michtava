@@ -33,7 +33,7 @@
         footer {
             background-color: #555;
             color: white;
-            padding: 15px;
+            padding: 5px;
         }
 
 
@@ -43,13 +43,14 @@
 
         }
 
+
         h2 {
             font-weight: bold;
             font: 50px arial, sans-serif;
         }
 
         input[type='submit'] {
-            font-size: 32px;
+            font-size: 24px;
             background-color: darkorange;
             border-color: darkorange;
         }
@@ -81,16 +82,313 @@
 
 
         body {
-            // background-image: url("../../Backgrounds/background.jpg");
+            background-image: url("../../Backgrounds/background3.jpg");
             background-color: lightgoldenrodyellow;
             width: 100%;
             height: 100%;
             background-position: center;
-            background-size: 100% 100%;
+            background-size: cover;
             background-repeat: no-repeat;
+        }
+
+        body, html {
+            height: 100%;
+        }
+
+        /* remove outer padding */
+        .main .row {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        /*Remove rounded coners*/
+
+        nav.sidebar.navbar {
+            border-radius: 0px;
+        }
+
+        nav.sidebar, .main {
+            -webkit-transition: margin 200ms ease-out;
+            -moz-transition: margin 200ms ease-out;
+            -o-transition: margin 200ms ease-out;
+            transition: margin 200ms ease-out;
+        }
+
+        /* Add gap to nav and right windows.*/
+        .main {
+            padding: 10px 10px 0 10px;
+        }
+
+        /* .....NavBar: Icon only with coloring/layout.....*/
+
+        /*small/medium side display*/
+
+        /*Allow main to be next to Nav*/
+        .main {
+            position: absolute;
+            width: calc(100% - 40px); /*keeps 100% minus nav size*/
+            margin-left: 40px;
+            float: right;
+        }
+
+        /*lets nav bar to be showed on mouseover*/
+        nav.sidebar:hover + .main {
+            margin-left: 200px;
+        }
+
+        /*Center Brand*/
+        nav.sidebar.navbar.sidebar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+            margin-left: 0px;
+        }
+        /*Center Brand*/
+        nav.sidebar .navbar-brand, nav.sidebar .navbar-header {
+            text-align: center;
+            width: 100%;
+            margin-left: 0px;
+        }
+
+        /*Center Icons*/
+        nav.sidebar a {
+            padding-right: 13px;
+        }
+
+        /*adds border top to first nav box */
+        nav.sidebar .navbar-nav > li:first-child {
+            border-top: 1px #e5e5e5 solid;
+        }
+
+        /*adds border to bottom nav boxes*/
+        nav.sidebar .navbar-nav > li {
+            border-bottom: 1px #e5e5e5 solid;
+        }
+
+        /* Colors/style dropdown box*/
+        nav.sidebar .navbar-nav .open .dropdown-menu {
+            position: static;
+            float: none;
+            width: auto;
+            margin-top: 0;
+            background-color: transparent;
+            border: 0;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+
+        /*allows nav box to use 100% width*/
+        nav.sidebar .navbar-collapse, nav.sidebar .container-fluid {
+            padding: 0 0px 0 0px;
+        }
+
+        /*colors dropdown box text */
+        .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+            color: #777;
+        }
+
+        /*gives sidebar width/height*/
+        nav.sidebar {
+            width: 200px;
+            height: 100%;
+            margin-left: -160px;
+            float: left;
+            z-index: 8000;
+            margin-bottom: 0px;
+        }
+
+            /*give sidebar 100% width;*/
+            nav.sidebar li {
+                width: 100%;
+            }
+
+            /* Move nav to full on mouse over*/
+            nav.sidebar:hover {
+                margin-left: 0px;
+            }
+        /*for hiden things when navbar hidden*/
+        .forAnimate {
+            opacity: 0;
+        }
+
+        }
+
+        /* .....NavBar: Fully showing nav bar..... */
+
+
+        /*Allow main to be next to Nav*/
+        .main {
+            width: calc(100% - 200px); /*keeps 100% minus nav size*/
+            margin-left: 200px;
+        }
+
+        /*Show all nav*/
+        nav.sidebar {
+            margin-left: 0px;
+            float: left;
+        }
+            /*Show hidden items on nav*/
+            nav.sidebar .forAnimate {
+                opacity: 1;
+            }
+
+        }
+
+        nav.sidebar .navbar-nav .open .dropdown-menu > li > a:hover, nav.sidebar .navbar-nav .open .dropdown-menu > li > a:focus {
+            color: #CCC;
+            background-color: transparent;
+        }
+
+        nav:hover .forAnimate {
+            opacity: 1;
+        }
+
+        section {
+            padding-left: 15px;
         }
     </style>
 </head>
+
+<body dir="rtl">
+
+
+    <div class="row">
+
+        <nav class="navbar navbar-inverse sidebar pull-right" style="background-color:orange;border-radius:25px" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">בחר/י טקסט:</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+
+                        @foreach (var Text in Model.Texts)
+                        {
+                            if (Model.TextsIDList.Contains(Text.Id))
+                            {
+                                <li style="background-color:indianred">
+                                    <a href='@Url.Action("ChooseAction", "Students", new {textName = Text.Name })' style="font-size:medium">
+                                        <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
+                                        @Text.Name
+                                    </a>
+                                </li>
+
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href='@Url.Action("ChooseAction", "Students",  new {textName = Text.Name })' style="font-size:medium">
+                                        @Text.Name
+                                    </a>
+                                </li>
+
+                            }
+                           
+                        }
+                        <li>
+                            <a href="http://xlimud.telem-hit.net/" style="font-size:medium">מעבר למשחקים</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+
+        <div class="col-sm-4 pull-left" style="max-height:720px;float:left;background-color:antiquewhite;border-radius: 25px;overflow-y:auto;overflow-x:hidden">
+
+            <!-- Content Here -->
+            @if(TempData["HomeWorks"].ToString() == "true"){
+            <h3 style="margin-right:20px;">שיעורי בית ב @ViewBag.Title:</h3>
+            foreach (var content in Model.TextsTuple)
+            {
+                <hr>
+
+                <div style="border-radius: 25px;background-color:cornflowerblue;border: 2px solid #73AD21;background-image: url(../../Backgrounds/textBG.jpg" );>
+                    <h2>@content.Item3.Name</h2>
+                    <h5><span class="glyphicon glyphicon-time"></span>נוצר על ידי- @content.Item1 , תאריך אחרון להגשה - @content.Item2</h5>
+                    <h5><span class="label label-danger">text</span> <span class="label label-primary">Ipsum</span></h5><br>
+                    @if (content.Item3.Content.Count() > 150)
+                    {
+                        <p>@content.Item3.Content.Substring(0, 150);....</p>
+                    }
+                    else
+                    {
+                        <p>@content.Item3.Content</p>
+
+                    }
+                    <input class="pull-left" name="textName" type="submit" value="לסיפור" />
+
+                    <br><br>
+                </div>
+                <hr />
+                }
+            }
+            else
+            {
+                if (Model.TextsTuple.Count() != 0)
+                {
+                <h3 style="margin-right:20px;">אין שיעורי בית פעילים ב @ViewBag.Title:</h3>
+                <h3 style="margin-right:20px;">אך ישנם שיעורי בית במקצועות אחרים</h3>
+                    foreach (var content in Model.TextsTuple)
+                    {
+                        <hr>
+
+                        <div style="border-radius: 25px;background-color:cornflowerblue;border: 2px solid #73AD21;background-image: url(../../Backgrounds/textBG.jpg" );>
+                            <h2>@content.Item3.Name</h2>
+                            <h5><span class="glyphicon glyphicon-time"></span>נוצר על ידי- @content.Item1 , תאריך אחרון להגשה - @content.Item2</h5>
+                            <h5><span class="label label-danger">text</span> <span class="label label-primary">Ipsum</span></h5><br>
+                            @if (content.Item3.Content.Count() > 150)
+                            {
+                                <p>@content.Item3.Content.Substring(0, 150);....</p>
+                            }
+                            else
+                            {
+                                <p>@content.Item3.Content</p>
+
+                            }
+                            <input class="pull-left" name="textName" type="submit" value="לסיפור" />
+
+                            <br><br>
+                        </div>
+                        <hr />
+                    }
+                }
+                else
+                {
+                    <h3 style="margin-right:20px;">אין שיעורי בית פעילים</h3>
+
+                             <img src = "../../Backgrounds/noHomeworks.gif" class="ribbon" />
+
+                }
+            }
+
+        </div>
+
+        <div class="col-sm-3 col-sm-offset-1">
+            <img src="../../Backgrounds/homework.png" class="ribbon" />
+            <a href="http://xlimud.telem-hit.net/">
+                <h3>למעבר למשחקים לחץ\י</h3>
+                <img src="../../Backgrounds/gamesLink.png" style=" width:110%; height: auto;" class="ribbon" />
+            </a>
+        </div>
+
+
+    </div>
+</body>
+
+
+</html>
+
+
+<!--
+
 
 <body>
 
@@ -165,9 +463,8 @@
 
 </body>
 
+-->
 
-
-</html>
 
 
 <!--

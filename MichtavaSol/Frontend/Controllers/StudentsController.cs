@@ -146,7 +146,7 @@ namespace Frontend.Controllers
 
         public ActionResult ChooseSubSubject(string subjName)
         {
-            ViewBag.Title = "בחר טקסט";
+            ViewBag.Title = subjName;
             List<Text> texts = new List<Text>();
             List<Tuple<string, string, Text>> textTuple = new List<Tuple<string, string, Text>>();
 
@@ -169,6 +169,8 @@ namespace Frontend.Controllers
 
             if (student.Homeworks.Where(x=> x.Text.Subject_Id == tmpSubjectGuid).Count() != 0)
             {
+                TempData["HomeWorks"] = "true";
+
                 foreach (var hw in student.Homeworks)
                 {
                     if (texts.Contains(hw.Text))
@@ -182,13 +184,18 @@ namespace Frontend.Controllers
             }
             else
             {
-                foreach (var text in texts)
+
+                TempData["HomeWorks"] = "false";
+
+                foreach (var hw in student.Homeworks)
                 {
-                    Tuple<string, string, Text> t = new Tuple<string, string, Text>("טקסט עממי", text.UploadTime.ToString(), text);
+                    Tuple<string, string, Text> t = new Tuple<string, string, Text>(hw.Created_By.Name, hw.Deadline.ToString(), hw.Text);
                     textTuple.Add(t);
+
                 }
+
             }
-           
+
 
             TextsNotificationsViewModel model = new TextsNotificationsViewModel();
             model.Texts = texts;
@@ -234,6 +241,7 @@ namespace Frontend.Controllers
 
         public ActionResult ChooseAction(string textName)
         {
+            Session["textName"] = textName;
             string[] tmpStringArray = textName.Split(' ');
             if (tmpStringArray[0].Equals("לסיפור"))
             {

@@ -33,7 +33,7 @@
     footer {
       background-color: #555;
       color: white;
-      padding: 15px;
+      padding: 5px;
     }
 
 
@@ -79,12 +79,12 @@
 
 
         body {
-            background-image: url("../../Backgrounds/background.jpg");
+            background-image: url("../../Backgrounds/background3.jpg");
             background-color: lightgoldenrodyellow;
             width: 100%;
             height: 100%;
             background-position: center;
-            background-size: 100% 100%;
+            background-size: cover;
             background-repeat: no-repeat;
         }
             body,html{
@@ -237,15 +237,16 @@
 		padding-left: 15px;
 	}
 
-        homeworkImg {
-            background-image: url("../../Backgrounds/homeworkBackground.jpg");
-        }
+      
     </style>
 </head>
 
 <body dir="rtl" >
+    
+
     <div class="row">
-    <nav class="navbar navbar-inverse sidebar pull-right" style="background-color:orange" role="navigation">
+        
+    <nav class="navbar navbar-inverse sidebar pull-right" style="background-color:orange;border-radius:25px" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -255,7 +256,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">בחר מקצוע:</a>
+                <a class="navbar-brand" href="#">בחר/י מקצוע:</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
@@ -265,7 +266,7 @@
                     {
                         if (Model.subjectsIDList.Contains(subject.Id))
                         {
-                            <li>
+                            <li style="background-color:indianred">
                                 <a href='@Url.Action("ChooseSubSubject", "Students", new {subjName = subject.Name })' style="font-size:medium">
                                     <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
                                     @subject.Name
@@ -289,28 +290,57 @@
             </div>
         </div>
     </nav>
-      
-    <div class="col-sm-6 pull-left col-sm-offset-2">
+
+        
+        
+    <div  class="col-sm-4 pull-left" style="max-height:720px;float:left;background-color:antiquewhite;border-radius: 25px;overflow-y:auto;overflow-x:hidden">
 
         <!-- Content Here -->
-        <h2 style="text-align:center">שיעורי בית שעלייך לסיים:</h2>
-        @foreach (var content in Model.tmpTexts)
+       
+        @if (Model.tmpTexts.Count() != 0)
+        {
+        <h2 style="margin-right:20px;">שיעורי בית שעלייך לסיים:</h2>
+        foreach (var content in Model.tmpTexts)
         {
             <hr>
 
-            <div style="border-radius: 25px;background-color:cornflowerblue;border: 2px solid #73AD21;">
+            <div style="border-radius: 25px;background-color:cornflowerblue;border: 2px solid #73AD21;background-image: url(../../Backgrounds/textBG.jpg");>
                 <h2>@content.Item3.Name</h2>
                 <h5><span class="glyphicon glyphicon-time"></span>נוצר על ידי- @content.Item1 , תאריך אחרון להגשה - @content.Item2</h5>
                 <h5><span class="label label-danger">text</span> <span class="label label-primary">Ipsum</span></h5><br>
-                <p>@content.Item3.Content</p>
-                
+                @if (content.Item3.Content.Count() > 150)
+                {
+                <p>@content.Item3.Content.Substring(0, 150);....</p>
+                }
+                else
+                {
+                    <p>@content.Item3.Content</p>
+
+                }
                     <input class="pull-left" name="subjName" type="submit" value="לסיפור" />
                 
                 <br><br>
             </div>
                             <hr />
         }
+        }
+        else
+        {
+            <h3 style="margin-right:20px;">אין שיעורי בית פעילים</h3>
+
+            <img src="../../Backgrounds/noHomeworks.gif" class="ribbon" />
+        }
     </div>
+        
+        <div class="col-sm-3 col-sm-offset-1">
+            <img src="../../Backgrounds/homework.png" class="ribbon" />
+            <a href="http://xlimud.telem-hit.net/">
+                <h3>למעבר למשחקים לחץ\י</h3>
+                <img src="../../Backgrounds/gamesLink.png" style=" width:110%; height: auto;" class="ribbon" />
+            </a>
+        </div>  
+
+       
         </div>
         </body>
 
