@@ -6,9 +6,16 @@
 <br /><br /><br />
 <head>
     <style>
+
+
         h2 {
             font-weight: bold;
             font: 50px arial, sans-serif;
+            color: black;
+        }
+
+        h3{
+            color:black;
         }
 
         input[type='submit'] {
@@ -60,36 +67,44 @@
         }
 
         body {
-            background-image: url("../../Backgrounds/textBG.jpg");
+            background-image: url("../../Backgrounds/textBackground.jpg");
             width: 100%;
             height: 100%;
             background-position: center;
             background-size: 100% 100%;
             background-repeat: repeat;
         }
+
+
+        label > input { /* HIDE RADIO */
+            visibility: hidden; /* Makes input not-clickable */
+            position: absolute; /* Remove input from document flow */
+        }
+
+            label > input + img { /* IMAGE STYLES */
+                cursor: pointer;
+                border: 2px solid transparent;
+            }
+
+            label > input:checked + img { /* (RADIO CHECKED) IMAGE STYLES */
+                border: 2px solid #f00;
+            }
     </style>
 </head>
 
 <body>
+    
+
+
     <div class="container-fluid">
+        
+        
 
         <div class="row">
 
             <div class="col-sm-1 pull-right">
-            <div>
-                <select class="styled-select" onchange="changeTextFont()" id="TextfontSize">
-                    <option>בחר גודל כתב</option>
-                    <option value="11pt">11</option>
-                    <option value="12pt">12</option>
-                    <option value="14pt">14</option>
-                    <option value="16pt">16</option>
-                    <option value="18pt">18</option>
-                    <option value="20pt">20</option>
-                    <option value="24pt">24</option>
-                    <option value="28pt">28</option>
-                    <option value="32pt">32</option>
-                </select>
-            </div>
+                    
+             
 
             @if ((string)Session["WithQuestion?"] == "Without")
             {
@@ -110,12 +125,14 @@
              <div class="col-sm-12">
                  <b><u><h2>@Session["textName"]</h2></u></b>
              </div>
-             <div class="col-sm-12 col-sm-offset-1">
-                 <p class="col-md-10" id="textArea" style="border:none; background: transparent; overflow-y:auto; max-height:400px">
+             <div class="col-sm-12 col-sm-offset-1" style="height:240px;">
+                 <p class="col-md-10 p" id="textArea" style="border:none; background: transparent; overflow-y:auto; max-height:240px">
                      @Session["TextContent"]
                  </p>
-
              </div>
+       
+            
+        
 
         @if ((string)Session["WithQuestion?"] == "Without")
         {
@@ -138,6 +155,38 @@
                                     <h5 style="color:red">קיימים שיעורי בית שעלייך להשלים בטקסט @Session["textName"]</h5>
                                 </div>
                             </div>
+
+                            <div class="col-sm-3">
+                                <div class="col-sm-2">
+                                    <label>
+                                        <input type="radio" name="fontsize" value="12pt" onclick="changeTextFont(this);" />
+                                        <img src="~/Backgrounds/alef.png" width="18" height="18">
+                                    </label>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label>
+                                        <input type="radio" name="fontsize" value="18pt" onclick="changeTextFont(this);" />
+                                        <img src="~/Backgrounds/alef.png" width="24" height="24">
+                                    </label>
+                                </div>
+
+
+                                <div class="col-sm-2">
+                                    <label>
+                                        <input type="radio" name="fontsize" value="24pt" onclick="changeTextFont(this);" />
+                                        <img src="~/Backgrounds/alef.png" width="30" height="30">
+                                    </label>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label>
+                                        <input type="radio" name="fontsize" value="28pt" onclick="changeTextFont(this);" />
+                                        <img src="~/Backgrounds/alef.png" width="36" height="36">
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
                     }
                     else
@@ -146,6 +195,38 @@
                             <div class="col-sm-4">
                                 <input name="1" type="submit" value="המשך לשאלות" />
                             </div>
+
+                            <div class="col-sm-3">
+                                <div class="col-sm-2">
+                                    <label>
+                                        <input type="radio" name="fontsize" value="12pt" onclick="changeTextFont(this);" />
+                                        <img src="~/Backgrounds/alef.png" width="18" height="18">
+                                    </label>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label>
+                                        <input type="radio" name="fontsize" value="18pt" onclick="changeTextFont(this);" />
+                                        <img src="~/Backgrounds/alef.png" width="24" height="24">
+                                    </label>
+                                </div>
+
+
+                                <div class="col-sm-2">
+                                    <label>
+                                        <input type="radio" name="fontsize" value="24pt" onclick="changeTextFont(this);" />
+                                        <img src="~/Backgrounds/alef.png" width="30" height="30">
+                                    </label>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label>
+                                        <input type="radio" name="fontsize" value="28pt" onclick="changeTextFont(this);" />
+                                        <img src="~/Backgrounds/alef.png" width="36" height="36">
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
                     }
                 </form>
@@ -156,6 +237,38 @@
                     <div class="col-sm-4 pull-left">
                         <h2>לסיפור זה אין שאלות</h2>
                     </div>
+
+                    <div class="col-sm-3">
+                        <div class="col-sm-2">
+                            <label>
+                                <input type="radio" name="fontsize" value="12pt" onclick="changeTextFont(this);" />
+                                <img src="~/Backgrounds/alef.png" width="18" height="18">
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label>
+                                <input type="radio" name="fontsize" value="18pt" onclick="changeTextFont(this);" />
+                                <img src="~/Backgrounds/alef.png" width="24" height="24">
+                            </label>
+                        </div>
+
+
+                        <div class="col-sm-2">
+                            <label>
+                                <input type="radio" name="fontsize" value="24pt" onclick="changeTextFont(this);" />
+                                <img src="~/Backgrounds/alef.png" width="30" height="30">
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label>
+                                <input type="radio" name="fontsize" value="28pt" onclick="changeTextFont(this);" />
+                                <img src="~/Backgrounds/alef.png" width="36" height="36">
+                            </label>
+                        </div>
+                    </div>
+
                 </div>
             }
         }
@@ -168,14 +281,48 @@
                         <br />
                         <input name="submit" type="submit" value="בחזרה לסיפור" />
                     </div>
+                  
+                    <div class="col-sm-3">
+                        <div class="col-sm-2">
+                            <label>
+                                <input type="radio" name="fontsize" value="12pt" onclick="changeTextFont(this);" />
+                                <img src="~/Backgrounds/alef.png" width="18" height="18">
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label>
+                                <input type="radio" name="fontsize" value="18pt" onclick="changeTextFont(this);" />
+                                <img src="~/Backgrounds/alef.png" width="24" height="24">
+                            </label>
+                        </div>
+
+
+                        <div class="col-sm-2">
+                            <label>
+                                <input type="radio" name="fontsize" value="24pt" onclick="changeTextFont(this);" />
+                                <img src="~/Backgrounds/alef.png" width="30" height="30">
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label>
+                                <input type="radio" name="fontsize" value="28pt" onclick="changeTextFont(this);" />
+                                <img src="~/Backgrounds/alef.png" width="36" height="36">
+                            </label>
+                        </div>
+                    </div>
+
                 </div>
             </form>
         }
     <br />
- 
+        
 </div>
 
         <div class="col-sm-2">
+
+            
 
             <div class="row">
                 <div class="col-sm-12 pull-left" style="max-height:720px;float:left;background-color:orange;border-radius: 25px;overflow-y:auto;overflow-x:hidden">
@@ -186,6 +333,7 @@
                 </div>
             </div>
 
+   
             <div class="row">
                 <div class="col-sm-12 pull-right" style="margin-bottom:10px">
                     <a href="http://xlimud.telem-hit.net/">
@@ -194,6 +342,7 @@
                     </a>
                 </div>
             </div>
+    
         </div>
             </div>
      
@@ -218,8 +367,38 @@
     });
     */
 
-    
 
+    function changeTextFont(myRadio) {
+
+        var wordsDefs = '<%= Session["WordsDefs"] %>';
+        wordsDefs.toString;
+
+        //words defs? how to pull it?
+
+
+        var selectedValue = myRadio.value;
+        var tAreaList = document.querySelectorAll(".p");
+
+
+        for (var i = 0; i < tAreaList.length; i++) {
+
+            tAreaList[i].style.fontSize = selectedValue;
+        }
+
+
+        var dvWords = $("#textArea").html().split(' ');
+        var dvHTML = ''
+        for (i = 0; i < dvWords.length; i++) {
+            if (dvWords[i].toLowerCase() == 'שנים') {
+                dvHTML += ' ' + '<strong> <abbr title="הסבר על מילה">' + dvWords[i] + '</abbr > </strong>';
+            }
+            else {
+                dvHTML += ' ' + dvWords[i];
+            }
+        }
+        $("#textArea").html(dvHTML);
+    }
+/*
     function changeTextFont() {
 
 
@@ -245,7 +424,829 @@
 
     }
 
-
-    f
+    */
+    
 
 </script>
+   
+
+
+<!--
+
+<!DOCTYPE html>
+<html lang="en" class="no-js demo-3">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookBlock: A Content Flip Plugin - Demo 3</title>
+    <meta name="description" content="Bookblock: A Content Flip Plugin - Demo 3" />
+    <meta name="keywords" content="javascript, jquery, plugin, css3, flip, page, 3d, booklet, book, perspective" />
+    <meta name="author" content="Codrops" />
+    <link rel="shortcut icon" href="../favicon.ico">
+
+    <script src="../../Scripts/modernizr.custom.js"></script>
+    <style>
+        body {
+            background-image: url("../../Backgrounds/table.jpg");
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: 100% 100%;
+            background-repeat: repeat;
+        }
+
+
+        .bb-bookblock {
+            width: 800px;
+            height: 565px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 100;
+            -webkit-perspective: 1300px;
+            perspective: 1300px;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .bb-page {
+            position: absolute;
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            -webkit-transition-property: -webkit-transform;
+            transition-property: transform;
+        }
+
+        .bb-vertical .bb-page {
+            width: 50%;
+            height: 100%;
+            left: 50%;
+            -webkit-transform-origin: left center;
+            transform-origin: left center;
+        }
+
+        .bb-horizontal .bb-page {
+            width: 100%;
+            height: 50%;
+            top: 50%;
+            -webkit-transform-origin: center top;
+            transform-origin: center top;
+        }
+
+        .bb-page > div,
+        .bb-outer,
+        .bb-content,
+        .bb-inner {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .bb-vertical .bb-content {
+            width: 200%;
+        }
+
+        .bb-horizontal .bb-content {
+            height: 200%;
+        }
+
+        .bb-page > div {
+            width: 100%;
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+
+        .bb-vertical .bb-back {
+            -webkit-transform: rotateY(-180deg);
+            transform: rotateY(-180deg);
+        }
+
+        .bb-horizontal .bb-back {
+            -webkit-transform: rotateX(-180deg);
+            transform: rotateX(-180deg);
+        }
+
+        .bb-outer {
+            width: 100%;
+            overflow: hidden;
+            z-index: 999;
+        }
+
+        .bb-overlay,
+        .bb-flipoverlay {
+            background-color: rgba(0, 0, 0, 0.7);
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        .bb-flipoverlay {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .bb-bookblock.bb-vertical > div.bb-page:first-child,
+        .bb-bookblock.bb-vertical > div.bb-page:first-child .bb-back {
+            -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+        }
+
+        .bb-bookblock.bb-horizontal > div.bb-page:first-child,
+        .bb-bookblock.bb-horizontal > div.bb-page:first-child .bb-back {
+            -webkit-transform: rotateX(180deg);
+            transform: rotateX(180deg);
+        }
+
+        /* Content display */
+        .bb-content {
+            background: #fff;
+        }
+
+        .bb-vertical .bb-front .bb-content {
+            left: -100%;
+        }
+
+        .bb-horizontal .bb-front .bb-content {
+            top: -100%;
+        }
+
+        /* Flipping classes */
+        .bb-vertical .bb-flip-next,
+        .bb-vertical .bb-flip-initial {
+            -webkit-transform: rotateY(-180deg);
+            transform: rotateY(-180deg);
+        }
+
+        .bb-vertical .bb-flip-prev {
+            -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+        }
+
+        .bb-horizontal .bb-flip-next,
+        .bb-horizontal .bb-flip-initial {
+            -webkit-transform: rotateX(180deg);
+            transform: rotateX(180deg);
+        }
+
+        .bb-horizontal .bb-flip-prev {
+            -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+        }
+
+        .bb-vertical .bb-flip-next-end {
+            -webkit-transform: rotateY(-15deg);
+            transform: rotateY(-15deg);
+        }
+
+        .bb-vertical .bb-flip-prev-end {
+            -webkit-transform: rotateY(-165deg);
+            transform: rotateY(-165deg);
+        }
+
+        .bb-horizontal .bb-flip-next-end {
+            -webkit-transform: rotateX(15deg);
+            transform: rotateX(15deg);
+        }
+
+        .bb-horizontal .bb-flip-prev-end {
+            -webkit-transform: rotateX(165deg);
+            transform: rotateX(165deg);
+        }
+
+        .bb-item {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            background: #fff;
+        }
+
+        /* No JS */
+        .no-js .bb-bookblock,
+        .no-js ul.bb-custom-grid li {
+            width: auto;
+            height: auto;
+        }
+
+        .no-js .bb-item {
+            display: block;
+            position: relative;
+        }
+/* General Demo Style */
+
+
+
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+body, html { font-size: 100%; padding: 0; margin: 0; height: 100%;}
+
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+
+body {
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+
+}
+
+a {
+    color: #555;
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover,
+a:active {
+    color: #777;
+}
+
+a img {
+    border: none;
+}
+
+/* Header Style */
+.main,
+.container > header {
+    margin: 0 auto;
+    padding: 2em;
+}
+
+.container {
+    height: 100%;
+}
+
+.container > header {
+    text-align: center;
+    background: rgba(0,0,0,0.01);
+}
+
+.container > header h1 {
+    font-size: 2.625em;
+    line-height: 1.3;
+    margin: 0;
+    font-weight: 300;
+}
+
+.container > header span {
+    display: block;
+    font-size: 60%;
+    opacity: 0.3;
+    padding: 0 0 0.6em 0.1em;
+}
+
+/* Main Content */
+.main {
+    max-width: 69em;
+}
+
+.column {
+    float: left;
+    width: 50%;
+    padding: 0 2em;
+    min-height: 300px;
+    position: relative;
+}
+
+.column:nth-child(2) {
+    box-shadow: -1px 0 0 rgba(0,0,0,0.1);
+}
+
+.column p {
+    font-weight: 300;
+    font-size: 2em;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+    line-height: 1.5;
+}
+
+/* To Navigation Style */
+.codrops-top {
+    background: #fff;
+    background: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    width: 100%;
+    font-size: 0.69em;
+    line-height: 2.2;
+}
+
+.codrops-top a {
+    padding: 0 1em;
+    letter-spacing: 0.1em;
+    color: #888;
+    display: inline-block;
+}
+
+.codrops-top a:hover {
+    background: rgba(255,255,255,0.95);
+    color: #333;
+}
+
+.codrops-top span.right {
+    float: right;
+}
+
+.codrops-top span.right a {
+    float: left;
+    display: block;
+}
+
+.codrops-icon:before {
+    font-family: 'codropsicons';
+    margin: 0 4px;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+.codrops-icon-drop:before {
+    content: "\e001";
+}
+
+.codrops-icon-prev:before {
+    content: "\e004";
+}
+
+.codrops-icon-archive:before {
+    content: "\e002";
+}
+
+.codrops-icon-next:before {
+    content: "\e000";
+}
+
+.codrops-icon-about:before {
+    content: "\e003";
+}
+
+/* Demo Buttons Style */
+.codrops-demos {
+    padding-top: 1em;
+    font-size: 0.9em;
+}
+
+.codrops-demos a {
+    display: inline-block;
+    margin: 0.2em;
+    padding: 0.45em 1em;
+    background: #999;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 2px;
+}
+
+.codrops-demos a:hover,
+.codrops-demos a.current-demo,
+.codrops-demos a.current-demo:hover {
+    opacity: 0.6;
+}
+
+.codrops-nav {
+    text-align: center;
+}
+
+.codrops-nav a {
+    display: inline-block;
+    margin: 20px auto;
+    padding: 0.3em;
+}
+
+/* Demo Styles */
+
+.demo-1 body {
+    color: #87968e;
+    background: #fff2e3;
+}
+
+.demo-1 a {
+    color: #72b890;
+}
+
+.demo-1 .codrops-demos a {
+    background: #72b890;
+    color: #fff;
+}
+
+.demo-2 body {
+    color: #fff;
+    background: #c05d8e;
+}
+
+.demo-2 a {
+    color: #d38daf;
+}
+
+.demo-2 a:hover,
+.demo-2 a:active {
+    color: #fff;
+}
+
+.demo-2 .codrops-demos a {
+    background: #883b61;
+    color: #fff;
+}
+
+.demo-2 .codrops-top a:hover {
+    background: rgba(255,255,255,0.3);
+    color: #333;
+}
+
+.demo-3 body {
+    color: #87968e;
+    background: #fff2e3;
+}
+
+.demo-3 a {
+    color: #ea5381;
+}
+
+.demo-3 .codrops-demos a {
+    background: #ea5381;
+    color: #fff;
+}
+
+.demo-4 body {
+    color: #999;
+    background: #fff2e3;
+    overflow: hidden;
+}
+
+.demo-4 a {
+    color: #1baede;
+}
+
+.demo-4 a:hover,
+.demo-4 a:active {
+    opacity: 0.6;
+}
+
+.demo-4 .codrops-demos a {
+    background: #1baede;
+    color: #fff;
+}
+
+.demo-5 body {
+    background: #fffbd6;
+}
+
+
+media screen and (max-width: 46.0625em) {
+    .column {
+        width: 100%;
+        min-width: auto;
+        min-height: auto;
+        padding: 1em;
+    }
+
+    .column p {
+        text-align: left;
+        font-size: 1.5em;
+    }
+
+    .column:nth-child(2) {
+        box-shadow: 0 -1px 0 rgba(0,0,0,0.1);
+    }
+}
+
+media screen and (max-width: 25em) {
+
+    .codrops-icon span {
+        display: none;
+    }
+
+}
+
+        .bb-custom-wrapper {
+            width: 880px;
+            position: relative;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+
+            .bb-custom-wrapper .bb-bookblock {
+                width: 800px;
+                height: 565px;
+                box-shadow: 0 12px 20px -10px rgba(81,64,49,0.6);
+            }
+
+        .bb-custom-img {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .bb-custom-wrapper h3 {
+            font-size: 1.4em;
+            font-weight: 300;
+            margin: 0.4em 0 1em;
+        }
+
+        .bb-custom-wrapper nav {
+            width: 100%;
+            height: 30px;
+            margin: 1em auto 0;
+            position: relative;
+            z-index: 0;
+            text-align: center;
+        }
+
+            .bb-custom-wrapper nav a {
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                text-align: center;
+                border-radius: 2px;
+                background: #883b61;
+                color: #fff;
+                font-size: 0;
+                margin: 2px;
+            }
+
+                .bb-custom-wrapper nav a:hover {
+                    opacity: 0.6;
+                }
+
+        .bb-custom-icon:before {
+            font-family: 'arrows';
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            font-size: 20px;
+            line-height: 30px;
+            display: block;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .bb-custom-icon-first:before,
+        .bb-custom-icon-last:before {
+            content: "\e002";
+        }
+
+        .bb-custom-icon-arrow-left:before,
+        .bb-custom-icon-arrow-right:before {
+            content: "\e003";
+        }
+
+        .bb-custom-icon-arrow-left:before,
+        .bb-custom-icon-first:before {
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        /* No JS */
+        .no-js .bb-custom-wrapper {
+            height: auto;
+        }
+
+        .no-js .bb-custom-content {
+            height: 470px;
+        }
+
+        label > input { /* HIDE RADIO */
+            visibility: hidden; /* Makes input not-clickable */
+            position: absolute; /* Remove input from document flow */
+        }
+
+            label > input + img { /* IMAGE STYLES */
+                cursor: pointer;
+                border: 2px solid transparent;
+            }
+
+            label > input:checked + img { /* (RADIO CHECKED) IMAGE STYLES */
+                border: 2px solid #f00;
+            }
+
+    </style>
+</head>
+<body>
+
+
+
+
+    <div class="container">
+        <div class="row">
+        <div class="col-sm-2 pull-left">
+            <div class="row">
+                שנה גודל כתב
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label>
+                        <input type="radio" name="fontsize" value="24pt" onclick="changeTextFont(this);" style="vertical-align:middle" />
+                        <img src="~/Backgrounds/alef.png" width="40" height="40" style="vertical-align:middle">
+                    </label>
+                </div>
+                <div class="col-sm-4">
+                    <label>
+                        <input type="radio" name="fontsize" value="18pt" onclick="changeTextFont(this);" style="vertical-align:middle" />
+                        <img src="~/Backgrounds/alef.png" width="30" height="30" style="vertical-align:middle">
+                    </label>
+                </div>
+                <div class="col-sm-4">
+                    <label>
+                        <input type="radio" name="fontsize" value="12pt" onclick="changeTextFont(this);" style="vertical-align:middle" />
+                        <img src="~/Backgrounds/alef.png" width="20" height="20" style="vertical-align:middle">
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-5 col-sm-offset-1">
+            <b><u><h3>@Session["textName"]</h3></u></b>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-sm-1" style="vertical-align:middle">
+                <br /><br /><br /><br /><br /><br /><br /><br /><br />
+                <nav>
+                    <a id="bb-nav-next" href="#" class="bb-custom-icon bb-custom-icon-arrow-left">Next</a>
+                    <a id="bb-nav-last" href="#" class="bb-custom-icon bb-custom-icon-first">First page</a>
+                </nav>
+            </div>
+
+
+            <div class="main clearfix col-sm-10">
+                <div class="bb-custom-wrapper">
+
+                    <div id="bb-bookblock" class="bb-bookblock">
+
+                        <div class="bb-item" style="background-image:url(../../Backgrounds/bookImage.png); background-size:cover;">
+
+                            <div class="col-sm-6 ">
+                                <br />
+                                <p class="col-md-10 p" id="textArea" name="textArea" style="border:none; background: transparent;overflow-y:auto; max-height:450px;color:black;text-align:center">
+                                    @Session["TextContent"]
+                                </p>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <br />
+                                <p class="col-md-10 p" id="textArea" name="textArea" style="border:none; background: transparent;overflow-y:auto; max-height:450px ;color:black;vertical-align:middle">
+                                    @Session["TextContent"]
+                                </p>
+
+                            </div>
+
+                        </div>
+                        <div class="bb-item" style="background-image:url(../../Backgrounds/bookImage.png); background-size:cover;">
+                            <div class="col-sm-6 col-sm-offset-1">
+                                <br />
+                                <p class="col-md-10 p" id="textArea" name="textArea" style="border:none; background: transparent; overflow-y:auto; max-height:400px;color:black;vertical-align:middle">
+                                    @Session["TextContent"]
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <p>Illustrations by <a href="http://dribbble.com/kevinhowdeshell">Kevin Howdeshell</a></p>
+
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <br /><br /><br /><br /><br /><br /><br /><br /><br />
+                <nav>
+                    <a id="bb-nav-first" href="#" class="bb-custom-icon bb-custom-icon-last">Last page</a>
+                    <a id="bb-nav-prev" href="#" class="bb-custom-icon bb-custom-icon-arrow-right">Previous</a>
+                </nav>
+            </div>
+        </div>
+        </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="../../Scripts/jquerypp.custom.js"></script>
+    <script src="../../Scripts/jquery.bookblock.js"></script>
+    <script>
+        var Page = (function () {
+
+            var config = {
+                $bookBlock: $('#bb-bookblock'),
+                $navNext: $('#bb-nav-next'),
+                $navPrev: $('#bb-nav-prev'),
+                $navFirst: $('#bb-nav-first'),
+                $navLast: $('#bb-nav-last')
+            },
+                init = function () {
+                    config.$bookBlock.bookblock({
+                        speed: 800,
+                        direction: 'rtl',
+                        shadowSides: 0.8,
+                        shadowFlip: 0.7
+                    });
+                    initEvents();
+                },
+                initEvents = function () {
+
+                    var $slides = config.$bookBlock.children();
+
+                    // add navigation events
+                    config.$navNext.on('click touchstart', function () {
+                        config.$bookBlock.bookblock('next');
+                        return false;
+                    });
+
+                    config.$navPrev.on('click touchstart', function () {
+                        config.$bookBlock.bookblock('prev');
+                        return false;
+                    });
+
+                    config.$navFirst.on('click touchstart', function () {
+                        config.$bookBlock.bookblock('first');
+                        return false;
+                    });
+
+                    config.$navLast.on('click touchstart', function () {
+                        config.$bookBlock.bookblock('last');
+                        return false;
+                    });
+
+                    // add swipe events
+                    $slides.on({
+                        'swipeleft': function (event) {
+                            config.$bookBlock.bookblock('prev');
+                            return false;
+                        },
+                        'swiperight': function (event) {
+                            config.$bookBlock.bookblock('next');
+                            return false;
+                        }
+                    });
+
+                    // add keyboard events
+                    $(document).keydown(function (e) {
+                        var keyCode = e.keyCode || e.which,
+                            arrow = {
+                                left: 37,
+                                up: 38,
+                                right: 39,
+                                down: 40
+                            };
+
+                        switch (keyCode) {
+                            case arrow.left:
+                                config.$bookBlock.bookblock('next');
+                                break;
+                            case arrow.right:
+                                config.$bookBlock.bookblock('prev');
+                                break;
+                        }
+                    });
+                };
+
+            return { init: init };
+
+        })();
+
+        function changeTextFont(myRadio) {
+
+            var wordsDefs = '<%= Session["WordsDefs"] %>';
+            wordsDefs.toString;
+
+            //words defs? how to pull it?
+
+
+            var selectedValue = myRadio.value;
+            var tAreaList = document.querySelectorAll(".p");
+
+
+            for (var i = 0; i < tAreaList.length; i++) {
+
+                tAreaList[i].style.fontSize = selectedValue;
+            }
+
+
+            var dvWords = $("#textArea").html().split(' ');
+            var dvHTML = ''
+            for (i = 0; i < dvWords.length; i++) {
+                if (dvWords[i].toLowerCase() == 'שנים') {
+                    dvHTML += ' ' + '<strong> <abbr title="הסבר על מילה">' + dvWords[i] + '</abbr > </strong>';
+                }
+                else {
+                    dvHTML += ' ' + dvWords[i];
+                }
+            }
+            $("#textArea").html(dvHTML);
+        }
+    </script>
+    <script>
+        Page.init();
+    </script>
+
+</body>
+</html>
+-->

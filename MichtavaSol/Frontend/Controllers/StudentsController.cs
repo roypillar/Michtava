@@ -268,6 +268,7 @@ namespace Frontend.Controllers
 
             Session["title"] = textName;
 
+
            // switch (submit)
            // {
               //  case "לסיפור":
@@ -275,7 +276,6 @@ namespace Frontend.Controllers
 
             Session["TextContent"] = _textService.All().Where(x => x.Name == textName).FirstOrDefault().Content;
                     //init words definition
-            Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
             string tmpName = (string)Session["title"];
             string userid = User.Identity.GetUserId();
 
@@ -295,10 +295,13 @@ namespace Frontend.Controllers
             List<Homework> AllStudentHW = _homeworkService.All().Where(x => x.Text.Id == textGuid).ToList();
             /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
 
-
+            Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
 
             Homework hw = AllStudentHW.First();
 
+            StudentTextViewModel model = new StudentTextViewModel();
+            model.text = _textService.GetById(textGuid);
+            model.TextsTuple = getTextToList(_textService.GetById(textGuid).Content);
 
             if (hw.Text_Id == textGuid)
             {
@@ -313,6 +316,7 @@ namespace Frontend.Controllers
         
         }
 
+       
 
         public ActionResult GotoSmartTextBox(string questionNumber)
         {
@@ -789,13 +793,76 @@ namespace Frontend.Controllers
             return wordsDefs;
         }
 
+        private List<Tuple<string, string>> getTextToList(string content)
+        {
+            List<Tuple<string, string>> list = new List<Tuple<string, string>>();
+
+           // int NumOfChars = content.Length;
+
+            string[] tokens = content.Split(' ', '.', ',', '-', '?', '!', '<', '>', '&', '[', ']', '(', ')');
+            char[] charsList = { ' ', '.', ',', '-', '?', '!', '<', '>', '&', '[', ']', '(', ')' };
+
+            string rightPage = "";
+            string leftPage = "";
+            
+            for (int i = 0; i < tokens.Length; i++)
+            {
+
+                if(rightPage.Length >= 120 && leftPage.Length >= 120)
+                {
+                    list.Add(new Tuple<string, string>(rightPage, leftPage));
+                    rightPage = "";
+                    leftPage = "";
+                }
+                else
+                {
+                    if(rightPage.Length < 120)
+                    {
+                        if (charsList.Contains(tokens[i].ToCharArray().FirstOrDefault()))
+                        {
+                            rightPage = rightPage + tokens[i];
+                        }
+                        else
+                        {
+                            rightPage = rightPage + " " + tokens[i];
+                        }
+                    }
+                    else
+                    {
+                        if (charsList.Contains(tokens[i].ToCharArray().FirstOrDefault()))
+                        {
+                            leftPage = leftPage + tokens[i];
+                        }
+                        else
+                        {
+                            leftPage = leftPage + " " + tokens[i];
+                        }
+                    }
+                }
+
+            }
+
+            if(leftPage.Length == 0)
+            {
+                leftPage = "הסוף";
+                list.Add(new Tuple<string, string>(rightPage, leftPage));
+                return list;
+            }
+
+            list.Add(new Tuple<string, string>(rightPage, leftPage));
+            list.Add(new Tuple<string, string>("הסוף", ""));
+
+
+            return list;
+
+        }
 
 
         /// <summary>
         /// you don't need this anymore, all the data is seeded to the DB.
         /// </summary>
-       
-        
-       
+
+
+
     }
 }
