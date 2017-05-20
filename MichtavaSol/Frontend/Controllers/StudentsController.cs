@@ -267,16 +267,8 @@ namespace Frontend.Controllers
             }
 
             Session["title"] = textName;
-
-
-           // switch (submit)
-           // {
-              //  case "לסיפור":
             Session["WithQuestion?"] = "Without";
-
             Session["TextContent"] = _textService.All().Where(x => x.Name == textName).FirstOrDefault().Content;
-                    //init words definition
-            string tmpName = (string)Session["title"];
             string userid = User.Identity.GetUserId();
 
             foreach (var std in _studentService.All().Include(x => x.Homeworks))
@@ -287,23 +279,22 @@ namespace Frontend.Controllers
                     break;
                 }
             }
-            //todo- check if first == "לסיפור"
-           
-            textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
 
-            /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
-            List<Homework> AllStudentHW = _homeworkService.All().Where(x => x.Text.Id == textGuid).ToList();
-            /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
+            Text text = _textService.All().Where(x => x.Name == textName).FirstOrDefault();
+            foreach (var hw in student.Homeworks)
+            {
+                if (hw.Text_Id == text.Id)
+                {
+                    Session["notificationFlag"] = "true";
+                }
+            }
 
-            Session["WordsDefs"] = getWordDefinitionsForText(_fileManager.GetText(text.FilePath));
-
-            Homework hw = AllStudentHW.First();
-
-            StudentTextViewModel model = new StudentTextViewModel();
-            model.text = _textService.GetById(textGuid);
-            model.TextsTuple = getTextToList(_textService.GetById(textGuid).Content);
-
-            if (hw.Text_Id == textGuid)
+            //take care the flags that go to text view, ui for questions, set background to corrrect with flags..
+            
+            Homework tmphw = _homeworkService.All().Where(x => x.Text.Id == text.Id).ToList().FirstOrDefault();
+            Session["WordsDefs"] = getWordDefinitionsForText(text.Content);
+        
+            if (tmphw != null && tmphw.Text_Id == text.Id)
             {
                 Session["NoHomeWork"] = "1";
                 return View("TextView");
