@@ -19,6 +19,7 @@ namespace Frontend.Controllers
         private readonly IStudentService _studentService;
         private readonly ITeacherService _teacherService;
         private readonly IHomeworkService _homeworkService;
+        private readonly IAnswerService _answerService;
 
         private readonly IFileManager _fileManager = new FileManager();
 
@@ -28,7 +29,7 @@ namespace Frontend.Controllers
 
         public TeachersController(ISubjectService subjectService, ITextService textService,
             ISchoolClassService classService, IStudentService studentService, IHomeworkService homeworkService,
-            ITeacherService teacherService)
+            ITeacherService teacherService, IAnswerService answerService)
         {
             _subjectService = subjectService;
             _textService = textService;
@@ -36,6 +37,7 @@ namespace Frontend.Controllers
             _studentService = studentService;
             _homeworkService = homeworkService;
             _teacherService = teacherService;
+            _answerService = answerService;
         }
 
         // GET: Teachers
@@ -461,6 +463,24 @@ namespace Frontend.Controllers
             InitializeStudentView(GetStudent(student));
 
             return View("StudentView");
+        }
+
+        public ActionResult NavigateToAnswersView()
+        {
+            InitializeAnswers();
+
+            return View("AnswersView");
+        }
+
+        private void InitializeAnswers()
+        {
+            foreach (var answer in _answerService.All())
+            {
+                if (answer.Answer_To != null && answer.Answer_To.Deadline <= DateTime.Now && string.IsNullOrEmpty(answer.TeacherFeedback))
+                {
+                    TempData[answer.Student_Id + "_hw"] = _studentService.GetById(answer.Student_Id) + answer.Answer_To.Title;
+                }
+            }
         }
     }
 }
