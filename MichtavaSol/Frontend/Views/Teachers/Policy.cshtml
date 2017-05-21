@@ -202,9 +202,13 @@
         <br />
         <div class="row">
             <div class="col-sm-10 pull-right">
-                @*<form class="col-xs-12" action="SubmitHomework" method="post">*@
-                    <input type="submit" value="הוספת שיעורי הבית" style="background-color: forestgreen" id="HomeworkSubmit" name="Submit" />
-                @*</form>*@
+                <label for="submittionDate">הכנס/י תאריך הגשה של שיעורי הבית</label>
+                <input type="date" id="submissionDate" name="submissionDate" value="" min="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 pull-right">
+                <input type="submit" value="הוספת שיעורי הבית" style="background-color: forestgreen" id="HomeworkSubmit" name="Submit" />
             </div>
         </div>
 
@@ -212,6 +216,20 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        var date = new Date();
+
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+
+        var today = year + "-" + month + "-" + day;
+        $("#submissionDate").attr("min", today);
+    });
+
     $(document)
         .ready(function() {
 

@@ -140,7 +140,7 @@ namespace Frontend.Controllers
             return null;
         }
 
-        public ActionResult SubmitPolicy(PolicyViewModel model, string textName, string Submit)
+        public ActionResult SubmitPolicy(PolicyViewModel model, string textName, string Submit, DateTime? submissionDate)
         {
             Teacher currentTeacher = GetCurrentUser();
             var currentTeacherId = currentTeacher.Id;
@@ -153,7 +153,14 @@ namespace Frontend.Controllers
 
             if (Submit.Equals("הוספת שיעורי הבית"))
             {
-                SubmitHomework(textForHomework, currentTeacher, currentTeacherId, currentTextId);
+                if (submissionDate == null)
+                {
+                    TempData["msg"] = "<script>alert('לא הוכנס תאריך הגשה לשיעורי הבית');</script>";
+                }
+                else
+                {
+                    SubmitHomework(textForHomework, currentTeacher, currentTeacherId, currentTextId, (DateTime)submissionDate);
+                }               
 
                 return View("Policy");
             }
@@ -208,7 +215,7 @@ namespace Frontend.Controllers
         }
 
         private void SubmitHomework(Text textForHomework, Teacher currentTeacher, Guid currentTeacherId,
-            Guid currentTextId)
+            Guid currentTextId, DateTime submissionDate)
         {
             var questions = _fileManager.ParseQuestions(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
 
@@ -223,7 +230,7 @@ namespace Frontend.Controllers
                 Text = textForHomework,
                 Text_Id = currentTextId,
                 Questions = questions,
-                Deadline = DateTime.Now, // TODO: change to Teacher's input
+                Deadline = submissionDate,
                 Created_By = currentTeacher,
                 Teacher_Id = currentTeacherId
             };
