@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Linq.Expressions;
     using Dal.Repositories.Interfaces;
+    using Common;
 
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {

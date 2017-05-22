@@ -12,6 +12,11 @@ namespace Common
         {
         }
 
+        public MichtavaFailure() : base("בעיה לא צפויה קרתה, נסה שוב")
+        {
+
+        }
+
 
     }
 }

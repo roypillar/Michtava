@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common
+namespace Common.Exceptions
 {
-    public class MichtavaSuccessWithWarning : MichtavaSuccess
+    public class MichtavaNoIdException : Exception
     {
-        public MichtavaSuccessWithWarning(string message) : base(message)
+        public MichtavaNoIdException(string message) : base(message)
         {
         }
-
-
     }
 }

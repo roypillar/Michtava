@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class SchoolClass : DeletableEntity
+    public class SchoolClass : DeletableEntity, HasId
     {
 
         private ICollection<Student> students;

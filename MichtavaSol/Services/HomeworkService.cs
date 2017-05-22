@@ -5,6 +5,7 @@
     using Dal.Repositories.Interfaces;
     using Entities.Models;
     using Services.Interfaces;
+    using Common;
 
     public class HomeworkService : IHomeworkService
     {
@@ -25,23 +26,29 @@
             return this.homeworkRepository.All();
         }
 
-        public void Add(Homework homework)
+        public MichtavaResult Add(Homework homework)
         {
             this.homeworkRepository.Add(homework);
             this.homeworkRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
-        public void Update(Homework homework)
+        public MichtavaResult Update(Homework homework)
         {
             this.homeworkRepository.Update(homework);
             this.homeworkRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
-        public void Delete(Homework homework)
+        public MichtavaResult Delete(Homework homework)
         {
 
             this.homeworkRepository.Delete(homework);
             this.homeworkRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ namespace Entities.Models
 {
 
 
-    public class Homework : DeletableEntity
+    public class Homework : DeletableEntity, HasId
     {
 
         private ICollection<Question> questions;
@@ -17,6 +18,25 @@ namespace Entities.Models
 
             this.questions = new HashSet<Question>();
 
+        }
+
+        public Homework(string title, string desc, DateTime dl, Teacher created_by,
+            Text t) : base()
+        {
+            if (created_by.Id.Equals(Guid.Empty))
+                throw new MichtavaNoIdException("Cannot pass a teacher with no Id as an argument");
+
+            if(t.Id.Equals(Guid.Empty))
+                throw new MichtavaNoIdException("Cannot pass a text with no Id as an argument");
+
+            Title = title;
+            Description = desc;
+            Deadline = dl;
+            Created_By = created_by;
+            Teacher_Id = created_by.Id;
+
+            Text = t;
+            Text_Id = t.Id;
         }
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

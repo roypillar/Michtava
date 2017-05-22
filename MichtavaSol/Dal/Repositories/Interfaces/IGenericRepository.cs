@@ -1,5 +1,6 @@
 ﻿namespace Dal.Repositories.Interfaces
 {
+    using Common;
     using System;
     using System.Linq;
     using System.Linq.Expressions;

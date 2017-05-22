@@ -5,6 +5,7 @@
     using Entities.Models;
     using Services.Interfaces;
     using System;
+    using Common;
 
     public class SubjectService : ISubjectService
     {
@@ -31,22 +32,28 @@
             return this.subjectRepository.All();
         }
 
-        public void Add(Subject subject)
+        public MichtavaResult Add(Subject subject)
         {
             this.subjectRepository.Add(subject);
             this.subjectRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
-        public void Update(Subject subject)
+        public MichtavaResult Update(Subject subject)
         {
             this.subjectRepository.Update(subject);
             this.subjectRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
-        public void Delete(Subject subject)
+        public MichtavaResult Delete(Subject subject)
         {
             this.subjectRepository.Delete(subject);
             this.subjectRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
     }
 }

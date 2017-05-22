@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Entities.Models
 {
 
-    public class Subject : DeletableEntity
+    public class Subject : DeletableEntity, HasId
     {
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
