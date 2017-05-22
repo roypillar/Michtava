@@ -5,6 +5,7 @@
     using System.Linq;
     using Entities.Models;
     using Dal.Repositories.Interfaces;
+    using Common;
 
     public class DeletableEntityRepository<T> : GenericRepository<T>, IDeletableEntityRepository<T> where T :
         class, IDeletableEntity

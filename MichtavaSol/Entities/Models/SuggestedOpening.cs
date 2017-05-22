@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    public class SuggestedOpening
+    public class SuggestedOpening : HasId
     {
         public SuggestedOpening(string Content)
         {

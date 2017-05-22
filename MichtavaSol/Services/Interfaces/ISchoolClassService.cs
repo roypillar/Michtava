@@ -10,8 +10,8 @@
 
         SchoolClass GetByDetails(int gradeYear, string letter);
 
-         MichtavaResult addStudentToSchoolClass(Student s, SchoolClass c);
-        
-        void HardDelete(SchoolClass schoolClass);
+        MichtavaResult addStudentToSchoolClass(Student s, SchoolClass c);
+
+        MichtavaResult HardDelete(SchoolClass schoolClass);
     }
 }

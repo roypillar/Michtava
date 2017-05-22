@@ -5,6 +5,7 @@
     using Dal.Repositories.Interfaces;
 
     using Entities.Models;
+    using Common;
 
     public interface IAdministratorService : IRepositoryService<Administrator>
     {
@@ -16,6 +17,6 @@
 
         bool IsUserNameUniqueOnEdit(Administrator administrator, string username);
 
-        void HardDelete(Administrator academicYear);
+        MichtavaResult HardDelete(Administrator academicYear);
     }
 }

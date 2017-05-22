@@ -6,6 +6,7 @@
     using Dal.Repositories.Interfaces;
     using Entities.Models;
     using Services.Interfaces;
+    using Common;
 
     public class TeacherService : ITeacherService
     {
@@ -35,19 +36,22 @@
             return this.teacherRepository.GetByUserName(username);
         }
 
-        public void Add(Teacher teacher)
+        public MichtavaResult Add(Teacher teacher)
         {
             this.teacherRepository.Add(teacher);
             this.teacherRepository.SaveChanges();
+            return new MichtavaSuccess();
         }
 
-        public void Update(Teacher teacher)
+        public MichtavaResult Update(Teacher teacher)
         {
             this.teacherRepository.Update(teacher);
             this.teacherRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
-        public void Delete(Teacher teacher)
+        public MichtavaResult Delete(Teacher teacher)
         {
             teacher.ApplicationUser.DeletedBy = teacher.DeletedBy;
 
@@ -55,6 +59,8 @@
             this.teacherRepository.Delete(teacher);
 
             this.teacherRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
         public IQueryable<Teacher> SearchByName(string searchString)

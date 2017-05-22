@@ -5,6 +5,7 @@
     using Dal.Repositories.Interfaces;
     using Entities.Models;
     using Services.Interfaces;
+    using Common;
 
     public class AnswerService : IAnswerService
     {
@@ -25,23 +26,29 @@
             return this.answerRepository.All();
         }
 
-        public void Add(Answer answer)
+        public MichtavaResult Add(Answer answer)
         {
             this.answerRepository.Add(answer);
             this.answerRepository.SaveChanges();
+            return new MichtavaSuccess();
         }
 
-        public void Update(Answer answer)
+        public MichtavaResult Update(Answer answer)
         {
             this.answerRepository.Update(answer);
+
             this.answerRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
-        public void Delete(Answer answer)
+        public MichtavaResult Delete(Answer answer)
         {
 
             this.answerRepository.Delete(answer);
             this.answerRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
     }
 }

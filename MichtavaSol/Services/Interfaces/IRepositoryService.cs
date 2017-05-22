@@ -1,5 +1,6 @@
 ﻿namespace Services.Interfaces
 {
+    using Common;
     using System;
     using System.Linq;
 
@@ -7,10 +8,10 @@
     {
         IQueryable<T> All();
 
-        void Add(T entity);
+        MichtavaResult Add(T entity);
 
-        void Update(T entity);
+        MichtavaResult Update(T entity);
 
-        void Delete(T entity);
+        MichtavaResult Delete(T entity);
     }
 }

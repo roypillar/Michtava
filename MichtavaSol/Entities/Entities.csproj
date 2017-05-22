@@ -61,6 +61,7 @@
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\DeletableEntry.cs" />
+    <Compile Include="Models\HasId.cs" />
     <Compile Include="Models\Homework.cs" />
     <Compile Include="Models\IDeletableEntity.cs" />
     <Compile Include="Models\Policy.cs" />

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Entities.Models
 {
 
-    public class Teacher : DeletableEntity
+    public class Teacher : DeletableEntity, HasId
     {
         public Teacher()
         {

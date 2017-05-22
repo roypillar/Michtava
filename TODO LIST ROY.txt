@@ -1,21 +1,18 @@
 -----NON_TESTING--------
 
-populate registerareas IN PROGRESS
+populate registerareas
 
-administrationarea IN PROGRESS
+administrationarea
 
 strings all over the site - validation, header, footer, etc
 
-take add(create) functionality all over the site from seed method
+take add(create) functionality from seed method to the services
 
 implement delete functionality all over the admins area
 
 error handling - learn remote validation IN PROGRESS
 
-
-find more possible errors: 
-
-	errors are: {add: entry exists},
+fix SQL in university 
 
 word definitions dictionary
 
@@ -27,6 +24,7 @@ worddefinition service
 
 read mass queries from file => add students, add teachers, add admins, add definitions.
 
+map from requirements to tests
 -----TESTING---------
 
 test administrationarea 
@@ -38,6 +36,8 @@ write test for overriden methods in services and repos. IN PROGRESS MAIN
 write tests for services IN PROGRESS
 
 write black box selenium tests
+
+complete TODO tests
 
 
 

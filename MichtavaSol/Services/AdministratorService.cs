@@ -7,7 +7,7 @@
     using Entities.Models;
     using Services.Interfaces;
     using Microsoft.AspNet.Identity;
-
+    using Common;
 
     public class AdministratorService :IAdministratorService
     {
@@ -43,32 +43,39 @@
             return this.administratorRepository.All();
         }
 
-        public void Add(Administrator administrator)
+        public MichtavaResult Add(Administrator administrator)
         {
             this.administratorRepository.Add(administrator);
             this.administratorRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
-        public void Update(Administrator administrator)
+        public MichtavaResult Update(Administrator administrator)
         {
             this.administratorRepository.Update(administrator);
             this.administratorRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
-        public void Delete(Administrator administrator)
+        public MichtavaResult Delete(Administrator administrator)
         {
             administrator.ApplicationUser.DeletedBy = administrator.DeletedBy;
 
             this.userRepository.Delete(administrator.ApplicationUser);
             this.administratorRepository.Delete(administrator);
             this.administratorRepository.SaveChanges();
+            return new MichtavaSuccess();
         }
 
-        public void HardDelete(Administrator administrator)
+        public MichtavaResult HardDelete(Administrator administrator)
         {
             this.userRepository.HardDelete(administrator.ApplicationUser);
             this.administratorRepository.HardDelete(administrator);
             this.administratorRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
         public bool IsUserNameUniqueOnEdit(Administrator administrator, string username)
@@ -79,5 +86,7 @@
 
             return usernameUnique;
         }
+
+        
     }
 }

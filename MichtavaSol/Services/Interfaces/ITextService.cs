@@ -5,8 +5,6 @@
 
     public interface ITextService : IRepositoryService<Text>
     {
-        //Text GetById(int id);
-
         Text GetById(Guid id);
 
     }

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Entities.Models
 {
-    public class Text : DeletableEntity
+    public class Text : DeletableEntity, HasId
     {
         //public enum FileFormats { doc, docx, pdf, txt };
         public Text()

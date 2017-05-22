@@ -5,6 +5,7 @@
     using Dal.Repositories.Interfaces;
     using Entities.Models;
     using Services.Interfaces;
+    using Common;
 
     public class TextService : ITextService
     {
@@ -14,11 +15,6 @@
         {
             this.TextRepository = TextRepository;
         }
-
-        //Text ITextService.GetById(int id)
-        //{
-        //    return this.TextRepository.GetById(id);
-        //}
 
         Text ITextService.GetById(Guid id)
         {
@@ -30,26 +26,31 @@
             return this.TextRepository.All();
         }
 
-        public void Add(Text Text)
+        public MichtavaResult Add(Text Text)
         {
             this.TextRepository.Add(Text);
             this.TextRepository.SaveChanges();
+            return new MichtavaSuccess();
         }
 
-        public void Update(Text Text)
+        public MichtavaResult Update(Text Text)
         {
             this.TextRepository.Update(Text);
             this.TextRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
-        public void Delete(Text Text)
+        public MichtavaResult Delete(Text Text)
         {
 
             this.TextRepository.Delete(Text);
             this.TextRepository.SaveChanges();
+            return new MichtavaSuccess();
+
         }
 
-        
+
 
     }
 }

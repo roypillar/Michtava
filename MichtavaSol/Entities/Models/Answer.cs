@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Entities.Models
 {
-    public class Answer : DeletableEntity
+    public class Answer : DeletableEntity, HasId
     {
 
         public Answer()

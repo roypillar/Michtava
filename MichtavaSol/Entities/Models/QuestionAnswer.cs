@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Entities.Models
 {
-    public class QuestionAnswer : DeletableEntity
+    public class QuestionAnswer : DeletableEntity, HasId
     {
         private string _content;
         public QuestionAnswer()
