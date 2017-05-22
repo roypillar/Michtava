@@ -9,4 +9,4 @@
 			answerService.All().Where(ans => ans.Homework_Id == .....)
 
 
-3) when adding new homework to the system, make sure that title and description get in to the table correct.
+3) Handle Questions viewing before submitting Homework
