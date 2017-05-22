@@ -293,11 +293,8 @@ namespace Dal
                 return;
             }
 
-            var adminProfile = new Administrator()
-            {
-                FirstName = "SuperAdmin",
-                LastName = "SuperAdmin"
-            };
+            var adminProfile = new Administrator("SuperAdmin", "SuperAdmin");
+           
 
             var adminUser = new ApplicationUser()
             {
@@ -313,11 +310,8 @@ namespace Dal
 
             context.Administrators.Add(adminProfile);
 
-            adminProfile = new Administrator()
-            {
-                FirstName = "Admin",
-                LastName = "Admin"
-            };
+            adminProfile = new Administrator("Admin", "Admin");
+           
 
             adminUser = new ApplicationUser()
             {

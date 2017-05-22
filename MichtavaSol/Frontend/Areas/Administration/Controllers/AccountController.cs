@@ -64,7 +64,7 @@
                 {
                     this.UserManager.AddToRole(user.Id, GlobalConstants.AdministratorRoleName);
 
-                    Administrator administrator = new Administrator();
+                    Administrator administrator = new Administrator(model.FirstName,model.LastName);
                     administrator.ApplicationUserId = user.Id;
                     Mapper.Map<AdministratorRegisterSubmitModel, Administrator>(model, administrator);
 

@@ -87,7 +87,6 @@
   <ItemGroup>
     <Compile Include="AdministratorRepositoryTests.cs" />
     <Compile Include="AnswerRepositoryTests.cs" />
-    <Compile Include="ApplicationUserRepositoryTests.cs" />
     <Compile Include="DeletableEntityRepositoryTests.cs" />
     <Compile Include="HomeworkRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
