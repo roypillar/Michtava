@@ -4,7 +4,7 @@
 
     public interface IHomeworkRepository : IDeletableEntityRepository<Homework>
     {
-        Homework GetByDetails(string Title);
+        Homework GetByDetails(string title, string description);
          
     }
 }

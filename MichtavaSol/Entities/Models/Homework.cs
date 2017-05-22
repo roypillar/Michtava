@@ -12,21 +12,25 @@ namespace Entities.Models
     {
 
         private ICollection<Question> questions;
+        private Text _text;
+        private Teacher _teacher;
 
         public Homework()
         {
-
+            Deadline = DateTime.Now;
             this.questions = new HashSet<Question>();
-
         }
 
         public Homework(string title, string desc, DateTime dl, Teacher created_by,
             Text t) : base()
         {
-            if (created_by.Id.Equals(Guid.Empty))
+            if(t==null || created_by == null)
+                throw new ArgumentNullException("Please do not send null values to this constructor");
+
+            if (created_by!=null && created_by.Id.Equals(Guid.Empty))
                 throw new MichtavaNoIdException("Cannot pass a teacher with no Id as an argument");
 
-            if(t.Id.Equals(Guid.Empty))
+            if(t!=null && t.Id.Equals(Guid.Empty))
                 throw new MichtavaNoIdException("Cannot pass a text with no Id as an argument");
 
             Title = title;
@@ -48,12 +52,35 @@ namespace Entities.Models
 
         public DateTime Deadline { get; set; }
 
-        public virtual Teacher Created_By { get; set; }
+        public virtual Teacher Created_By { get
+            {
+                return _teacher;
+            }
+
+            set
+            {
+                _teacher = value;
+                if (value != null)
+                    Teacher_Id = value.Id;
+            }
+
+        }
 
         [ForeignKey("Created_By")]
         public Guid Teacher_Id { get; set; }
 
-        public Text Text { get; set; }
+        public Text Text {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+                _text = value;
+                if (value != null)
+                    Text_Id = value.Id;
+            }
+        }
 
         [ForeignKey("Text")]
         public Guid Text_Id { get; set; }
