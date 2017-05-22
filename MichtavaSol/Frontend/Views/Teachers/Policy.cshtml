@@ -60,6 +60,18 @@
             opacity: 1;
             right: 0;
         }
+        input[type=button] {
+            color: white;
+            background-color: dodgerblue;
+            cursor:pointer;
+            width: 7em;  
+            height: 4em;
+            font-size: 14px;
+        }
+
+        input[type=button]:hover {
+            background-color: darkblue;
+        }
     </style>
 </head>
 <body>
@@ -68,7 +80,6 @@
 
 <button class="button" onclick="location.href = '@Url.Action("NavigateToTextsView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
 
-<hr/>
     <form class="text-right" action="SubmitPolicy" method="post" id="policyData">
 
         <div class="panel panel-default">
@@ -108,10 +119,7 @@
 
             </div>
         </div>
-
         <br />
-                <hr />
-
 
                 <!---------------------------------------------------------------------- שיעורי הבית --------------------------------------------------------------------->
                 <div class="col-sm-6">
@@ -121,32 +129,55 @@
                             <h2>שיעורי הבית</h2>
                         </div>
                         <div class="panel-body">
+                            
+                            <div class="row">
+                                <div class="col-sm-7 pull-right">
+                                    <label for="homeworkTitle">כותרת: </label>
+                                </div>
+                                <div class="col-sm-3 pull-right">
+                                    <input type="text" id="homeworkTitle" name="homeworkTitle" value="">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-7 pull-right">
+                                    <label for="homeworkDescription">פירוט: </label>
+                                </div>
+                                    <div class="col-sm-3 pull-right">                                   
+                                    <input type="text" id="homeworkDescription" name="homeworkDescription" value="">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-7 pull-right">
+                                    <label for="submissionDate">תאריך הגשה: </label>
+                                </div>
+                                <div class="col-sm-3 pull-right">
+                                    <input type="date" id="submissionDate" name="submissionDate" value="" min="">
+                                </div>
+                            </div>
 
                             <div class="row">
                                 <br />
+                                <hr />
+                                <br/>
                                 <div class="row">
                                     @foreach (var question in TempData)
                                     {
                                         if (question.Key.Contains("שאלה"))
                                         {
                                             <div class="col-sm-3 pull-right">
-                                                <input type="button" name="QuestionDisplay" value="@question.Key" onclick="showQuestion(document.getElementById('@question.Key'))" />
-                                                <div id="@question.Key" style="display: none;">@question.Value</div>
+                                                <input type="button" name="QuestionDisplay" value="@question.Key" onclick="showQuestion(document.getElementById('@question.Key'))"/>
+                                                <div id="@question.Key" style="display: none;"><h4>@question.Value</h4></div>
                                             </div>
                                         }
                                     }
                                 </div>
-
-
+                                <br/>
+                                <hr/>
                                 <div class="row">
-                                    <div class="col-sm-10 pull-right">
-                                        <label for="submittionDate">הכנס/י תאריך הגשה של שיעורי הבית</label>
-                                        <input type="date" id="submissionDate" name="submissionDate" value="" min="">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <input type="submit" value="הוספת שיעורי הבית" style="background-color: forestgreen" id="HomeworkSubmit" name="Submit" />
+                                    <div class="col-sm-12">
+                                        <input type="submit" value="הוספת שיעורי הבית" style="background-color: forestgreen" id="HomeworkSubmit" name="Submit"/>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +196,7 @@
                         <div class="panel-body">
 
                             <div class="row">
-                                <div class="col-sm-10">
+                                <div class="col-sm-10 pull-right">
                                     @Html.TextAreaFor(model => model.Question, new { cols = 50, @rows = 5, @placeholder = "הוסף שאלה..." })
                                 </div>
                             </div>
@@ -216,7 +247,7 @@
                                 </div>
                             </div>
 
-                            <br /><br /><br />
+                            <br />
                             <hr />
 
                             <div class="row">
@@ -238,7 +269,7 @@
                             </div>
                             <hr />
                             <div class="row">
-                                <div class="col-sm-10">
+                                <div class="col-sm-12">
                                     <input type="submit" value="הוספת שאלה" style="background-color: crimson" id="QuestionSubmit" name="Submit" />
                                 </div>
                             </div>
