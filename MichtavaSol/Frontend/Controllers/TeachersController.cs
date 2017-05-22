@@ -142,7 +142,7 @@ namespace Frontend.Controllers
             return null;
         }
 
-        public ActionResult SubmitPolicy(PolicyViewModel model, string textName, string Submit, DateTime? submissionDate)
+        public ActionResult SubmitPolicy(PolicyViewModel model, string textName, string Submit, DateTime? submissionDate, string homeworkTitle, string homeworkDescription)
         {
             Teacher currentTeacher = GetCurrentUser();
             var currentTeacherId = currentTeacher.Id;
@@ -161,7 +161,7 @@ namespace Frontend.Controllers
                 }
                 else
                 {
-                    SubmitHomework(textForHomework, currentTeacher, currentTeacherId, currentTextId, (DateTime)submissionDate);
+                    SubmitHomework(textForHomework, currentTeacher, currentTeacherId, currentTextId, (DateTime)submissionDate, homeworkTitle, homeworkDescription);
                 }               
 
                 return View("Policy");
@@ -217,7 +217,7 @@ namespace Frontend.Controllers
         }
 
         private void SubmitHomework(Text textForHomework, Teacher currentTeacher, Guid currentTeacherId,
-            Guid currentTextId, DateTime submissionDate)
+            Guid currentTextId, DateTime submissionDate, string homeworkTitle, string homeworkDescription)
         {
             var questions = _fileManager.ParseQuestions(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
 
@@ -234,7 +234,9 @@ namespace Frontend.Controllers
                 Questions = questions,
                 Deadline = submissionDate,
                 Created_By = currentTeacher,
-                Teacher_Id = currentTeacherId
+                Teacher_Id = currentTeacherId,
+                Title = homeworkTitle,
+                Description = homeworkDescription
             };
 
             // Add Homework to relevant tables in DB:
