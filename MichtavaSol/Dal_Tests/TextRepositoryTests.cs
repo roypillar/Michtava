@@ -16,26 +16,22 @@ using Common;
 
 namespace Dal_Tests
 {
-    class AnswerRepositoryTests
+    class TextRepositoryTests
     {
         private ApplicationDbContext ctx;
 
-        private AnswerRepository repo;
+        private TextRepository repo;
 
-        private Answer entity;
+        private Text entity;
 
         private const string n = "בדיקה בדיקה";
-
-        private Guid studentId;
-
-        private Guid hwId;
 
         [OneTimeSetUp]
         public void oneTimeSetUp()
         {
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
-            this.repo = new AnswerRepository(ctx);
+            this.repo = new TextRepository(ctx);
             new DatabaseSeeder().CreateDependenciesAndSeed(ctx);//heavy duty
 
         }
@@ -50,12 +46,7 @@ namespace Dal_Tests
         [SetUp]
         public void setUp()
         {
-            Student someStudent = this.ctx.Set<Student>().Include(x=>x.Homeworks).FirstOrDefault();
-            Homework someHomework = someStudent.Homeworks.ElementAt(someStudent.Homeworks.Count()-1);
-            studentId = someStudent.Id;
-            hwId = someHomework.Id;
-
-            entity = new Answer(someHomework, someStudent);
+            entity = new Text(n,this.ctx.Set<Subject>().FirstOrDefault());
         }
 
         [TearDown]
@@ -75,10 +66,11 @@ namespace Dal_Tests
             this.repo.SaveChanges();
             // Assert
 
-            Assert.NotNull(repo.GetByHomeworkIdAndStudentId(hwId,studentId));
+            Assert.NotNull(repo.GetByName(n));
 
             this.repo.HardDelete(entity);
             this.repo.SaveChanges();
+
         }
 
         [Test]
@@ -87,15 +79,36 @@ namespace Dal_Tests
             // Arrange
             int count = repo.All().Count();
 
-            Answer c = repo.All().FirstOrDefault();
+            Text c = repo.All().FirstOrDefault();
             Assert.NotNull(c);
 
 
             // Act
-            Answer actual = repo.GetById(c.Id);
+            Text actual = repo.GetById(c.Id);
             // Assert
 
             Assert.NotNull(actual);
+
+        }
+
+        [Test]
+        public void testGet()
+        {
+            // Arrange
+            int count = repo.All().Count();
+            this.repo.Add(entity);
+            this.repo.SaveChanges();
+
+
+            // Act
+            Text actual = repo.Get(x => (x.Name == n)).FirstOrDefault();
+
+            // Assert
+
+            Assert.NotNull(actual);
+
+            this.repo.HardDelete(entity);
+            this.repo.SaveChanges();
 
         }
 
@@ -109,12 +122,11 @@ namespace Dal_Tests
             repo.Add(entity);
             this.repo.SaveChanges();
 
+            Assert.Null(repo.GetByName(n + "alala"));
 
-            Guid id = repo.GetByHomeworkIdAndStudentId(hwId, studentId).Id;
 
-            Assert.NotNull(id);
             Assert.AreEqual(count + 1, repo.All().Count());
-            entity.TeacherFeedback = "alala";
+            entity.Name += "alala";
 
 
             // Act
@@ -123,7 +135,7 @@ namespace Dal_Tests
 
             // Assert
 
-            Assert.True(repo.GetById(id).TeacherFeedback == "alala");
+            Assert.NotNull(repo.GetByName(n + "alala"));
             this.repo.HardDelete(entity);
             this.repo.SaveChanges();
 
@@ -137,13 +149,13 @@ namespace Dal_Tests
             repo.SaveChanges();
             int count = repo.All().Count();
 
-            Guid id = repo.GetByHomeworkIdAndStudentId(hwId, studentId).Id;
+            Guid id = repo.GetByName(n).Id;
             // Act
             repo.Delete(entity);
             repo.SaveChanges();
             // Assert
 
-            Assert.True(repo.GetById(id).IsDeleted == true);
+            Assert.Null(repo.GetByName(n));
             Assert.True(repo.All().Count() == count - 1);
             Assert.True(repo.GetById(id).IsDeleted);
 
@@ -163,7 +175,7 @@ namespace Dal_Tests
 
 
             // Act
-            Answer actual = repo.GetByHomeworkIdAndStudentId(hwId, studentId);
+            Text actual = repo.GetByName(n);
 
             // Assert
 
@@ -175,7 +187,7 @@ namespace Dal_Tests
 
 
         [Test]
-        public void testGetByHwIdandStudentId()
+        public void testGetByName()
         {
             // Arrange
             int count = repo.All().Count();
@@ -184,7 +196,7 @@ namespace Dal_Tests
 
 
             // Act
-            Answer actual = repo.GetByHomeworkIdAndStudentId(hwId, studentId);
+            Text actual = repo.GetByName(n);
 
             // Assert
 

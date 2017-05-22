@@ -187,8 +187,8 @@ namespace Dal_Tests
             this.repo.SaveChanges();
         }
 
-            [Test]
-        public async Task<int> testGetByUserName()
+        [Test]
+        public async Task testGetByUserName()
         {
             // Arrange
             int count = repo.All().Count();
@@ -206,8 +206,6 @@ namespace Dal_Tests
 
             this.repo.HardDelete(entity);
             this.repo.SaveChanges();
-
-            return 0;
         }
 
         [Test]
@@ -250,7 +248,7 @@ namespace Dal_Tests
             Student some = this.ctx.Set<Student>().FirstOrDefault();
 
 
-            Assert.False(repo.IsUserNameUniqueOnEdit(some, "זרבובן4"));
+            Assert.True(repo.IsUserNameUniqueOnEdit(some, "זרבובן4"));
         }
 
 
@@ -271,7 +269,7 @@ namespace Dal_Tests
             Student other = this.ctx.Set<Student>().FirstOrDefault();
 
 
-            Assert.False(repo.IsEmailUniqueOnEdit(other, "rere@gmail.tootsies"));
+            Assert.True(repo.IsEmailUniqueOnEdit(other, "rere@gmail.tootsies"));
         }
 
 

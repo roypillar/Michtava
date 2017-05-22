@@ -16,6 +16,12 @@ namespace Entities.Models
             schoolClasses = new HashSet<SchoolClass>();
         }
 
+        public Teacher(string name)
+        {
+            schoolClasses = new HashSet<SchoolClass>();
+            Name = name;
+        }
+
         private ICollection<SchoolClass> schoolClasses;
 
         public virtual ICollection<SchoolClass> SchoolClasses

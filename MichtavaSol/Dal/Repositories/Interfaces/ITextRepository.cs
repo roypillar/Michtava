@@ -4,5 +4,7 @@
 
     public interface ITextRepository : IDeletableEntityRepository<Text>
     {
+
+        Text GetByName(string name);
     }
 }

@@ -9,10 +9,17 @@ namespace Entities.Models
 {
     public class Text : DeletableEntity, HasId
     {
-        //public enum FileFormats { doc, docx, pdf, txt };
+        private Subject _subject;
+
         public Text()
         {
             UploadTime = DateTime.Now;
+        }
+
+        public Text(string name,Subject s)
+        {
+            Name = name;
+            Subject = s;
         }
 
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -28,7 +35,22 @@ namespace Entities.Models
 
         public string FilePath { get; set; }
 
-        public Subject Subject { get; set; }
+        public Subject Subject
+        {
+            get
+            {
+                return _subject;
+            }
+
+            set
+            {
+                _subject = value;
+                if (value != null)
+                    Subject_Id = value.Id;
+            }
+        }
+
+        
 
         [ForeignKey("Subject")]
         public Guid Subject_Id { get; set; }

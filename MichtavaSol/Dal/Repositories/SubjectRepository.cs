@@ -15,7 +15,7 @@
         {
             
             var sub = this.DbSet
-                  .Where(s => s.Name.Equals(subjectName)).FirstOrDefault();
+                  .Where(s => s.Name.Equals(subjectName) && s.IsDeleted == false).FirstOrDefault();
 
             return sub;
         }
@@ -29,7 +29,7 @@
                 base.Add(subject);
             }
             else
-                throw new NameDuplicateException("נושא עם אותו השם כבר קיים במערכת");//temporary until we decide on an error handling system
+                throw new NameDuplicateException("נושא עם אותו השם כבר קיים במערכת");
         }
     }
 }
