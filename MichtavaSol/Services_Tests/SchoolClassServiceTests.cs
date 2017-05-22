@@ -46,6 +46,7 @@ namespace Services_Tests
         [Test]
         public void testAddStandalone()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
 
@@ -57,12 +58,13 @@ namespace Services_Tests
             Assert.AreEqual(count + 1, serv.All().Count());
             Assert.NotNull(serv.GetByDetails(23, "ע"));
             Assert.True(res is MichtavaSuccess);
-            serv.HardDelete(entity);
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
         [Test]
         public void testAddExistingId()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
             SchoolClass existing = serv.All().FirstOrDefault();
@@ -77,6 +79,7 @@ namespace Services_Tests
         [Test]
         public void testAddExistingDetails()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
             SchoolClass existing = serv.All().FirstOrDefault();
@@ -92,20 +95,21 @@ namespace Services_Tests
         [Test]
         public void testAddWithStudentInconsistency()
         {
-
+            Assert.Null(serv.GetByDetails(23, "ע"));
         }
 
 
         [Test]
         public void testAddWithTeacherInconsistency()
         {
-
+            Assert.Null(serv.GetByDetails(23, "ע"));
         }
 
         //Gets
         [Test]
         public void testGetByIdTrue()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
 
@@ -124,6 +128,7 @@ namespace Services_Tests
         [Test]
         public void testGetByIdFalse()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
 
@@ -139,6 +144,7 @@ namespace Services_Tests
         [Test]
         public void testGetByDetailsTrue()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
 
@@ -158,6 +164,7 @@ namespace Services_Tests
         [Test]
         public void testGetByDetailsFalse()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
 
@@ -174,6 +181,7 @@ namespace Services_Tests
         [Test]
         public void testUpdateSuccess()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
             serv.Add(entity);
@@ -191,12 +199,13 @@ namespace Services_Tests
             // Assert
             Assert.True(res is MichtavaSuccess);
             Assert.NotNull(serv.GetByDetails(98, "ע"));
-            this.serv.HardDelete(entity);
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
         [Test]
         public void testUpdateNonExistant()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
 
@@ -213,33 +222,35 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
-        [Test]
-        public void testUpdateModifiedId()
-        {
-            // Arrange
-            int count = serv.All().Count();
-            serv.Add(entity);
+        //[Test]
+        //public void testUpdateModifiedId()
+        //{
+        //    Assert.Null(serv.GetByDetails(23, "ע"));
+        //    // Arrange
+        //    int count = serv.All().Count();
+        //    serv.Add(entity);
 
-            Assert.Null(serv.GetByDetails(98, "ע"));
-
-
-            Assert.AreEqual(count + 1, serv.All().Count());
-            entity.setId(Guid.NewGuid());
+        //    Assert.Null(serv.GetByDetails(98, "ע"));
 
 
-            // Act
-            MichtavaResult res = serv.Update(entity);
+        //    Assert.AreEqual(count + 1, serv.All().Count());
+        //    entity.setId(Guid.NewGuid());
 
-            // Assert
-            Assert.True(res is MichtavaFailure);
-            Assert.True(res.Message == "הכיתה לא נמצאה במערכת");
 
-            this.serv.HardDelete(entity);
-        }
+        //    // Act
+        //    MichtavaResult res = serv.Update(entity);
+
+        //    // Assert
+        //    Assert.True(res is MichtavaFailure);
+        //    Assert.True(res.Message == "הכיתה לא נמצאה במערכת");
+
+        //    Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        //}
 
         [Test]
         public void testUpdateExistingDetails()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
             SchoolClass c = serv.All().FirstOrDefault();
@@ -259,13 +270,14 @@ namespace Services_Tests
 
             // Assert
             Assert.True(res is MichtavaFailure);
-            this.serv.HardDelete(entity);
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
         //Deletes
         [Test]
         public void testDeleteSuccess()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             serv.Add(entity);
             int count = serv.All().Count();
@@ -282,7 +294,7 @@ namespace Services_Tests
             Assert.True(serv.All().Count() == count - 1);
             Assert.True(serv.GetById(id).IsDeleted);
 
-            this.serv.HardDelete(entity);
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
 
 
         }
@@ -290,87 +302,135 @@ namespace Services_Tests
         [Test]
         public void testDeleteIsStudentUpdated()
         {
+            this.oneTimeSetUp();
+
+
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
-            SchoolClass c = serv.All().Include(x => x.Students).FirstOrDefault(y => y.Students.Count > 0);//check
-            ICollection<Student> students = c.Students;
-            Guid id = c.Id;
+
+
+            //SchoolClass c = serv.All().Include(x => x.Students).FirstOrDefault(y => y.Students.Count > 0);//DOES NOT WORK
+
+            SchoolClass c = null;
+            List<SchoolClass> cs = serv.All().Include(y => y.Students).ToList();//check
+            foreach (SchoolClass sc in cs)
+            {
+                if (sc.Students.Count > 0)
+                {
+                    c = sc;
+                    break;
+                }
+            }
+
+            Assert.NotNull(c);
+
+            ICollection<Student> studentsFromSchoolClass = c.Students;
+
+          
 
             // Act
             MichtavaResult res = serv.Delete(c);
 
 
+
+
+
+
             // Assert
+
+            List<Student> ss = this.ctx.Set<Student>().Include(x=>x.SchoolClass).ToList();//check
+            List<Student> persistantStudentsFromSchoolClass = new List<Student>();
+
+            foreach (Student s in ss)
+            {
+                if (containsId(studentsFromSchoolClass.Cast<HasId>().ToList(), s.Id))
+                    persistantStudentsFromSchoolClass.Add(s);
+            }
+            Guid id = c.Id;
+
             Assert.True(res is MichtavaSuccess);
             Assert.True(serv.All().Count() == count - 1);
             Assert.True(serv.GetById(id).IsDeleted);
 
-            foreach (Student s in students)
+
+
+
+            foreach (Student s in persistantStudentsFromSchoolClass)
             {
                 Assert.True(s.SchoolClass == null);
             }
 
-            this.oneTimeSetUp();
 
         }
 
-             [Test]
+
+        [Test]
         public void testDeleteIsTeacherUpdated()
         {
+            this.oneTimeSetUp();
+
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
-            SchoolClass c = serv.All().Include(x => x.Teachers).FirstOrDefault(y => y.Teachers.Count > 0);//check
+            SchoolClass c=null;
+            List<SchoolClass> cs = serv.All().Include(y => y.Teachers).ToList();
+            foreach(SchoolClass sc in cs)
+            {
+                if (sc.Teachers.Count > 0)
+                {
+                    c = sc;
+                    break;
+                }
+            }
+
+            Assert.NotNull(c);
+
             ICollection<Teacher> teachersFromSchoolClass = c.Teachers;
 
-            var teachers = this.ctx.Set<Teacher>().Where(x => teachersContainsId(teachersFromSchoolClass, x.Id)).Include(y => y.SchoolClasses);
+            List<Teacher> ts = this.ctx.Set<Teacher>().Include(y=> y.SchoolClasses).ToList();//check
+            List<Teacher> persistantTeachersFromSchoolClass = new List<Teacher>();
 
+            foreach (Teacher t in ts) {
+                if (containsId(teachersFromSchoolClass.Cast<HasId>().ToList(), t.Id))
+                    persistantTeachersFromSchoolClass.Add(t);
+            }
             Guid id = c.Id;
 
             // Act
             MichtavaResult res = serv.Delete(c);
-
 
             // Assert
             Assert.True(res is MichtavaSuccess);
             Assert.True(serv.All().Count() == count - 1);
             Assert.True(serv.GetById(id).IsDeleted);
 
-            foreach (Teacher t in teachers)
+            foreach (Teacher t in persistantTeachersFromSchoolClass)
             {
-                Assert.False(schoolClassContainsId(t.SchoolClasses,id));
+                Assert.False(containsId(t.SchoolClasses.Cast<HasId>().ToList(), id));
             }
 
             this.oneTimeSetUp();
         }
 
-        private bool teachersContainsId(ICollection<Teacher> teachers, Guid tId)
+        private bool containsId(ICollection<HasId> col, Guid hId)
         {
-            foreach (Teacher t in teachers)
+            foreach (HasId h in col)
             {
-                if (t.Id == tId)
+                if (h.Id == hId)
                     return true;
             }
             return false;
 
-        }
-
-        private bool schoolClassContainsId(ICollection<SchoolClass> scs, Guid sId)
-        {
-            foreach (SchoolClass sc in scs)
-            {
-                if (sc.Id == sId)
-                    return true;
-            }
-            return false;
         }
 
         [Test]
         public void testDeleteNonExistant()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             int count = serv.All().Count();
 
-            Guid id = serv.GetByDetails(23, "ע").Id;
             entity.setId(Guid.NewGuid());
             Assert.Null(serv.GetById(entity.Id));
 
@@ -388,6 +448,7 @@ namespace Services_Tests
         [Test]
         public void testHardDeleteSuccess()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             serv.Add(entity);
             int count = serv.All().Count();
@@ -405,9 +466,12 @@ namespace Services_Tests
         }
 
         //Customs
+
+
         [Test]
         public void testAddToSchoolClassSuccess()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             serv.Add(entity);
             Student dummy = this.ctx.Set<Student>().FirstOrDefault(x => x.SchoolClass == null);
@@ -420,13 +484,15 @@ namespace Services_Tests
             // Assert
             Assert.True(res is MichtavaSuccess);
 
-            
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+
 
 
         }
         [Test]
         public void testAddToSchoolClassStudentUpdated()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             serv.Add(entity);
             Student dummy = this.ctx.Set<Student>().FirstOrDefault(x => x.SchoolClass == null);
@@ -442,12 +508,14 @@ namespace Services_Tests
             Assert.True(ctx.Set<Student>().Find(dummy.Id).SchoolClass.Id ==
                         serv.GetByDetails(23, "ע").Id);
 
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
 
         }
 
         [Test]
         public void testAddToSchoolClassSchoolClassUpdated()
         {
+            Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
             serv.Add(entity);
             Student dummy = this.ctx.Set<Student>().FirstOrDefault(x => x.SchoolClass == null);
@@ -464,6 +532,7 @@ namespace Services_Tests
                                                 x.ClassLetter == entity.ClassLetter)
                                                 .Include(y => y.Students).FirstOrDefault().Students.Contains(dummy));
 
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
 
         }
 

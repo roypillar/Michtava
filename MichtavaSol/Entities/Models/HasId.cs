@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    interface HasId
+    public interface HasId
     {
          Guid Id { get; set; }
     }

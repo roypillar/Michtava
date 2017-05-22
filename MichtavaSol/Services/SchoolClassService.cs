@@ -7,6 +7,7 @@
     using Services.Interfaces;
     using Common;
     using System.Data.Entity;
+    using System.Collections.Generic;
 
     public class SchoolClassService : ISchoolClassService
     {
@@ -97,27 +98,38 @@
 
             var students = existing.Students;
             var teachers = existing.Teachers;
+            var studentsIds = new List<Guid>();
+            var teacherIds = new List<Guid>();
 
-            foreach(Student s in students)
+            foreach (Student s in students)
             {
-                s.SchoolClass = null;
-                this.studentRepository.Update(s);
-                 
+                studentsIds.Add(s.Id);
             }
 
-            foreach(Teacher t in teachers)
+            foreach (Teacher t in teachers.ToList())
             {
+                teacherIds.Add(t.Id);
+            }
+
+            foreach (Guid id in studentsIds)
+            {
+                Student stu = this.studentRepository.GetById(id);
+                stu.SchoolClass = null;
+                this.studentRepository.Update(stu);
+            }
+
+            foreach (Guid id in teacherIds)
+            {
+                Teacher t = this.teacherRepository.GetById(id);
                 t.SchoolClasses.Remove(existing);
                 this.teacherRepository.Update(t);
             }
 
 
-
-            
             this.schoolClassRepository.Delete(schoolClass);
-
             this.studentRepository.SaveChanges();
             this.teacherRepository.SaveChanges();
+
             this.schoolClassRepository.SaveChanges();
 
 
@@ -129,7 +141,7 @@
 
         public MichtavaResult HardDelete(SchoolClass schoolClass)
         {
-            SchoolClass existing = this.schoolClassRepository.All().Where(y => y.Id == schoolClass.Id).
+            SchoolClass existing = this.schoolClassRepository.AllWithDeleted().Where(y => y.Id == schoolClass.Id).
                 Include(x => x.Students).
                 Include(x => x.Teachers).FirstOrDefault();
 
@@ -141,14 +153,14 @@
             var students = existing.Students;
             var teachers = existing.Teachers;
 
-            foreach (Student s in students)
+            foreach (Student s in students.ToList())
             {
                 s.SchoolClass = null;
                 this.studentRepository.Update(s);
 
             }
 
-            foreach (Teacher t in teachers)
+            foreach (Teacher t in teachers.ToList())
             {
                 t.SchoolClasses.Remove(existing);
                 this.teacherRepository.Update(t);
