@@ -55,5 +55,12 @@
             return new MichtavaSuccess();
 
         }
+
+        public MichtavaResult HardDelete(Subject subject)
+        {
+            this.subjectRepository.HardDelete(subject);
+            this.subjectRepository.SaveChanges();
+            return new MichtavaSuccess();
+        }
     }
 }
