@@ -223,7 +223,7 @@ namespace FileHandler
 
         private string ReadQuestion(string questionPath)
         {
-            string questionAsString =  "מספר שאלה: " +  new DirectoryInfo(questionPath).Name;
+            string questionAsString =  "מספר שאלה: " +  new DirectoryInfo(questionPath).Name + "\r\n";
 
             int suggestedOpeningIndex = 1;
 
@@ -233,11 +233,11 @@ namespace FileHandler
 
                 if (fileName.Contains("suggestedOpening"))
                 {
-                    questionAsString += _questionReaderTranslations["suggestedOpening.txt"] + " " + suggestedOpeningIndex + ": " + File.ReadAllText(file);
+                    questionAsString += _questionReaderTranslations["suggestedOpening.txt"] + " " + suggestedOpeningIndex + ": " + File.ReadAllText(file) + "\r\n";
                 }
                 else
                 {
-                    questionAsString += _questionReaderTranslations[fileName] + ": " + File.ReadAllText(file);
+                    questionAsString += _questionReaderTranslations[fileName] + ": " + File.ReadAllText(file) + "\r\n";
                 }               
             }
 

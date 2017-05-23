@@ -160,27 +160,31 @@
                             <div class="row">
                                 <br />
                                 <hr />
-                                <br/>
-                                <div class="row">
-                                    @foreach (var question in TempData)
+                                <br />
+                                @foreach (var question in TempData)
+                                {
+                                    if (question.Key.Contains("שאלה"))
                                     {
-                                        if (question.Key.Contains("שאלה"))
-                                        {
+                                        <div class="row">
                                             <div class="col-sm-3 pull-right">
-                                                <input type="button" name="QuestionDisplay" value="@question.Key" onclick="showQuestion(document.getElementById('@question.Key'))"/>
-                                                <div id="@question.Key" style="display: none;"><h4>@question.Value</h4></div>
+                                                <input type="button" name="QuestionDisplay" value="@question.Key" onclick="showQuestion(document.getElementById('@question.Key'))" />
                                             </div>
-                                        }
+                                            <div class="col-sm-7 pull-right">
+                                                <textarea readonly="readonly" id="@question.Key" style="display: none; font-size: 20px; width: 400px; height: 400px;">@question.Value</textarea>
+                                            </div>
+                                        </div>
                                     }
-                                </div>
+                                }
+                            </div>
+
                                 <br/>
                                 <hr/>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <input type="submit" value="הוספת שיעורי הבית" style="background-color: forestgreen" id="HomeworkSubmit" name="Submit"/>
-                                    </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="submit" value="הוספת שיעורי הבית" style="background-color: forestgreen" id="HomeworkSubmit" name="Submit"/>
                                 </div>
                             </div>
+                            
 
                         </div>
                     </div>
