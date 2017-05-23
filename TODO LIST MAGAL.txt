@@ -7,3 +7,9 @@
 		if so, notify the teacher that homeworks are ready to be checked.
 		you can find the answers to this homework through, for example,
 			answerService.All().Where(ans => ans.Homework_Id == .....)
+
+3) Use same font
+
+4) deployment document (add hebrew dictionary)
+
+5) ability to add subject (to Subjects + to SchoolClass)

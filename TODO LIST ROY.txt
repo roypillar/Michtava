@@ -25,6 +25,9 @@ worddefinition service
 read mass queries from file => add students, add teachers, add admins, add definitions.
 
 map from requirements to tests
+
+answer flag
+
 -----TESTING---------
 
 test administrationarea 
@@ -39,6 +42,7 @@ write black box selenium tests
 
 complete TODO tests
 
+fix login bug (when redirecting to a wrong view)
 
 
 

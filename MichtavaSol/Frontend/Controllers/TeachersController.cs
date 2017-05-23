@@ -476,12 +476,12 @@ namespace Frontend.Controllers
 
         private void InitializeAnswers()
         {
-            foreach (var answer in _answerService.All())
+            foreach (var answer in _answerService.All().Include(x=>x.Answer_To).ToList())
             {
-                if (answer.Answer_To != null && answer.Answer_To.Deadline <= DateTime.Now && string.IsNullOrEmpty(answer.TeacherFeedback))
-                {
+                //if (answer.Answer_To.Deadline < DateTime.Now && string.IsNullOrEmpty(answer.TeacherFeedback))
+                //{
                     TempData[answer.Student_Id + "_hw"] = _studentService.GetById(answer.Student_Id) + answer.Answer_To.Title;
-                }
+                //}
             }
         }
     }

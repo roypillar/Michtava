@@ -1,2 +1,17 @@
-remember to erase homework from student.Homeworks when he submits it!
+-remember to erase homework from student.Homeworks when he submits it!
 
+-Session time
+
+-fonts - not Ariel
+
+-MichtavaResult result = answerService.Add(answer) //for Add/Update/Remove
+
+
+  and then
+
+  if (result is MichtavaSuccess)
+
+  else if(result is MichtavaFailure)
+...
+
+- ablity to watch feedbacks
