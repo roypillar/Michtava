@@ -19,5 +19,6 @@ namespace Frontend.Models
         public List<QuestionAnswer> CompleteQuestions { get; set; }
 
         public List<int> CompleteQuestionsNumbers { get; set; }
+
     }
 }

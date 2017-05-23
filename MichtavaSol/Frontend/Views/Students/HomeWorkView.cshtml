@@ -1,4 +1,4 @@
-﻿@model Frontend.Models.SmartTextViewModel
+﻿@model Entities.Models.Answer
 
 
 @{
@@ -36,51 +36,8 @@
 
 <body>
     
-  
-    <div class="row">
-        <form class="text-right" action="GotoSmartTextBox" method="post" id="QuestionsMenu">
-
-
-            @foreach (var subject in Model)
-            {
-            int i = 0;
-
-            if (i == (int)Session["QuestionNumber"] )
-            {
-            <div class="col-sm-2">
-                <input name="questionNumber" type="submit" value="@i" style="font:bold" />
-            </div>
-            }
-            else
-            {
-            <div class="col-sm-2">
-                <input name="questionNumber" type="submit" value="@i" />
-            </div>
-            }
-
-            i++;
-            }
-
-        </form>
-    </div>
-
+  @Model.
    
-
-    <div class="col-md-6 pull-right"> 
-
-        <div class="row">
-            @Html.Partial("SmartTextBox", Model.question)
-        </div>
-
-     </div>
-
-    <div class="col-md-6 pull-right">
-        @Html.Partial("TextView")
-    </div>
-    
-    
-
-    <br /><br /><br /><br /><br /><br /><br />
 </body>
 
 

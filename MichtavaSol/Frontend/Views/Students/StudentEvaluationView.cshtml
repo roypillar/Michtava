@@ -1,0 +1,36 @@
+﻿@model Entities.Models.Answer
+
+
+@{
+    ViewBag.Title = "StudentEvaluationView";
+}
+
+<h2>StudentEvaluationView</h2>
+
+<body>
+    <div class="row">
+        <div class="col-sm-6">
+            ציון המטלה-
+            @Model.Grade
+        </div>
+
+        <div class="col-sm-6">
+           תשובה 1. יופי של תשובה.
+            תשובה 2. עניינית אבל חרגת קצת מהנושא.
+            תשובה 3. התוצאה נכוונה אך יש טעויות בדרך.
+            <!--Model.Whatever-->
+        </div>
+
+        התשובות שלך:
+        <div class="col-sm-6" style="max-height:400px;overflow-y:auto">
+            @foreach (var qans in Model.questionAnswers)
+            {
+                <div>
+                    <text>
+                        @qans.Content
+                    </text>
+                </div>
+            }
+        </div> 
+    </div>
+</body>
