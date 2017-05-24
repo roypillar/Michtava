@@ -96,11 +96,13 @@
     <Compile Include="Repositories\Interfaces\ISubjectRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITeacherRepository.cs" />
     <Compile Include="Repositories\Interfaces\ITextRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IWordDefinitionRepository.cs" />
     <Compile Include="Repositories\StudentRepository.cs" />
     <Compile Include="Repositories\SchoolClassRepository.cs" />
     <Compile Include="Repositories\SubjectRepository.cs" />
     <Compile Include="Repositories\TeacherRepository.cs" />
     <Compile Include="Repositories\TextRepository.cs" />
+    <Compile Include="Repositories\WordDefinitionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
