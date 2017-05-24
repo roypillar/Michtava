@@ -44,7 +44,7 @@ namespace Services_Tests
 
         //Adds
         [Test]
-        public void testAddStandalone()
+        public void testAddStandaloneSchoolClass()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -62,7 +62,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddExistingId()
+        public void testAddSchoolClassExistingId()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -77,7 +77,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddExistingDetails()
+        public void testAddExistingSchoolClassDetails()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -107,7 +107,7 @@ namespace Services_Tests
 
         //Gets
         [Test]
-        public void testGetByIdTrue()
+        public void testGetSchoolClassByIdTrue()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -126,7 +126,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testGetByIdFalse()
+        public void testGetSchoolClassByIdFalse()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -142,7 +142,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testGetByDetailsTrue()
+        public void testGetSchoolClassByDetailsTrue()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -162,7 +162,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testGetByDetailsFalse()
+        public void testGetSchoolClassByDetailsFalse()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -179,7 +179,7 @@ namespace Services_Tests
 
         //Update
         [Test]
-        public void testUpdateSuccess()
+        public void testUpdateSchoolClassSuccess()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -203,7 +203,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testUpdateNonExistant()
+        public void testUpdateSchoolClassNonExistant()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -248,7 +248,7 @@ namespace Services_Tests
         //}
 
         [Test]
-        public void testUpdateExistingDetails()
+        public void testUpdateSchoolClassExistingDetails()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -275,7 +275,7 @@ namespace Services_Tests
 
         //Deletes
         [Test]
-        public void testDeleteSuccess()
+        public void testDeleteSchoolClassSuccess()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -300,7 +300,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testDeleteIsStudentUpdated()
+        public void testDeleteSchoolClassIsStudentUpdated()
         {
             this.oneTimeSetUp();
 
@@ -366,7 +366,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testDeleteIsTeacherUpdated()
+        public void testDeleteSchoolClassIsTeacherUpdated()
         {
             this.oneTimeSetUp();
 
@@ -425,7 +425,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testDeleteNonExistant()
+        public void testDeleteNonExistantSchoolClass()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange
@@ -446,7 +446,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testHardDeleteSuccess()
+        public void testHardDeleteSuccessSchoolClass()
         {
             Assert.Null(serv.GetByDetails(23, "ע"));
             // Arrange

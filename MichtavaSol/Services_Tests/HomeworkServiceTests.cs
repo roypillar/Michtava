@@ -48,7 +48,7 @@ namespace Services_Tests
 
         //Adds
         [Test]
-        public void testAddStandalone()
+        public void testAddStandaloneHomework()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -66,7 +66,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddExistingId()
+        public void testAddExistingIdHomework()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -81,7 +81,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddExistingDetails()
+        public void testAddExistingDetailsHomework()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -101,7 +101,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddNullText()
+        public void testAddNullTextHomework()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -123,7 +123,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddNullTeacher()
+        public void testAddNullTeacherHomework()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -145,7 +145,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddNullDate()
+        public void testAddNullDateHomework()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -169,21 +169,14 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddWithTextInconsistency()
-        {
-            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-        }
-
-
-        [Test]
-        public void testAddWithTeacherInconsistency()
+        public void testAddWithTextInconsistencyHomework()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
         }
 
         //Gets
         [Test]
-        public void testGetByIdTrue()
+        public void testGetHomeworkByIdTrue()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -202,7 +195,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testGetByIdFalse()
+        public void testGetHomeworkByIdFalse()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -218,7 +211,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testGetByDetailsTrue()
+        public void testGetHomeworkByDetailsTrue()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -238,7 +231,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testGetByDetailsFalse()
+        public void testGetHomeworkByDetailsFalse()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -255,7 +248,7 @@ namespace Services_Tests
 
         //Update
         [Test]
-        public void testUpdateSuccess()
+        public void testUpdateHomeworkSuccess()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -279,7 +272,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testUpdateNonExistant()
+        public void testUpdateHomeworkNonExistant()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -299,7 +292,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testUpdateExistingDetails()
+        public void testUpdateHomeworkExistingDetails()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -322,7 +315,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testUpdateNullText()
+        public void testUpdateHomeworkNullText()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -344,7 +337,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testUpdateNullTeacher()
+        public void testUpdateHomeworkNullTeacher()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -367,7 +360,7 @@ namespace Services_Tests
 
         //Deletes
         [Test]
-        public void testDeleteSuccess()
+        public void testDeleteHomeworkSuccess()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange
@@ -426,7 +419,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testHardDeleteSuccess()
+        public void testHardDeleteSuccessHomework()
         {
             Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
             // Arrange

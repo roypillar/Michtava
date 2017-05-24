@@ -45,7 +45,7 @@ namespace Services_Tests
 
         //Adds
         [Test]
-        public void testAddStandalone()
+        public void testAddSubjectStandalone()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -63,7 +63,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddExistingId()
+        public void testAddExistingIdSubject()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -78,7 +78,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddExistingDetails()
+        public void testAddExistingSubjectDetails()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -104,14 +104,14 @@ namespace Services_Tests
 
 
         [Test]
-        public void testAddWithTeacherInconsistency()
+        public void testAddSubjectWithTeacherInconsistency()
         {
             Assert.Null(serv.GetByName(n));
         }
 
         //Gets
         [Test]
-        public void testGetByIdTrue()
+        public void testGetSubjectByIdTrue()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -130,7 +130,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testGetByIdFalse()
+        public void testGetSubjectByIdFalse()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -146,7 +146,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testGetByDetailsTrue()
+        public void testGetSubjectByDetailsTrue()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -166,7 +166,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testGetByDetailsFalse()
+        public void testGetSubjectByDetailsFalse()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -183,7 +183,7 @@ namespace Services_Tests
 
         //Update
         [Test]
-        public void testUpdateSuccess()
+        public void testUpdateSubjectSuccess()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -207,7 +207,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testUpdateNonExistant()
+        public void testUpdateSubjectNonExistant()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -226,7 +226,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testUpdateExistingDetails()
+        public void testUpdateSubjectExistingDetails()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -251,7 +251,7 @@ namespace Services_Tests
 
         //Deletes
         [Test]
-        public void testDeleteSuccess()
+        public void testDeleteSubjectSuccess()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -289,7 +289,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testDeleteNonExistant()
+        public void testDeleteSubjectNonExistant()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -310,7 +310,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testHardDeleteSuccess()
+        public void testHardDeleteSubjectSuccess()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange

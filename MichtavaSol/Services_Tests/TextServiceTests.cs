@@ -46,7 +46,7 @@ namespace Services_Tests
 
         //Adds
         [Test]
-        public void testAddStandalone()
+        public void testAddTextStandalone()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -64,7 +64,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddExistingId()
+        public void testAddTextExistingId()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -79,7 +79,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testAddExistingDetails()
+        public void testAddTextExistingDetails()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -97,22 +97,9 @@ namespace Services_Tests
         }
 
 
-        [Test]
-        public void testAddWithTextInconsistency()
-        {
-            Assert.Null(serv.GetByName(n));
-        }
-
-
-        [Test]
-        public void testAddWithTeacherInconsistency()
-        {
-            Assert.Null(serv.GetByName(n));
-        }
-
         //Gets
         [Test]
-        public void testGetByIdTrue()
+        public void testGetTextByIdTrue()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -131,7 +118,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testGetByIdFalse()
+        public void testGetTextByIdFalse()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -147,7 +134,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testGetByDetailsTrue()
+        public void testGetTextByDetailsTrue()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -167,7 +154,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testGetByDetailsFalse()
+        public void testGetTextByDetailsFalse()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -184,7 +171,7 @@ namespace Services_Tests
 
         //Update
         [Test]
-        public void testUpdateSuccess()
+        public void testUpdateTextSuccess()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -208,7 +195,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testUpdateNonExistant()
+        public void testUpdateTextNonExistant()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -227,7 +214,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testUpdateExistingDetails()
+        public void testUpdateTextExistingDetails()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -252,7 +239,7 @@ namespace Services_Tests
 
         //Deletes
         [Test]
-        public void testDeleteSuccess()
+        public void testDeleteTextSuccess()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -290,7 +277,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testDeleteNonExistant()
+        public void testDeleteTextNonExistant()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange
@@ -311,7 +298,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testHardDeleteSuccess()
+        public void testHardDeleteTextSuccess()
         {
             Assert.Null(serv.GetByName(n));
             // Arrange

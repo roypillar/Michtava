@@ -20,6 +20,10 @@ read mass queries from file => add students, add teachers, add admins, add defin
 
 map from requirements to tests
 
+answer flag
+
+login Account/login bug
+
 -----TESTING---------
 
 test administrationarea 
