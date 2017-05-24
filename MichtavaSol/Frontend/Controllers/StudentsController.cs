@@ -353,8 +353,15 @@ namespace Frontend.Controllers
             textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
 
             List<Homework> AllStudentHW = _homeworkService.All().Where(x=>x.Text.Id == textGuid).ToList();
-
             Homework hw = AllStudentHW.First();
+
+            if(hw.Deadline < DateTime.Now)
+            {
+                Answer tmpAns = _answerService.All().Include(q=>q.questionAnswers).Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).FirstOrDefault();
+                tmpAns.Grade = 80;
+                return View("StudentEvaluationView",tmpAns);
+            }
+
             List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q => q.Policy)).Include(x => x.Questions.Select(q => q.Suggested_Openings)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
             smartView.question = tmpQuestionsList.Where(x => x.Question_Number == tmpQuestNumber).FirstOrDefault();
             smartView.Questions = tmpQuestionsList;

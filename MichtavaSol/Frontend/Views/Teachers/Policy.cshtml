@@ -17,8 +17,9 @@
             width: 100%;
             height: 100%;
             background-position: center;
-            background-size: 100% 100%;
+            background-size: cover;
             background-repeat: no-repeat;
+            background-attachment: fixed;
         }
         .button {
             display: inline-block;
@@ -59,6 +60,18 @@
             opacity: 1;
             right: 0;
         }
+        input[type=button] {
+            color: white;
+            background-color: dodgerblue;
+            cursor:pointer;
+            width: 7em;  
+            height: 4em;
+            font-size: 14px;
+        }
+
+        input[type=button]:hover {
+            background-color: darkblue;
+        }
     </style>
 </head>
 <body>
@@ -67,154 +80,211 @@
 
 <button class="button" onclick="location.href = '@Url.Action("NavigateToTextsView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
 
-<hr/>
-<div class="row">
     <form class="text-right" action="SubmitPolicy" method="post" id="policyData">
-        <div class="row">
-            <div class="col-sm-10">
-                <label for="textContent">@TempData["textName"]</label>
-                <textarea id="textName" name="textName" style="display: none">@TempData["textName"]</textarea>
-                <textarea id="textContent" name="textContent" cols="70" rows="5">@TempData["TextContent"]</textarea>
-            </div>
-        </div>
-        <hr />
-        <br/>
-        <div class="row">            
-            @foreach (var question in TempData)
-            {
-                if (question.Key.Contains("שאלה"))
-                {
-                    <div class="col-sm-3 pull-right">
-                        <input type="button" name="QuestionDisplay" value="@question.Key" onclick="showQuestion(document.getElementById('@question.Key'))" />
-                        <div id="@question.Key" style="display:none;" >@question.Value</div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><h2>@TempData["textName"]</h2></div>
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-sm-10">
+                        <label for="textContent">@TempData["textName"]</label>
+                        <textarea id="textName" name="textName" style="display: none">@TempData["textName"]</textarea>
+                        <textarea id="textContent" name="textContent" cols="70" rows="5">@TempData["TextContent"]</textarea>
                     </div>
-                }
-            }                        
-        </div>
-
-        <h2>@ViewBag.Title</h2>
-        <h3>@ViewBag.Message</h3>
-
-        <div class="row">
-            <div class="col-sm-10">
-                @Html.TextAreaFor(model => model.Question, new {cols = 50, @rows = 5, @placeholder = "הוסף שאלה..."})
-            </div>
-        </div>
-
-        @*<div class="row">
-            <div class="col-sm-10">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary" style="background-color: green">+</button>
-                    <button type="button" class="btn btn-primary">שאלה 3</button>
-                    <button type="button" class="btn btn-primary">שאלה 2</button>
-                    <button type="button" class="btn btn-primary">שאלה 1</button>
                 </div>
-            </div>
-        </div>*@
-        
-        <br/>
-        <div class="row">
-            <div class="col-sm-10 pull-right">
-                <h3><u>מאפייני התשובה:</u>
-                </h3>
-            </div>
-        </div>
-        <br/><br/>
-        <div class="row">
-            <div class="col-sm-7 pull-right"><h6><label for="MinWords">כמות מילים מינימלית:</label></h6>
-            </div>
-            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m.MinWords,
-                                                 new {@type = "number", @name = "MinWords", @id = "MinWords", @min = "1", @max = "1000", @style = "width: 5em", value = "@IIf(Model.MinWords= 0"})
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-7 pull-right"><h6><label for="MaxWords">כמות מילים מקסימלית:</label></h6>
-            </div>
-            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m.MaxWords,
-                                                 new {@type = "number", @name = "MaxWords", @id = "MaxWords", @min = "1", @max = "1000", @style = "width: 5em"})
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-7 pull-right"><h6><label for="MinConnectors">כמות מינימלית של מילות קישור:</label></h6>
-            </div>
-            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m.MinConnectors,
-                                                 new {@type = "number", @name = "MinConnectors", @id = "MinConnectors", @min = "0", @max = "100", @style = "width: 5em"})
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-7 pull-right"><h6><label for="MaxConnectors">כמות מקסימלית של מילות קישור:</label></h6>
-            </div>
-            <div class="col-sm-3 pull-right">@Html.TextBoxFor(m => m.MaxConnectors,
-                                                 new {@type = "number", @name = "MaxConnectors", @id = "MaxConnectors", @min = "0", @max = "100", @style = "width: 5em"})
-            </div>
-        </div>
+                <br /><br />
+                <div class="row">
+                    <div class="col-sm-4 pull-right">
+                        <div>
+                            <input type="button" value="הוסף פירוש למילה" onclick="addWord()" class="bt" style="width: 10em; background-color: green; color: white" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4 pull-right">
+                        <div>
+                            <input type="button" value="הסר פירוש למילה" onclick="removeTranslation()" class="bt" style="width: 10em; background-color: orange; color: white" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4 pull-right">
+                        <div>
+                            <input type="button" value="הסר הכל" onclick="removeAllTranslations()" class="bt" style="width: 10em; background-color: red; color: white" /><br />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10 pull-right">
+                        <span id="wordTranslation">&nbsp;</span>
+                    </div>
+                </div>
 
-        <br/><br/><br/>
-        <hr/>
-
-        <div class="row">
-            <div class="col-sm-4 pull-right">
-                <div id="main">
-                    <input type="button" id="btAdd" value="הוסף משפט פתיחה" class="bt" style="width: 10em; background-color: green; color: white"/>
-                </div>
-            </div>
-            <div class="col-sm-4 pull-right">
-                <div id="main">
-                    <input type="button" id="btRemove" value="הסר משפט פתיחה" class="bt" style="width: 10em; background-color: orange; color: white"/>
-                </div>
-            </div>
-            <div class="col-sm-4 pull-right">
-                <div id="main">
-                    <input type="button" id="btRemoveAll" value="הסר הכל" class="bt" style="width: 10em; background-color: red; color: white"/><br/>
-                </div>
-            </div>
-        </div>
-        <hr/>
-
-        <div class="row">
-            <div class="col-sm-4 pull-right">
-                <div>
-                    <input type="button" value="הוסף פירוש למילה" onclick="addWord()" class="bt" style="width: 10em; background-color: green; color: white"/>
-                </div>
-            </div>
-            <div class="col-sm-4 pull-right">
-                <div>
-                    <input type="button" value="הסר פירוש למילה" onclick="removeTranslation()" class="bt" style="width: 10em; background-color: orange; color: white"/>
-                </div>
-            </div>
-            <div class="col-sm-4 pull-right">
-                <div>
-                    <input type="button" value="הסר הכל" onclick="removeAllTranslations()" class="bt" style="width: 10em; background-color: red; color: white"/><br/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-10 pull-right">
-                <span id="wordTranslation">&nbsp;</span>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-10 pull-right">
-                <input type="submit" value="הוספת שאלה" style="background-color: crimson" id="QuestionSubmit" name="Submit" />
             </div>
         </div>
         <br />
-        <div class="row">
-            <div class="col-sm-10 pull-right">
-                <label for="submittionDate">הכנס/י תאריך הגשה של שיעורי הבית</label>
-                <input type="date" id="submissionDate" name="submissionDate" value="" min="">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-10 pull-right">
-                <input type="submit" value="הוספת שיעורי הבית" style="background-color: forestgreen" id="HomeworkSubmit" name="Submit" />
-            </div>
-        </div>
 
-    </form>  
-</div>
+                <!---------------------------------------------------------------------- שיעורי הבית --------------------------------------------------------------------->
+                <div class="col-sm-6">
 
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h2>שיעורי הבית</h2>
+                        </div>
+                        <div class="panel-body">
+                            
+                            <div class="row">
+                                <div class="col-sm-7 pull-right">
+                                    <label for="homeworkTitle">כותרת: </label>
+                                </div>
+                                <div class="col-sm-3 pull-right">
+                                    <input type="text" id="homeworkTitle" name="homeworkTitle" value="">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-7 pull-right">
+                                    <label for="homeworkDescription">פירוט: </label>
+                                </div>
+                                    <div class="col-sm-3 pull-right">                                   
+                                    <input type="text" id="homeworkDescription" name="homeworkDescription" value="">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-7 pull-right">
+                                    <label for="submissionDate">תאריך הגשה: </label>
+                                </div>
+                                <div class="col-sm-3 pull-right">
+                                    <input type="date" id="submissionDate" name="submissionDate" value="" min="">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <br />
+                                <hr />
+                                <br />
+                                @foreach (var question in TempData)
+                                {
+                                    if (question.Key.Contains("שאלה"))
+                                    {
+                                        <div class="row">
+                                            <div class="col-sm-3 pull-right">
+                                                <input type="button" name="QuestionDisplay" value="@question.Key" onclick="showQuestion(document.getElementById('@question.Key'))" />
+                                            </div>
+                                            <div class="col-sm-7 pull-right">
+                                                <textarea readonly="readonly" id="@question.Key" style="display: none; font-size: 20px; width: 400px; height: 400px;">@question.Value</textarea>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+                                <br/>
+                                <hr/>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="submit" value="הוספת שיעורי הבית" style="background-color: forestgreen" id="HomeworkSubmit" name="Submit"/>
+                                </div>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+                </div>
+                <!------------------------------------------------------------------------------------------------------------------------------------------------------>
+                <!---------------------------------------------------------------------- הוספת שאלה ------------------------------------------------------------------->
+                <div class="col-sm-6">
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h2>הוספת שאלה</h2>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-sm-10 pull-right">
+                                    @Html.TextAreaFor(model => model.Question, new { cols = 50, @rows = 5, @placeholder = "הוסף שאלה..." })
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-10 pull-right">
+                                    <h3>
+                                        <u>מאפייני התשובה:</u>
+                                    </h3>
+                                </div>
+                            </div>
+                            <br /><br />
+                            <div class="row">
+                                <div class="col-sm-7 pull-right">
+                                    <h6><label for="MinWords">כמות מילים מינימלית:</label></h6>
+                                </div>
+                                <div class="col-sm-3 pull-right">
+                                    @Html.TextBoxFor(m => m.MinWords,
+                            new { @type = "number", @name = "MinWords", @id = "MinWords", @min = "1", @max = "1000", @style = "width: 5em", value = "@IIf(Model.MinWords= 0" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-7 pull-right">
+                                    <h6><label for="MaxWords">כמות מילים מקסימלית:</label></h6>
+                                </div>
+                                <div class="col-sm-3 pull-right">
+                                    @Html.TextBoxFor(m => m.MaxWords,
+                            new { @type = "number", @name = "MaxWords", @id = "MaxWords", @min = "1", @max = "1000", @style = "width: 5em" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-7 pull-right">
+                                    <h6><label for="MinConnectors">כמות מינימלית של מילות קישור:</label></h6>
+                                </div>
+                                <div class="col-sm-3 pull-right">
+                                    @Html.TextBoxFor(m => m.MinConnectors,
+                            new { @type = "number", @name = "MinConnectors", @id = "MinConnectors", @min = "0", @max = "100", @style = "width: 5em" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-7 pull-right">
+                                    <h6><label for="MaxConnectors">כמות מקסימלית של מילות קישור:</label></h6>
+                                </div>
+                                <div class="col-sm-3 pull-right">
+                                    @Html.TextBoxFor(m => m.MaxConnectors,
+                            new { @type = "number", @name = "MaxConnectors", @id = "MaxConnectors", @min = "0", @max = "100", @style = "width: 5em" })
+                                </div>
+                            </div>
+
+                            <br />
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-sm-4 pull-right">
+                                    <div id="main">
+                                        <input type="button" id="btAdd" value="הוסף משפט פתיחה" class="bt" style="width: 10em; background-color: green; color: white" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 pull-right">
+                                    <div id="main">
+                                        <input type="button" id="btRemove" value="הסר משפט פתיחה" class="bt" style="width: 10em; background-color: orange; color: white" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 pull-right">
+                                    <div id="main">
+                                        <input type="button" id="btRemoveAll" value="הסר הכל" class="bt" style="width: 10em; background-color: red; color: white" /><br />
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="submit" value="הוספת שאלה" style="background-color: crimson" id="QuestionSubmit" name="Submit" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!------------------------------------------------------------------------------------------------------------------------------------------------------>
+
+    </form>
 <script>
     $(document).ready(function () {
         var date = new Date();
@@ -231,7 +301,7 @@
     });
 
     $(document)
-        .ready(function() {
+        .ready(function () {
 
             var iCnt = 0;
             // CREATE A "DIV" ELEMENT AND DESIGN IT USING jQuery ".css()" CLASS.
@@ -248,7 +318,7 @@
                 });
 
             $('#btAdd')
-                .click(function() {
+                .click(function () {
                     if (iCnt <= 7) {
 
                         iCnt = iCnt + 1;
@@ -311,7 +381,7 @@
 
             // REMOVE ONE ELEMENT PER CLICK.
             $('#btRemove')
-                .click(function() {
+                .click(function () {
                     if (iCnt != 0) {
                         $('#tb' + iCnt).remove();
                         iCnt = iCnt - 1;
@@ -331,7 +401,7 @@
 
             // REMOVE ALL THE ELEMENTS IN THE CONTAINER.
             $('#btRemoveAll')
-                .click(function() {
+                .click(function () {
                     $(container)
                         .empty()
                         .remove();
@@ -357,7 +427,7 @@
         values = '';
 
         $('.input')
-            .each(function() {
+            .each(function () {
                 divValue = $(document.createElement('div'))
                     .css({
                         padding: '5px',
@@ -421,7 +491,7 @@
             element.style.display = "none";
         } else {
             element.style.display = "block";
-        }       
+        }
     }
 
 </script>

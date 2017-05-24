@@ -72,8 +72,6 @@ namespace FileHandler
             string path = Path.Combine(serverTemporaryFilesrPath, currentTeacherId.ToString(), relatedText.ToString(), question.Question_Number.ToString());
             CreateIfMissing(path);
 
-            if (question != null)
-            {
                 File.WriteAllText(Path.Combine(path, "Content.txt"), question.Content);
                 File.WriteAllText(Path.Combine(path, "MinWords.txt"), question.Policy.MinWords.ToString());
                 File.WriteAllText(Path.Combine(path, "MaxWords.txt"), question.Policy.MaxWords.ToString());
@@ -86,7 +84,6 @@ namespace FileHandler
                     File.WriteAllText(Path.Combine(path, "suggestedOpening" + suggetedOpeningNumber + ".txt"), suggestedOpening.Content);
                     suggetedOpeningNumber++;
                 }
-            }
         }
 
         public Dictionary<int, string> GetCurrentHomework(string serverTemporaryFilesrPath, Guid currentTeacherId, Guid relatedText)
@@ -226,7 +223,7 @@ namespace FileHandler
 
         private string ReadQuestion(string questionPath)
         {
-            string questionAsString =  "מספר שאלה: " +  new DirectoryInfo(questionPath).Name;
+            string questionAsString =  "מספר שאלה: " +  new DirectoryInfo(questionPath).Name + "\r\n";
 
             int suggestedOpeningIndex = 1;
 
@@ -236,11 +233,11 @@ namespace FileHandler
 
                 if (fileName.Contains("suggestedOpening"))
                 {
-                    questionAsString += _questionReaderTranslations["suggestedOpening.txt"] + " " + suggestedOpeningIndex + ": " + File.ReadAllText(file);
+                    questionAsString += _questionReaderTranslations["suggestedOpening.txt"] + " " + suggestedOpeningIndex + ": " + File.ReadAllText(file) + "\r\n";
                 }
                 else
                 {
-                    questionAsString += _questionReaderTranslations[fileName] + ": " + File.ReadAllText(file);
+                    questionAsString += _questionReaderTranslations[fileName] + ": " + File.ReadAllText(file) + "\r\n";
                 }               
             }
 
