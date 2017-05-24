@@ -88,6 +88,8 @@
     <Compile Include="HomeworkServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchoolClassServiceTests.cs" />
+    <Compile Include="SubjectServiceTests.cs" />
+    <Compile Include="TextServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

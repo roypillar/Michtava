@@ -11,6 +11,12 @@ namespace Entities.Models
 
 
         private ICollection<Homework> homeworks;
+        public Student(string name)
+        {
+            homeworks = new List<Homework>();
+            Name = name;
+        }
+
 
         public Student()
         {

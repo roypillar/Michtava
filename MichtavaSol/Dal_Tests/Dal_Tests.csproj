@@ -87,7 +87,6 @@
   <ItemGroup>
     <Compile Include="AdministratorRepositoryTests.cs" />
     <Compile Include="AnswerRepositoryTests.cs" />
-    <Compile Include="ApplicationUserRepositoryTests.cs" />
     <Compile Include="DeletableEntityRepositoryTests.cs" />
     <Compile Include="HomeworkRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,6 +94,7 @@
     <Compile Include="StudentRepositoryTests.cs" />
     <Compile Include="SubjectRepositoryTests.cs" />
     <Compile Include="TeacherRepositoryTests.cs" />
+    <Compile Include="TextRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

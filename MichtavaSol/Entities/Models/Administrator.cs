@@ -9,6 +9,16 @@ namespace Entities.Models
 {
     public class Administrator : DeletableEntity, HasId
     {
+        public Administrator()
+        {
+
+        }
+
+        public Administrator(string fn, string ln)
+        {
+            FirstName = fn;
+            LastName = ln;
+        }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 

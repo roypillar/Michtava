@@ -16,23 +16,22 @@ using Common;
 
 namespace Dal_Tests
 {
-    class AdministratorRepositoryTests
+    class TextRepositoryTests
     {
         private ApplicationDbContext ctx;
 
-        private AdministratorRepository repo;
+        private TextRepository repo;
 
-        private Administrator entity;
+        private Text entity;
 
-        private const string fn = "בדיקה";
-        private const string ln = "בדיקה";
+        private const string n = "בדיקה בדיקה";
 
         [OneTimeSetUp]
         public void oneTimeSetUp()
         {
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
-            this.repo = new AdministratorRepository(ctx);
+            this.repo = new TextRepository(ctx);
             new DatabaseSeeder().CreateDependenciesAndSeed(ctx);//heavy duty
 
         }
@@ -40,13 +39,14 @@ namespace Dal_Tests
         [OneTimeTearDown]
         public void oneTimeTearDown()
         {
+            //nothing for now
         }
 
 
         [SetUp]
         public void setUp()
         {
-            entity = new Administrator(fn, ln);
+            entity = new Text(n,this.ctx.Set<Subject>().FirstOrDefault());
         }
 
         [TearDown]
@@ -66,7 +66,7 @@ namespace Dal_Tests
             this.repo.SaveChanges();
             // Assert
 
-            Assert.True(repo.Count() == count+1);
+            Assert.NotNull(repo.GetByName(n));
 
             this.repo.HardDelete(entity);
             this.repo.SaveChanges();
@@ -79,12 +79,12 @@ namespace Dal_Tests
             // Arrange
             int count = repo.All().Count();
 
-            Administrator c = repo.All().FirstOrDefault();
+            Text c = repo.All().FirstOrDefault();
             Assert.NotNull(c);
 
 
             // Act
-            Administrator actual = repo.GetById(c.Id);
+            Text actual = repo.GetById(c.Id);
             // Assert
 
             Assert.NotNull(actual);
@@ -101,8 +101,7 @@ namespace Dal_Tests
 
 
             // Act
-            Administrator actual = repo.Get(x => (x.FirstName == fn &&
-                                                x.LastName == ln)).FirstOrDefault();
+            Text actual = repo.Get(x => (x.Name == n)).FirstOrDefault();
 
             // Assert
 
@@ -123,12 +122,11 @@ namespace Dal_Tests
             repo.Add(entity);
             this.repo.SaveChanges();
 
-            Assert.IsEmpty(repo.Get(x => x.FirstName == fn + "alala" &&
-                                      x.LastName == ln));
+            Assert.Null(repo.GetByName(n + "alala"));
 
 
             Assert.AreEqual(count + 1, repo.All().Count());
-            entity.FirstName += "alala";
+            entity.Name += "alala";
 
 
             // Act
@@ -137,9 +135,7 @@ namespace Dal_Tests
 
             // Assert
 
-            Assert.NotNull(repo.Get(x => x.FirstName == fn + "alala" &&
-                                       x.LastName == ln));
-
+            Assert.NotNull(repo.GetByName(n + "alala"));
             this.repo.HardDelete(entity);
             this.repo.SaveChanges();
 
@@ -153,16 +149,13 @@ namespace Dal_Tests
             repo.SaveChanges();
             int count = repo.All().Count();
 
-            Guid id = repo.Get(x => x.FirstName == fn &&
-                                     x.LastName == ln).FirstOrDefault().Id;
+            Guid id = repo.GetByName(n).Id;
             // Act
             repo.Delete(entity);
             repo.SaveChanges();
             // Assert
 
-            Assert.IsEmpty(repo.Get(x => (x.FirstName == fn &&
-                                                x.LastName == ln && x.IsDeleted == false)));
-
+            Assert.Null(repo.GetByName(n));
             Assert.True(repo.All().Count() == count - 1);
             Assert.True(repo.GetById(id).IsDeleted);
 
@@ -182,8 +175,7 @@ namespace Dal_Tests
 
 
             // Act
-            Administrator actual = repo.Get(x => x.FirstName == fn &&
-                                                x.LastName == ln).FirstOrDefault();
+            Text actual = repo.GetByName(n);
 
             // Assert
 
@@ -192,6 +184,29 @@ namespace Dal_Tests
             this.repo.HardDelete(entity);
             this.repo.SaveChanges();
         }
+
+
+        [Test]
+        public void testGetByName()
+        {
+            // Arrange
+            int count = repo.All().Count();
+            this.repo.Add(entity);
+            this.repo.SaveChanges();
+
+
+            // Act
+            Text actual = repo.GetByName(n);
+
+            // Assert
+
+            Assert.NotNull(actual);
+
+            this.repo.HardDelete(entity);
+            this.repo.SaveChanges();
+        }
+
+
     }
 
 }

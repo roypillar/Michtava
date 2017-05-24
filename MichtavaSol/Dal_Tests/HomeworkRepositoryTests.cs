@@ -25,6 +25,8 @@ namespace Dal_Tests
         private Homework entity;
 
         private const string hwTitle = "בדיקה בדיקה";
+        private const string hwDesc = "בדיקה";
+
         [OneTimeSetUp]
         public void oneTimeSetUp()
         {
@@ -45,7 +47,7 @@ namespace Dal_Tests
         [SetUp]
         public void setUp()
         {
-            entity = new Homework(hwTitle, "this is a test homework", DateTime.Now,
+            entity = new Homework(hwTitle,hwDesc, DateTime.Now,
                   ctx.Set<Teacher>().FirstOrDefault(),
                   ctx.Set<Text>().FirstOrDefault());
             //entity.setId(Guid.NewGuid());//consider using
@@ -68,7 +70,7 @@ namespace Dal_Tests
             this.repo.SaveChanges();
             // Assert
 
-            Assert.NotNull(repo.GetByDetails(hwTitle));
+            Assert.NotNull(repo.GetByDetails(hwTitle,hwDesc));
 
             this.repo.HardDelete(entity);
             this.repo.SaveChanges();
@@ -91,7 +93,6 @@ namespace Dal_Tests
 
             Assert.NotNull(actual);
 
-            //TODO add existing test
         }
 
         [Test]
@@ -105,7 +106,7 @@ namespace Dal_Tests
 
             // Act
             Homework actual = repo.Get(x => (x.Title == hwTitle &&
-                                                x.Description == "this is a test homework")).FirstOrDefault();
+                                                x.Description == hwDesc)).FirstOrDefault();
 
             // Assert
 
@@ -126,7 +127,7 @@ namespace Dal_Tests
             repo.Add(entity);
             this.repo.SaveChanges();
 
-            Assert.Null(repo.GetByDetails(hwTitle+"alala"));
+            Assert.Null(repo.GetByDetails(hwTitle+"alala",hwDesc));
 
 
             Assert.AreEqual(count + 1, repo.All().Count());
@@ -139,7 +140,7 @@ namespace Dal_Tests
 
             // Assert
 
-            Assert.NotNull(repo.GetByDetails(hwTitle+"alala"));
+            Assert.NotNull(repo.GetByDetails(hwTitle+"alala",hwDesc));
             this.repo.HardDelete(entity);
             this.repo.SaveChanges();
 
@@ -153,13 +154,13 @@ namespace Dal_Tests
             repo.SaveChanges();
             int count = repo.All().Count();
 
-            Guid id = repo.GetByDetails(hwTitle).Id;
+            Guid id = repo.GetByDetails(hwTitle,hwDesc).Id;
             // Act
             repo.Delete(entity);
             repo.SaveChanges();
             // Assert
 
-            Assert.Null(repo.GetByDetails(hwTitle));
+            Assert.Null(repo.GetByDetails(hwTitle,hwDesc));
             Assert.True(repo.All().Count() == count - 1);
             Assert.True(repo.GetById(id).IsDeleted);
 
@@ -179,12 +180,14 @@ namespace Dal_Tests
 
 
             // Act
-            Homework actual = repo.GetByDetails(hwTitle);
+            Homework actual = repo.GetByDetails(hwTitle,hwDesc);
 
             // Assert
 
             Assert.NotNull(actual);
 
+            this.repo.HardDelete(entity);
+            this.repo.SaveChanges();
         }
     }
 

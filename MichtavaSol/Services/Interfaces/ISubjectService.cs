@@ -1,5 +1,6 @@
 ﻿namespace Services.Interfaces
 {
+    using Common;
     using Entities.Models;
     using System;
 
@@ -7,5 +8,7 @@
     {
         Subject GetById(Guid id);
         Subject GetByName(string subjectName);
+
+        MichtavaResult HardDelete(Subject subject);
     }
 }

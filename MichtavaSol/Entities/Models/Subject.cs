@@ -8,6 +8,15 @@ namespace Entities.Models
 
     public class Subject : DeletableEntity, HasId
     {
+        public Subject()
+        {
+
+        }
+
+        public Subject(string name)
+        {
+            Name = name;
+        }
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }

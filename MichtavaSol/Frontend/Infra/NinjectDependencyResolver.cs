@@ -51,19 +51,19 @@
             this.kernel.Bind<IStudentRepository>().To<StudentRepository>();
             this.kernel.Bind<ITeacherRepository>().To<TeacherRepository>();
             this.kernel.Bind<IApplicationUserRepository>().To<ApplicationUserRepository>();
-
+            this.kernel.Bind<IWordDefinitionRepository>().To<WordDefinitionRepository>();
 
             //bind all service interfaces to actual implementations here
 
             this.kernel.Bind<ITextService>().To<TextService>();
             this.kernel.Bind<IAnswerService>().To<AnswerService>();
             this.kernel.Bind<IHomeworkService>().To<HomeworkService>();
-        
             this.kernel.Bind<ISchoolClassService>().To<SchoolClassService>();
             this.kernel.Bind<ISubjectService>().To<SubjectService>();
             this.kernel.Bind<IAdministratorService>().To<AdministratorService>();
             this.kernel.Bind<IStudentService>().To<StudentService>();
             this.kernel.Bind<ITeacherService>().To<TeacherService>();
+            this.kernel.Bind<IWordDefinitionService>().To<WordDefinitionService>();
         }
     }
 }

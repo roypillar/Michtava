@@ -9,11 +9,21 @@ namespace Entities.Models
 {
     public class Answer : DeletableEntity, HasId
     {
+        private Homework _homework;
+        private Student _student;
 
         public Answer()
         {
             Date_Submitted = DateTime.Now;
             questionAnswers = new List<QuestionAnswer>();
+        }
+
+        public Answer(Homework hw, Student s)
+        {
+            Date_Submitted = DateTime.Now;
+            questionAnswers = new List<QuestionAnswer>();
+            Answer_To = hw;
+            Submitted_By = s;
         }
      
 
@@ -22,7 +32,20 @@ namespace Entities.Models
 
         public DateTime Date_Submitted { get; set; }
 
-        public Homework Answer_To { get; set; }
+        public Homework Answer_To
+        {
+            get
+            {
+                return _homework;
+            }
+
+            set
+            {
+                _homework = value;
+                if (value != null)
+                    Homework_Id = value.Id;
+            }
+        }
 
         [ForeignKey("Answer_To")]
         public Guid Homework_Id { get; set; }
@@ -34,7 +57,20 @@ namespace Entities.Models
 
         //public string QuestionAnswer { get; set; } 
 
-        public Student Submitted_By { get; set; }
+        public Student Submitted_By
+        {
+            get
+            {
+                return _student;
+            }
+
+            set
+            {
+                _student = value;
+                if (value != null)
+                    Student_Id = value.Id;
+            }
+        }
 
         [ForeignKey("Submitted_By")]
         public Guid Student_Id { get; set; }

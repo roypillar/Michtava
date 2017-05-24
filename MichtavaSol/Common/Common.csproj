@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\MichtavaNoIdException.cs" />
+    <Compile Include="Exceptions\MoreThanOneElementException.cs" />
     <Compile Include="Exceptions\NameDuplicateException.cs" />
     <Compile Include="GlobalConstants.cs" />
     <Compile Include="MichtavaFailure.cs" />

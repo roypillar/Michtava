@@ -14,24 +14,17 @@ error handling - learn remote validation IN PROGRESS
 
 fix SQL in university 
 
-word definitions dictionary
-
-all queries in services
-
-update diagram arrow from subject to text
-
 worddefinition service
 
 read mass queries from file => add students, add teachers, add admins, add definitions.
 
 map from requirements to tests
+
 -----TESTING---------
 
 test administrationarea 
 
 test add existing word (with spaces whitenoise etc) should fail
-
-write test for overriden methods in services and repos. IN PROGRESS MAIN
 
 write tests for services IN PROGRESS
 
