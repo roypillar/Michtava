@@ -93,8 +93,8 @@
                         <textarea id="textContent" name="textContent" cols="70" rows="5">@TempData["TextContent"]</textarea>
                     </div>
                 </div>
-                <br /><br />
-                <div class="row">
+                <hr/>
+                @*<div class="row">
                     <div class="col-sm-4 pull-right">
                         <div>
                             <input type="button" value="הוסף פירוש למילה" onclick="addWord()" class="bt" style="width: 10em; background-color: green; color: white" />
@@ -111,23 +111,29 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="row">
+                <div class="row">
                     <div class="col-sm-10 pull-right">
                         <span id="wordTranslation">&nbsp;</span>
                     </div>
                 </div>*@
-
-                <div class="row">
-                    <div class="col-sm-10 pull-right">
-                        <input type="text" id="word" name="word" value="" placeholder="מילה">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-10 pull-right">
-                        <input type="text" id="wordDefinition" name="wordDefinition" value="" placeholder="פירוש מילה">
-                    </div>
-                </div>
                 
+                <div class="row">
+                    <div class="col-sm-4 pull-right">
+                        <h3><u>הוספת פירושי מילים:</u></h3>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-sm-10 pull-right">
+                        <input type="text" id="word" name="word" value="" placeholder="מילה...">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10 pull-right">
+                        <input type="text" id="wordDefinition" name="wordDefinition" value="" placeholder="פירוש המילה..." style="width: 25em; ">
+                    </div>
+                </div>
+                <hr/>
                 <div class="row">
                     <div class="col-sm-10 pull-right">
                         <input type="submit" value="הוספת פירוש" style="background-color: crimson" id="wordDefinitionsSubmit" name="Submit" />
@@ -457,7 +463,7 @@
         $('body').append(divValue);
     }
 
-    function addWord() {
+   /* function addWord() {
 
         //Create an input type dynamically.
         var wordElement = document.createElement("input");
@@ -483,7 +489,7 @@
             option.value = option.textContent = inputdata[i];
 
             select.appendChild(option);
-        };*/
+        };#1#
 
 
         var translation = document.getElementById("wordTranslation");
@@ -514,7 +520,7 @@
         } else {
             element.style.display = "block";
         }
-    }
+    }*/
 
 </script>
 
