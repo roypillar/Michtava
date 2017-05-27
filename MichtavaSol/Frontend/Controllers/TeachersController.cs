@@ -429,7 +429,7 @@ namespace Frontend.Controllers
 
         private SchoolClass GetClass(string className)
         {
-            foreach (var cls in _classService.All().Include(x => x.Students))
+            foreach (var cls in _classService.All().Include(x => x.Students).Include(x => x.Homeworks.Select(t => t.Text)))
             {
                 if (className.Equals(cls.ClassLetter + " " + cls.ClassNumber))
                     return cls;
@@ -509,21 +509,74 @@ namespace Frontend.Controllers
             return View("StudentView");
         }
 
-        public ActionResult NavigateToAnswersView()
+        public ActionResult NavigateToHomeworkView()
         {
-            InitializeAnswers();
+            InitializeHomeworks();
+
+            ViewBag.Title = "שיעורי בית:";
+
+            return View("HomeworkView");
+        }
+
+        private void InitializeHomeworks()
+        {
+            foreach (var classHW in GetClass(Session["CurrentClass"].ToString()).Homeworks.ToList())
+            {
+                //if (classHW.Deadline < DateTime.Now)
+                //{
+                    TempData[classHW.Id + "_hw"] = classHW.Text.Name;
+                //}
+            }
+        }
+
+        public ActionResult NavigateToAnswersView(string homeworkText)
+        {
+            InitializeStudentAnswers();
+            Session["HomeworkText"] = homeworkText;
 
             return View("AnswersView");
         }
 
-        private void InitializeAnswers()
+        private void InitializeStudentAnswers()
         {
-            foreach (var answer in _answerService.All().Include(x=>x.Answer_To).ToList())
+            foreach (var std in GetClass(Session["CurrentClass"].ToString()).Students.ToList())
             {
-                //if (answer.Answer_To.Deadline < DateTime.Now && string.IsNullOrEmpty(answer.TeacherFeedback))
-                //{
-                    TempData[answer.Student_Id + "_hw"] = _studentService.GetById(answer.Student_Id) + answer.Answer_To.Title;
-                //}
+                TempData[std.Id + "_student"] = std.Name;
+            }
+
+            /*foreach (var answer in _answerService.All().Include(x=>x.Answer_To).Include(x => x.questionAnswers).ToList())
+            {
+                if (answer.Answer_To != null && answer.Answer_To.Text != null && homeworkText.Equals(answer.Answer_To.Text.Name))
+                {
+                    TempData[answer.Student_Id + "_answer"] = "";
+                    foreach (var questionAns in answer.questionAnswers)
+                    {
+                        TempData[answer.Student_Id + "_answer"] += questionAns.Content + "\n";
+                    }
+                }
+            }*/
+        }
+
+        public ActionResult ShowAnswer(string student)
+        {
+            InitializeStudentAnswers();
+            InitizlizeAnswer(student);
+
+            return View("AnswersView");
+        }
+
+        private void InitizlizeAnswer(string student)
+        {
+            foreach (var answer in _answerService.All().Include(x => x.questionAnswers.Select(y => y.Of_Question)))
+            {
+                if (answer.Answer_To != null && _studentService.GetById(answer.Student_Id).Name.Equals(student) && answer.Answer_To.Text.Name.Equals(Session["HomeworkText"]))
+                {
+                    foreach (var questionAnswer in answer.questionAnswers)
+                    {
+                        TempData[answer.Student_Id + "_answer"] += "מספר שאלה: " + questionAnswer.Of_Question.Question_Number + "\n";
+                        TempData[answer.Student_Id + "_answer"] += "תשובה: \n" + questionAnswer.Content + "\n\n";
+                    }
+                }
             }
         }
     }
