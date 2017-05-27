@@ -21,8 +21,6 @@ namespace Frontend.Models
 
         public List<string> KeySentences { get; set; }
 
-        public List<string> WordDefinitions { get; set; }
-
         // --------------------------------------------------------------------------------
 
         public string Question { get; set; }

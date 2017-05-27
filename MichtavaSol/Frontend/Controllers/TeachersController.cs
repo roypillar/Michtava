@@ -522,6 +522,7 @@ namespace Frontend.Controllers
         {
             foreach (var classHW in GetClass(Session["CurrentClass"].ToString()).Homeworks.ToList())
             {
+                // TODO: Remove comments
                 //if (classHW.Deadline < DateTime.Now)
                 //{
                     TempData[classHW.Id + "_hw"] = classHW.Text.Name;
@@ -531,8 +532,12 @@ namespace Frontend.Controllers
 
         public ActionResult NavigateToAnswersView(string homeworkText)
         {
-            InitializeStudentAnswers();
+            ViewBag.Title = "בחר/י תלמיד על מנת לצפות בתשובות";
+
             Session["HomeworkText"] = homeworkText;
+
+            InitializeStudentAnswers();
+            InitializQuestions();
 
             return View("AnswersView");
         }
@@ -543,26 +548,32 @@ namespace Frontend.Controllers
             {
                 TempData[std.Id + "_student"] = std.Name;
             }
-
-            /*foreach (var answer in _answerService.All().Include(x=>x.Answer_To).Include(x => x.questionAnswers).ToList())
-            {
-                if (answer.Answer_To != null && answer.Answer_To.Text != null && homeworkText.Equals(answer.Answer_To.Text.Name))
-                {
-                    TempData[answer.Student_Id + "_answer"] = "";
-                    foreach (var questionAns in answer.questionAnswers)
-                    {
-                        TempData[answer.Student_Id + "_answer"] += questionAns.Content + "\n";
-                    }
-                }
-            }*/
         }
 
         public ActionResult ShowAnswer(string student)
         {
+            ViewBag.Title = student;
+
             InitializeStudentAnswers();
             InitizlizeAnswer(student);
+            InitializQuestions();
 
             return View("AnswersView");
+        }
+
+        private void InitializQuestions()
+        {
+            foreach (var hw in _homeworkService.All().Include(x => x.Questions))
+            {
+                if (hw.Text != null && hw.Text.Name.Equals(Session["HomeworkText"]))
+                {
+                    foreach (var hwQuestion in hw.Questions)
+                    {
+                        TempData[hwQuestion.Id + "_homework"] += "מספר שאלה: " + hwQuestion.Question_Number + "\n";
+                        TempData[hwQuestion.Id + "_homework"] += "שאלה: \n" + hwQuestion.Content + "\n\n";
+                    }                   
+                }               
+            }
         }
 
         private void InitizlizeAnswer(string student)
