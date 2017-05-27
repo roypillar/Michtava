@@ -111,9 +111,26 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                @*<div class="row">
                     <div class="col-sm-10 pull-right">
                         <span id="wordTranslation">&nbsp;</span>
+                    </div>
+                </div>*@
+
+                <div class="row">
+                    <div class="col-sm-10 pull-right">
+                        <input type="text" id="word" name="word" value="" placeholder="מילה">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10 pull-right">
+                        <input type="text" id="wordDefinition" name="wordDefinition" value="" placeholder="פירוש מילה">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-10 pull-right">
+                        <input type="submit" value="הוספת פירוש" style="background-color: crimson" id="wordDefinitionsSubmit" name="Submit" />
                     </div>
                 </div>
 
@@ -443,15 +460,19 @@
     function addWord() {
 
         //Create an input type dynamically.
+        var wordElement = document.createElement("input");
         var element = document.createElement("input");
 
         //Assign different attributes to the element.
+        wordElement.setAttribute("type", "text");
+        wordElement.setAttribute("value", "הוסף מילה");
+        wordElement.setAttribute("name", "word");
         element.setAttribute("type", "text");
-        element.setAttribute("value", "הוסף פירוש");
+        element.setAttribute("value", "הוסף פירוש למילה");
         element.setAttribute("name", "translation");
 
         // Add select box:
-        var select = document.createElement('select');
+        /*var select = document.createElement('select');
         var option, i;
         var inputdata = ["מילה 1", "מילה 2", "מילה 3"];
 
@@ -462,12 +483,13 @@
             option.value = option.textContent = inputdata[i];
 
             select.appendChild(option);
-        };
+        };*/
+
 
         var translation = document.getElementById("wordTranslation");
 
         //Append the element in page (in span).
-        translation.appendChild(select);
+        translation.appendChild(wordElement);
         translation.appendChild(element);
         translation.appendChild(document.createElement('br'));
     }

@@ -7,6 +7,7 @@ using Entities.Models;
 using FileHandler;
 using Services.Interfaces;
 using Frontend.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace Frontend.Controllers
@@ -20,6 +21,7 @@ namespace Frontend.Controllers
         private readonly ITeacherService _teacherService;
         private readonly IHomeworkService _homeworkService;
         private readonly IAnswerService _answerService;
+        private readonly IWordDefinitionService _wordDefinitionService;
 
         private readonly IFileManager _fileManager = new FileManager();
 
@@ -29,7 +31,7 @@ namespace Frontend.Controllers
 
         public TeachersController(ISubjectService subjectService, ITextService textService,
             ISchoolClassService classService, IStudentService studentService, IHomeworkService homeworkService,
-            ITeacherService teacherService, IAnswerService answerService)
+            ITeacherService teacherService, IAnswerService answerService, IWordDefinitionService wordDefinitionService)
         {
             _subjectService = subjectService;
             _textService = textService;
@@ -38,6 +40,7 @@ namespace Frontend.Controllers
             _homeworkService = homeworkService;
             _teacherService = teacherService;
             _answerService = answerService;
+            _wordDefinitionService = wordDefinitionService;
         }
 
         // GET: Teachers
@@ -142,7 +145,8 @@ namespace Frontend.Controllers
             return null;
         }
 
-        public ActionResult SubmitPolicy(PolicyViewModel model, string textName, string Submit, DateTime? submissionDate, string homeworkTitle, string homeworkDescription)
+        public ActionResult SubmitPolicy(PolicyViewModel model, string textName, string Submit, DateTime? submissionDate,
+            string homeworkTitle, string homeworkDescription, string word, string wordDefinition)
         {
             Teacher currentTeacher = GetCurrentUser();
             var currentTeacherId = currentTeacher.Id;
@@ -161,9 +165,22 @@ namespace Frontend.Controllers
                 }
                 else
                 {
-                    SubmitHomework(textForHomework, currentTeacher, currentTeacherId, currentTextId, (DateTime)submissionDate, homeworkTitle, homeworkDescription);
-                }               
+                    SubmitHomework(textForHomework, currentTeacher, currentTeacherId, currentTextId,
+                        (DateTime) submissionDate, homeworkTitle, homeworkDescription);
+                }
 
+                return View("Policy");
+            }
+            if (Submit.Equals("הוספת פירוש"))
+            {
+                if (word.IsNullOrWhiteSpace() || wordDefinition.IsNullOrWhiteSpace())
+                {
+                    TempData["msg"] = "<script>alert('לא הוכנס ערך');</script>";
+                }
+                else
+                {
+                    AddWordDefinition(word, wordDefinition);
+                }
                 return View("Policy");
             }
 
@@ -214,6 +231,31 @@ namespace Frontend.Controllers
                 "<script>alert('השאלה נוספה למערכת. רק כאשר תוסיף/י את שיעורי הבית, התלמידים יוכלו לראות את השאלה');</script>";
 
             return View("Policy");
+        }
+
+        private void AddWordDefinition(string word, string wordDefinition)
+        {
+            if (_wordDefinitionService.All().Count(x => x.Word.Equals(word)) > 0)
+            {
+                TempData["msg"] = "<script>alert('כבר קיים במערכת פירוש למילה המבוקשת');</script>";
+                return;
+            }
+            WordDefinition wd = new WordDefinition()
+            {
+                Word = word,
+                Definition = wordDefinition,
+
+            };
+            try
+            {
+                _wordDefinitionService.Add(wd);
+                TempData["msg"] = "<script>alert('פירוש המילה נכנס למערכת בהצלחה');</script>";
+            }
+            catch (Exception)
+            {
+
+                TempData["msg"] = "<script>alert('אירעה תקלה בניסיון הוספת פירוש המילה');</script>";
+            }           
         }
 
         private void SubmitHomework(Text textForHomework, Teacher currentTeacher, Guid currentTeacherId,
