@@ -626,7 +626,26 @@ namespace Frontend.Controllers
 
             TempData["msg"] = "<script>alert('הבדיקה נשלחה לתלמיד/ה בהצלחה');</script>";
 
+            NotifyStudentForFeedback();
+
             return View("AnswersView");
+        }
+
+        private void NotifyStudentForFeedback()
+        {
+            Student _student = null;
+            foreach (var std in GetClass(Session["CurrentClass"].ToString()).Students.ToList())
+            {
+                if (std.Name.Equals(Session["CurrentStudentsAnswer"]))
+                {
+                    _student = std;
+                    _student.notifyForNewGrade = true;
+                }
+            }
+            if (_student != null)
+            {
+                _studentService.Update(_student);
+            }
         }
 
         private void AddFeedback(string student, int finalGrade, string feedback)
