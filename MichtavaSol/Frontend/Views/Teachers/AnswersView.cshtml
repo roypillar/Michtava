@@ -67,78 +67,122 @@
 </head>
 
 <body>
+
+@Html.Raw(TempData["msg"])
+
 <button class="button" onclick="location.href = '@Url.Action("NavigateToHomeworkView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
     
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h2>השאלות</h2>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            @foreach (var data in TempData)
-            {
-                if (data.Key.Contains("_homework"))
+    <!---------------------------------------------------------------------- השאלות --------------------------------------------------------------------->
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2>השאלות</h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                @foreach (var data in TempData)
                 {
-                    <div class="col-sm-4 pull-right">
-                        <textarea name="questions" id="questions" style="font-size: 20px; width: 300px; height: 200px;">@data.Value</textarea>
-                    </div>
+                    if (data.Key.Contains("_homework"))
+                    {
+                        <div class="col-sm-4 pull-right">
+                            <textarea name="questions" id="questions" style="font-size: 20px; width: 300px; height: 200px;">@data.Value</textarea>
+                        </div>
+                    }
                 }
-            }
+            </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <b>
-            <h3>@ViewBag.Title</h3>
-        </b>
+    <div class="row">
+        <div class="col-sm-12">
+            <b>
+                <h3>@ViewBag.Title</h3>
+            </b>
+        </div>
     </div>
 </div>
 <br/>
-
-<div class="col-sm-6">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h2>תשובות</h2>
-        </div>
-        <div class="panel-body">
-            @foreach (var data in TempData)
-            {
-                if (data.Key.Contains("_answer"))
+    
+    <!---------------------------------------------------------------------- התשובות --------------------------------------------------------------------->
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h2>תשובות</h2>
+            </div>
+            <div class="panel-body">
+                @foreach (var data in TempData)
                 {
-                    <div class="row">
-                        <div class="col-sm-3 pull-right">
-                            <textarea name="answer" id="answer" style="font-size: 20px; width: 500px; height: 400px;" >@data.Value</textarea>
+                    if (data.Key.Contains("_answer"))
+                    {
+                        <div class="row">
+                            <div class="col-sm-3 pull-right">
+                                <textarea name="answer" id="answer" style="font-size: 20px; width: 500px; height: 400px;">@data.Value</textarea>
+                            </div>
                         </div>
-                    </div>
+                    }
                 }
-            }
+            </div>
+        </div>
+    </div>
+    
+    <!---------------------------------------------------------------------- תלמידים --------------------------------------------------------------------->
+    <div class="col-sm-6">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h2>תלמידים</h2>
+            </div>
+            <div class="panel-body">
+                @foreach (var data in TempData)
+                {
+                    if (data.Key.Contains("_student"))
+                    {
+                        <div class="row">
+                            <div class="col-sm-3 pull-right">
+                                <form class="col-xs-12" action="ShowAnswer" method="post">
+                                    <input name="student" type="submit" id="student" value="@data.Value"/>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
         </div>
     </div>
 </div>
-
-<div class="col-sm-6">
-    <div class="panel panel-success">
-        <div class="panel-heading">
-            <h2>תלמידים</h2>
-        </div>
-        <div class="panel-body">
-            @foreach (var data in TempData)
-            {
-                if (data.Key.Contains("_student"))
-                {
+    
+    <!---------------------------------------------------------------------- בדיקת שיעורי הבית --------------------------------------------------------------------->
+<div class="row">
+    <form class="col-xs-12" action="SubmitFeedback" method="post">
+        <div class="col-sm-12">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h2>בדיקת שיעורי הבית</h2>
+                </div>
+                <div class="panel-body">
                     <div class="row">
-                        <div class="col-sm-3 pull-right">
-                            <form class="col-xs-12" action="ShowAnswer" method="post">
-                                <input name="student" type="submit" id="student" value="@data.Value" />
-                            </form>
+                        <div class="col-sm-1 pull-right">
+                            <h5><label for="finalGrade">ציון: </label></h5>
                         </div>
+                        <div class="col-sm-1 pull-right">
+                            <input type="number" id="finalGrade" name="finalGrade" min="0" max="100" style="font-size: 20px; width: 5em;"></input>
+                        </div>
+
                     </div>
-                }
-            }
+                    <hr/>
+                    <div class="row">
+                        <textarea id="feedback" name="feedback" placeholder="הזן/י כאן את הבדיקה" style="font-size: 20px; width: 800px; height: 300px;"></textarea>
+                    </div>
+                    <hr/>
+                    <div class="row">
+
+                        <input type="submit" value="שלח/י" style="background-color: green; border-color: green;"/>
+
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 </body>

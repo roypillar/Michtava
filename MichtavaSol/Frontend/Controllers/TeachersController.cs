@@ -590,5 +590,15 @@ namespace Frontend.Controllers
                 }
             }
         }
+
+        public ActionResult SubmitFeedback(int finalGrade, string feedback)
+        {
+            InitializeStudentAnswers();
+            InitializQuestions();
+
+            TempData["msg"] = "<script>alert('הבדיקה נשלחה לתלמיד/ה בהצלחה');</script>";
+
+            return View("AnswersView");
+        }
     }
 }
