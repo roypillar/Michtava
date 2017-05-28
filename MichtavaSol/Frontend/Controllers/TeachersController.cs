@@ -255,13 +255,14 @@ namespace Frontend.Controllers
             {
 
                 TempData["msg"] = "<script>alert('אירעה תקלה בניסיון הוספת פירוש המילה');</script>";
-            }           
+            }
         }
 
         private void SubmitHomework(Text textForHomework, Teacher currentTeacher, Guid currentTeacherId,
             Guid currentTextId, DateTime submissionDate, string homeworkTitle, string homeworkDescription)
         {
-            var questions = _fileManager.ParseQuestions(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
+            var questions = _fileManager.ParseQuestions(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId,
+                currentTextId);
 
             if (questions == null || questions.Count == 0)
             {
@@ -291,8 +292,8 @@ namespace Frontend.Controllers
                 {
                     student.Homeworks.Add(homework);
                 }
-                
-                _homeworkService.Add(homework);                
+
+                _homeworkService.Add(homework);
             }
             catch (Exception e)
             {
@@ -301,7 +302,8 @@ namespace Frontend.Controllers
             }
 
             TempData["msg"] = "<script>alert('שיעורי הבית נוספו בהצלחה, כעת התלמידים יוכלו לראות אותם');</script>";
-            _fileManager.ClearTemporaryQuestions(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId, currentTextId);
+            _fileManager.ClearTemporaryQuestions(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId,
+                currentTextId);
         }
 
         private void InitializeHomework(Dictionary<int, string> currentHomework)
@@ -378,7 +380,7 @@ namespace Frontend.Controllers
             InitializeTextsViewPage();
 
             if (string.IsNullOrEmpty(CurrentText))
-            {                
+            {
                 TempData["msg"] = "<script>alert('לא סומן טקסט למחיקה');</script>";
                 return View("TextsView");
             }
@@ -410,11 +412,11 @@ namespace Frontend.Controllers
             Subject subject = new Subject();
             subject.Name = model.SubjectName;
 
-            if (_subjectService.GetByName(model.SubjectName)==null)
+            if (_subjectService.GetByName(model.SubjectName) == null)
                 _subjectService.Add(subject);
 
             //else display some nice error message
-                
+
 
             return View();
         }
@@ -429,7 +431,8 @@ namespace Frontend.Controllers
 
         private SchoolClass GetClass(string className)
         {
-            foreach (var cls in _classService.All().Include(x => x.Students).Include(x => x.Homeworks.Select(t => t.Text)))
+            foreach (
+                var cls in _classService.All().Include(x => x.Students).Include(x => x.Homeworks.Select(t => t.Text)))
             {
                 if (className.Equals(cls.ClassLetter + " " + cls.ClassNumber))
                     return cls;
@@ -492,7 +495,7 @@ namespace Frontend.Controllers
             else
             {
                 TempData["class"] = "כיתה: " + std.SchoolClass.ClassLetter + " " + std.SchoolClass.ClassNumber;
-            }   
+            }
 
             foreach (var hw in std.Homeworks)
             {
@@ -525,7 +528,7 @@ namespace Frontend.Controllers
                 // TODO: Remove comments
                 //if (classHW.Deadline < DateTime.Now)
                 //{
-                    TempData[classHW.Id + "_hw"] = classHW.Text.Name;
+                TempData[classHW.Id + "_hw"] = classHW.Text.Name;
                 //}
             }
         }
@@ -553,6 +556,7 @@ namespace Frontend.Controllers
         public ActionResult ShowAnswer(string student)
         {
             ViewBag.Title = student;
+            Session["CurrentStudentsAnswer"] = student;
 
             InitializeStudentAnswers();
             InitizlizeAnswer(student);
@@ -571,8 +575,8 @@ namespace Frontend.Controllers
                     {
                         TempData[hwQuestion.Id + "_homework"] += "מספר שאלה: " + hwQuestion.Question_Number + "\n";
                         TempData[hwQuestion.Id + "_homework"] += "שאלה: \n" + hwQuestion.Content + "\n\n";
-                    }                   
-                }               
+                    }
+                }
             }
         }
 
@@ -580,11 +584,13 @@ namespace Frontend.Controllers
         {
             foreach (var answer in _answerService.All().Include(x => x.questionAnswers.Select(y => y.Of_Question)))
             {
-                if (answer.Answer_To != null && _studentService.GetById(answer.Student_Id).Name.Equals(student) && answer.Answer_To.Text.Name.Equals(Session["HomeworkText"]))
+                if (answer.Answer_To != null && _studentService.GetById(answer.Student_Id).Name.Equals(student) &&
+                    answer.Answer_To.Text.Name.Equals(Session["HomeworkText"]))
                 {
                     foreach (var questionAnswer in answer.questionAnswers)
                     {
-                        TempData[answer.Student_Id + "_answer"] += "מספר שאלה: " + questionAnswer.Of_Question.Question_Number + "\n";
+                        TempData[answer.Student_Id + "_answer"] += "מספר שאלה: " +
+                                                                   questionAnswer.Of_Question.Question_Number + "\n";
                         TempData[answer.Student_Id + "_answer"] += "תשובה: \n" + questionAnswer.Content + "\n\n";
                     }
                 }
@@ -596,9 +602,49 @@ namespace Frontend.Controllers
             InitializeStudentAnswers();
             InitializQuestions();
 
+            if (Session["CurrentStudentsAnswer"] == null || Session["CurrentStudentsAnswer"].ToString().IsNullOrWhiteSpace())
+            {
+                TempData["msg"] = "<script>alert('יש לבחור תלמיד');</script>";
+                return View("AnswersView");
+            }
+            if (feedback.IsNullOrWhiteSpace())
+            {
+                TempData["msg"] = "<script>alert('יש למלא את שדה הבדיקה');</script>";
+                return View("AnswersView");
+            }
+
+            try
+            {
+                AddFeedback(Session["CurrentStudentsAnswer"].ToString(), finalGrade, feedback);
+            }
+            catch (Exception e)
+            {
+
+                TempData["msg"] = "<script>alert('אירעה תקלה בניסיון שליחת הבדיקה');</script>";
+                return View("AnswersView");
+            }
+
             TempData["msg"] = "<script>alert('הבדיקה נשלחה לתלמיד/ה בהצלחה');</script>";
 
             return View("AnswersView");
+        }
+
+        private void AddFeedback(string student, int finalGrade, string feedback)
+        {
+            Answer newAnswer = null;
+            foreach (var answer in _answerService.All().Include(x => x.questionAnswers.Select(y => y.Of_Question)).ToList())
+            {
+                if (answer.Answer_To != null && _studentService.GetById(answer.Student_Id).Name.Equals(student) && answer.Answer_To.Text.Name.Equals(Session["HomeworkText"]))
+                {
+                    newAnswer = answer;
+                    newAnswer.TeacherFeedback = feedback;
+                    newAnswer.Grade = finalGrade;                   
+                }
+            }
+            if (newAnswer != null)
+            {
+                _answerService.Update(newAnswer);
+            }            
         }
     }
 }
