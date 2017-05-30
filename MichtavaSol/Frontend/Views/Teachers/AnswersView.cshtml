@@ -39,30 +39,33 @@
             margin: 5px;
         }
 
-            .button span {
-                cursor: pointer;
-                display: inline-block;
-                position: relative;
-                transition: 0.5s;
-            }
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
 
-                .button span:after {
-                    content: '<<';
-                    position: absolute;
-                    opacity: 0;
-                    top: 0;
-                    right: 20px;
-                    transition: 0.5s;
-                }
+        .button span:after {
+            content: '<<';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: 20px;
+            transition: 0.5s;
+        }
 
-            .button:hover span {
-                padding-right: 25px;
-            }
+        .button:hover span {
+            padding-right: 25px;
+        }
 
-                .button:hover span:after {
-                    opacity: 1;
-                    right: 0;
-                }
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+        .no-click {
+            pointer-events: none;
+        }
     </style>
 </head>
 
@@ -141,6 +144,16 @@
                             <div class="col-sm-3 pull-right">
                                 <form class="col-xs-12" action="ShowAnswer" method="post">
                                     <input name="student" type="submit" id="student" value="@data.Value"/>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else if (data.Key.Contains("_feedbacked"))
+                    {
+                        <div class="row">
+                            <div class="col-sm-3 pull-right">
+                                <form class="col-xs-12" action="ShowAnswer" method="post">
+                                    <input name="student" type="submit" id="student" value="@data.Value" class="no-click" style="background-color: green; border-color: green" />
                                 </form>
                             </div>
                         </div>

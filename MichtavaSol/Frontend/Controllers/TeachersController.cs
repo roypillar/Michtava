@@ -549,7 +549,20 @@ namespace Frontend.Controllers
         {
             foreach (var std in GetClass(Session["CurrentClass"].ToString()).Students.ToList())
             {
-                TempData[std.Id + "_student"] = std.Name;
+                foreach (var answer in _answerService.All().Include(a => a.Answer_To).ToList())
+                {
+                    if ((answer.Student_Id.Equals(std.Id) && answer.Answer_To.Text.Name.Equals(Session["HomeworkText"])))
+                    {
+                        if (answer.TeacherFeedback.IsNullOrWhiteSpace())
+                        {
+                            TempData[std.Id + "_student"] = std.Name;
+                        }
+                        else
+                        {
+                            TempData[std.Id + "_feedbacked"] = std.Name;
+                        }
+                    }                   
+                }                
             }
         }
 
@@ -582,12 +595,12 @@ namespace Frontend.Controllers
 
         private void InitizlizeAnswer(string student)
         {
-            foreach (var answer in _answerService.All().Include(x => x.questionAnswers.Select(y => y.Of_Question)))
+            foreach (var answer in _answerService.All().Include(x => x.questionAnswers.Select(y => y.Of_Question)).ToList())
             {
                 if (answer.Answer_To != null && _studentService.GetById(answer.Student_Id).Name.Equals(student) &&
                     answer.Answer_To.Text.Name.Equals(Session["HomeworkText"]))
                 {
-                    foreach (var questionAnswer in answer.questionAnswers)
+                    foreach (var questionAnswer in answer.questionAnswers.ToList())
                     {
                         TempData[answer.Student_Id + "_answer"] += "מספר שאלה: " +
                                                                    questionAnswer.Of_Question.Question_Number + "\n";
