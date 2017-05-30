@@ -273,6 +273,26 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+
+        [Test]
+        public void testUpdateSchoolClassAddSubject()
+        {
+            // Arrange
+            int count = serv.All().Count();
+            SchoolClass c = serv.All().FirstOrDefault();
+
+            c.Subjects.Add(new Subject("test subj"));
+
+        
+
+            // Act
+            MichtavaResult res = serv.Update(c);
+            
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+        }
+
         //Deletes
         [Test]
         public void testDeleteSchoolClassSuccess()

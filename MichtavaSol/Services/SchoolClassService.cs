@@ -61,25 +61,27 @@
             //SchoolClass existing = GetById(schoolClass.Id);
 
 
-        
+
 
             if (schoolClassRepository.Get(sc => sc.ClassNumber == schoolClass.ClassNumber &&
                                                sc.ClassLetter == schoolClass.ClassLetter).Count() > 1)
                 return new MichtavaFailure();
 
+
+
             if (schoolClassRepository.Get(sc => sc.ClassNumber == schoolClass.ClassNumber &&
-                                              sc.ClassLetter == schoolClass.ClassLetter).Count() == 1)
+                                               sc.ClassLetter == schoolClass.ClassLetter).Count() == 1 &&
+                                               schoolClassRepository.Get(sc => sc.ClassNumber == schoolClass.ClassNumber &&
+                                           sc.ClassLetter == schoolClass.ClassLetter).FirstOrDefault().Id != schoolClass.Id)
                 return new MichtavaFailure("לא ניתן לשנות את פרטי הכיתה לפרטים שכבר מצויים במערכת, אצל כיתה אחרת");
 
-            else if (schoolClassRepository.Get(sc => sc.ClassNumber == schoolClass.ClassNumber &&
-                                            sc.ClassLetter == schoolClass.ClassLetter).Count() == 0)
-            {
-                this.schoolClassRepository.Update(schoolClass);
-                this.schoolClassRepository.SaveChanges();
-                return new MichtavaSuccess("כיתה עודכנה בהצלחה");
-            }
-            else
-                return new MichtavaFailure("טעות לא צפויה התרחשה");
+
+
+            this.schoolClassRepository.Update(schoolClass);
+            this.schoolClassRepository.SaveChanges();
+            return new MichtavaSuccess("כיתה עודכנה בהצלחה");
+
+
 
         }
 
