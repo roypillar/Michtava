@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using Common;
 using Entities.Models;
 using FileHandler;
 using Services.Interfaces;
@@ -401,6 +402,8 @@ namespace Frontend.Controllers
 
         public ActionResult NavigateToAddSubject()
         {
+            ViewBag.Title = Session["CurrentClass"];
+
             return View("AddSubject");
         }
 
@@ -412,13 +415,44 @@ namespace Frontend.Controllers
             Subject subject = new Subject();
             subject.Name = model.SubjectName;
 
+            if (subject.Name.IsNullOrWhiteSpace())
+            {
+                TempData["msg"] = "<script>alert('לא הוכנס נושא');</script>";
+                return View();
+            }
+
             if (_subjectService.GetByName(model.SubjectName) == null)
-                _subjectService.Add(subject);
+            {
+                try
+                {
+                    _subjectService.Add(subject);
+                    foreach (var cls in _classService.All().Include(x => x.Subjects).ToList())
+                    {
+                        var className = cls.ClassLetter + " " + cls.ClassNumber;
+                        if (className.Equals(Session["CurrentClass"].ToString()))
+                        {
+                            cls.Subjects.Add(subject);
+                            _classService.Update(cls);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    TempData["msg"] = "<script>alert('אירעה תקלה בהוספת הנושא');</script>";
+                    return View();
+                }
+            }
+            else
+            {
+                TempData["msg"] = "<script>alert('הנושא המבוקש כבר קיים');</script>";
+                return View();
+            }
 
-            //else display some nice error message
+            SchoolClass schoolClass = GetClass(Session["CurrentClass"].ToString());
+            InitializeClassView(schoolClass);
 
-
-            return View();
+            TempData["msg"] = "<script>alert('הנושא נוסף בהצלחה');</script>";
+            return View("ClassView");
         }
 
         private void InitializeClasses()
@@ -432,7 +466,7 @@ namespace Frontend.Controllers
         private SchoolClass GetClass(string className)
         {
             foreach (
-                var cls in _classService.All().Include(x => x.Students).Include(x => x.Homeworks.Select(t => t.Text)))
+                var cls in _classService.All().Include(x => x.Students).Include(x => x.Homeworks.Select(t => t.Text)).Include(x => x.Subjects))
             {
                 if (className.Equals(cls.ClassLetter + " " + cls.ClassNumber))
                     return cls;
@@ -443,12 +477,12 @@ namespace Frontend.Controllers
 
         private void InitializeClassView(SchoolClass cls)
         {
-            foreach (var std in cls.Students)
+            foreach (var std in cls.Students.ToList())
             {
                 TempData[std.Id + "_student"] = std.Name;
             }
 
-            foreach (var sbj in cls.Subjects)
+            foreach (var sbj in cls.Subjects.ToList())
             {
                 TempData[sbj.Id + "_subject"] = sbj.Name;
             }
@@ -525,11 +559,10 @@ namespace Frontend.Controllers
         {
             foreach (var classHW in GetClass(Session["CurrentClass"].ToString()).Homeworks.ToList())
             {
-                // TODO: Remove comments
-                //if (classHW.Deadline < DateTime.Now)
-                //{
-                TempData[classHW.Id + "_hw"] = classHW.Text.Name;
-                //}
+                if (classHW.Deadline < DateTime.Now)
+                {
+                    TempData[classHW.Id + "_hw"] = classHW.Text.Name;
+                }
             }
         }
 

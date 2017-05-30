@@ -1,41 +1,111 @@
 ﻿
 @model Frontend.Models.AddSubjectViewModel
 
-@using (Html.BeginForm("AddSubject", "Teachers", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
+<head>
+    <style>
+        h2 {
+            font-weight: bold;
+            font: 50px arial, sans-serif;
+        }
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary("", new { @class = "text-danger" })
+        input[type='submit'] {
+            font-size: 32px;
+            background-color: darkorange;
+            border-color: darkorange;
+        }
 
+        body {
+            background-image: url("../../Backgrounds/background.jpg");
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.SubjectName, new { @class = "control-label col-md-2" })
-            <div class="col-md-3">
-                @Html.TextBoxFor(m => m.SubjectName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.SubjectName, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #f4511e;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 16px;
+            padding: 10px;
+            width: 100px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-3">
-                <input type="submit" value="שמור נושא" class="btn btn-default" />
-            </div>
-        </div>
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
 
+        .button span:after {
+            content: '<<';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: 20px;
+            transition: 0.5s;
+        }
+
+        .button:hover span {
+            padding-right: 25px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    @Html.Raw(TempData["msg"])
+    <br/>
+<button class="button" onclick="location.href = '@Url.Action("NavigateToClassView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
+    
+<div class="row">
+    <div class="col-sm-12">
+        <b>
+            <h3>@ViewBag.Title</h3>
+        </b>
     </div>
-}
+</div>
 
-@*<div>
-        @Html.ActionLinkWithSpan(
-            "",
-            "Index",
-            "Administrators",
-            new { @class = "btn btn-default btn-sm" },
-            new { @class = "glyphicon glyphicon-arrow-left" })
-    </div>*@
+@using (Html.BeginForm("AddSubject", "Teachers", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        <div class="form-horizontal">
+      
+            @Html.ValidationSummary("", new {@class = "text-danger"})
+            <div class="row">
+                <div class="col-sm-3 pull-right">
+                    @Html.LabelFor(m => m.SubjectName, new {@class = "control-label col-md-2"})
+                </div>
+                <div class="col-sm-3 pull-right">
+                    @Html.TextBoxFor(m => m.SubjectName, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.SubjectName, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3 pull-right">
+                    <input type="submit" value="שמור נושא" class="btn btn-default"/>
+                </div>
+            </div>
+
+        </div>
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+</body>

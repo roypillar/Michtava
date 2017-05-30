@@ -66,6 +66,7 @@
 </head>
 
 <body>
+@Html.Raw(TempData["msg"])
 <button class="button" onclick="location.href = '@Url.Action("Index", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
 
 <div class="row">
@@ -81,24 +82,27 @@
             <b><h4>בחר/י תלמיד או נושא</h4></b>
         </div>
     </div>
-    <br />
+    <br/>
 
     <div class="row">
         <div class="col-sm-10 pull-right">
             <form class="col-xs-12" action="NavigateToHomeworkView" method="post">
-                <input type="submit" value="בדיקת שיעורי בית" style="background-color: green; border-color: green" />
+                <input type="submit" value="בדיקת שיעורי בית" style="background-color: green; border-color: green"/>
             </form>
         </div>
     </div>
-    <br />
-    <hr />
-        
+    <br/>
+    <hr/>
+
     <div class="col-sm-6">
         <div class="panel panel-success">
-            <div class="panel-heading"><b><h2>נושאים</h2></b></div>
+            <div class="panel-heading"><b>
+                    <h2>נושאים</h2></b>
+            </div>
             <div class="panel-body">
                 <!---------------------------------------------------------------------- נושאים --------------------------------------------------------------------->
                 <div class="row">
+
                     @foreach (var data in TempData)
                     {
                         if (data.Key.Contains("subject"))
@@ -112,15 +116,25 @@
                             </div>
                         }
                     }
+                    <hr/>
+                    <div class="row">
+                        <div class="col-sm-6 pull-right">
+                            <form class="col-xs-12" action="NavigateToAddSubject" method="post">
+                                <input name="subject" type="submit" id="subject" value="+ הוסף/י נושא חדש לכיתה" style="background-color: green; border-color: green"/>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <!---------------------------------------------------------------------------------------------------------------------------------------------------->
             </div>
         </div>
     </div>
-        
+
     <div class="col-sm-6">
         <div class="panel panel-info">
-            <div class="panel-heading"><b><h2>תלמידים</h2></b></div>
+            <div class="panel-heading"><b>
+                    <h2>תלמידים</h2></b>
+            </div>
             <div class="panel-body">
                 <!---------------------------------------------------------------------- תלמידים --------------------------------------------------------------------->
                 <div class="row">
@@ -131,7 +145,7 @@
                             <div class="row">
                                 <div class="col-sm-6 pull-right">
                                     <form class="col-xs-12" action="NavigateToStudentView" method="post">
-                                        <input name="student" type="submit" id="student" value="@data.Value" />
+                                        <input name="student" type="submit" id="student" value="@data.Value"/>
                                     </form>
                                 </div>
                             </div>
@@ -142,7 +156,7 @@
             </div>
         </div>
     </div>
-              
+
 </div>
 </body>
 

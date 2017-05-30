@@ -8,5 +8,3 @@
 2) Use same font
 
 3) deployment document (add hebrew dictionary)
-
-4) ability to add subject (to Subjects + to SchoolClass)
