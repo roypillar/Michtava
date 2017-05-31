@@ -17,6 +17,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
+  
 
     <style>
 
@@ -243,7 +244,10 @@
 
 <body dir="rtl" >
     
-
+   @if (TempData["Notification"].ToString() != "")
+   {
+        <p> @TempData["Notification"] </p>
+   }
     <div class="row">
         
     <nav class="navbar navbar-inverse sidebar pull-right" style="background-color:orange;border-radius:25px;width:250px;" role="navigation">

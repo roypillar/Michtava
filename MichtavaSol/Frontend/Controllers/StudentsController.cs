@@ -81,18 +81,23 @@ namespace Frontend.Controllers
             
 
             Session["StudentName"] = student.Name;
+            string note = "";
 
-      /*      if(student.notifyForNewHomework == true)
+            if(student.notifyForNewHomework == true)
             {
                 student.notifyForNewHomework = false;
+                note = "קיימים שיעורי בית חדשים שעלייך להשלים.";
                 _studentService.Update(student);
             }
 
             if (student.notifyForNewGrade == true)
             {
-
+                student.notifyForNewGrade = false;
+                note = note + "\n קיבלת ציון חדש על שיעורי בית שהגשת.";
+                _studentService.Update(student);
             }
-            */
+
+            TempData["Notification"] = note;
 
 
             foreach (var sch_cls in _schoolClassService.All())
@@ -149,6 +154,7 @@ namespace Frontend.Controllers
             if(_textService.All().Where(x=>x.Name == subjName).Count() > 0)
             {
                 Session["textName"] = subjName;
+                TempData["textName"] = subjName;
                 return RedirectToAction("GotoSmartTextBox", 1);
             }
 
@@ -351,6 +357,7 @@ namespace Frontend.Controllers
 
             string tmpName = (string)Session["textName"];
             textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
+            Session["TextContent"] = _textService.GetById(textGuid).Content;
 
             List<Homework> AllStudentHW = _homeworkService.All().Where(x=>x.Text.Id == textGuid).ToList();
             Homework hw = AllStudentHW.First();
@@ -358,7 +365,15 @@ namespace Frontend.Controllers
             if(hw.Deadline < DateTime.Now)
             {
                 Answer tmpAns = _answerService.All().Include(q=>q.questionAnswers).Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).FirstOrDefault();
-                tmpAns.Grade = 80;
+                if (tmpAns.TeacherFeedback == null)
+                {
+                    tmpAns.TeacherFeedback = " עוד לא ניתנה תשובה על ידי המורה, אך ניתן לראות את תשובותייך";
+                    tmpAns.Grade = 0;
+                }
+                else
+                {
+                    tmpAns.Grade = 80;
+                }
                 return View("StudentEvaluationView",tmpAns);
             }
 
