@@ -5,32 +5,64 @@
     ViewBag.Title = "StudentEvaluationView";
 }
 
-<h2>StudentEvaluationView</h2>
+<style>
+    body {
+        background-image: url("../../Backgrounds/textBG.jpg");
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-size: 100% 100%;
+        background-repeat: repeat;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+</style>
 
 <body>
+    
     <div class="row">
-        <div class="col-sm-6">
-            ציון המטלה-
-            @Model.Grade
+
+        <div class="col-sm-5 " style="position:absolute; top: 0px; left: 0px;">
+
+            <div class="row top-left" style="background-color:beige">
+                @Html.Partial("OnlyTextView")
+            </div>
         </div>
 
-        <div class="col-sm-6">
-           תשובה 1. יופי של תשובה.
-            תשובה 2. עניינית אבל חרגת קצת מהנושא.
-            תשובה 3. התוצאה נכוונה אך יש טעויות בדרך.
-            <!--Model.Whatever-->
-        </div>
-
-        התשובות שלך:
-        <div class="col-sm-6" style="max-height:400px;overflow-y:auto">
-            @foreach (var qans in Model.questionAnswers)
-            {
-                <div>
-                    <text>
-                        @qans.Content
-                    </text>
+ 
+        <div class="col-sm-7 pull-right">
+            <div class="row">
+                <h3>StudentEvaluationView</h3>
+            </div>
+            <div class="container col-sm-6">
+                <div class="col-sm-6 col-sm-offset-3">
+                    ציון המטלה-
+                    @Model.Grade
                 </div>
-            }
-        </div> 
-    </div>
+                <div>
+                תשובה 1. יופי של תשובה.
+                תשובה 2. עניינית אבל חרגת קצת מהנושא.
+                תשובה 3. התוצאה נכוונה אך יש טעויות בדרך.
+                <!--Model.Whatever-->
+                </div>
+            </div>
+
+            <div class="col-sm-6" style="max-height:400px;overflow-y:auto">
+
+                התשובות שלך:
+               
+                @foreach (var qans in Model.questionAnswers)
+            {
+                    
+                    <div>
+                        <p style="font:bold">שאלה @qans.Of_Question.Question_Number :</p>
+                        <text>
+                            @qans.Of_Question.Content @qans.Content
+                        </text>
+                    </div>
+                }
+            </div>
+        </div>
+     </div>
+
 </body>

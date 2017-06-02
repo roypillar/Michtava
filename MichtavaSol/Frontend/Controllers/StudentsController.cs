@@ -365,7 +365,7 @@ namespace Frontend.Controllers
 
             if(hw.Deadline < DateTime.Now)
             {
-                Answer tmpAns = _answerService.All().Include(q=>q.questionAnswers).Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).FirstOrDefault();
+                Answer tmpAns = _answerService.All().Include(q=>q.questionAnswers.Select(y=>y.Of_Question)).Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).FirstOrDefault();
                 if (tmpAns.TeacherFeedback == null)
                 {
                     tmpAns.TeacherFeedback = " עוד לא ניתנה תשובה על ידי המורה, אך ניתן לראות את תשובותייך";
