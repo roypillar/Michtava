@@ -83,7 +83,6 @@
         </div>
         <br /><br />
 
-                    <form class="text-right" action="ChooseAction" method="post">
                             
 
                             <div class="col-xs-6 pull-right">
@@ -118,9 +117,9 @@
                             </div>
                         
                         <div class="col-sm-3 pull-right">
-                            <input name="submit" type="submit" value="בחזרה לסיפור" />
+                            <input name="textName" type="submit" value="בחזרה לסיפור" onclick="location.href='@Url.Action("ChooseAction", "Students", new { textName = @Session["textName"] })'">
+                            
                         </div>
-                    </form>
    </div>
 
 </body>

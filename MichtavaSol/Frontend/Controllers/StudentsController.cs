@@ -271,6 +271,7 @@ namespace Frontend.Controllers
                     }
                 }
             }
+            
 
             Session["title"] = textName;
             Session["WithQuestion?"] = "Without";
@@ -368,12 +369,8 @@ namespace Frontend.Controllers
                 if (tmpAns.TeacherFeedback == null)
                 {
                     tmpAns.TeacherFeedback = " עוד לא ניתנה תשובה על ידי המורה, אך ניתן לראות את תשובותייך";
-                    tmpAns.Grade = 0;
                 }
-                else
-                {
-                    tmpAns.Grade = 80;
-                }
+               
                 return View("StudentEvaluationView",tmpAns);
             }
 
