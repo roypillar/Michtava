@@ -24,7 +24,9 @@ namespace Entities.Models
             Date_Submitted = DateTime.Now;
             questionAnswers = new List<QuestionAnswer>();
             Answer_To = hw;
+            Homework_Id = hw.Id;
             Submitted_By = s;
+            Student_Id = s.Id;
         }
 
 

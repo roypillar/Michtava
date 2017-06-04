@@ -30,9 +30,24 @@
             return this.AnswerRepository.GetById(id);
         }
 
+        public Answer GetByDetails(Guid hwId, Guid studentId)
+        {
+            return this.AnswerRepository.Get(ans => ans.Homework_Id == hwId && ans.Student_Id == studentId && !ans.IsDeleted).FirstOrDefault();
+        }
+
         public MichtavaResult Add(Answer Answer)
         {
-           
+           if(Answer.Submitted_By ==null)
+                return new MichtavaFailure("התשובה חייבת להכיל את שיעורי הבית");
+
+
+            if (Answer.Answer_To == null)
+                return new MichtavaFailure("התשובה חייבת להכיל את הסטודנט המגיש");
+
+            if(AnswerRepository.Get(x => x.Homework_Id == Answer.Homework_Id &&
+                                         x.Student_Id == Answer.Student_Id).Count() != 0)
+                return new MichtavaFailure("תשובה עם אותו התלמיד ואותם השיעורים כבר קיימת במערכת");
+
 
             this.AnswerRepository.Add(Answer);
             this.AnswerRepository.SaveChanges();
@@ -45,6 +60,15 @@
                 return new MichtavaFailure("התשובה לא נמצאה במערכת");
 
 
+            if (Answer.Submitted_By == null)
+                return new MichtavaFailure("התשובה חייבת להכיל את שיעורי הבית");
+
+
+            if (Answer.Answer_To == null)
+                return new MichtavaFailure("התשובה חייבת להכיל את הסטודנט המגיש");
+
+          
+
 
             this.AnswerRepository.Update(Answer);
             this.AnswerRepository.SaveChanges();
@@ -52,7 +76,6 @@
         }
 
 
-        //updates students and teachers - removes them from the class as well.
         public MichtavaResult Delete(Answer Answer)
         {
             Answer existing = this.AnswerRepository.All().Where(y => y.Id == Answer.Id).FirstOrDefault();
