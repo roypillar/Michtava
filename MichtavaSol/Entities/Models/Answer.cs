@@ -11,6 +11,7 @@ namespace Entities.Models
     {
         private Homework _homework;
         private Student _student;
+        private string _feedback;
 
         public Answer()
         {
@@ -25,7 +26,7 @@ namespace Entities.Models
             Answer_To = hw;
             Submitted_By = s;
         }
-     
+
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -75,10 +76,22 @@ namespace Entities.Models
         [ForeignKey("Submitted_By")]
         public Guid Student_Id { get; set; }
 
-        [Range(0,100)]
+        [Range(0, 100)]
         public int? Grade { get; set; }
 
-        public string TeacherFeedback { get; set; }
+
+        public bool notifyStudentOfNewFeedback {get; set;}
+
+        public string TeacherFeedback { get
+            {
+                return _feedback;
+            }
+
+            set {
+                _feedback = value;
+                notifyStudentOfNewFeedback = true;//this is where the flag is raised, it should be lowered manually by shay.
+            }
+        }
 
         public override void setId(Guid id)
         {

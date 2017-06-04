@@ -6,49 +6,88 @@
     using Entities.Models;
     using Services.Interfaces;
     using Common;
+    using System.Data.Entity;
+    using System.Collections.Generic;
 
     public class AnswerService : IAnswerService
     {
-        private readonly IAnswerRepository answerRepository;
+        private readonly IAnswerRepository AnswerRepository;
 
         public AnswerService(IAnswerRepository answerRepository)
         {
-            this.answerRepository = answerRepository;
+            this.AnswerRepository = answerRepository;
         }
 
-        Answer IAnswerService.GetById(Guid id)
+
+
+        public IQueryable<Answer> All()
         {
-            return this.answerRepository.GetById(id);
+            return this.AnswerRepository.All();
         }
 
-        IQueryable<Answer> IRepositoryService<Answer>.All()
+        public Answer GetById(Guid id)
         {
-            return this.answerRepository.All();
+            return this.AnswerRepository.GetById(id);
         }
 
-        public MichtavaResult Add(Answer answer)
+        public MichtavaResult Add(Answer Answer)
         {
-            this.answerRepository.Add(answer);
-            this.answerRepository.SaveChanges();
-            return new MichtavaSuccess();
+           
+
+            this.AnswerRepository.Add(Answer);
+            this.AnswerRepository.SaveChanges();
+            return new MichtavaSuccess("תשובה נוספה בהצלחה");
         }
 
-        public MichtavaResult Update(Answer answer)
+        public MichtavaResult Update(Answer Answer)
         {
-            this.answerRepository.Update(answer);
+            if (this.GetById(Answer.Id) == null)
+                return new MichtavaFailure("התשובה לא נמצאה במערכת");
 
-            this.answerRepository.SaveChanges();
-            return new MichtavaSuccess();
 
+
+            this.AnswerRepository.Update(Answer);
+            this.AnswerRepository.SaveChanges();
+            return new MichtavaSuccess("תשובה עודכנה בהצלחה");
         }
 
-        public MichtavaResult Delete(Answer answer)
+
+        //updates students and teachers - removes them from the class as well.
+        public MichtavaResult Delete(Answer Answer)
         {
+            Answer existing = this.AnswerRepository.All().Where(y => y.Id == Answer.Id).FirstOrDefault();
+               
 
-            this.answerRepository.Delete(answer);
-            this.answerRepository.SaveChanges();
-            return new MichtavaSuccess();
 
+            if (existing == null)
+                return new MichtavaFailure("התשובה לא נמצאה במערכת");
+
+
+            this.AnswerRepository.Delete(Answer);   
+            this.AnswerRepository.SaveChanges();
+
+
+
+            return new MichtavaSuccess("תשובה נמחקה בהצלחה");
         }
+
+
+
+        public MichtavaResult HardDelete(Answer Answer)
+        {
+            Answer existing = this.AnswerRepository.AllWithDeleted().Where(y => y.Id == Answer.Id).FirstOrDefault();
+
+
+
+            if (existing == null)
+                return new MichtavaFailure("התשובה לא נמצאה במערכת");
+
+
+            this.AnswerRepository.HardDelete(Answer);
+            this.AnswerRepository.SaveChanges();
+
+            return new MichtavaSuccess("תשובה נמחקה בהצלחה");
+        }
+
     }
 }
