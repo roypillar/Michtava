@@ -22,7 +22,9 @@ map from requirements to tests
 
 login Account/login bug
 
-fix services (==1 >1 ...)
+fix services update (==1 >1 ...)
+
+add teacher fix in teacher area
 
 -----TESTING---------
 
@@ -35,6 +37,8 @@ write tests for services IN PROGRESS
 write black box selenium tests
 
 complete TODO tests
+
+test roles in admin/teachers/students
 
 
 

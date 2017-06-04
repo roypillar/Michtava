@@ -1,449 +1,427 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using Microsoft.AspNet.Identity.EntityFramework;
-//using System.Data.Entity;
-//using Entities.Models;
-//using System.Data.Common;
-//using Effort;
-//using Common;
-//using Dal;
-//using Services;
-//using Dal.Repositories;
-//using NUnit.Framework;
-
-//namespace Services_Tests
-//{
-//    class AdministratorServiceTests
-//    {
-//        private ApplicationDbContext ctx;
-
-//        private AdministratorService serv;
-
-//        private Administrator entity;
-
-//        private const string hwTitl = "טסטינגטון";
-
-//        private const string hwDesc = "555טסטינגטון";
-
-//        [OneTimeSetUp]
-//        public void oneTimeSetUp()
-//        {
-//            var connection = DbConnectionFactory.CreateTransient();
-//            this.ctx = new ApplicationDbContext(connection);
-//            this.serv = new AdministratorService(new AdministratorRepository(ctx),
-//                                                 new ApplicationUserRepository(ctx));
-//            new DatabaseSeeder().CreateDependenciesAndSeed(ctx);//heavy duty
-
-//        }
-
-//        [SetUp]
-//        public void setUp()
-//        {
-//            entity = new Administrator(,);
-//        }
-
-//        //Adds
-//        [Test]
-//        public void testAddStandaloneAdministrator()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
-
-
-//            // Act
-//            MichtavaResult res = serv.Add(entity);
-
-//            // Assert
-//            Assert.AreEqual(count + 1, serv.All().Count());
-//            Assert.NotNull(serv.GetByDetails(hwTitl, hwDesc));
-//            Assert.True(res is MichtavaSuccess);
-//            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
-//        }
-
-//        [Test]
-//        public void testAddExistingIdAdministrator()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
-//            Administrator existing = serv.All().FirstOrDefault();
-
-//            // Act
-//            MichtavaResult res = serv.Add(existing);
-
-//            // Assert
-//            Assert.True(res is MichtavaFailure);
-//        }
-
-//        [Test]
-//        public void testAddExistingDetailsAdministrator()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
-//            Administrator existing = serv.All().FirstOrDefault();
-
-//            Administrator c = new Administrator(existing.Title, existing.Description, DateTime.Now,
-//                 ctx.Set<Teacher>().FirstOrDefault(),
-//                 ctx.Set<Text>().FirstOrDefault());
-//            // Act
-
-//            MichtavaResult res = serv.Add(c);
-
-//            // Assert
-//            Assert.True(res is MichtavaFailure);
-
-//        }
-
-//        [Test]
-//        public void testAddNullTextAdministrator()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
-//            Administrator existing = serv.All().FirstOrDefault();
-
-//            Administrator c = new Administrator();
-//            c.Title = hwTitl;
-//            c.Description = hwDesc;
-//            c.Deadline = DateTime.Now;
-//            c.Created_By = ctx.Set<Teacher>().FirstOrDefault();
-
-//            // Act
-//            MichtavaResult res = serv.Add(c);
-
-//            // Assert
-//            Assert.True(res is MichtavaFailure);
-
-//        }
-
-//        [Test]
-//        public void testAddNullTeacherAdministrator()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
-//            Administrator existing = serv.All().FirstOrDefault();
-
-//            Administrator c = new Administrator();
-//            c.Title = hwTitl;
-//            c.Description = hwDesc;
-//            c.Deadline = DateTime.Now;
-//            c.Text = ctx.Set<Text>().FirstOrDefault();
-
-//            // Act
-//            MichtavaResult res = serv.Add(c);
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
+using Entities.Models;
+using System.Data.Common;
+using Effort;
+using Common;
+using Dal;
+using Services;
+using Dal.Repositories;
+using NUnit.Framework;
+using Microsoft.AspNet.Identity;
+
+namespace Services_Tests
+{
+    class AdministratorServiceTests
+    {
+        private ApplicationDbContext ctx;
+
+        private AdministratorService serv;
+
+        private Administrator entity;
+
+        private ApplicationUser adminUser;
+
+        private UserManager<ApplicationUser> userManager;
+
+        private RoleManager<IdentityRole> roleManager;
+
+        private const string USERNAME = "testerTestie";
+
+        private const string fn = "מוטי";
+
+        private const string ln = "מוטיבאום";
+
+        [OneTimeSetUp]
+        public void oneTimeSetUp()
+        {
+            var connection = DbConnectionFactory.CreateTransient();
+            this.ctx = new ApplicationDbContext(connection);
+            this.serv = new AdministratorService(new AdministratorRepository(ctx),
+                                               new ApplicationUserRepository(ctx));
+            var seeder = new DatabaseSeeder();
+            seeder.CreateDependenciesAndSeed(ctx);//heavy duty
+            this.userManager = seeder.userManager;
+            this.roleManager = seeder.roleManager;
+
+        }
+
+        [SetUp]
+        public void setUp()
+        {
+            adminUser = new ApplicationUser()
+            {
+                UserName = USERNAME,
+                Email = "something@somewhere.com"
+            };
+
+
+            entity = new Administrator(adminUser,fn,ln);
+        }
+
+        //Adds
+        [Test]
+        public void testAddStandaloneAdministrator()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
+
+
+            // Act
+            var result = this.userManager.Create(adminUser, "testpassword");
+
+            if (result.Succeeded)
+            {
+                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+            }
+            MichtavaResult res = serv.Add(entity);
+
+            // Assert
+            Assert.AreEqual(count + 1, serv.All().Count());
+            Assert.NotNull(serv.GetByUserName(USERNAME));
+            Assert.True(res is MichtavaSuccess);
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+
+        [Test]
+        public void testAddAdministratorExistingId()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
+            Administrator existing = serv.All().FirstOrDefault();
+
+            // Act
+            var result = this.userManager.Create(adminUser, "testpassword");
 
-//            // Assert
-//            Assert.True(res is MichtavaFailure);
-
-//        }
+            if (result.Succeeded)
+            {
+                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+            }
+            MichtavaResult res = serv.Add(existing);
 
-//        [Test]
-//        public void testAddNullDateAdministrator()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
-//            Administrator existing = serv.All().FirstOrDefault();
+            // Assert
+            Assert.True(res is MichtavaFailure);
+        }
 
-//            Administrator c = new Administrator();
-//            c.Title = hwTitl;
-//            c.Description = hwDesc;
-//            c.Text = ctx.Set<Text>().FirstOrDefault();
-//            c.Created_By = ctx.Set<Teacher>().FirstOrDefault();
-//            //c.Teacher_Id = c.Created_By.Id;
-//            //c.Text_Id = c.Text.Id;
-//            // Act
-//            MichtavaResult res = serv.Add(c);
+        [Test]
+        public void testAddExistingAdministratorDetails()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
+            Administrator existing = serv.All().FirstOrDefault();
+            Administrator c = new Administrator(existing.ApplicationUser,existing.FirstName, existing.LastName);
 
-//            // Assert
-//            Assert.True(res is MichtavaSuccess);
-//            Assert.NotNull(serv.GetByDetails(hwTitl, hwDesc).Deadline);
-//            Assert.True(serv.HardDelete(c) is MichtavaSuccess);
-//        }
+            // Act
+            var result = this.userManager.Create(adminUser, "testpassword");
 
-//        [Test]
-//        public void testAddWithTextInconsistencyAdministrator()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//        }
+            if (result.Succeeded)
+            {
+                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+            }
+            MichtavaResult res = serv.Add(c);
 
-//        //Gets
-//        [Test]
-//        public void testGetAdministratorByIdTrue()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
+            // Assert
+            Assert.True(res is MichtavaFailure);
+        }
 
-//            Administrator c = serv.All().FirstOrDefault();
-//            Assert.NotNull(c);
+        //Gets
+        [Test]
+        public void testGetAdministratorByIdTrue()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
 
+            Administrator c = serv.All().FirstOrDefault();
+            Assert.NotNull(c);
 
-//            // Act
-//            Administrator actual = serv.GetById(c.Id);
-//            // Assert
 
-//            Assert.NotNull(actual);
+            // Act
+            Administrator actual = serv.GetById(c.Id);
+            // Assert
 
-//        }
+            Assert.NotNull(actual);
 
-//        [Test]
-//        public void testGetAdministratorByIdFalse()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
+        }
 
-//            // Act
-//            Administrator actual = serv.GetById(Guid.NewGuid());
-//            // Assert
+        [Test]
+        public void testGetAdministratorByIdFalse()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
 
-//            Assert.Null(actual);
+            // Act
+            Administrator actual = serv.GetById(Guid.NewGuid());
+            // Assert
 
-//        }
+            Assert.Null(actual);
 
+        }
 
-//        [Test]
-//        public void testGetAdministratorByDetailsTrue()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
 
-//            Administrator c = serv.All().FirstOrDefault();
-//            Assert.NotNull(c);
+        [Test]
+        public void testGetAdministratorByDetailsTrue()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
 
+            Administrator c = serv.All().FirstOrDefault();
+            Assert.NotNull(c);
 
-//            // Act
-//            Administrator actual = serv.GetByDetails(c.Title, c.Description);
-//            // Assert
 
-//            Assert.NotNull(actual);
-//        }
+            // Act
+            Administrator actual = serv.GetByUserName(c.ApplicationUser.UserName);
 
+            // Assert
+            Assert.NotNull(actual);
+        }
 
 
-//        [Test]
-//        public void testGetAdministratorByDetailsFalse()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
 
+        [Test]
+        public void testGetAdministratorByDetailsFalse()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
 
-//            // Act
-//            Administrator actual = serv.GetByDetails("14", "אסטערכן");
-//            // Assert
 
-//            Assert.Null(actual);
+            // Act
+            Administrator actual = serv.GetByUserName("fsajklasjfkslajk");
+            
+            // Assert
 
-//        }
+            Assert.Null(actual);
+        }
 
-//        //Update
-//        [Test]
-//        public void testUpdateAdministratorSuccess()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
-//            serv.Add(entity);
+        //Update
+        [Test]
+        public void testUpdateAdministratorSuccess()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
 
-//            Assert.Null(serv.GetByDetails("98", hwDesc));
+            var result = this.userManager.Create(adminUser, "testpassword");
 
+            if (result.Succeeded)
+            {
+                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+            }
+            serv.Add(entity);
 
-//            Assert.AreEqual(count + 1, serv.All().Count());
-//            entity.Title = "98";
+            Assert.Null(serv.GetByUserName("ichangedusername"));
 
 
-//            // Act
-//            MichtavaResult res = serv.Update(entity);
+            Assert.AreEqual(count + 1, serv.All().Count());
 
-//            // Assert
-//            Assert.True(res is MichtavaSuccess);
-//            Assert.NotNull(serv.GetByDetails("98", hwDesc));
-//            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
-//        }
 
-//        [Test]
-//        public void testUpdateAdministratorNonExistant()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
+            // Act
+            entity.ApplicationUser.UserName = "ichangedusername";
+            MichtavaResult res = serv.Update(entity);
 
-//            Assert.Null(serv.GetByDetails("98", hwDesc));
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            Assert.NotNull(serv.GetByUserName("ichangedusername"));
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
 
+        [Test]
+        public void testUpdateAdministratorNonExistant()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
 
-//            entity.Title = "98";
+            // Act
+            MichtavaResult res = serv.Update(new Administrator(null,"דג" ,"ע"));
 
+            // Assert
+            Assert.True(res is MichtavaFailure);
+        }
 
-//            // Act
-//            MichtavaResult res = serv.Update(new Administrator("98", hwDesc, DateTime.Now, ctx.Set<Teacher>().FirstOrDefault(), ctx.Set<Text>().FirstOrDefault()));
+        [Test]
+        public void testAddNullTextHomework()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
+            Administrator existing = serv.All().FirstOrDefault();
 
-//            // Assert
-//            Assert.True(res is MichtavaFailure);
-//        }
+            Administrator c = new Administrator(null,"g","sd");
 
-//        [Test]
-//        public void testUpdateAdministratorExistingDetails()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
-//            Administrator c = serv.All().FirstOrDefault();
 
-//            serv.Add(entity);
+            // Act
+            MichtavaResult res = serv.Add(c);
 
-//            Assert.AreEqual(count + 1, serv.All().Count());
-//            entity.Title = c.Title;
-//            entity.Description = c.Description;
+            // Assert
+            Assert.True(res is MichtavaFailure);
 
+        }
 
-//            // Act
-//            MichtavaResult res = serv.Update(entity);
+        [Test]
+        public void testUpdateAdministratorExistingDetails()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
+            Administrator c = serv.All().FirstOrDefault();
+            var result = this.userManager.Create(adminUser, "testpassword");
 
-//            // Assert
-//            Assert.True(res is MichtavaFailure);
-//            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
-//        }
+            if (result.Succeeded)
+            {
+                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+            }
+            serv.Add(entity);
 
-//        [Test]
-//        public void testUpdateAdministratorNullText()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
-//            Administrator c = serv.All().FirstOrDefault();
 
-//            serv.Add(entity);
+            Assert.AreEqual(count + 1, serv.All().Count());
+            entity.ApplicationUser.UserName = c.ApplicationUser.UserName;
 
-//            Assert.AreEqual(count + 1, serv.All().Count());
 
-//            entity.Text = null;
+            // Act
+            MichtavaResult res = serv.Update(entity);
 
-//            // Act
-//            MichtavaResult res = serv.Update(entity);
+            // Assert
+            Assert.True(res is MichtavaFailure);
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
 
-//            // Assert
-//            Assert.True(res is MichtavaFailure);
-//            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
-//        }
+        //Deletes
+        [Test]
+        public void testDeleteAdministratorSuccess()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            var result = this.userManager.Create(adminUser, "testpassword");
 
-//        [Test]
-//        public void testUpdateAdministratorNullTeacher()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
-//            Administrator c = serv.All().FirstOrDefault();
+            if (result.Succeeded)
+            {
+                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+            }
+            serv.Add(entity);
+            int count = serv.All().Count();
 
-//            serv.Add(entity);
+            Guid id = serv.GetByUserName(USERNAME).Id;
 
-//            Assert.AreEqual(count + 1, serv.All().Count());
+            // Act
+            MichtavaResult res = serv.Delete(entity);
 
-//            entity.Created_By = null;
 
-//            // Act
-//            MichtavaResult res = serv.Update(entity);
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            Assert.Null(serv.GetByUserName(USERNAME));
+            Assert.True(serv.All().Count() == count - 1);
+            Assert.True(serv.GetById(id).IsDeleted);
 
-//            // Assert
-//            Assert.True(res is MichtavaFailure);
-//            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
-//        }
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
 
-//        //Deletes
-//        [Test]
-//        public void testDeleteAdministratorSuccess()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            serv.Add(entity);
-//            int count = serv.All().Count();
 
-//            Guid id = serv.GetByDetails(hwTitl, hwDesc).Id;
+        }
 
-//            // Act
-//            MichtavaResult res = serv.Delete(entity);
+       
 
 
-//            // Assert
-//            Assert.True(res is MichtavaSuccess);
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            Assert.True(serv.All().Count() == count - 1);
-//            Assert.True(serv.GetById(id).IsDeleted);
+        [Test]
+        public void testDeleteAdministratorIsApplicationUserUpdated()
+        {
+            this.oneTimeSetUp();
 
-//            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+            Assert.Null(serv.GetByUserName(USERNAME));
 
+            // Arrange
+            int count = serv.All().Count();
+            Administrator c = serv.All().FirstOrDefault();
+            string id = c.ApplicationUser.Id;
+       
 
-//        }
+            // Act
+            MichtavaResult res = serv.Delete(c);
 
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            Assert.True(serv.All().Count() == count - 1);
+            Assert.True(ctx.Set<ApplicationUser>().Where(x => x.Id == id).FirstOrDefault().IsDeleted);
+      
+            this.oneTimeSetUp();
+        }
 
+        private bool containsId(ICollection<HasId> col, Guid hId)
+        {
+            foreach (HasId h in col)
+            {
+                if (h.Id == hId)
+                    return true;
+            }
+            return false;
 
-//        private bool containsId(ICollection<HasId> col, Guid hId)
-//        {
-//            foreach (HasId h in col)
-//            {
-//                if (h.Id == hId)
-//                    return true;
-//            }
-//            return false;
+        }
 
-//        }
+        [Test]
+        public void testDeleteNonExistantAdministrator()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            int count = serv.All().Count();
 
-//        [Test]
-//        public void testDeleteNonExistant()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            int count = serv.All().Count();
+            entity.setId(Guid.NewGuid());
+            Assert.Null(serv.GetById(entity.Id));
 
-//            entity.setId(Guid.NewGuid());
-//            Assert.Null(serv.GetById(entity.Id));
+            // Act
+            MichtavaResult res = serv.Delete(entity);
 
-//            // Act
-//            MichtavaResult res = serv.Delete(entity);
 
+            // Assert
+            Assert.True(res is MichtavaFailure);
 
-//            // Assert
-//            Assert.True(res is MichtavaFailure);
+        }
 
-//        }
 
 
+        [Test]
+        public void testHardDeleteSuccessAdministrator()
+        {
+            Assert.Null(serv.GetByUserName(USERNAME));
+            // Arrange
+            var result = this.userManager.Create(adminUser, "testpassword");
 
-//        [Test]
-//        public void testHardDeleteSuccessAdministrator()
-//        {
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            // Arrange
-//            serv.Add(entity);
-//            int count = serv.All().Count();
+            if (result.Succeeded)
+            {
+                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+            }
+            serv.Add(entity);
+            int count = serv.All().Count();
 
-//            Guid id = serv.GetByDetails(hwTitl, hwDesc).Id;
+            Guid id = serv.GetByUserName(USERNAME).Id;
 
-//            // Act
-//            MichtavaResult res = serv.HardDelete(entity);
+            // Act
+            MichtavaResult res = serv.HardDelete(entity);
 
 
-//            // Assert
-//            Assert.True(res is MichtavaSuccess);
-//            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-//            Assert.True(serv.All().Count() == count - 1);
-//        }
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            Assert.Null(serv.GetByUserName(USERNAME));
+            Assert.True(serv.All().Count() == count - 1);
+        }
 
-//        //Customs
+        //Customs
 
 
+       
 
+      
 
 
-//        //add question, remove question, quickly tho
 
-//    }
-//}
+    }
+}

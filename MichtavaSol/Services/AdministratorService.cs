@@ -35,7 +35,7 @@
 
         public Administrator GetByUserName(string username)
         {
-            return this.administratorRepository.All().FirstOrDefault(a => a.ApplicationUser.UserName == username);
+            return this.administratorRepository.All().FirstOrDefault(a => a.ApplicationUser.UserName == username && !a.IsDeleted);
         }
 
         public IQueryable<Administrator> All()
@@ -45,37 +45,85 @@
 
         public MichtavaResult Add(Administrator administrator)
         {
+            if (userRepository.Get(x => x.UserName == administrator.ApplicationUser.UserName).Count() != 0)
+                return new MichtavaFailure("קיים כבר משתמש עם אותו שם המשתמש");
+
+            if(administrator.ApplicationUser == null)
+            {
+                return new MichtavaFailure("must attach ApplicationUser before creation.");
+            }
+
+            if( administrator.ApplicationUser.UserName==null || administrator.ApplicationUser.UserName=="")
+                return new MichtavaFailure("חובה להזין שם משתמש.");
+
+
             this.administratorRepository.Add(administrator);
             this.administratorRepository.SaveChanges();
-            return new MichtavaSuccess();
+            return new MichtavaSuccess("משתמש נוסף בהצלחה");
 
         }
 
         public MichtavaResult Update(Administrator administrator)
         {
+           
+
+                if (userRepository.Get(sc =>  sc.UserName == administrator.ApplicationUser.UserName).Count() == 1 &&
+                                                  userRepository.Get(sc => sc.UserName == administrator.ApplicationUser.UserName).
+                                                  FirstOrDefault().Id != administrator.ApplicationUser.Id)
+                    return new MichtavaFailure("לא ניתן לשנות את פרטי המשתמש - שם המשתמש כבר קיים");
+
+
+            if (administrator.ApplicationUser.UserName == null || administrator.ApplicationUser.UserName == "")
+                return new MichtavaFailure("חובה להזין שם משתמש.");
+
             this.administratorRepository.Update(administrator);
             this.administratorRepository.SaveChanges();
-            return new MichtavaSuccess();
+            return new MichtavaSuccess("משתמש עודכן בהצלחה");
 
         }
 
         public MichtavaResult Delete(Administrator administrator)
         {
+
+            Administrator existing = this.administratorRepository.All().Where(y => y.Id == administrator.Id).
+               FirstOrDefault();
+
+
+            if (existing == null)
+                return new MichtavaFailure("המשתמש לא נמצא במערכת");
+
+
+
             administrator.ApplicationUser.DeletedBy = administrator.DeletedBy;
 
-            this.userRepository.Delete(administrator.ApplicationUser);
             this.administratorRepository.Delete(administrator);
             this.administratorRepository.SaveChanges();
-            return new MichtavaSuccess();
+            this.userRepository.Delete(administrator.ApplicationUser);
+
+            this.userRepository.SaveChanges();
+            return new MichtavaSuccess("משתמש נמחק בהצלחה");
         }
 
         public MichtavaResult HardDelete(Administrator administrator)
         {
-            this.userRepository.HardDelete(administrator.ApplicationUser);
+
+            Administrator existing = this.administratorRepository.AllWithDeleted().Where(y => y.Id == administrator.Id).
+               FirstOrDefault();
+
+
+            if (existing == null)
+                return new MichtavaFailure("המשתמש לא נמצא במערכת");
+
+
+
+            administrator.ApplicationUser.DeletedBy = administrator.DeletedBy;
+
             this.administratorRepository.HardDelete(administrator);
             this.administratorRepository.SaveChanges();
-            return new MichtavaSuccess();
+            this.userRepository.HardDelete(administrator.ApplicationUser);
 
+            this.userRepository.SaveChanges();
+            return new MichtavaSuccess("משתמש נמחק בהצלחה");
         }
 
         public bool IsUserNameUniqueOnEdit(Administrator administrator, string username)

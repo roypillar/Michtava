@@ -19,9 +19,9 @@ namespace Dal
 
 
 
-        private UserManager<ApplicationUser> userManager;
+        public UserManager<ApplicationUser> userManager;
 
-        private RoleManager<IdentityRole> roleManager;
+        public RoleManager<IdentityRole> roleManager;
 
         #region consts
         private const int HighestGrade = 12;
@@ -292,7 +292,6 @@ namespace Dal
                 return;
             }
 
-            var adminProfile = new Administrator("SuperAdmin", "SuperAdmin");
            
 
             var adminUser = new ApplicationUser()
@@ -305,11 +304,11 @@ namespace Dal
 
             this.SeedAdminApplicationUser(adminUser, PASSWORD);
 
-            adminProfile.ApplicationUser = adminUser;
+            var superAdminProfile = new Administrator(adminUser,"SuperAdmin", "SuperAdmin");
 
-            context.Administrators.Add(adminProfile);
+            context.Administrators.Add(superAdminProfile);
 
-            adminProfile = new Administrator("Admin", "Admin");
+
            
 
             adminUser = new ApplicationUser()
@@ -320,7 +319,7 @@ namespace Dal
 
             this.SeedAdminApplicationUser(adminUser, PASSWORD);
 
-            adminProfile.ApplicationUser = adminUser;
+            var adminProfile = new Administrator(adminUser,"Admin", "Admin");
 
             context.Administrators.Add(adminProfile);
 
@@ -787,7 +786,6 @@ namespace Dal
             return answerContents.ElementAt(new Random().Next(answerContents.Count));
 
         }
-
         private UserManager<ApplicationUser> CreateUserManager(ApplicationDbContext context)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
@@ -812,7 +810,6 @@ namespace Dal
 
             return userManager;
         }
-
 
     }
 }

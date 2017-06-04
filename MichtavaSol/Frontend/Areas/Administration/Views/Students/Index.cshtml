@@ -24,6 +24,13 @@
 }
 
 @Html.ActionLink("Add Student", "Register", "Account", new { area = "Students" }, new { @class = "btn btn-default pull-right" })
+@*@Html.ActionLinkWithSpan(
+    "Add Student",
+    "AddStudent",
+    "Account",
+    new { @class = "btn btn-primary btn-sm" },
+    new { @class = "glyphicon glyphicon-plus" })*@
+
 
 <div class="table-list">
     <table class="table table-striped table-students">

@@ -11,10 +11,13 @@ namespace Entities.Models
 
 
         private ICollection<Homework> homeworks;
-        public Student(string name)
+        public Student(ApplicationUser user,string name)
         {
             homeworks = new List<Homework>();
             Name = name;
+            ApplicationUser = user;
+            ApplicationUserId = user.Id;
+
         }
 
 

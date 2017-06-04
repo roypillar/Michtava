@@ -10,7 +10,7 @@
         public string UserName { get; set; }
 
         [Phone]
-        [Display(Name = "מספט הטלפון")]
+        [Display(Name = "מספר הטלפון")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "מספר הטלפון שהוזן אינו חוקי.")]
         public string PhoneNumber { get; set; }
