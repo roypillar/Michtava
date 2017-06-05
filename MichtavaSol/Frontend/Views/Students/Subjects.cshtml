@@ -15,8 +15,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
+    
+    <script type="text/javascript">
+    $(window).load(function () {
 
+        var con = "'@Session["Notification"]'";
+        $('#myPopover').popover({content:con, placement: "left" });
+        $('#myPopover').popover('show');
+    });
+    </script>
   
 
     <style>
@@ -243,11 +252,9 @@
 </head>
 
 <body dir="rtl" >
-    
-   @if (TempData["Notification"].ToString() != "")
-   {
-        <p> @TempData["Notification"] </p>
-   }
+   
+
+   
     <div class="row">
         
     <nav class="navbar navbar-inverse sidebar pull-right" style="background-color:orange;border-radius:25px;width:250px;" role="navigation">
@@ -338,7 +345,17 @@
     </div>
         
         <div class="col-sm-3 col-sm-offset-1">
-            <img src="../../Backgrounds/homework.png" class="ribbon"  width="90%" height="90%"/>
+            @if (Session["Notification"].ToString() != "")
+            {
+                <a id="myPopover" href="#" data-toggle="popover" data-trigger="focus" data-content="@Session["Notification"]">
+                    <img src="../../Backgrounds/homework.png" class="ribbon" width="90%" height="90%" />
+                </a>            
+            }
+            else
+            {
+                <img src="../../Backgrounds/homework.png" class="ribbon" width="90%" height="90%" />
+            }
+
             <a href="http://xlimud.telem-hit.net/">
                 <h3>למעבר למשחקים לחץ\י</h3>
                 <img src="../../Backgrounds/gamesLink.png" style=" width:90%; height: auto;" class="ribbon" />
