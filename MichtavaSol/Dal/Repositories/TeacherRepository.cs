@@ -22,6 +22,9 @@
             var userManager = new UserManager<ApplicationUser>(store);
 
             ApplicationUser user = await userManager.FindByNameAsync(username);
+
+            if (user == null)
+                return null;
             Teacher teacher = this.All().Where(t => t.ApplicationUserId == user.Id).FirstOrDefault();
 
             return teacher;

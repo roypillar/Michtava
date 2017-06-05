@@ -45,7 +45,7 @@ namespace Dal_Tests
         [SetUp]
         public void setUp()
         {
-            entity = new Teacher(n);
+            entity = new Teacher(null,n);
         }
 
         [TearDown]

@@ -19,32 +19,31 @@ using System.Data.Entity.Validation;
 
 namespace Services_Tests
 {
-    class AdministratorServiceTests
+    class TeacherServiceTests
     {
         private ApplicationDbContext ctx;
 
-        private AdministratorService serv;
+        private TeacherService serv;
 
-        private Administrator entity;
+        private Teacher entity;
 
-        private ApplicationUser adminUser;
+        private ApplicationUser teacherUser;
 
         private UserManager<ApplicationUser> userManager;
 
         private RoleManager<IdentityRole> roleManager;
 
-        private const string USERNAME = "testerTestie";
+        private const string USERNAME = "testerTestiestu";
 
-        private const string fn = "מוטי";
+        private const string NAME = "טסטמוטי";
 
-        private const string ln = "מוטיבאום";
 
         [OneTimeSetUp]
         public void oneTimeSetUp()
         {
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
-            this.serv = new AdministratorService(new AdministratorRepository(ctx),
+            this.serv = new TeacherService(new TeacherRepository(ctx),
                                                new ApplicationUserRepository(ctx));
             var seeder = new DatabaseSeeder();
             seeder.CreateDependenciesAndSeed(ctx);//heavy duty
@@ -56,19 +55,19 @@ namespace Services_Tests
         [SetUp]
         public void setUp()
         {
-            adminUser = new ApplicationUser()
+            teacherUser = new ApplicationUser()
             {
                 UserName = USERNAME,
                 Email = "something@somewhere.com"
             };
 
 
-            entity = new Administrator(adminUser,fn,ln);
+            entity = new Teacher(teacherUser, NAME);
         }
 
         //Adds
         [Test]
-        public void testAddStandaloneAdministrator()
+        public void testAddStandaloneTeacher()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
@@ -76,11 +75,11 @@ namespace Services_Tests
 
 
             // Act
-            var result = this.userManager.Create(adminUser, "testpassword");
+            var result = this.userManager.Create(teacherUser, "testpassword");
 
             if (result.Succeeded)
             {
-                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+                this.userManager.AddToRole(teacherUser.Id, GlobalConstants.TeacherRoleName);
             }
             MichtavaResult res = serv.Add(entity);
 
@@ -89,33 +88,33 @@ namespace Services_Tests
             Assert.NotNull(serv.GetByUserName(USERNAME));
             Assert.True(res is MichtavaSuccess);
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
-            this.userManager.Delete(adminUser);
+            this.userManager.Delete(teacherUser);
             Assert.Null(serv.GetByUserName(USERNAME));
         }
 
         [Test]
-        public void testAddAdministratorExistingId()
+        public void testAddTeacherExistingId()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
             int count = serv.All().Count();
-            Administrator existing = serv.All().FirstOrDefault();
+            Teacher existing = serv.All().FirstOrDefault();
 
             // Act
-            
+
             Assert.Throws<DbEntityValidationException>(() => this.userManager.Create(existing.ApplicationUser, "testpassword"));
             oneTimeSetUp();
 
         }
 
         [Test]
-        public void testAddExistingAdministratorDetails()
+        public void testAddExistingTeacherDetails()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
             int count = serv.All().Count();
-            Administrator existing = serv.All().FirstOrDefault();
-            Administrator c = new Administrator(existing.ApplicationUser,existing.FirstName, existing.LastName);
+            Teacher existing = serv.All().FirstOrDefault();
+            Teacher c = new Teacher(existing.ApplicationUser, existing.Name);
 
             // Act
             Assert.Throws<DbEntityValidationException>(() => this.userManager.Create(existing.ApplicationUser, "testpassword"));
@@ -126,18 +125,18 @@ namespace Services_Tests
 
         //Gets
         [Test]
-        public void testGetAdministratorByIdTrue()
+        public void testGetTeacherByIdTrue()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
             int count = serv.All().Count();
 
-            Administrator c = serv.All().FirstOrDefault();
+            Teacher c = serv.All().FirstOrDefault();
             Assert.NotNull(c);
 
 
             // Act
-            Administrator actual = serv.GetById(c.Id);
+            Teacher actual = serv.GetById(c.Id);
             // Assert
 
             Assert.NotNull(actual);
@@ -145,14 +144,14 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testGetAdministratorByIdFalse()
+        public void testGetTeacherByIdFalse()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
             int count = serv.All().Count();
 
             // Act
-            Administrator actual = serv.GetById(Guid.NewGuid());
+            Teacher actual = serv.GetById(Guid.NewGuid());
             // Assert
 
             Assert.Null(actual);
@@ -161,18 +160,18 @@ namespace Services_Tests
 
 
         [Test]
-        public void testGetAdministratorByDetailsTrue()
+        public void testGetTeacherByDetailsTrue()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
             int count = serv.All().Count();
 
-            Administrator c = serv.All().FirstOrDefault();
+            Teacher c = serv.All().FirstOrDefault();
             Assert.NotNull(c);
 
 
             // Act
-            Administrator actual = serv.GetByUserName(c.ApplicationUser.UserName);
+            Teacher actual = serv.GetByUserName(c.ApplicationUser.UserName);
 
             // Assert
             Assert.NotNull(actual);
@@ -181,7 +180,7 @@ namespace Services_Tests
 
 
         [Test]
-        public void testGetAdministratorByDetailsFalse()
+        public void testGetTeacherByDetailsFalse()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
@@ -189,8 +188,8 @@ namespace Services_Tests
 
 
             // Act
-            Administrator actual = serv.GetByUserName("fsajklasjfkslajk");
-            
+            Teacher actual = serv.GetByUserName("fsajklasjfkslajk");
+
             // Assert
 
             Assert.Null(actual);
@@ -198,17 +197,17 @@ namespace Services_Tests
 
         //Update
         [Test]
-        public void testUpdateAdministratorSuccess()
+        public void testUpdateTeacherSuccess()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
             int count = serv.All().Count();
 
-            var result = this.userManager.Create(adminUser, "testpassword");
+            var result = this.userManager.Create(teacherUser, "testpassword");
 
             if (result.Succeeded)
             {
-                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+                this.userManager.AddToRole(teacherUser.Id, GlobalConstants.TeacherRoleName);
             }
             serv.Add(entity);
 
@@ -226,19 +225,19 @@ namespace Services_Tests
             Assert.True(res is MichtavaSuccess);
             Assert.NotNull(serv.GetByUserName("ichangedusername"));
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
-            this.userManager.Delete(adminUser);
+            this.userManager.Delete(teacherUser);
             Assert.Null(serv.GetByUserName(USERNAME));
         }
 
         [Test]
-        public void testUpdateAdministratorNonExistant()
+        public void testUpdateTeacherNonExistant()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
             int count = serv.All().Count();
 
             // Act
-            MichtavaResult res = serv.Update(new Administrator(null,"דג" ,"ע"));
+            MichtavaResult res = serv.Update(new Teacher(null, "דג"));
 
             // Assert
             Assert.True(res is MichtavaFailure);
@@ -250,7 +249,7 @@ namespace Services_Tests
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
             int count = serv.All().Count();
-            Administrator existing = serv.All().FirstOrDefault();
+            Teacher existing = serv.All().FirstOrDefault();
 
             // Act
             Assert.Throws<DbEntityValidationException>(() => this.userManager.Create(existing.ApplicationUser, "testpassword"));
@@ -258,21 +257,22 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testUpdateAdministratorExistingDetails()
+        public void testUpdateTeacherExistingDetails()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
             int count = serv.All().Count();
-            Administrator c = serv.All().FirstOrDefault();
-            var result = this.userManager.Create(adminUser, "testpassword");
+            Teacher c = serv.All().FirstOrDefault();
+            var result = this.userManager.Create(teacherUser, "testpassword");
 
             if (result.Succeeded)
             {
-                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+                this.userManager.AddToRole(teacherUser.Id, GlobalConstants.TeacherRoleName);
             }
             serv.Add(entity);
 
-            Guid id = serv.GetByUserName(USERNAME).Id;
+            Teacher study = serv.GetByUserName(USERNAME);
+            Guid id = study.Id;
 
             Assert.AreEqual(count + 1, serv.All().Count());
 
@@ -289,30 +289,31 @@ namespace Services_Tests
 
             Assert.True(serv.GetById(id).ApplicationUser.UserName == USERNAME);
             Assert.True(serv.HardDelete(serv.GetById(id)) is MichtavaSuccess);
-            this.userManager.Delete(adminUser);
+            this.userManager.Delete(teacherUser);
             Assert.Null(serv.GetByUserName(USERNAME));
         }
 
         //Deletes
         [Test]
-        public void testDeleteAdministratorSuccess()
+        public void testDeleteTeacherSuccess()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
-            var result = this.userManager.Create(adminUser, "testpassword");
+            var result = this.userManager.Create(teacherUser, "testpassword");
 
             if (result.Succeeded)
             {
-                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+                this.userManager.AddToRole(teacherUser.Id, GlobalConstants.TeacherRoleName);
             }
             serv.Add(entity);
             int count = serv.All().Count();
 
-            Guid id = serv.GetByUserName(USERNAME).Id;
+            Teacher study = serv.GetByUserName(USERNAME);
+            Guid id = study.Id;
 
             // Act
             MichtavaResult res = serv.Delete(entity);
-            var res2 = this.userManager.Delete(adminUser);
+            var res2 = this.userManager.Delete(teacherUser);
 
             // Assert
             Assert.True(res2.Succeeded);
@@ -326,11 +327,11 @@ namespace Services_Tests
 
         }
 
-       
+
 
 
         [Test]
-        public void testDeleteAdministratorIsApplicationUserUpdated()
+        public void testDeleteTeacherIsApplicationUserUpdated()
         {
             this.oneTimeSetUp();
 
@@ -338,9 +339,9 @@ namespace Services_Tests
 
             // Arrange
             int count = serv.All().Count();
-            Administrator c = serv.All().FirstOrDefault();
+            Teacher c = serv.All().FirstOrDefault();
             string id = c.ApplicationUser.Id;
-       
+
 
             // Act
             MichtavaResult res = serv.Delete(c);
@@ -349,7 +350,7 @@ namespace Services_Tests
             Assert.True(res is MichtavaSuccess);
             Assert.True(serv.All().Count() == count - 1);
             Assert.Null(ctx.Set<ApplicationUser>().Where(x => x.Id == id).FirstOrDefault());
-      
+
             this.oneTimeSetUp();
         }
 
@@ -365,7 +366,7 @@ namespace Services_Tests
         }
 
         [Test]
-        public void testDeleteNonExistantAdministrator()
+        public void testDeleteNonExistantTeacher()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
@@ -386,24 +387,25 @@ namespace Services_Tests
 
 
         [Test]
-        public void testHardDeleteSuccessAdministrator()
+        public void testHardDeleteSuccessTeacher()
         {
             Assert.Null(serv.GetByUserName(USERNAME));
             // Arrange
-            var result = this.userManager.Create(adminUser, "testpassword");
+            var result = this.userManager.Create(teacherUser, "testpassword");
 
             if (result.Succeeded)
             {
-                this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+                this.userManager.AddToRole(teacherUser.Id, GlobalConstants.TeacherRoleName);
             }
             MichtavaResult res2 = serv.Add(entity);
             int count = serv.All().Count();
 
-            Guid id = serv.GetByUserName(USERNAME).Id;
+            Teacher study = serv.GetByUserName(USERNAME);
+            Guid id = study.Id;
 
             // Act
             MichtavaResult res = serv.HardDelete(entity);
-            this.userManager.Delete(adminUser);
+            this.userManager.Delete(teacherUser);
             Assert.Null(serv.GetByUserName(USERNAME));
 
             // Assert
@@ -415,9 +417,9 @@ namespace Services_Tests
         //Customs
 
 
-       
 
-      
+
+
 
 
 

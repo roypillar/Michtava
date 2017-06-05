@@ -33,6 +33,7 @@ namespace Dal_Tests
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
             this.repo = new AdministratorRepository(ctx);
+
             new DatabaseSeeder().CreateDependenciesAndSeed(ctx);//heavy duty
 
         }
@@ -46,7 +47,7 @@ namespace Dal_Tests
         [SetUp]
         public void setUp()
         {
-            entity = new Administrator(fn, ln);
+            entity = new Administrator(null,fn, ln);
         }
 
         [TearDown]

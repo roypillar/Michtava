@@ -26,7 +26,7 @@ namespace Dal.Repositories
 
             if (user == null)
             {
-                // TODO: Implement exception/error handling if there is no such user
+                return null;
             }
 
             Student student = this.All().FirstOrDefault(s => s.ApplicationUserId == user.Id);

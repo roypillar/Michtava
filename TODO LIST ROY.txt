@@ -1,7 +1,5 @@
 -----NON_TESTING--------
 
-populate registerareas
-
 administrationarea
 
 strings all over the site - validation, header, footer, etc
@@ -20,11 +18,13 @@ read mass queries from file => add students, add teachers, add admins, add defin
 
 map from requirements to tests
 
-answer flag
-
 login Account/login bug
 
-fix services (==1 >1 ...)
+fix services update (==1 >1 ...)
+
+add teacher fix in teacher area
+
+check before changing username, bizzare ass shit.....
 
 -----TESTING---------
 
@@ -37,6 +37,8 @@ write tests for services IN PROGRESS
 write black box selenium tests
 
 complete TODO tests
+
+test roles in admin/teachers/students
 
 
 

@@ -21,8 +21,6 @@
             return this.homeworkRepository.All();
         }
 
-
-
        public Homework GetById(Guid id)
         {
             return this.homeworkRepository.GetById(id);

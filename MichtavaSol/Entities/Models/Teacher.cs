@@ -16,10 +16,14 @@ namespace Entities.Models
             schoolClasses = new HashSet<SchoolClass>();
         }
 
-        public Teacher(string name)
+        public Teacher(ApplicationUser user,string name)
         {
             schoolClasses = new HashSet<SchoolClass>();
             Name = name;
+            ApplicationUser = user;
+            if (user != null)
+
+                ApplicationUserId = user.Id;
         }
 
         private ICollection<SchoolClass> schoolClasses;
