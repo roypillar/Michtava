@@ -9,11 +9,12 @@
     using Microsoft.AspNet.Identity;
     using Common;
 
-    public class AdministratorService :IAdministratorService
+    public class AdministratorService : IAdministratorService
     {
         private readonly IAdministratorRepository administratorRepository;
 
         private readonly IApplicationUserRepository userRepository;
+
 
         public AdministratorService(
             IAdministratorRepository administratorRepository,
@@ -45,17 +46,21 @@
 
         public MichtavaResult Add(Administrator administrator)
         {
-            if (userRepository.Get(x => x.UserName == administrator.ApplicationUser.UserName).Count() != 0)
-                return new MichtavaFailure("קיים כבר משתמש עם אותו שם המשתמש");
+            if (administrator == null)
+                return new MichtavaFailure("חייב לספק אובייקט ליצירה...");
 
-            if(administrator.ApplicationUser == null)
+
+            if (administrator.ApplicationUser == null)
             {
                 return new MichtavaFailure("must attach ApplicationUser before creation.");
             }
 
-            if( administrator.ApplicationUser.UserName==null || administrator.ApplicationUser.UserName=="")
+            if (administrator.ApplicationUser.UserName == null || administrator.ApplicationUser.UserName == "")
                 return new MichtavaFailure("חובה להזין שם משתמש.");
 
+
+            if (userRepository.Get(x => x.UserName == administrator.ApplicationUser.UserName).FirstOrDefault() == null)
+                return new MichtavaFailure("please add ApplicationUser before using this function");
 
             this.administratorRepository.Add(administrator);
             this.administratorRepository.SaveChanges();
@@ -65,16 +70,22 @@
 
         public MichtavaResult Update(Administrator administrator)
         {
-           
 
-                if (userRepository.Get(sc =>  sc.UserName == administrator.ApplicationUser.UserName).Count() == 1 &&
-                                                  userRepository.Get(sc => sc.UserName == administrator.ApplicationUser.UserName).
-                                                  FirstOrDefault().Id != administrator.ApplicationUser.Id)
-                    return new MichtavaFailure("לא ניתן לשנות את פרטי המשתמש - שם המשתמש כבר קיים");
-
+            if (administrator.ApplicationUser == null)
+            {
+                return new MichtavaFailure("must attach ApplicationUser.");
+            }
 
             if (administrator.ApplicationUser.UserName == null || administrator.ApplicationUser.UserName == "")
                 return new MichtavaFailure("חובה להזין שם משתמש.");
+
+            if (userRepository.Get(sc => sc.UserName == administrator.ApplicationUser.UserName).Count() == 1 &&
+                                              userRepository.Get(sc => sc.UserName == administrator.ApplicationUser.UserName).
+                                              FirstOrDefault().Id != administrator.ApplicationUser.Id)
+                return new MichtavaFailure("לא ניתן לשנות את פרטי המשתמש - שם המשתמש כבר קיים");
+
+
+            
 
             this.administratorRepository.Update(administrator);
             this.administratorRepository.SaveChanges();
@@ -94,13 +105,12 @@
 
 
 
-            administrator.ApplicationUser.DeletedBy = administrator.DeletedBy;
 
             this.administratorRepository.Delete(administrator);
             this.administratorRepository.SaveChanges();
-            this.userRepository.Delete(administrator.ApplicationUser);
+            //this.userRepository.Delete(administrator.ApplicationUser);
 
-            this.userRepository.SaveChanges();
+            //this.userRepository.SaveChanges();
             return new MichtavaSuccess("משתמש נמחק בהצלחה");
         }
 
@@ -116,13 +126,12 @@
 
 
 
-            administrator.ApplicationUser.DeletedBy = administrator.DeletedBy;
 
             this.administratorRepository.HardDelete(administrator);
             this.administratorRepository.SaveChanges();
-            this.userRepository.HardDelete(administrator.ApplicationUser);
+            //this.userRepository.HardDelete(administrator.ApplicationUser);
 
-            this.userRepository.SaveChanges();
+            //this.userRepository.SaveChanges();
             return new MichtavaSuccess("משתמש נמחק בהצלחה");
         }
 
@@ -135,6 +144,6 @@
             return usernameUnique;
         }
 
-        
+
     }
 }

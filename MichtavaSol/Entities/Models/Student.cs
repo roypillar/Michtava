@@ -16,6 +16,7 @@ namespace Entities.Models
             homeworks = new List<Homework>();
             Name = name;
             ApplicationUser = user;
+            if(user!=null)
             ApplicationUserId = user.Id;
 
         }

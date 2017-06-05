@@ -21,7 +21,9 @@ namespace Entities.Models
             schoolClasses = new HashSet<SchoolClass>();
             Name = name;
             ApplicationUser = user;
-            ApplicationUserId = user.Id;
+            if (user != null)
+
+                ApplicationUserId = user.Id;
         }
 
         private ICollection<SchoolClass> schoolClasses;

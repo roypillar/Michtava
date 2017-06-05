@@ -1,7 +1,5 @@
 -----NON_TESTING--------
 
-populate registerareas
-
 administrationarea
 
 strings all over the site - validation, header, footer, etc
@@ -25,6 +23,8 @@ login Account/login bug
 fix services update (==1 >1 ...)
 
 add teacher fix in teacher area
+
+check before changing username, bizzare ass shit.....
 
 -----TESTING---------
 

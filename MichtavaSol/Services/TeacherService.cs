@@ -1,12 +1,13 @@
-﻿namespace Services
+﻿using System.Threading.Tasks;
+using System;
+using Common;
+
+namespace Services
 {
-    using System;
     using System.Linq;
-    using System.Threading.Tasks;
     using Dal.Repositories.Interfaces;
     using Entities.Models;
     using Services.Interfaces;
-    using Common;
 
     public class TeacherService : ITeacherService
     {
@@ -31,36 +32,104 @@
         }
 
 
-        public Task<Teacher> GetByUserName(string username)
+        public Teacher GetByUserName(string username)
         {
-            return this.teacherRepository.GetByUserName(username);
+            return this.teacherRepository.All().FirstOrDefault(a => a.ApplicationUser.UserName == username && !a.IsDeleted);
+        }
+
+        public Teacher GetById(Guid id)
+        {
+            return this.teacherRepository.GetById(id);
         }
 
         public MichtavaResult Add(Teacher teacher)
         {
+            if (teacher == null)
+                return new MichtavaFailure("חייב לספק אובייקט ליצירה...");
+
+
+            if (teacher.ApplicationUser == null)
+            {
+                return new MichtavaFailure("must attach ApplicationUser before creation.");
+            }
+
+            if (teacher.ApplicationUser.UserName == null || teacher.ApplicationUser.UserName == "")
+                return new MichtavaFailure("חובה להזין שם משתמש.");
+
+
+            if (userRepository.Get(x => x.UserName == teacher.ApplicationUser.UserName).FirstOrDefault() == null)
+                return new MichtavaFailure("please add ApplicationUser before using this function");
+
             this.teacherRepository.Add(teacher);
             this.teacherRepository.SaveChanges();
-            return new MichtavaSuccess();
+            return new MichtavaSuccess("משתמש נוסף בהצלחה");
+
         }
 
         public MichtavaResult Update(Teacher teacher)
         {
+            if (teacher.ApplicationUser == null)
+            {
+                return new MichtavaFailure("must attach ApplicationUser.");
+            }
+
+            if (teacher.ApplicationUser.UserName == null || teacher.ApplicationUser.UserName == "")
+                return new MichtavaFailure("חובה להזין שם משתמש.");
+
+            if (userRepository.Get(sc => sc.UserName == teacher.ApplicationUser.UserName).Count() == 1 &&
+                                              userRepository.Get(sc => sc.UserName == teacher.ApplicationUser.UserName).
+                                              FirstOrDefault().Id != teacher.ApplicationUser.Id)
+                return new MichtavaFailure("לא ניתן לשנות את פרטי המשתמש - שם המשתמש כבר קיים");
+
+
+
+
             this.teacherRepository.Update(teacher);
             this.teacherRepository.SaveChanges();
-            return new MichtavaSuccess();
-
+            return new MichtavaSuccess("משתמש עודכן בהצלחה");
         }
+
 
         public MichtavaResult Delete(Teacher teacher)
         {
-            teacher.ApplicationUser.DeletedBy = teacher.DeletedBy;
+            Teacher existing = this.teacherRepository.All().Where(y => y.Id == teacher.Id).
+               FirstOrDefault();
 
-            this.userRepository.Delete(teacher.ApplicationUser);
+
+            if (existing == null)
+                return new MichtavaFailure("המשתמש לא נמצא במערכת");
+
+
+
+
             this.teacherRepository.Delete(teacher);
-
             this.teacherRepository.SaveChanges();
-            return new MichtavaSuccess();
+            //this.userRepository.Delete(teacher.ApplicationUser);
 
+            //this.userRepository.SaveChanges();
+            return new MichtavaSuccess("משתמש נמחק בהצלחה");
+
+        }
+
+        public MichtavaResult HardDelete(Teacher teacher)
+        {
+
+            Teacher existing = this.teacherRepository.AllWithDeleted().Where(y => y.Id == teacher.Id).
+               FirstOrDefault();
+
+
+            if (existing == null)
+                return new MichtavaFailure("המשתמש לא נמצא במערכת");
+
+
+
+
+            this.teacherRepository.HardDelete(teacher);
+            this.teacherRepository.SaveChanges();
+            //this.userRepository.HardDelete(teacher.ApplicationUser);
+
+            //this.userRepository.SaveChanges();
+            return new MichtavaSuccess("משתמש נמחק בהצלחה");
         }
 
         public IQueryable<Teacher> SearchByName(string searchString)
@@ -73,9 +142,8 @@
             return this.teacherRepository.IsUserNameUniqueOnEdit(teacher, username);
         }
 
-        public Teacher GetById(Guid id)
-        {
-            return this.teacherRepository.GetById(id);
-        }
+       
+
+
     }
 }

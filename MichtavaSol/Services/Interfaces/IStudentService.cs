@@ -12,7 +12,7 @@
 
         IQueryable<Student> SearchByName(string searchString);
 
-        Task<Student> GetByUserName(string username);
+        Student GetByUserName(string username);
 
 
         Student GetById(Guid id);

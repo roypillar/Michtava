@@ -83,7 +83,7 @@
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Teacher teacher = await this.teacherService.GetByUserName(username);
+            Teacher teacher =  this.teacherService.GetByUserName(username);
 
             if (teacher == null)
             {
@@ -104,7 +104,7 @@
                 return View();
             }
 
-            Teacher teacher = await this.teacherService.GetByUserName(username);
+            Teacher teacher =  this.teacherService.GetByUserName(username);
 
             if (teacher == null)
             {

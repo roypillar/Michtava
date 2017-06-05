@@ -19,8 +19,10 @@ namespace Entities.Models
             FirstName = fn;
             LastName = ln;
             ApplicationUser = user;
-            ApplicationUserId = user.Id;
+            if(user!=null)
+             ApplicationUserId = user.Id;
         }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 

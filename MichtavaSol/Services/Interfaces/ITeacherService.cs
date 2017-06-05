@@ -14,7 +14,7 @@
 
         IQueryable<Teacher> SearchByName(string searchString);
 
-        Task<Teacher> GetByUserName(string username);
+        Teacher GetByUserName(string username);
 
         bool IsUserNameUniqueOnEdit(Teacher teacher, string username);
     }

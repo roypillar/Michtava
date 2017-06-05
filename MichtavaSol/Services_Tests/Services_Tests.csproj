@@ -90,7 +90,9 @@
     <Compile Include="HomeworkServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchoolClassServiceTests.cs" />
+    <Compile Include="StudentServiceTests.cs" />
     <Compile Include="SubjectServiceTests.cs" />
+    <Compile Include="TeacherServiceTests.cs" />
     <Compile Include="TextServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>

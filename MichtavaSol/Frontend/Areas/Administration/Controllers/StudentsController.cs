@@ -89,7 +89,7 @@
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Student student = await this.studentService.GetByUserName(username);
+            Student student =  this.studentService.GetByUserName(username);
 
             if (student == null)
             {
@@ -111,7 +111,7 @@
                 return View();
             }
 
-            Student student = await this.studentService.GetByUserName(username);
+            Student student =  this.studentService.GetByUserName(username);
 
             if (student == null)
             {
