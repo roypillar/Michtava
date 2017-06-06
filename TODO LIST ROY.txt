@@ -1,44 +1,32 @@
 -----NON_TESTING--------
 
-administrationarea
+1) administrationarea 8h
 
-strings all over the site - validation, header, footer, etc
+5) implement delete functionality all over the admins area 2h
 
-take add(create) functionality from seed method to the services
+2) map from requirements to tests 4h
 
-implement delete functionality all over the admins area
+login Account/login bug 2h
 
-error handling - learn remote validation IN PROGRESS
+4) fix services update (==1 >1 ...) 1h
 
-fix SQL in university 
+3) add teacher fix in teacher area  2h
 
-worddefinition service
+check before changing username, bizzare brutal ass shit..... 0h
 
-read mass queries from file => add students, add teachers, add admins, add definitions.
 
-map from requirements to tests
-
-login Account/login bug
-
-fix services update (==1 >1 ...)
-
-add teacher fix in teacher area
-
-check before changing username, bizzare ass shit.....
 
 -----TESTING---------
 
-test administrationarea 
+test administrationarea 5h 
 
-test add existing word (with spaces whitenoise etc) should fail
+test add existing word (with spaces whitenoise etc) should fail 0h
 
-write tests for services IN PROGRESS
+write black box selenium tests 6h
 
-write black box selenium tests
+complete TODO tests 4h
 
-complete TODO tests
-
-test roles in admin/teachers/students
+test roles in admin/teachers/students 3h
 
 
 
