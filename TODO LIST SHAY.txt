@@ -15,3 +15,5 @@
 ...
 
 - ablity to watch feedbacks
+
+- Create views for toolbar buttons (contact us, about, ...), or remove the buttons
