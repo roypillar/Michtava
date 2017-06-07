@@ -49,12 +49,18 @@ namespace Frontend.Controllers
                 _userManager = value;
             }
         }
+
+        [HttpGet]
         public ActionResult Index()
         {
             ViewBag.Title = "מכתבה - בית";
 
+            //LoginViewModel model = new LoginViewModel();
+            //ViewBag.Model = model;
             return View();
+
         }
+
 
         public ActionResult About()
         {
@@ -76,7 +82,7 @@ namespace Frontend.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -90,34 +96,29 @@ namespace Frontend.Controllers
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
 
-            
+
 
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (string.IsNullOrEmpty(returnUrl))//there is nowhere to return to, just go to the home of the role.
+
+                    if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.AdministratorRoleName))//if the user is an admin
                     {
-                        if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.AdministratorRoleName))//if the user is an admin
-                        {
-                            return RedirectToAction("Index", "Home", new { area = "Administration" });
-                        }
-                        else if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.TeacherRoleName))//if the user is a teacher
-                        {
-                            return RedirectToAction("Index", "Teachers");
-                        }
-                        else if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.StudentRoleName))//if the user is a student
-                        {
-                            return RedirectToAction("Index", "Students");
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Home", new { area = string.Empty });//otherwise, homepage
-                        }
+                        return RedirectToAction("Index", "Home", new { area = "Administration" });
+                    }
+                    else if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.TeacherRoleName))//if the user is a teacher
+                    {
+                        return RedirectToAction("Index", "Teachers");
+                    }
+                    else if (this.UserManager.IsInRole(loggingUser.Id, GlobalConstants.StudentRoleName))//if the user is a student
+                    {
+                        return RedirectToAction("Index", "Students");
                     }
                     else
                     {
-                        return RedirectToLocal(returnUrl);
+                        return RedirectToAction("Index", "Home", new { area = string.Empty });//otherwise, homepage
                     }
+
 
 
 
@@ -126,11 +127,11 @@ namespace Frontend.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "ניסיון התחברות לא צלח ");
-                    return View(model);
+                    ModelState.AddModelError("", "הפרטים שהזנת שגויים");
+                    return View("Index",model);
             }
 
         }

@@ -6,7 +6,7 @@ namespace Frontend.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "אימייל")]
         public string Email { get; set; }
     }
 
@@ -33,7 +33,7 @@ namespace Frontend.Models
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
 
-        [Display(Name = "Remember this browser?")]
+        [Display(Name = "זכור את הדפדפן הזה?")]
         public bool RememberBrowser { get; set; }
 
         public bool RememberMe { get; set; }
@@ -48,11 +48,11 @@ namespace Frontend.Models
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "נא להזין שם משתמש")]
         [Display(Name = "שם משתמש")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "נא להזין סיסמא")]
         [DataType(DataType.Password)]
         [Display(Name = "סיסמא")]
         public string Password { get; set; }
