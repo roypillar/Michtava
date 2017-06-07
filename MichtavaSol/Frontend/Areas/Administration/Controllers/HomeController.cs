@@ -9,6 +9,7 @@
         // GET: Administration/Home
         public ActionResult Index()
         {
+            ViewBag.Title = "Administration";
             return View();
         }
     }
