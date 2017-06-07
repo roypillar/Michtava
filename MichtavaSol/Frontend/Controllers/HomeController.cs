@@ -50,7 +50,6 @@ namespace Frontend.Controllers
             }
         }
 
-        [HttpGet]
         public ActionResult Index()
         {
             ViewBag.Title = "מכתבה - בית";
