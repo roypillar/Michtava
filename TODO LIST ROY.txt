@@ -20,10 +20,6 @@ check before changing username, bizzare brutal ass shit..... 0h
 
 test administrationarea 5h 
 
-test add existing word (with spaces whitenoise etc) should fail 0h
-
-write black box selenium tests 6h
-
 complete TODO tests 4h
 
 test roles in admin/teachers/students 3h

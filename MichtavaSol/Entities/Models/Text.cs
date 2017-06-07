@@ -14,12 +14,16 @@ namespace Entities.Models
         public Text()
         {
             UploadTime = DateTime.Now;
+            Games = new List<ExternalGame>();
         }
 
         public Text(string name,Subject s)
         {
             Name = name;
             Subject = s;
+            Games = new List<ExternalGame>();
+            UploadTime = DateTime.Now;
+
         }
 
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -50,7 +54,7 @@ namespace Entities.Models
             }
         }
 
-        
+        public ICollection<ExternalGame> Games { get; set; }
 
         [ForeignKey("Subject")]
         public Guid Subject_Id { get; set; }

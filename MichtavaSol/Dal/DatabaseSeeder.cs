@@ -575,7 +575,7 @@ namespace Dal
                 t.Name = pair.Key;
                 t.Content = pair.Value;
                 t.Subject = subject;
-
+                t.Games.Add(new ExternalGame("www.examplegame.co.il/game", "Example game"));
 
 
                 context.Texts.Add(t);
