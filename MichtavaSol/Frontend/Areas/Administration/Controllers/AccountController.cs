@@ -46,37 +46,60 @@
 
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(AdministratorRegisterSubmitModel model)
         {
             if (ModelState.IsValid)
             {
+
+                //var result = this.userManager.Create(adminUser, "testpassword");
+
+                //if (result.Succeeded)
+                //{
+                //    this.userManager.AddToRole(adminUser.Id, GlobalConstants.AdministratorRoleName);
+                //}
+                //MichtavaResult res = serv.Add(entity);
+
+
                 var user = new ApplicationUser()
                 {
                     UserName = model.RegisterViewModel.UserName,
+                    Email = model.RegisterViewModel.Email,
                     PhoneNumber = model.RegisterViewModel.PhoneNumber
                 };
 
-                IdentityResult result = await this.UserManager.CreateAsync(user, model.RegisterViewModel.Password);
+
+
+                var result = await UserManager.CreateAsync(user, model.RegisterViewModel.Password);
 
                 if (result.Succeeded)
                 {
-                    this.UserManager.AddToRole(user.Id, GlobalConstants.AdministratorRoleName);
+                    UserManager.AddToRole(user.Id, GlobalConstants.AdministratorRoleName);
 
-                    Administrator administrator = new Administrator(user,model.FirstName,model.LastName);
-                 
-                    Mapper.Map<AdministratorRegisterSubmitModel, Administrator>(model, administrator);
+                    var entity = new Administrator(user.Id, model.FirstName, model.LastName);
 
-                    this.administratorService.Add(administrator);
 
-                    /*For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    Send an email with this link
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");*/
+                    MichtavaResult res = administratorService.Add(entity);
 
-                    return RedirectToAction("Index", "Administrators", new { area = "Administration" });
+                //IdentityResult result =  this.UserManager.Create(user, model.RegisterViewModel.Password);
+
+                //if (result.Succeeded)
+                //{
+                //this.UserManager.AddToRole(user.Id, GlobalConstants.AdministratorRoleName);
+
+                //Administrator administrator = new Administrator(user,model.FirstName,model.LastName);
+
+                ////Mapper.Map<AdministratorRegisterSubmitModel, Administrator>(model, administrator);
+
+                //this.administratorService.Add(administrator);
+
+                /*For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                Send an email with this link
+                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");*/
+
+                return RedirectToAction("Index", "Administrators", new { area = "Administration" });
                 }
                 else
                 {

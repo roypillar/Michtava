@@ -14,13 +14,21 @@ namespace Entities.Models
 
         }
 
-        public Administrator(ApplicationUser user,string fn, string ln)
+        public Administrator(ApplicationUser user, string fn, string ln)
         {
             FirstName = fn;
             LastName = ln;
             ApplicationUser = user;
-            if(user!=null)
-             ApplicationUserId = user.Id;
+            if (user != null)
+                ApplicationUserId = user.Id;
+
+
+        }
+             public Administrator(string userId, string fn, string ln)
+        {
+            FirstName = fn;
+            LastName = ln;
+            ApplicationUserId = userId;
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

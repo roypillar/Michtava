@@ -62,9 +62,21 @@
             if (userRepository.Get(x => x.UserName == administrator.ApplicationUser.UserName).FirstOrDefault() == null)
                 return new MichtavaFailure("please add ApplicationUser before using this function");
 
+
+
+            //ApplicationUser user = administrator.ApplicationUser;
+            //administrator.ApplicationUser = null;
+            //administrator.ApplicationUserId = null;
+                      
+           
+
             this.administratorRepository.Add(administrator);
             this.administratorRepository.SaveChanges();
-            return new MichtavaSuccess("משתמש נוסף בהצלחה");
+
+            //administrator.ApplicationUser = user;
+
+            //return Update(administrator);
+            return new MichtavaSuccess();
 
         }
 

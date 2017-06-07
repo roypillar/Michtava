@@ -47,7 +47,9 @@ namespace Dal_Tests
         [SetUp]
         public void setUp()
         {
-            entity = new Administrator(null,fn, ln);
+            entity = new Administrator();
+            entity.FirstName = fn;
+            entity.LastName = ln;
         }
 
         [TearDown]
