@@ -53,8 +53,11 @@
             if (TextRepository.Get(s => s.Name == Text.Name).Count() > 1)
                 return new MichtavaFailure();
 
-            if (TextRepository.Get(s => s.Name == Text.Name).Count() == 1)
+            if (TextRepository.Get(s => s.Name == Text.Name).Count() == 1 &&
+                TextRepository.Get(s => s.Name == Text.Name).FirstOrDefault().Id != Text.Id)
                 return new MichtavaFailure("כבר קיים טקסט במערכת עם אותו השם");
+
+
 
             if (TextRepository.Get(s => s.Name == Text.Name).Count() == 0)
             {

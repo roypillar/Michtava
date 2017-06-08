@@ -8,11 +8,11 @@
 
 4) fix services update (==1 >1 ...) 1h
 
-3) add teacher fix in teacher area  2h
-
 check before changing username, bizzare brutal ass shit..... 0h
 
 forgot password
+
+nevere redirect to account/login
 
 -----TESTING---------
 

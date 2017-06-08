@@ -71,19 +71,22 @@
                                                hw.Description == homework.Description).Count() > 1)
                 return new MichtavaFailure();
 
+
+
             if (homeworkRepository.Get(hw => hw.Title == homework.Title &&
-                                               hw.Description == homework.Description).Count() == 1)
+                                               hw.Description == homework.Description).Count() == 1 &&
+                                            homeworkRepository.Get(hw => hw.Title == homework.Title &&
+                                        hw.Description == homework.Description).FirstOrDefault().Id != homework.Id)
                 return new MichtavaFailure("לא ניתן לשנות את פרטי השיעורים לפרטים שכבר מצויים במערכת, אצל שיעורים אחרים");
 
-            else if (homeworkRepository.Get(hw => hw.Title == homework.Title &&
-                                                hw.Description == homework.Description).Count() == 0)
-            {
+
+      
+
+         
                 this.homeworkRepository.Update(homework);
                 this.homeworkRepository.SaveChanges();
                 return new MichtavaSuccess("שיעורי בית עודכנו בהצלחה");
-            }
-            else
-                return new MichtavaFailure("טעות לא צפויה התרחשה");
+           
 
 
         }
