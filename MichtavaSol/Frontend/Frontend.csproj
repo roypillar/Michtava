@@ -261,8 +261,10 @@
     <Compile Include="Areas\Administration\Models\Teachers\TeacherDetailsEditModel.cs" />
     <Compile Include="Areas\Administration\Models\Teachers\TeacherListViewModel.cs" />
     <Compile Include="Areas\Students\Controllers\AccountController.cs" />
-    <Compile Include="Areas\Students\Models\AccountViewModels\RegisterViewModel.cs" />
+    <Compile Include="Areas\Students\Models\AccountViewModels\StudentRegisterViewModel.cs" />
     <Compile Include="Areas\Students\StudentsAreaRegistration.cs" />
+    <Compile Include="Areas\Teachers\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Teachers\Models\AccountViewModels\TeacherRegisterViewModel.cs" />
     <Compile Include="Areas\Teachers\TeachersAreaRegistration.cs" />
     <Compile Include="AutoMapperConfig\AutoMapperWebConfiguration.cs" />
     <Compile Include="AutoMapperConfig\OrganizationProfile.cs" />
@@ -344,6 +346,9 @@
     <Content Include="Areas\Administration\Views\Teachers\Delete.cshtml" />
     <Content Include="Areas\Administration\Views\Teachers\Details.cshtml" />
     <Content Include="Areas\Administration\Views\Teachers\Edit.cshtml" />
+    <Content Include="Areas\Teachers\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Teachers\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Teachers\Views\Account\Register.cshtml" />
     <None Include="Properties\PublishProfiles\dfs.pubxml" />
     <None Include="Properties\PublishProfiles\profile28031.pubxml" />
     <None Include="Properties\Settings.settings">
@@ -432,9 +437,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Administration\Views\SchoolClasses\" />
     <Folder Include="Areas\Students\Views\Shared\" />
-    <Folder Include="Areas\Teachers\Controllers\" />
-    <Folder Include="Areas\Teachers\Models\" />
-    <Folder Include="Areas\Teachers\Views\Shared\" />
     <Folder Include="Backgrounds\" />
     <Folder Include="Views\TextAdding\" />
     <Folder Include="Views\TextView\" />

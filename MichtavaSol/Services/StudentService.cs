@@ -48,17 +48,22 @@ namespace Services
                 return new MichtavaFailure("חייב לספק אובייקט ליצירה...");
 
 
-            if (student.ApplicationUser == null)
+            //if (student.ApplicationUser == null)
+            //{
+            //    return new MichtavaFailure("must attach ApplicationUser before creation.");
+            //}
+
+            if (student.ApplicationUser == null && student.ApplicationUserId == null)
             {
                 return new MichtavaFailure("must attach ApplicationUser before creation.");
             }
 
-            if (student.ApplicationUser.UserName == null || student.ApplicationUser.UserName == "")
-                return new MichtavaFailure("חובה להזין שם משתמש.");
+            //if (student.ApplicationUser.UserName == null || student.ApplicationUser.UserName == "")
+            //    return new MichtavaFailure("חובה להזין שם משתמש.");
 
 
-            if (userRepository.Get(x => x.UserName == student.ApplicationUser.UserName).FirstOrDefault() == null)
-                return new MichtavaFailure("please add ApplicationUser before using this function");
+            //if (userRepository.Get(x => x.UserName == student.ApplicationUser.UserName).FirstOrDefault() == null)
+            //    return new MichtavaFailure("please add ApplicationUser before using this function");
 
             this.studentRepository.Add(student);
             this.studentRepository.SaveChanges();

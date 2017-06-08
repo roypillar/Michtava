@@ -19,6 +19,13 @@ namespace Frontend.Areas.Teachers
                 "Teachers/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
+
+            //context.MapRoute(
+            //  name: "ghdfzshdrfashd",
+            //  url: "Teachers/Account/Register",
+            //  defaults: new { controller = "Account", action = "Register" },
+            //  namespaces: new string[] { "Frontend.Areas.Teachers.Controllers" });
+
         }
     }
 }

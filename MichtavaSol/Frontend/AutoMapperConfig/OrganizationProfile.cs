@@ -18,7 +18,7 @@
         {
            
 
-            Mapper.CreateMap<Frontend.Areas.Students.Models.AccountViewModels.RegisterViewModel, Student>();//create a map from 1 model to the other, so that later we won't have to do type: {x.name = y.name} 50 times. 
+            Mapper.CreateMap<Frontend.Areas.Students.Models.AccountViewModels.StudentRegisterViewModel, Student>();//create a map from 1 model to the other, so that later we won't have to do type: {x.name = y.name} 50 times. 
 
 
             //admin - applicationuser to accountDetails 

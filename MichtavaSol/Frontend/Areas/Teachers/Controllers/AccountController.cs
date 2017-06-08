@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using Frontend.Areas.Students.Models.AccountViewModels;
+using Frontend.Areas.Teachers.Models.AccountViewModels;
 
-namespace Frontend.Areas.Students.Controllers
+namespace Frontend.Areas.Teachers.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -15,22 +15,21 @@ namespace Frontend.Areas.Students.Controllers
     using Entities.Models;
     using Services.Interfaces;
     using Frontend.App_Start.Identity;
-    using Frontend.Areas.Students.Models.AccountViewModels;
+    using Frontend.Areas.Teachers.Models.AccountViewModels;
 
 
 
-    //[Authorize(Roles = GlobalConstants.StudentRoleName)]//only students allowed here (except register method)
     public class AccountController : Controller
     {
-        private readonly IStudentService studentService;//the service, incl. create/read/update/delete functions
+        private readonly ITeacherService teacherService;//the service, incl. create/read/update/delete functions
 
         private ApplicationSignInManager signInManager;//this and the userManager only exist in account controllers, everywhere else has only services.
 
         private ApplicationUserManager userManager;
 
-        public AccountController(IStudentService studentService)//bind with Ninject (look at Frontend/Infra/NinjectDependencyResolver.cs)
+        public AccountController(ITeacherService teacherService)//bind with Ninject (look at Frontend/Infra/NinjectDependencyResolver.cs)
         {
-            this.studentService = studentService;//checked, ninject binding works!!
+            this.teacherService = teacherService;//checked, ninject binding works!!
         }
 
         public ApplicationSignInManager SignInManager
@@ -70,7 +69,7 @@ namespace Frontend.Areas.Students.Controllers
             }
 
 
-            StudentRegisterViewModel model = new StudentRegisterViewModel();
+            TeacherRegisterViewModel model = new TeacherRegisterViewModel();
 
 
             return View(model);
@@ -81,13 +80,13 @@ namespace Frontend.Areas.Students.Controllers
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]//only admins can add users
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(StudentRegisterViewModel model)
+        public async Task<ActionResult> Register(TeacherRegisterViewModel model)
         {
-       
+
 
             if (ModelState.IsValid)
             {
-           
+
                 var user = new ApplicationUser()
                 {
                     UserName = model.UserName,
@@ -100,22 +99,22 @@ namespace Frontend.Areas.Students.Controllers
 
                 if (result.Succeeded)
                 {
-                    this.UserManager.AddToRole(user.Id, GlobalConstants.StudentRoleName);//assign role of student to newly registered user
+                    this.UserManager.AddToRole(user.Id, GlobalConstants.TeacherRoleName);//assign role of Teacher to newly registered user
 
-                    Student student = new Student();
-                    student.ApplicationUserId = user.Id;
-                    student.Name = model.Name;
-                    //student.ApplicationUser = user;
+                    Teacher Teacher = new Teacher();
+                    Teacher.ApplicationUserId = user.Id;
+                    Teacher.Name = model.Name;
+                    //Teacher.ApplicationUser = user;
 
-                    //Mapper.Map<RegisterViewModel, Student>(model, student);//dump the model into the student (in this case, all it does is student.Name = model.Name but in other cases it will apare us a lot of lines of code)
+                    //Mapper.Map<RegisterViewModel, Teacher>(model, Teacher);//dump the model into the Teacher (in this case, all it does is Teacher.Name = model.Name but in other cases it will apare us a lot of lines of code)
                     //the map is created in frontend/automapperconfig/organizationprofile.cs, here it is just applied.
 
-                    MichtavaResult res = this.studentService.Add(student);//add student to DB through service
+                    MichtavaResult res = this.teacherService.Add(Teacher);//add Teacher to DB through service
 
 
                     if (res is MichtavaSuccess)
                     {
-                        return RedirectToAction("Index", "Students", new { area = "Administration" });//TODO make this work
+                        return RedirectToAction("Index", "Teachers", new { area = "Administration" });//TODO make this work
                     }
                     // return RedirectToAction("Index", "Home", new { area = string.Empty });//getting 404 here
                     else
