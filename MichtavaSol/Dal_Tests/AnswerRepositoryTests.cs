@@ -63,6 +63,8 @@ namespace Dal_Tests
         {
         }
 
+
+        //Test case ID : AR1
         [Test]
         public void testAdd()
         {
@@ -81,6 +83,9 @@ namespace Dal_Tests
             this.repo.SaveChanges();
         }
 
+
+
+        //Test case ID : AR2
         [Test]
         public void testGetById()
         {
@@ -100,6 +105,9 @@ namespace Dal_Tests
         }
 
 
+
+
+        //Test case ID : AR3
         [Test]
         public void testUpdate()
         {
@@ -129,6 +137,9 @@ namespace Dal_Tests
 
         }
 
+
+
+        //Test case ID : AR4
         [Test]
         public void testDelete()
         {
@@ -153,6 +164,9 @@ namespace Dal_Tests
             //TODO add all remaining methods
         }
 
+
+
+        //Test case ID : AR5
         [Test]
         public void testGetByDetails()
         {
@@ -174,6 +188,8 @@ namespace Dal_Tests
         }
 
 
+
+        //Test case ID : AR6
         [Test]
         public void testGetByHwIdandStudentId()
         {

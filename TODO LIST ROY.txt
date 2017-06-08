@@ -1,26 +1,21 @@
 -----NON_TESTING--------
 
 1) administrationarea 8h
+	-check before changing username, bizzare brutal ass shit.....
 
-5) implement delete functionality all over the admins area 2h
+
+3) implement delete functionality all over the admins area 2h
+
+6) forgot password
+
+5) fix account/login page
+
+-----TESTING--------- 
+
 
 2) map from requirements to tests 4h
 
-4) fix services update (==1 >1 ...) 1h
-
-check before changing username, bizzare brutal ass shit..... 0h
-
-forgot password
-
-nevere redirect to account/login
-
------TESTING---------
-
-test administrationarea 5h 
-
-complete TODO tests 4h
-
-test roles in admin/teachers/students 3h
+4) selenium 4h
 
 
 

@@ -16,15 +16,17 @@ using NUnit.Framework;
 
 namespace Services_Tests
 {
-    class TextServiceTests
+    class WordDefinitionServiceTests
     {
         private ApplicationDbContext ctx;
 
-        private TextService serv;
+        private WordDefinitionService serv;
 
-        private Text entity;
+        private WordDefinition entity;
 
-        private const string n = "טסטינגטון";
+        private const string word = "טסטינגטון";
+
+        private const string def = "חציליטי";
 
 
 
@@ -33,7 +35,7 @@ namespace Services_Tests
         {
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
-            this.serv = new TextService(new TextRepository(ctx));
+            this.serv = new WordDefinitionService(new WordDefinitionRepository(ctx));
             new DatabaseSeeder().CreateDependenciesAndSeed(ctx);//heavy duty
 
         }
@@ -41,17 +43,14 @@ namespace Services_Tests
         [SetUp]
         public void setUp()
         {
-            entity = new Text(n,this.ctx.Set<Subject>().FirstOrDefault());
+            entity = new WordDefinition(word,def);
         }
 
         //Adds
-
-
-        //Test case ID : TS1
         [Test]
-        public void testAddTextStandalone()
+        public void testAddWordDefinitionStandalone()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             int count = serv.All().Count();
 
@@ -61,20 +60,18 @@ namespace Services_Tests
 
             // Assert
             Assert.AreEqual(count + 1, serv.All().Count());
-            Assert.NotNull(serv.GetByName(n));
+            Assert.NotNull(serv.GetByWord(word));
             Assert.True(res is MichtavaSuccess);
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
-
-        //Test case ID : TS2
         [Test]
-        public void testAddTextExistingId()
+        public void testAddExistingIdWordDefinition()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             int count = serv.All().Count();
-            Text existing = serv.All().FirstOrDefault();
+            WordDefinition existing = serv.All().FirstOrDefault();
 
             // Act
             MichtavaResult res = serv.Add(existing);
@@ -83,17 +80,15 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
-        
-        //Test case ID : TS3
         [Test]
-        public void testAddTextExistingDetails()
+        public void testAddExistingWordDefinitionDetails()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             int count = serv.All().Count();
-            Text existing = serv.All().FirstOrDefault();
+            WordDefinition existing = serv.All().FirstOrDefault();
 
-            Text c = new Text(existing.Name, this.ctx.Set<Subject>().FirstOrDefault());
+            WordDefinition c = new WordDefinition(existing.Word,"some definition");
             // Act
 
             MichtavaResult res = serv.Add(c);
@@ -104,39 +99,48 @@ namespace Services_Tests
         }
 
 
-        //Gets
-
-        //Test case ID : TS4
         [Test]
-        public void testGetTextByIdTrue()
+        public void testAddWithTextInconsistency()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
+        }
+
+
+        [Test]
+        public void testAddWordDefinitionWithTeacherInconsistency()
+        {
+            Assert.Null(serv.GetByWord(word));
+        }
+
+        //Gets
+        [Test]
+        public void testGetWordDefinitionByIdTrue()
+        {
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             int count = serv.All().Count();
 
-            Text c = serv.All().FirstOrDefault();
+            WordDefinition c = serv.All().FirstOrDefault();
             Assert.NotNull(c);
 
 
             // Act
-            Text actual = serv.GetById(c.Id);
+            WordDefinition actual = serv.GetByWord(c.Word);
             // Assert
 
             Assert.NotNull(actual);
 
         }
 
-
-        //Test case ID : TS5
         [Test]
-        public void testGetTextByIdFalse()
+        public void testGetWordDefinitionByIdFalse()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             int count = serv.All().Count();
 
             // Act
-            Text actual = serv.GetById(Guid.NewGuid());
+            WordDefinition actual = serv.GetByWord(Guid.NewGuid().ToString());
             // Assert
 
             Assert.Null(actual);
@@ -144,21 +148,19 @@ namespace Services_Tests
         }
 
 
-        //Test case ID : TS6
-
         [Test]
-        public void testGetTextByDetailsTrue()
+        public void testGetWordDefinitionByDetailsTrue()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             int count = serv.All().Count();
 
-            Text c = serv.All().FirstOrDefault();
+            WordDefinition c = serv.All().FirstOrDefault();
             Assert.NotNull(c);
 
 
             // Act
-            Text actual = serv.GetByName(c.Name);
+            WordDefinition actual = serv.GetByWord(c.Word);
             // Assert
 
             Assert.NotNull(actual);
@@ -166,17 +168,16 @@ namespace Services_Tests
 
 
 
-        //Test case ID : TS7
         [Test]
-        public void testGetTextByDetailsFalse()
+        public void testGetWordDefinitionByDetailsFalse()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             int count = serv.All().Count();
 
 
             // Act
-            Text actual = serv.GetByName("14");
+            WordDefinition actual = serv.GetByWord("14");
             // Assert
 
             Assert.Null(actual);
@@ -184,22 +185,19 @@ namespace Services_Tests
         }
 
         //Update
-
-
-        //Test case ID : TS8
         [Test]
-        public void testUpdateTextSuccess()
+        public void testUpdateWordDefinitionSuccess()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             int count = serv.All().Count();
             serv.Add(entity);
 
-            Assert.Null(serv.GetByName("harambe"));
+            Assert.Null(serv.GetByWord("harambe"));
 
 
             Assert.AreEqual(count + 1, serv.All().Count());
-            entity.Name = "harambe";
+            entity.addDefinition ("harambererer is good      ");
 
 
             // Act
@@ -207,70 +205,57 @@ namespace Services_Tests
 
             // Assert
             Assert.True(res is MichtavaSuccess);
-            Assert.NotNull(serv.GetByName("harambe"));
+            Assert.NotNull(serv.GetByWord(word));
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
-
-        //Test case ID : TS9
         [Test]
-        public void testUpdateTextNonExistant()
+        public void testUpdateWordDefinitionNonExistant()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             int count = serv.All().Count();
 
-            Assert.Null(serv.GetByName("harambe"));
-
-
-            entity.Name = "harambe";
-
+            Assert.Null(serv.GetByWord("harambe"));
 
             // Act
-            MichtavaResult res = serv.Update(new Text("harambe", this.ctx.Set<Subject>().FirstOrDefault()));
+            MichtavaResult res = serv.Update(new WordDefinition("harambe","some definition"));
             // Assert
             Assert.True(res is MichtavaFailure);
         }
 
+        //[Test]
+        //public void testUpdateWordDefinitionExistingDetails()
+        //{
+        //    Assert.Null(serv.GetByWord(word));
+        //    // Arrange
+        //    int count = serv.All().Count();
+        //    WordDefinition c = serv.All().FirstOrDefault();
 
-        //Test case ID : TS10
-        [Test]
-        public void testUpdateTextExistingDetails()
-        {
-            Assert.Null(serv.GetByName(n));
-            // Arrange
-            int count = serv.All().Count();
-            Text c = serv.All().FirstOrDefault();
+        //    serv.Add(entity);
 
-            serv.Add(entity);
+        //    Assert.AreEqual(count + 1, serv.All().Count());
+        //    entity.Word = c.Word;
 
-            Assert.AreEqual(count + 1, serv.All().Count());
-            entity.Name = c.Name;
+        //    //Assert
+        //    Assert.Throws<InvalidOperationException>(() =>  serv.Update(entity));
 
+        //    Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
 
-            // Act
-            MichtavaResult res = serv.Update(entity);
-
-            // Assert
-            Assert.True(res is MichtavaFailure);
-            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
-        }
+        //}
 
 
 
         //Deletes
-
-
-        //Test case ID : TS11
         [Test]
-        public void testDeleteTextSuccess()
+        public void testDeleteWordDefinitionSuccess()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             serv.Add(entity);
             int count = serv.All().Count();
 
-            Guid id = serv.GetByName(n).Id;
+            string id = serv.GetByWord(word).Word;
 
             // Act
             MichtavaResult res = serv.Delete(entity);
@@ -278,9 +263,9 @@ namespace Services_Tests
 
             // Assert
             Assert.True(res is MichtavaSuccess);
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             Assert.True(serv.All().Count() == count - 1);
-            Assert.True(serv.GetById(id).IsDeleted);
+            Assert.Null(serv.GetByWord(id));
 
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
 
@@ -300,17 +285,15 @@ namespace Services_Tests
 
         }
 
-
-        //Test case ID : TS12
         [Test]
-        public void testDeleteTextNonExistant()
+        public void testDeleteWordDefinitionNonExistant()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             int count = serv.All().Count();
 
             entity.setId(Guid.NewGuid());
-            Assert.Null(serv.GetById(entity.Id));
+            Assert.Null(serv.GetByWord(entity.Word));
 
             // Act
             MichtavaResult res = serv.Delete(entity);
@@ -323,16 +306,14 @@ namespace Services_Tests
 
 
 
-        //Test case ID : TS13
         [Test]
-        public void testHardDeleteTextSuccess()
+        public void testHardDeleteWordDefinitionSuccess()
         {
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             // Arrange
             serv.Add(entity);
             int count = serv.All().Count();
 
-            Guid id = serv.GetByName(n).Id;
 
             // Act
             MichtavaResult res = serv.HardDelete(entity);
@@ -340,7 +321,7 @@ namespace Services_Tests
 
             // Assert
             Assert.True(res is MichtavaSuccess);
-            Assert.Null(serv.GetByName(n));
+            Assert.Null(serv.GetByWord(word));
             Assert.True(serv.All().Count() == count - 1);
         }
 

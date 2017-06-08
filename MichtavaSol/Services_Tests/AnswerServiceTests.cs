@@ -50,6 +50,7 @@ namespace Services_Tests
         }
 
         //Adds
+        //Test case ID : AS1
         [Test]
         public void testAddStandaloneAnswer()
         {
@@ -68,6 +69,7 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+        //Test case ID : AS2
         [Test]
         public void testAddExistingIdAnswer()
         {
@@ -83,6 +85,8 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
+
+        //Test case ID : AS3
         [Test]
         public void testAddExistingDetailsAnswer()
         {
@@ -101,6 +105,9 @@ namespace Services_Tests
 
         }
 
+
+
+        //Test case ID : AS4
         [Test]
         public void testAddNullHomeworkAnswer()
         {
@@ -120,6 +127,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test case ID : AS5
         [Test]
         public void testAddNullStudentAnswer()
         {
@@ -140,6 +149,9 @@ namespace Services_Tests
         }
 
         //Gets
+
+
+        //Test case ID : AS6
         [Test]
         public void testGetAnswerByIdTrue()
         {
@@ -159,6 +171,9 @@ namespace Services_Tests
 
         }
 
+
+
+        //Test case ID : AS7
         [Test]
         public void testGetAnswerByIdFalse()
         {
@@ -175,6 +190,9 @@ namespace Services_Tests
         }
 
 
+
+
+        //Test case ID : AS7
         [Test]
         public void testGetAnswerByDetailsTrue()
         {
@@ -195,6 +213,9 @@ namespace Services_Tests
 
 
 
+
+
+        //Test case ID : AS8
         [Test]
         public void testGetAnswerByDetailsFalse()
         {
@@ -212,6 +233,9 @@ namespace Services_Tests
         }
 
         //Update
+
+
+        //Test case ID : AS9
         [Test]
         public void testUpdateAnswerSuccess()
         {
@@ -235,8 +259,11 @@ namespace Services_Tests
         }
 
 
-      
 
+
+
+
+        //Test case ID : AS9
         [Test]
         public void testUpdateAnswerNullHomework()
         {
@@ -259,6 +286,9 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+
+
+        //Test case ID : AS10
         [Test]
         public void testUpdateAnswerNullStudent()
         {
@@ -282,6 +312,9 @@ namespace Services_Tests
         }
 
         //Deletes
+
+
+        //Test case ID : AS11
         [Test]
         public void testDeleteAnswerSuccess()
         {
@@ -320,6 +353,9 @@ namespace Services_Tests
 
         }
 
+
+
+        //Test case ID : AS12
         [Test]
         public void testDeleteNonExistant()
         {
@@ -341,6 +377,7 @@ namespace Services_Tests
 
 
 
+        //Test case ID : AS13
         [Test]
         public void testHardDeleteSuccessAnswer()
         {
