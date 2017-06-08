@@ -56,7 +56,7 @@ namespace Dal_Tests
 
 
 
-        //Test case ID : TR1
+        //Test case ID : TxR1
         [Test]
         public void testAdd()
         {
@@ -77,7 +77,7 @@ namespace Dal_Tests
         }
 
 
-        //Test case ID : TR2
+        //Test case ID : TxR2
         [Test]
         public void testGetById()
         {
@@ -97,7 +97,7 @@ namespace Dal_Tests
         }
 
 
-        //Test case ID : TR3
+        //Test case ID : TxR3
         [Test]
         public void testGet()
         {
@@ -120,7 +120,7 @@ namespace Dal_Tests
         }
 
 
-        //Test case ID : TR4
+        //Test case ID : TxR4
         [Test]
         public void testUpdate()
         {
@@ -150,7 +150,7 @@ namespace Dal_Tests
         }
 
 
-        //Test case ID : TR5
+        //Test case ID : TxR5
         [Test]
         public void testDelete()
         {
@@ -175,7 +175,7 @@ namespace Dal_Tests
             //TODO add all remaining methods
         }
 
-        //Test case ID : TR8
+        //Test case ID : TxR8
         [Test]
         public void testHardDelete()
         {
@@ -198,7 +198,7 @@ namespace Dal_Tests
 
 
 
-        //Test case ID : TR6
+        //Test case ID : TxR6
         [Test]
         public void testGetByDetails()
         {
@@ -221,7 +221,7 @@ namespace Dal_Tests
 
 
 
-        //Test case ID : TR7
+        //Test case ID : TxR7
         [Test]
         public void testGetByName()
         {

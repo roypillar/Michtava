@@ -66,6 +66,8 @@ namespace Services_Tests
         }
 
         //Adds
+
+        //Test Case ID: SS1
         [Test]
         public  void testAddStandaloneStudent()
         {
@@ -92,6 +94,8 @@ namespace Services_Tests
             Assert.Null(serv.GetByUserName(USERNAME));
         }
 
+
+        //Test Case ID: SS2
         [Test]
         public void testAddStudentExistingId()
         {
@@ -107,6 +111,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test Case ID: SS3
         [Test]
         public void testAddExistingStudentDetails()
         {
@@ -124,6 +130,8 @@ namespace Services_Tests
         }
 
         //Gets
+
+        //Test Case ID: SS4
         [Test]
         public void testGetStudentByIdTrue()
         {
@@ -143,6 +151,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test Case ID: SS5
         [Test]
         public void testGetStudentByIdFalse()
         {
@@ -159,6 +169,7 @@ namespace Services_Tests
         }
 
 
+        //Test Case ID: SS6
         [Test]
         public  void testGetStudentByDetailsTrue()
         {
@@ -179,6 +190,7 @@ namespace Services_Tests
 
 
 
+        //Test Case ID: SS7
         [Test]
         public  void testGetStudentByDetailsFalse()
         {
@@ -196,6 +208,8 @@ namespace Services_Tests
         }
 
         //Update
+
+        //Test Case ID: SS8
         [Test]
         public void testUpdateStudentSuccess()
         {
@@ -229,6 +243,7 @@ namespace Services_Tests
             Assert.Null(serv.GetByUserName(USERNAME));
         }
 
+        //Test Case ID: SS9
         [Test]
         public void testUpdateStudentNonExistant()
         {
@@ -243,6 +258,8 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
+
+        //Test Case ID: SS10
         [Test]
         public void testAddNullAppUser()
         {
@@ -256,6 +273,7 @@ namespace Services_Tests
             oneTimeSetUp();
         }
 
+        //Test Case ID: SS11
         [Test]
         public  void testUpdateStudentExistingDetails()
         {
@@ -294,6 +312,8 @@ namespace Services_Tests
         }
 
         //Deletes
+
+        //Test Case ID: SS12
         [Test]
         public  void testDeleteStudentSuccess()
         {
@@ -330,6 +350,7 @@ namespace Services_Tests
 
 
 
+        //Test Case ID: SS13
         [Test]
         public void testDeleteStudentIsApplicationUserUpdated()
         {
@@ -365,6 +386,7 @@ namespace Services_Tests
 
         }
 
+        //Test Case ID: SS14
         [Test]
         public void testDeleteNonExistantStudent()
         {
@@ -386,6 +408,7 @@ namespace Services_Tests
 
 
 
+        //Test Case ID: SS15
         [Test]
         public  void testHardDeleteSuccessStudent()
         {

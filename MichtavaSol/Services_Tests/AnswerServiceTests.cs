@@ -69,6 +69,8 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+        
+
         //Test case ID : AS2
         [Test]
         public void testAddExistingIdAnswer()
@@ -279,6 +281,31 @@ namespace Services_Tests
             Assert.True(res is MichtavaSuccess);
             Assert.NotNull(serv.GetById(id));
             Assert.True(serv.GetById(id).TeacherFeedback == "test feedback");
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+
+        //Test case ID : AS10.2
+        [Test]
+        public void testUpdateAnswerInsertFeedbackCheckNotification()
+        {
+            Assert.Null(serv.GetByDetails(this.hwId, this.studentId));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+
+            Assert.AreEqual(count + 1, serv.All().Count());
+            entity.TeacherFeedback = "test feedback";
+            Guid id = serv.GetByDetails(this.hwId, this.studentId).Id;
+
+
+            // Act
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            Assert.NotNull(serv.GetById(id));
+            Assert.True(serv.GetById(id).TeacherFeedback == "test feedback");
+            Assert.True(serv.GetById(id).notifyStudentOfNewFeedback);
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 

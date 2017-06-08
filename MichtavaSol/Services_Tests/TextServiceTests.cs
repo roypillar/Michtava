@@ -47,7 +47,7 @@ namespace Services_Tests
         //Adds
 
 
-        //Test case ID : TS1
+        //Test case ID : Txs1
         [Test]
         public void testAddTextStandalone()
         {
@@ -67,7 +67,7 @@ namespace Services_Tests
         }
 
 
-        //Test case ID : TS2
+        //Test case ID : Txs2
         [Test]
         public void testAddTextExistingId()
         {
@@ -84,7 +84,7 @@ namespace Services_Tests
         }
 
         
-        //Test case ID : TS3
+        //Test case ID : Txs3
         [Test]
         public void testAddTextExistingDetails()
         {
@@ -106,7 +106,7 @@ namespace Services_Tests
 
         //Gets
 
-        //Test case ID : TS4
+        //Test case ID : Txs4
         [Test]
         public void testGetTextByIdTrue()
         {
@@ -127,7 +127,7 @@ namespace Services_Tests
         }
 
 
-        //Test case ID : TS5
+        //Test case ID : Txs5
         [Test]
         public void testGetTextByIdFalse()
         {
@@ -144,7 +144,7 @@ namespace Services_Tests
         }
 
 
-        //Test case ID : TS6
+        //Test case ID : Txs6
 
         [Test]
         public void testGetTextByDetailsTrue()
@@ -166,7 +166,7 @@ namespace Services_Tests
 
 
 
-        //Test case ID : TS7
+        //Test case ID : Txs7
         [Test]
         public void testGetTextByDetailsFalse()
         {
@@ -186,7 +186,7 @@ namespace Services_Tests
         //Update
 
 
-        //Test case ID : TS8
+        //Test case ID : Txs8
         [Test]
         public void testUpdateTextSuccess()
         {
@@ -212,7 +212,7 @@ namespace Services_Tests
         }
 
 
-        //Test case ID : TS9
+        //Test case ID : Txs9
         [Test]
         public void testUpdateTextNonExistant()
         {
@@ -233,7 +233,7 @@ namespace Services_Tests
         }
 
 
-        //Test case ID : TS10
+        //Test case ID : Txs10
         [Test]
         public void testUpdateTextExistingDetails()
         {
@@ -261,7 +261,7 @@ namespace Services_Tests
         //Deletes
 
 
-        //Test case ID : TS11
+        //Test case ID : Txs11
         [Test]
         public void testDeleteTextSuccess()
         {
@@ -301,7 +301,7 @@ namespace Services_Tests
         }
 
 
-        //Test case ID : TS12
+        //Test case ID : Txs12
         [Test]
         public void testDeleteTextNonExistant()
         {
@@ -323,7 +323,7 @@ namespace Services_Tests
 
 
 
-        //Test case ID : TS13
+        //Test case ID : Txs13
         [Test]
         public void testHardDeleteTextSuccess()
         {

@@ -53,6 +53,7 @@ namespace Dal_Tests
         {
         }
 
+        //Test Case ID: TR1
         [Test]
         public void testAdd()
         {
@@ -72,6 +73,7 @@ namespace Dal_Tests
 
         }
 
+        //Test Case ID: TR2
         [Test]
         public void testGetById()
         {
@@ -90,6 +92,7 @@ namespace Dal_Tests
 
         }
 
+        //Test Case ID: TR3
         [Test]
         public void testGet()
         {
@@ -111,6 +114,7 @@ namespace Dal_Tests
 
         }
 
+        //Test Case ID: TR4
 
         [Test]
         public void testUpdate()
@@ -141,6 +145,7 @@ namespace Dal_Tests
 
         }
 
+        //Test Case ID: TR5
         [Test]
         public void testDelete()
         {
@@ -167,6 +172,7 @@ namespace Dal_Tests
             //TODO add all remaining methods
         }
 
+        //Test Case ID: TR6
         [Test]
         public void testGetByDetails()
         {
@@ -187,6 +193,7 @@ namespace Dal_Tests
             this.repo.SaveChanges();
         }
 
+        //Test Case ID: TR7
         [Test]
         public async Task testGetByUserName()
         {
@@ -208,6 +215,7 @@ namespace Dal_Tests
             this.repo.SaveChanges();
         }
 
+        //Test Case ID: TR8
         [Test]
         public void testSearchByName()
         {
@@ -228,6 +236,7 @@ namespace Dal_Tests
             this.repo.SaveChanges();
         }
 
+        //Test Case ID: TR9
         [Test]
         public void testIsUserNameUniqueOnEditFailure()
         {
@@ -241,6 +250,7 @@ namespace Dal_Tests
 
         }
 
+        //Test Case ID: TR10
         [Test]
         public void testIsUserNameUniqueOnEditSuccess()
         {
