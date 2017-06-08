@@ -29,6 +29,18 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(m => m.RegisterViewModel.Email, new { @class = "control-label col-md-2" })
+
+
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.RegisterViewModel.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.RegisterViewModel.Email, "", new { @class = "text-danger" })
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(m => m.RegisterViewModel.PhoneNumber, new { @class = "control-label col-md-2" })
 
 

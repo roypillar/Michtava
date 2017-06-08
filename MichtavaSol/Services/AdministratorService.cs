@@ -50,17 +50,17 @@
                 return new MichtavaFailure("חייב לספק אובייקט ליצירה...");
 
 
-            if (administrator.ApplicationUser == null)
+            if (administrator.ApplicationUser == null && administrator.ApplicationUserId == null)
             {
                 return new MichtavaFailure("must attach ApplicationUser before creation.");
             }
 
-            if (administrator.ApplicationUser.UserName == null || administrator.ApplicationUser.UserName == "")
-                return new MichtavaFailure("חובה להזין שם משתמש.");
+            //if (administrator.ApplicationUser.UserName == null || administrator.ApplicationUser.UserName == "")
+            //    return new MichtavaFailure("חובה להזין שם משתמש.");
 
 
-            if (userRepository.Get(x => x.UserName == administrator.ApplicationUser.UserName).FirstOrDefault() == null)
-                return new MichtavaFailure("please add ApplicationUser before using this function");
+            //if (userRepository.Get(x => x.UserName == administrator.ApplicationUser.UserName).FirstOrDefault() == null)
+            //    return new MichtavaFailure("please add ApplicationUser before using this function");
 
 
 
