@@ -58,6 +58,8 @@ namespace Dal_Tests
         {
         }
 
+
+        //Test Case ID: HWR1
         [Test]
         public void testAdd()
         {
@@ -77,6 +79,7 @@ namespace Dal_Tests
 
         }
 
+        //Test Case ID: HWR2
         [Test]
         public void testGetById()
         {
@@ -95,6 +98,7 @@ namespace Dal_Tests
 
         }
 
+        //Test Case ID: HWR3
         [Test]
         public void testGet()
         {
@@ -118,6 +122,7 @@ namespace Dal_Tests
         }
 
 
+        //Test Case ID: HWR4
         [Test]
         public void testUpdate()
         {
@@ -146,6 +151,7 @@ namespace Dal_Tests
 
         }
 
+        //Test Case ID: HWR5
         [Test]
         public void testDelete()
         {
@@ -170,6 +176,7 @@ namespace Dal_Tests
             //TODO add all remaining methods
         }
 
+        //Test Case ID: HWR6
         [Test]
         public void testGetByDetails()
         {

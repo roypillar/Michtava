@@ -47,6 +47,8 @@ namespace Services_Tests
         }
 
         //Adds
+
+        //Test Case ID: WDS1
         [Test]
         public void testAddWordDefinitionStandalone()
         {
@@ -65,6 +67,9 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+
+
+        //Test Case ID: WDS2
         [Test]
         public void testAddExistingIdWordDefinition()
         {
@@ -80,6 +85,8 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
+
+        //Test Case ID: WDS3
         [Test]
         public void testAddExistingWordDefinitionDetails()
         {
@@ -99,20 +106,64 @@ namespace Services_Tests
         }
 
 
+        //Test Case ID: WDS4
         [Test]
-        public void testAddWithTextInconsistency()
+        public void testAddDefinition()
         {
             Assert.Null(serv.GetByWord(word));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+
+            Assert.Null(serv.GetByWord("harambe"));
+
+
+            Assert.AreEqual(count + 1, serv.All().Count());
+            entity.addDefinition("1rerer is good      ");
+            entity.addDefinition("1    2 222     ");
+
+
+            // Act
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            Assert.NotNull(serv.GetByWord(word));
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+
+        //Test Case ID: WDS5
+        [Test]
+        public void testAddDefinitions()
+        {
+            Assert.Null(serv.GetByWord(word));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+
+            Assert.Null(serv.GetByWord("harambe"));
+
+
+            Assert.AreEqual(count + 1, serv.All().Count());
+            entity.addDefinitions(new List<string>() { "1rerer is good      ", "babuba"});
+
+
+            // Act
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            Assert.NotNull(serv.GetByWord(word));
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
 
-        [Test]
-        public void testAddWordDefinitionWithTeacherInconsistency()
-        {
-            Assert.Null(serv.GetByWord(word));
-        }
+
 
         //Gets
+
+
+        //Test Case ID: WDS6
         [Test]
         public void testGetWordDefinitionByIdTrue()
         {
@@ -132,6 +183,7 @@ namespace Services_Tests
 
         }
 
+        //Test Case ID: WDS7
         [Test]
         public void testGetWordDefinitionByIdFalse()
         {
@@ -148,6 +200,7 @@ namespace Services_Tests
         }
 
 
+        //Test Case ID: WDS8
         [Test]
         public void testGetWordDefinitionByDetailsTrue()
         {
@@ -168,6 +221,7 @@ namespace Services_Tests
 
 
 
+        //Test Case ID: WDS9
         [Test]
         public void testGetWordDefinitionByDetailsFalse()
         {
@@ -185,6 +239,9 @@ namespace Services_Tests
         }
 
         //Update
+
+
+        //Test Case ID: WDS10
         [Test]
         public void testUpdateWordDefinitionSuccess()
         {
@@ -209,6 +266,8 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+
+        //Test Case ID: WDS11
         [Test]
         public void testUpdateWordDefinitionNonExistant()
         {
@@ -224,29 +283,14 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
-        //[Test]
-        //public void testUpdateWordDefinitionExistingDetails()
-        //{
-        //    Assert.Null(serv.GetByWord(word));
-        //    // Arrange
-        //    int count = serv.All().Count();
-        //    WordDefinition c = serv.All().FirstOrDefault();
 
-        //    serv.Add(entity);
-
-        //    Assert.AreEqual(count + 1, serv.All().Count());
-        //    entity.Word = c.Word;
-
-        //    //Assert
-        //    Assert.Throws<InvalidOperationException>(() =>  serv.Update(entity));
-
-        //    Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
-
-        //}
 
 
 
         //Deletes
+
+
+        //Test Case ID: WDS12
         [Test]
         public void testDeleteWordDefinitionSuccess()
         {
@@ -285,6 +329,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test Case ID: WDS13
         [Test]
         public void testDeleteWordDefinitionNonExistant()
         {
@@ -306,6 +352,7 @@ namespace Services_Tests
 
 
 
+        //Test Case ID: WDS14
         [Test]
         public void testHardDeleteWordDefinitionSuccess()
         {

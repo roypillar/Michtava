@@ -192,7 +192,7 @@ namespace Services_Tests
 
 
 
-        //Test case ID : AS7
+        //Test case ID : AS8
         [Test]
         public void testGetAnswerByDetailsTrue()
         {
@@ -215,7 +215,7 @@ namespace Services_Tests
 
 
 
-        //Test case ID : AS8
+        //Test case ID : AS9
         [Test]
         public void testGetAnswerByDetailsFalse()
         {
@@ -235,9 +235,32 @@ namespace Services_Tests
         //Update
 
 
-        //Test case ID : AS9
+        //Test case ID : AS10
         [Test]
         public void testUpdateAnswerSuccess()
+        {
+            Assert.Null(serv.GetByDetails(this.hwId, this.studentId));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+
+            Assert.AreEqual(count + 1, serv.All().Count());
+            entity.Grade = 84;
+            Guid id = serv.GetByDetails(this.hwId, this.studentId).Id;
+
+
+            // Act
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            Assert.NotNull(serv.GetById(id));
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+
+        //Test case ID : AS10.1
+        [Test]
+        public void testUpdateAnswerInsertFeedbackSuccess()
         {
             Assert.Null(serv.GetByDetails(this.hwId, this.studentId));
             // Arrange
@@ -255,15 +278,13 @@ namespace Services_Tests
             // Assert
             Assert.True(res is MichtavaSuccess);
             Assert.NotNull(serv.GetById(id));
+            Assert.True(serv.GetById(id).TeacherFeedback == "test feedback");
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
 
 
-
-
-
-        //Test case ID : AS9
+        //Test case ID : AS11
         [Test]
         public void testUpdateAnswerNullHomework()
         {
@@ -288,7 +309,7 @@ namespace Services_Tests
 
 
 
-        //Test case ID : AS10
+        //Test case ID : AS12
         [Test]
         public void testUpdateAnswerNullStudent()
         {
@@ -314,7 +335,7 @@ namespace Services_Tests
         //Deletes
 
 
-        //Test case ID : AS11
+        //Test case ID : AS13
         [Test]
         public void testDeleteAnswerSuccess()
         {
@@ -355,7 +376,7 @@ namespace Services_Tests
 
 
 
-        //Test case ID : AS12
+        //Test case ID : AS14
         [Test]
         public void testDeleteNonExistant()
         {
@@ -377,7 +398,7 @@ namespace Services_Tests
 
 
 
-        //Test case ID : AS13
+        //Test case ID : AS15
         [Test]
         public void testHardDeleteSuccessAnswer()
         {

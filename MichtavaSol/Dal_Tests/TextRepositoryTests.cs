@@ -175,6 +175,28 @@ namespace Dal_Tests
             //TODO add all remaining methods
         }
 
+        //Test case ID : TR8
+        [Test]
+        public void testHardDelete()
+        {
+            // Arrange
+            repo.Add(entity);
+            repo.SaveChanges();
+            int count = repo.All().Count();
+
+            Guid id = repo.GetByName(n).Id;
+            // Act
+            repo.HardDelete(entity);
+            repo.SaveChanges();
+            // Assert
+
+            Assert.Null(repo.GetByName(n));
+            Assert.True(repo.All().Count() == count - 1);
+
+          
+        }
+
+
 
         //Test case ID : TR6
         [Test]
