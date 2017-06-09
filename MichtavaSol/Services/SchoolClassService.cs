@@ -86,6 +86,204 @@
         }
 
 
+        //null prevSc = just move the student to the target class
+        //null targetSc = just remove the student from the class
+        public MichtavaResult TransferStudentToClass(SchoolClass prevSc, Student student,SchoolClass targetSc)
+        {
+
+            var res1 = RemoveStudentFromClass(student, prevSc);
+
+            if (res1 is MichtavaFailure)
+                return res1;
+
+            var res2 = AddStudentToClass(student, targetSc);
+
+            if (res2 is MichtavaFailure)
+                return res1;
+
+
+            return new MichtavaSuccess("העברה בוצעה בהצלחה");
+
+
+
+        }
+
+     
+        public MichtavaResult AddStudentToClass(Student student, SchoolClass targetSc)
+        {
+            if (student == null || targetSc == null)
+                return new MichtavaFailure("recieved null argument/s");
+
+            if (this.GetById(targetSc.Id) == null)
+                return new MichtavaFailure("הכיתה לא נמצאה במערכת");
+
+            if (this.studentRepository.GetById(student.Id) == null)
+                return new MichtavaFailure("הסטודנט לא נמצא במערכת");
+
+
+
+            SchoolClass psc = this.schoolClassRepository.All().Include(x => x.Students).FirstOrDefault(x => x.Id == targetSc.Id);
+            Student pst = this.studentRepository.All().Include(x => x.SchoolClass).FirstOrDefault(x => x.Id == student.Id);
+
+            if (psc.Students.ToList().Contains(pst))
+                return new MichtavaSuccessWithWarning("הסטודנט כבר נמצא בכיתה.");
+
+            if(pst.SchoolClass!=null)
+                return new MichtavaFailure("חובה להסיר את הסטודנט מהכיתה שלו");
+
+
+
+            psc.Students.Add(pst);
+            pst.SchoolClass = psc;
+
+
+            this.schoolClassRepository.Update(psc);
+
+            this.schoolClassRepository.SaveChanges();
+
+
+            this.studentRepository.Update(pst);
+            this.studentRepository.SaveChanges();
+
+
+            return new MichtavaSuccess("כיתה עודכנה בהצלחה");
+
+
+
+        }
+
+        public MichtavaResult RemoveStudentFromClass(Student student, SchoolClass sc)
+        {
+            if (student == null || sc == null)
+                return new MichtavaFailure("recieved null argument/s");
+
+            if (this.GetById(sc.Id) == null)
+                return new MichtavaFailure("הכיתה לא נמצאה במערכת");
+
+            if (this.studentRepository.GetById(student.Id) == null)
+                return new MichtavaFailure("הסטודנט לא נמצא במערכת");
+
+
+
+            SchoolClass psc = this.schoolClassRepository.All().Include(x => x.Students).FirstOrDefault(x => x.Id == sc.Id);
+            Student pst = this.studentRepository.All().Include(x => x.SchoolClass).FirstOrDefault(x => x.Id == student.Id);
+
+            if (!psc.Students.ToList().Contains(pst))
+                return new MichtavaSuccessWithWarning("הכיתה לא מכילה את הסטודנט ");
+
+            if (pst.SchoolClass == null)
+                return new MichtavaFailure("הסטודנט לא נמצא בכיתה");
+
+
+
+            psc.Students.Remove(pst);
+            pst.SchoolClass = null;
+
+
+            this.schoolClassRepository.Update(psc);
+
+            this.schoolClassRepository.SaveChanges();
+
+
+            this.studentRepository.Update(pst);
+            this.studentRepository.SaveChanges();
+
+
+            return new MichtavaSuccess("כיתה עודכנה בהצלחה");
+
+
+
+        }
+
+
+
+        public MichtavaResult AddTeacherToClass(Teacher teacher, SchoolClass targetSc)
+        {
+            if (teacher == null || targetSc == null)
+                return new MichtavaFailure("recieved null argument/s");
+
+            if (this.GetById(targetSc.Id) == null)
+                return new MichtavaFailure("הכיתה לא נמצאה במערכת");
+
+            if (this.teacherRepository.GetById(teacher.Id) == null)
+                return new MichtavaFailure("המורה לא נמצא במערכת");
+
+
+
+            SchoolClass psc = this.schoolClassRepository.All().Include(x => x.Teachers).FirstOrDefault(x => x.Id == targetSc.Id);
+            Teacher pst = this.teacherRepository.All().Include(x => x.SchoolClasses).FirstOrDefault(x => x.Id == teacher.Id);
+
+            if (psc.Teachers.ToList().Contains(pst))
+                return new MichtavaSuccessWithWarning("המורה כבר נמצא בכיתה.");
+
+            if (pst.SchoolClasses.ToList().Contains(psc))
+                return new MichtavaFailure("המורה כבר נמצא בכיתה.");
+
+
+
+            psc.Teachers.Add(pst);
+            pst.SchoolClasses.Add(psc);
+
+
+            this.schoolClassRepository.Update(psc);
+
+            this.schoolClassRepository.SaveChanges();
+
+
+            this.teacherRepository.Update(pst);
+            this.teacherRepository.SaveChanges();
+
+
+            return new MichtavaSuccess("כיתה עודכנה בהצלחה");
+
+
+
+        }
+
+        public MichtavaResult RemoveTeacherFromClass(Teacher teacher, SchoolClass targetSc)
+        {
+            if (teacher == null || targetSc == null)
+                return new MichtavaFailure("recieved null argument/s");
+
+            if (this.GetById(targetSc.Id) == null)
+                return new MichtavaFailure("הכיתה לא נמצאה במערכת");
+
+            if (this.teacherRepository.GetById(teacher.Id) == null)
+                return new MichtavaFailure("המורה לא נמצא במערכת");
+
+
+
+            SchoolClass psc = this.schoolClassRepository.All().Include(x => x.Teachers).FirstOrDefault(x => x.Id == targetSc.Id);
+            Teacher pst = this.teacherRepository.All().Include(x => x.SchoolClasses).FirstOrDefault(x => x.Id == teacher.Id);
+
+            if (!psc.Teachers.ToList().Contains(pst))
+                return new MichtavaSuccessWithWarning("המורה לא נמצא בכיתה.");
+
+            if (!pst.SchoolClasses.ToList().Contains(psc))
+                return new MichtavaFailure("המורה לא נמצא בכיתה.");
+
+
+
+            psc.Teachers.Remove(pst);
+            pst.SchoolClasses.Remove(psc);
+
+
+            this.schoolClassRepository.Update(psc);
+
+            this.schoolClassRepository.SaveChanges();
+
+
+            this.teacherRepository.Update(pst);
+            this.teacherRepository.SaveChanges();
+
+
+            return new MichtavaSuccess("כיתה עודכנה בהצלחה");
+
+
+
+        }
+
+
         //updates students and teachers - removes them from the class as well.
         public MichtavaResult Delete(SchoolClass schoolClass)
         {
