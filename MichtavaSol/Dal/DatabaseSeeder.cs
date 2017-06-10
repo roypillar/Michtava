@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Common;
 using Entities.Models;
 using Microsoft.AspNet.Identity;
+//using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
@@ -788,8 +789,8 @@ namespace Dal
         }
         private UserManager<ApplicationUser> CreateUserManager(ApplicationDbContext context)
         {
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-
+            var store = new UserStore<ApplicationUser>(context);
+            var userManager = new UserManager<ApplicationUser>(store);
             // Configure user manager
             // Configure validation logic for usernames
             userManager.UserValidator = new UserValidator<ApplicationUser>(userManager)
@@ -810,6 +811,8 @@ namespace Dal
 
             return userManager;
         }
+
+
 
     }
 }

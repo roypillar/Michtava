@@ -174,6 +174,46 @@ namespace Services_Tests
 
         }
 
+        //Test Case ID: SCS9.1
+        [Test]
+        public void testGetStudentsInSchoolClass()
+        {
+            // Arrange
+            int count = serv.All().Count();
+
+
+            // Act
+            SchoolClass sc = serv.All().Include(x => x.Students).FirstOrDefault();
+
+            ICollection<Student> students = sc.Students.ToList();
+
+            
+            // Assert
+
+            Assert.AreEqual(students,serv.GetStudents(sc));
+
+        }
+
+        //Test Case ID: SCS9.2
+        [Test]
+        public void testGetTeachersInSchoolClass()
+        {
+            // Arrange
+            int count = serv.All().Count();
+
+
+            // Act
+            SchoolClass sc = serv.All().Include(x => x.Teachers).FirstOrDefault();
+
+            ICollection<Teacher> teachers = sc.Teachers.ToList();
+
+
+            // Assert
+
+            Assert.AreEqual(teachers, serv.GetTeachers(sc));
+
+        }
+
         //Update
 
         //Test Case ID: SCS10

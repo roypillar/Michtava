@@ -43,6 +43,27 @@
             return this.schoolClassRepository.GetByDetails(gradeYear, letter);
         }
 
+
+        public ICollection<Student> GetStudents(SchoolClass sc)
+        {
+            if (sc == null || sc.Id == Guid.Empty)
+                return null;
+
+
+            return this.schoolClassRepository.Get(x => x.Id == sc.Id).Include(x => x.Students).FirstOrDefault().Students.ToList();
+        }
+
+        public ICollection<Teacher> GetTeachers(SchoolClass sc)
+        {
+            if (sc == null || sc.Id == Guid.Empty)
+                return null;
+
+
+            return this.schoolClassRepository.Get(x => x.Id == sc.Id).Include(x => x.Teachers).FirstOrDefault().Teachers.ToList();
+        }
+
+
+
         public MichtavaResult Add(SchoolClass schoolClass)
         {
             if (schoolClassRepository.GetByDetails(schoolClass.ClassNumber, schoolClass.ClassLetter) != null)
