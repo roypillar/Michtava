@@ -2,7 +2,7 @@
 
 1) administrationarea 14h
 	-check before changing username, bizzare brutal ass shit..... 2h
-	-Students - add schoolclass field in list and field in edit, 
+	-Students - add schoolclass field in list and field in edit, details
 	            uneditable 2h
 	
 	-Teachers - same 2h
@@ -11,7 +11,9 @@
 		
 	-Schoolclasses - add option from listview to see listview of teachers in class,
 							 listview of students in class,
-			 and from there - remove from class, add to class 7h
+			 and from there - remove from class(for each entity in the list)
+			 add one add to class,opens a username field and there check for existance and all other things.  
+			 8h
 
 
 2) implement delete functionality all over the admins area 2h

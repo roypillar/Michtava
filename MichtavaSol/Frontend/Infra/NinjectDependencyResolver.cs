@@ -10,6 +10,9 @@
     using Dal.Repositories.Interfaces;
     using Services;
     using Services.Interfaces;
+    using Microsoft.AspNet.Identity;
+    using Entities.Models;
+    using Microsoft.AspNet.Identity.EntityFramework;
 
     public class NinjectDependencyResolver : IDependencyResolver
     {
@@ -35,9 +38,9 @@
         {
             this.kernel.Bind<IApplicationDbContext>().To<ApplicationDbContext>().InRequestScope();
 
-            /*kernel.Bind<IUserStore<ApplicationUser>>()
+            kernel.Bind<IUserStore<ApplicationUser>>()
                .To<UserStore<ApplicationUser>>()
-               .WithConstructorArgument("applicationDbContext", new ApplicationDbContext());*/
+               .WithConstructorArgument("applicationDbContext", new ApplicationDbContext());
 
 
             //bind all repository interfaces to actual implementations here

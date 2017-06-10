@@ -64,10 +64,10 @@
             Id = id;
         }
 
-        public override string ToString()
-        {
-            return ClassLetter + ClassNumber;
-        }
+        //public override string ToString()
+        //{
+        //    return ClassLetter + ClassNumber;
+        //}
 
     }
 }

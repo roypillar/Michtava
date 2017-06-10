@@ -44,7 +44,8 @@ namespace Services_Tests
             var connection = DbConnectionFactory.CreateTransient();
             this.ctx = new ApplicationDbContext(connection);
             this.serv = new StudentService(new StudentRepository(ctx),
-                                               new ApplicationUserRepository(ctx));
+                                               new ApplicationUserRepository(ctx),
+                                                new SchoolClassRepository(ctx));
             var seeder = new DatabaseSeeder();
             seeder.CreateDependenciesAndSeed(ctx);//heavy duty
             this.userManager = seeder.userManager;

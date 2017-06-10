@@ -8,17 +8,23 @@ namespace Services
     using Dal.Repositories.Interfaces;
     using Entities.Models;
     using Services.Interfaces;
+    using System.Data.Entity;
 
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository studentRepository;
 
+        private readonly ISchoolClassRepository schoolClassRepository;
+
         private readonly IApplicationUserRepository userRepository;
 
-        public StudentService(IStudentRepository studentRepository, IApplicationUserRepository userRepository)
+        public StudentService(IStudentRepository studentRepository, IApplicationUserRepository userRepository,
+            ISchoolClassRepository schoolClassRepository)
         {
             this.studentRepository = studentRepository;
             this.userRepository = userRepository;
+            this.schoolClassRepository = schoolClassRepository;
+
         }
 
         public IApplicationUserRepository UserRepository
@@ -34,7 +40,7 @@ namespace Services
 
         public Student GetByUserName(string username)
         {
-            return this.studentRepository.All().FirstOrDefault(a => a.ApplicationUser.UserName == username && !a.IsDeleted);
+            return this.studentRepository.All().Include(x => x.SchoolClass). FirstOrDefault(a => a.ApplicationUser.UserName == username && !a.IsDeleted);
         }
 
         public Student GetById(Guid id)

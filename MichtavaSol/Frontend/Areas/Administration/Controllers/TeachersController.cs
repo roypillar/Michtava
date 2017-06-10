@@ -15,15 +15,31 @@
     using Services.Interfaces;
     using Frontend.Areas.Administration.Models.Teachers;
     using Frontend.Areas.Administration.Models.Account;
+    using App_Start.Identity;
+    using System.Web;
+    using Microsoft.AspNet.Identity.Owin;
+    using System.Data.Entity;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class TeachersController : Controller
     {
         private readonly ITeacherService teacherService;
-
-        public TeachersController(ITeacherService teacherService)
+        ApplicationUserManager _userManager;
+        public TeachersController(ITeacherService teacherService,ApplicationUserManager userManager)
         {
             this.teacherService = teacherService;
+            this.UserManager = userManager;
+        }
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
         }
 
         // GET: Administration/Teachers
@@ -44,7 +60,7 @@
 
             ViewBag.CurrentFilter = searchString;
 
-            IQueryable<Teacher> teachers = this.teacherService.All();
+            IQueryable<Teacher> teachers = this.teacherService.All().Include(x => x.SchoolClasses);
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -91,6 +107,12 @@
             }
 
             TeacherDetailsEditModel model = Mapper.Map<Teacher, TeacherDetailsEditModel>(teacher);
+
+            string scs = "";
+            foreach (SchoolClass sc in teacher.SchoolClasses.ToList())
+                scs += ","+sc.ClassLetter + sc.ClassNumber+" ";
+
+            model.SchoolClasses = scs.Substring(1);
             model.AccountDetailsEditModel = Mapper.Map<ApplicationUser, AccountDetailsEditModel>(teacher.ApplicationUser);
 
             return View(model);
@@ -113,6 +135,13 @@
             }
 
             TeacherDetailsEditModel teacherModel = Mapper.Map<Teacher, TeacherDetailsEditModel>(teacher);//can check this
+
+            string scs = "";
+            foreach (SchoolClass sc in teacher.SchoolClasses.ToList())
+                scs += "," + sc.ClassLetter + sc.ClassNumber + " ";
+
+            teacherModel.SchoolClasses = scs.Substring(1);
+
             teacherModel.AccountDetailsEditModel = Mapper.Map<ApplicationUser, AccountDetailsEditModel>(teacher.ApplicationUser);
 
             return View(teacherModel);
@@ -194,6 +223,7 @@
             {
                 teacher.DeletedBy = User.Identity.GetUserId();
                 this.teacherService.Delete(teacher);
+                this.UserManager.RemoveFromRole(teacher.ApplicationUserId, GlobalConstants.TeacherRoleName);
                 return RedirectToAction("Index");
             }
         }

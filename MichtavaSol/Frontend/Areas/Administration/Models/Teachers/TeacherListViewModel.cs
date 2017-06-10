@@ -12,6 +12,8 @@
 
         public string Name { get; set; }
 
+        public int ClassesNumber { get; set; }
+
         [Display(Name = "E-mail")]
         public string Email { get; set; }
     }

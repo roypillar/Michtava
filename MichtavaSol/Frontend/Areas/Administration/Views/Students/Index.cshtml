@@ -45,6 +45,9 @@
                     new { sortOrder = ViewBag.NameSortParam, currentFilter = ViewBag.CurrentFilter })
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().SchoolClass)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().Email)
             </th>
             <th></th>
@@ -60,8 +63,12 @@
                     @Html.DisplayFor(modelItem => student.Name)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => student.SchoolClass)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => student.Email)
                 </td>
+               
                 <td class="text-right">
                     @Html.ActionLinkWithSpan(
                         "",

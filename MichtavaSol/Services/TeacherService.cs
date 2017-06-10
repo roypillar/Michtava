@@ -8,6 +8,7 @@ namespace Services
     using Dal.Repositories.Interfaces;
     using Entities.Models;
     using Services.Interfaces;
+    using System.Data.Entity;
 
     public class TeacherService : ITeacherService
     {
@@ -34,7 +35,7 @@ namespace Services
 
         public Teacher GetByUserName(string username)
         {
-            return this.teacherRepository.All().FirstOrDefault(a => a.ApplicationUser.UserName == username && !a.IsDeleted);
+            return this.teacherRepository.All().Include(x => x.SchoolClasses).FirstOrDefault(a => a.ApplicationUser.UserName == username && !a.IsDeleted);
         }
 
         public Teacher GetById(Guid id)
