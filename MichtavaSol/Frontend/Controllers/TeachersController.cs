@@ -457,10 +457,39 @@ namespace Frontend.Controllers
 
         private void InitializeClasses()
         {
-            foreach (var cls in _classService.All())
+            foreach (var cls in _classService.All().Include(c => c.Homeworks).ToList())
             {
-                TempData[cls.Id + ""] = cls.ClassLetter + " " + cls.ClassNumber;
+                if (ClassHasHomeworkToCheck(cls))
+                {
+                    TempData[cls.Id + "_notification"] = cls.ClassLetter + " " + cls.ClassNumber;
+                }
+                else
+                {
+                    TempData[cls.Id + ""] = cls.ClassLetter + " " + cls.ClassNumber;
+                }               
             }
+        }
+
+        private bool ClassHasHomeworkToCheck(SchoolClass cls)
+        {            
+            foreach (var clsHomework in cls.Homeworks)
+            {
+                var allAnswersFeedbacked = true;
+                foreach (var answer in _answerService.All().Include(a => a.TeacherFeedback).Where(a => a.Homework_Id.Equals(clsHomework.Id)).ToList())
+                {
+                    if (answer.TeacherFeedback.IsNullOrWhiteSpace())
+                    {
+                        allAnswersFeedbacked = false;
+                        break;
+                    }
+                }
+
+                if (clsHomework.Deadline < DateTime.Now && !allAnswersFeedbacked)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private SchoolClass GetClass(string className)
@@ -500,6 +529,11 @@ namespace Frontend.Controllers
 
             var currentClass = GetClass(className);
             InitializeClassView(currentClass);
+
+            if (ClassHasHomeworkToCheck(currentClass))
+            {
+                TempData["HomeworkNotification"] = "true";
+            }
 
             return View("ClassView");
         }
