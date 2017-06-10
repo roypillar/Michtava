@@ -1,14 +1,7 @@
+1) Use same font
 
-1) every time a teacher logs in, access their schoolclasses, and check
-		if there are any homeworks that reached their deadline for submission.
-		if so, notify the teacher that homeworks are ready to be checked.
-		you can find the answers to this homework through, for example,
-			answerService.All().Where(ans => ans.Homework_Id == .....)
+2) Deployment document (add hebrew dictionary)
 
-2) Use same font
+3) Prepare documents for submission
 
-3) Deployment document (add hebrew dictionary)
-
-4) Prepare documents for submission
-
-5) Ask Arnon how the submission works
+4) Ask Arnon how the submission works
