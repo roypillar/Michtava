@@ -50,35 +50,34 @@
             return View(classes);
         }
 
-        //public ActionResult Details(int gradeYear, string letter, int startYear)
-        //{
-        //    SchoolClass schoolClass = this.schoolClassService.GetByDetails(gradeYear, letter, startYear);
+        public ActionResult Details(int gradeYear, string letter)
+        {
+            SchoolClass schoolClass = this.schoolClassService.GetByDetails(gradeYear, letter);
 
-        //    if (schoolClass == null)
-        //    {
-        //        return RedirectToAction("Index", "AcademicYears");
-        //    }
+            if (schoolClass == null)
+            {
+                return RedirectToAction("Index", "SchoolClasses");
+            }
 
-        //    SchoolClassDetailsViewModel schoolClassModel =
-        //        Mapper.Map<SchoolClass, SchoolClassDetailsViewModel>(schoolClass);
+            SchoolClassDetailsEditModel schoolClassModel =
+                Mapper.Map<SchoolClass, SchoolClassDetailsEditModel>(schoolClass);
 
-        //    RouteValueDictionary routeParameters = new RouteValueDictionary
-        //    {
-        //       { "gradeYear", gradeYear },
-        //       { "letter", letter },
-        //       { "startYear", startYear }
-        //    };
+            RouteValueDictionary routeParameters = new RouteValueDictionary
+            {
+               { "gradeYear", gradeYear },
+               { "letter", letter }
+            };
 
-        //    RedirectUrl redirectUrl = new RedirectUrl(this.ControllerContext, routeParameters);
+            RedirectUrl redirectUrl = new RedirectUrl(this.ControllerContext, routeParameters);
 
-        //    this.Session["redirectUrl"] = redirectUrl;
+            this.Session["redirectUrl"] = redirectUrl;
 
-        //    return View(schoolClassModel);
-        //}
+            return View(schoolClassModel);
+        }
 
         //public ActionResult Edit(int gradeYear, string letter, int startYear)
         //{
-        //    SchoolClass schoolClass = this.schoolClassService.GetByDetails(gradeYear, letter, startYear);
+        //    SchoolClass schoolClass = this.schoolClassService.GetByDetails(gradeYear, letter);
 
         //    if (schoolClass == null)
         //    {

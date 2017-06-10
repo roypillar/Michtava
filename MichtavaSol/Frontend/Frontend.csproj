@@ -254,6 +254,7 @@
     <Compile Include="Areas\Administration\Models\Admins\AdministratorRegisterSubmitModel.cs" />
     <Compile Include="Areas\Administration\Models\Account\RegisterViewModel.cs" />
     <Compile Include="Areas\Administration\Models\Admins\AdministratorListViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassDetailsEditModel.cs" />
     <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassesCreateSubmitModel.cs" />
     <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassesListViewModel.cs" />
     <Compile Include="Areas\Administration\Models\Students\StudentDetailsEditModel.cs" />
@@ -349,6 +350,7 @@
     <Content Include="Areas\Teachers\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Teachers\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Teachers\Views\Account\Register.cshtml" />
+    <Content Include="Areas\Administration\Views\SchoolClasses\Index.cshtml" />
     <None Include="Properties\PublishProfiles\dfs.pubxml" />
     <None Include="Properties\PublishProfiles\profile28031.pubxml" />
     <None Include="Properties\Settings.settings">
@@ -435,7 +437,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Administration\Views\SchoolClasses\" />
     <Folder Include="Areas\Students\Views\Shared\" />
     <Folder Include="Backgrounds\" />
     <Folder Include="Views\TextAdding\" />

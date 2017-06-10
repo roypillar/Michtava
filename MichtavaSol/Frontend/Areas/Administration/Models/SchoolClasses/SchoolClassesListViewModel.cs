@@ -11,7 +11,11 @@
 
         public int ClassNumber { get; set; }
 
-        [Display(Name = "Students number")]
+        [Display(Name = "Students")]
         public int StudentsNumber { get; set; }
+
+        [Display(Name = "Teachers")]
+        public int TeachersNumber { get; set; }
+
     }
 }
