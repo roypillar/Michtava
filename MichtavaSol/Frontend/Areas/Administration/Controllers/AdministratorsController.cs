@@ -9,15 +9,32 @@
     using Entities.Models;
     using Services.Interfaces;
     using Frontend.Areas.Administration.Models.Admins;
+    using App_Start.Identity;
+    using System.Web;
+    using Microsoft.AspNet.Identity.Owin;
 
     [Authorize(Roles = GlobalConstants.SuperAdministratorRoleName)]
     public class AdministratorsController : Controller
     {
         private readonly IAdministratorService administratorService;
+        private ApplicationUserManager _userManager;
 
-        public AdministratorsController(IAdministratorService administratorService)
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public AdministratorsController(IAdministratorService administratorService, ApplicationUserManager userManager)
         {
             this.administratorService = administratorService;
+            UserManager = userManager;
         }
 
         public ActionResult Index()
@@ -121,11 +138,14 @@
             if (model.DeletePermanent)
             {
                 this.administratorService.HardDelete(administrator);
+                this.UserManager.RemoveFromRole(administrator.ApplicationUserId, GlobalConstants.AdministratorRoleName);
+
                 return RedirectToAction("Index");
             }
 
             administrator.DeletedBy = User.Identity.GetUserId();
             this.administratorService.Delete(administrator);
+            this.UserManager.RemoveFromRole(administrator.ApplicationUserId, GlobalConstants.AdministratorRoleName);
 
             return RedirectToAction("Index");
         }

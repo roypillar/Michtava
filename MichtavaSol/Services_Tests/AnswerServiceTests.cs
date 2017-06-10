@@ -50,6 +50,7 @@ namespace Services_Tests
         }
 
         //Adds
+        //Test case ID : AS1
         [Test]
         public void testAddStandaloneAnswer()
         {
@@ -68,6 +69,9 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+        
+
+        //Test case ID : AS2
         [Test]
         public void testAddExistingIdAnswer()
         {
@@ -83,6 +87,8 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
+
+        //Test case ID : AS3
         [Test]
         public void testAddExistingDetailsAnswer()
         {
@@ -101,6 +107,9 @@ namespace Services_Tests
 
         }
 
+
+
+        //Test case ID : AS4
         [Test]
         public void testAddNullHomeworkAnswer()
         {
@@ -120,6 +129,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test case ID : AS5
         [Test]
         public void testAddNullStudentAnswer()
         {
@@ -140,6 +151,9 @@ namespace Services_Tests
         }
 
         //Gets
+
+
+        //Test case ID : AS6
         [Test]
         public void testGetAnswerByIdTrue()
         {
@@ -159,6 +173,9 @@ namespace Services_Tests
 
         }
 
+
+
+        //Test case ID : AS7
         [Test]
         public void testGetAnswerByIdFalse()
         {
@@ -175,6 +192,9 @@ namespace Services_Tests
         }
 
 
+
+
+        //Test case ID : AS8
         [Test]
         public void testGetAnswerByDetailsTrue()
         {
@@ -195,6 +215,9 @@ namespace Services_Tests
 
 
 
+
+
+        //Test case ID : AS9
         [Test]
         public void testGetAnswerByDetailsFalse()
         {
@@ -212,8 +235,34 @@ namespace Services_Tests
         }
 
         //Update
+
+
+        //Test case ID : AS10
         [Test]
         public void testUpdateAnswerSuccess()
+        {
+            Assert.Null(serv.GetByDetails(this.hwId, this.studentId));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+
+            Assert.AreEqual(count + 1, serv.All().Count());
+            entity.Grade = 84;
+            Guid id = serv.GetByDetails(this.hwId, this.studentId).Id;
+
+
+            // Act
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            Assert.NotNull(serv.GetById(id));
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+
+        //Test case ID : AS10.1
+        [Test]
+        public void testUpdateAnswerInsertFeedbackSuccess()
         {
             Assert.Null(serv.GetByDetails(this.hwId, this.studentId));
             // Arrange
@@ -231,12 +280,38 @@ namespace Services_Tests
             // Assert
             Assert.True(res is MichtavaSuccess);
             Assert.NotNull(serv.GetById(id));
+            Assert.True(serv.GetById(id).TeacherFeedback == "test feedback");
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+
+        //Test case ID : AS10.2
+        [Test]
+        public void testUpdateAnswerInsertFeedbackCheckNotification()
+        {
+            Assert.Null(serv.GetByDetails(this.hwId, this.studentId));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+
+            Assert.AreEqual(count + 1, serv.All().Count());
+            entity.TeacherFeedback = "test feedback";
+            Guid id = serv.GetByDetails(this.hwId, this.studentId).Id;
+
+
+            // Act
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            Assert.NotNull(serv.GetById(id));
+            Assert.True(serv.GetById(id).TeacherFeedback == "test feedback");
+            Assert.True(serv.GetById(id).notifyStudentOfNewFeedback);
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
 
-      
 
+        //Test case ID : AS11
         [Test]
         public void testUpdateAnswerNullHomework()
         {
@@ -259,6 +334,9 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+
+
+        //Test case ID : AS12
         [Test]
         public void testUpdateAnswerNullStudent()
         {
@@ -282,6 +360,9 @@ namespace Services_Tests
         }
 
         //Deletes
+
+
+        //Test case ID : AS13
         [Test]
         public void testDeleteAnswerSuccess()
         {
@@ -320,6 +401,9 @@ namespace Services_Tests
 
         }
 
+
+
+        //Test case ID : AS14
         [Test]
         public void testDeleteNonExistant()
         {
@@ -341,6 +425,7 @@ namespace Services_Tests
 
 
 
+        //Test case ID : AS15
         [Test]
         public void testHardDeleteSuccessAnswer()
         {

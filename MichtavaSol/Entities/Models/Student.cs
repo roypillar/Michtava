@@ -17,7 +17,7 @@ namespace Entities.Models
             Name = name;
             ApplicationUser = user;
             if(user!=null)
-            ApplicationUserId = user.Id;
+                ApplicationUserId = user.Id;
 
         }
 

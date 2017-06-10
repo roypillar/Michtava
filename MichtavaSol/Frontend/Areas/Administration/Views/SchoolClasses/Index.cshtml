@@ -1,17 +1,18 @@
-﻿@using Frontend.Areas.Administration.Models.Students
+﻿@using Frontend.Areas.Administration.Models.SchoolClasses
+
 @using PagedList;
 @using PagedList.Mvc;
 
-@model IEnumerable<StudentListViewModel>
+@model IEnumerable<SchoolClassesListViewModel>
 
 @{
     ViewBag.Title = "Index";
     var pagedList = (IPagedList)Model;
 }
 
-<h3>Students list</h3>
+<h3>Classes list</h3>
 
-@using (Html.BeginForm("Index", "Students", FormMethod.Get, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Index", "SchoolClasses", FormMethod.Get, new { @class = "form-horizontal" }))
 {
     <div class="col-xs-4 search-field">
         @Html.TextBox(
@@ -21,7 +22,7 @@
     </div>
 
     <button class="btn btn-info glyphicon glyphicon-search" type="submit"></button>
-    @Html.ActionLink("Add Student", "Register", "Account", new { area = "Students" }, new { @class = "btn btn-default pull-right" })
+    @Html.ActionLink("Create Class", "Create", "SchoolClasses", new { area = "Administration" }, new { @class = "btn btn-default pull-right" })
 
 }
 
@@ -37,57 +38,69 @@
     <table class="table table-striped table-students">
         <tr>
             <th>
-                @Html.ActionLink("Username", "Index",
-                    new { sortOrder = ViewBag.UsernameSortParam, currentFilter = ViewBag.CurrentFilter })
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ClassLetter)
+
+
             </th>
             <th>
-                @Html.ActionLink("Name", "Index",
-                    new { sortOrder = ViewBag.NameSortParam, currentFilter = ViewBag.CurrentFilter })
-            </th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ClassNumber)
+
+
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().SchoolClass)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().StudentsNumber)
             </th>
+
             <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().Email)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().TeachersNumber)
             </th>
             <th></th>
         </tr>
 
-        @foreach (var student in Model)
+        @foreach (var schoolclass in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => student.UserName)
+                    @Html.DisplayFor(modelItem => schoolclass.ClassLetter)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => schoolclass.ClassNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => student.Name)
+                    @Html.DisplayFor(modelItem => schoolclass.StudentsNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => student.SchoolClass)
+                    @Html.DisplayFor(modelItem => schoolclass.TeachersNumber)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => student.Email)
-                </td>
-               
                 <td class="text-right">
                     @Html.ActionLinkWithSpan(
                         "",
                         "Edit",
-                        new { username = student.UserName },
+                        //new { username = schoolclass.UserName },
                         new { @class = "btn btn-default btn-sm", title = "Edit" },
                         new { @class = "glyphicon glyphicon-pencil" })
 
                     @Html.ActionLinkWithSpan(
-                        "",
-                        "Details",
-                        new { username = student.UserName },
+                        "Students",
+                        "Students",
+                        //new { username = schoolclass.UserName },
                         new { @class = "btn btn-default btn-sm", title = "Details" },
                         new { @class = "glyphicon glyphicon-list-alt" })
 
                     @Html.ActionLinkWithSpan(
+                        "Teachers",
+                        "Teachers",
+                        //new { username = schoolclass.UserName },
+                        new { @class = "btn btn-default btn-sm", title = "Details" },
+                        new { @class = "glyphicon glyphicon-list-alt" })
+
+
+
+
+                    @Html.ActionLinkWithSpan(
                         "",
                         "Delete",
-                        new { id = student.Id },
+                        new { id = schoolclass.Id },
                         new { @class = "btn btn-default btn-sm", title = "Delete" },
                         new { @class = "glyphicon glyphicon-trash" })
                 </td>

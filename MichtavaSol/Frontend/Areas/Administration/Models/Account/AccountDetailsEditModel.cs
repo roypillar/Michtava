@@ -6,16 +6,16 @@
     public class AccountDetailsEditModel
     {
         [Required]
-        [Display(Name = "שם משתמש")]
+        [Display(Name = "User Name")]
         public string UserName { get; set; }
 
         [Required]
         [EmailAddress]
-        [Display(Name = "אימייל")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Phone]
-        [Display(Name = "מספר טלפון")]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
     }
 }

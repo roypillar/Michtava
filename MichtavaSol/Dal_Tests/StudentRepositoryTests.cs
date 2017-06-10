@@ -53,6 +53,7 @@ namespace Dal_Tests
         {
         }
 
+        //Test Case ID: SR1
         [Test]
         public void testAdd()
         {
@@ -72,6 +73,7 @@ namespace Dal_Tests
 
         }
 
+        //Test Case ID: SR2
         [Test]
         public void testGetById()
         {
@@ -90,6 +92,7 @@ namespace Dal_Tests
 
         }
 
+        //Test Case ID: SR3
         [Test]
         public void testGet()
         {
@@ -112,6 +115,7 @@ namespace Dal_Tests
         }
 
 
+        //Test Case ID: SR4
         [Test]
         public void testUpdate()
         {
@@ -141,6 +145,7 @@ namespace Dal_Tests
 
         }
 
+        //Test Case ID: SR5
         [Test]
         public void testDelete()
         {
@@ -167,6 +172,7 @@ namespace Dal_Tests
             //TODO add all remaining methods
         }
 
+        //Test Case ID: SR6
         [Test]
         public void testGetByDetails()
         {
@@ -187,6 +193,8 @@ namespace Dal_Tests
             this.repo.SaveChanges();
         }
 
+
+        //Test Case ID: SR7
         [Test]
         public async Task testGetByUserName()
         {
@@ -208,6 +216,8 @@ namespace Dal_Tests
             this.repo.SaveChanges();
         }
 
+
+        //Test Case ID: SR8
         [Test]
         public void testSearchByName()
         {
@@ -228,6 +238,8 @@ namespace Dal_Tests
             this.repo.SaveChanges();
         }
 
+
+        //Test Case ID: SR9
         [Test]
         public void testIsUserNameUniqueOnEditFailure()
         {
@@ -241,6 +253,8 @@ namespace Dal_Tests
 
         }
 
+
+        //Test Case ID: SR10
         [Test]
         public void testIsUserNameUniqueOnEditSuccess()
         {
@@ -252,6 +266,7 @@ namespace Dal_Tests
         }
 
 
+        //Test Case ID: SR11
         [Test]
         public void testIsEmailUniqueOnEditFailure()
         {
@@ -263,6 +278,8 @@ namespace Dal_Tests
             Assert.False(repo.IsEmailUniqueOnEdit(other, some.ApplicationUser.Email));
         }
 
+
+        //Test Case ID: SR12
         [Test]
         public void testIsEmailUniqueOnEditSuccess()
         {

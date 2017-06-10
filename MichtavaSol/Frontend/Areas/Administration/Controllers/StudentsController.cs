@@ -17,15 +17,33 @@
     using Frontend.Areas.Administration.Models.Account;
 
     using Frontend.Infra;
+    using App_Start.Identity;
+    using System.Web;
+    using Microsoft.AspNet.Identity.Owin;
+    using System.Data.Entity;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class StudentsController : Controller
     {
         private readonly IStudentService studentService;
+        private  ApplicationUserManager _userManager;
 
-        public StudentsController(IStudentService studentService)
+        public StudentsController(IStudentService studentService,ApplicationUserManager userManager)
         {
             this.studentService = studentService;
+            this.UserManager = userManager;
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
         }
 
         // GET: Administration/Students
@@ -46,7 +64,7 @@
 
             ViewBag.CurrentFilter = searchString;
 
-            IQueryable<Student> students = this.studentService.All();
+            IQueryable<Student> students = this.studentService.All().Include(x => x.SchoolClass);
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -212,6 +230,8 @@
 
             student.DeletedBy = User.Identity.GetUserId();
             this.studentService.Delete(student);
+            this.UserManager.RemoveFromRole(student.ApplicationUserId, GlobalConstants.StudentRoleName);
+
 
             RedirectUrl redirectUrl = Session["redirectUrl"] as RedirectUrl;
 

@@ -13,6 +13,9 @@
         
         public string Name { get; set; }
 
+        [Display(Name = "Class")]
+        public string SchoolClass { get; set; }
+
         [EmailAddress]
         [Display(Name = "E-mail")]
         public string Email { get; set; }

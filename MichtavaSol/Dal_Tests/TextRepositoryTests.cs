@@ -54,6 +54,9 @@ namespace Dal_Tests
         {
         }
 
+
+
+        //Test case ID : TxR1
         [Test]
         public void testAdd()
         {
@@ -73,6 +76,8 @@ namespace Dal_Tests
 
         }
 
+
+        //Test case ID : TxR2
         [Test]
         public void testGetById()
         {
@@ -91,6 +96,8 @@ namespace Dal_Tests
 
         }
 
+
+        //Test case ID : TxR3
         [Test]
         public void testGet()
         {
@@ -113,6 +120,7 @@ namespace Dal_Tests
         }
 
 
+        //Test case ID : TxR4
         [Test]
         public void testUpdate()
         {
@@ -141,6 +149,8 @@ namespace Dal_Tests
 
         }
 
+
+        //Test case ID : TxR5
         [Test]
         public void testDelete()
         {
@@ -165,6 +175,30 @@ namespace Dal_Tests
             //TODO add all remaining methods
         }
 
+        //Test case ID : TxR8
+        [Test]
+        public void testHardDelete()
+        {
+            // Arrange
+            repo.Add(entity);
+            repo.SaveChanges();
+            int count = repo.All().Count();
+
+            Guid id = repo.GetByName(n).Id;
+            // Act
+            repo.HardDelete(entity);
+            repo.SaveChanges();
+            // Assert
+
+            Assert.Null(repo.GetByName(n));
+            Assert.True(repo.All().Count() == count - 1);
+
+          
+        }
+
+
+
+        //Test case ID : TxR6
         [Test]
         public void testGetByDetails()
         {
@@ -186,6 +220,8 @@ namespace Dal_Tests
         }
 
 
+
+        //Test case ID : TxR7
         [Test]
         public void testGetByName()
         {

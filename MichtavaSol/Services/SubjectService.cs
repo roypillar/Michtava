@@ -53,8 +53,10 @@
             if (subjectRepository.Get(s => s.Name == subject.Name).Count() > 1)
                 return new MichtavaFailure();
 
-            if (subjectRepository.Get(s => s.Name == subject.Name).Count() == 1)
+            if (subjectRepository.Get(s => s.Name == subject.Name).Count() == 1 &&
+                subjectRepository.Get(s => s.Name == subject.Name).FirstOrDefault().Id == subject.Id)
                 return new MichtavaFailure("כבר קיים נושא במערכת עם אותו השם");
+
 
             if (subjectRepository.Get(s => s.Name == subject.Name).Count() == 0)
             {

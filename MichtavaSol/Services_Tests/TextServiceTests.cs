@@ -45,6 +45,9 @@ namespace Services_Tests
         }
 
         //Adds
+
+
+        //Test case ID : Txs1
         [Test]
         public void testAddTextStandalone()
         {
@@ -63,6 +66,8 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+
+        //Test case ID : Txs2
         [Test]
         public void testAddTextExistingId()
         {
@@ -78,6 +83,8 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
+        
+        //Test case ID : Txs3
         [Test]
         public void testAddTextExistingDetails()
         {
@@ -98,6 +105,8 @@ namespace Services_Tests
 
 
         //Gets
+
+        //Test case ID : Txs4
         [Test]
         public void testGetTextByIdTrue()
         {
@@ -117,6 +126,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test case ID : Txs5
         [Test]
         public void testGetTextByIdFalse()
         {
@@ -132,6 +143,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test case ID : Txs6
 
         [Test]
         public void testGetTextByDetailsTrue()
@@ -153,6 +166,7 @@ namespace Services_Tests
 
 
 
+        //Test case ID : Txs7
         [Test]
         public void testGetTextByDetailsFalse()
         {
@@ -170,6 +184,9 @@ namespace Services_Tests
         }
 
         //Update
+
+
+        //Test case ID : Txs8
         [Test]
         public void testUpdateTextSuccess()
         {
@@ -194,6 +211,8 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+
+        //Test case ID : Txs9
         [Test]
         public void testUpdateTextNonExistant()
         {
@@ -213,6 +232,8 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
+
+        //Test case ID : Txs10
         [Test]
         public void testUpdateTextExistingDetails()
         {
@@ -238,6 +259,9 @@ namespace Services_Tests
 
 
         //Deletes
+
+
+        //Test case ID : Txs11
         [Test]
         public void testDeleteTextSuccess()
         {
@@ -276,6 +300,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test case ID : Txs12
         [Test]
         public void testDeleteTextNonExistant()
         {
@@ -297,6 +323,7 @@ namespace Services_Tests
 
 
 
+        //Test case ID : Txs13
         [Test]
         public void testHardDeleteTextSuccess()
         {

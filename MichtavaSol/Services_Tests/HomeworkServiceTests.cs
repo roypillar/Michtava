@@ -47,6 +47,8 @@ namespace Services_Tests
         }
 
         //Adds
+
+        //Test Case ID: HWS1
         [Test]
         public void testAddStandaloneHomework()
         {
@@ -65,6 +67,8 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+
+        //Test Case ID: HWS2
         [Test]
         public void testAddExistingIdHomework()
         {
@@ -80,6 +84,7 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
+        //Test Case ID: HWS3
         [Test]
         public void testAddExistingDetailsHomework()
         {
@@ -100,6 +105,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test Case ID: HWS4
         [Test]
         public void testAddNullTextHomework()
         {
@@ -122,6 +129,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test Case ID: HWS5
         [Test]
         public void testAddNullTeacherHomework()
         {
@@ -144,6 +153,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test Case ID: HWS6
         [Test]
         public void testAddNullDateHomework()
         {
@@ -168,13 +179,8 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(c) is MichtavaSuccess);
         }
 
-        [Test]
-        public void testAddWithTextInconsistencyHomework()
-        {
-            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
-        }
-
         //Gets
+        //Test Case ID: HWS7
         [Test]
         public void testGetHomeworkByIdTrue()
         {
@@ -194,6 +200,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test Case ID: HWS8
         [Test]
         public void testGetHomeworkByIdFalse()
         {
@@ -210,6 +218,7 @@ namespace Services_Tests
         }
 
 
+        //Test Case ID: HWS9
         [Test]
         public void testGetHomeworkByDetailsTrue()
         {
@@ -230,6 +239,7 @@ namespace Services_Tests
 
 
 
+        //Test Case ID: HWS10
         [Test]
         public void testGetHomeworkByDetailsFalse()
         {
@@ -247,6 +257,8 @@ namespace Services_Tests
         }
 
         //Update
+
+        //Test Case ID: HWS11
         [Test]
         public void testUpdateHomeworkSuccess()
         {
@@ -271,6 +283,181 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+        //Test Case ID: HWS11.1
+        [Test]
+        public void testUpdateHomeworkAddQuestionSuccess()
+        {
+            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+
+            Guid id = serv.GetByDetails(hwTitl, hwDesc).Id;
+            Assert.AreEqual(count + 1, serv.All().Count());
+            entity.Questions.Add(new Question("test question"));
+
+            // Act
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            var quests = serv.All().Include(x => x.Questions).FirstOrDefault(y => y.Id == id).Questions.ToList();
+            Assert.NotNull(quests);
+            Assert.True(quests.Count() != 0);
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+
+        //Test Case ID: HWS11.2
+        [Test]
+        public void testUpdateHomeworkEditQuestionSuccess()
+        {
+            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+            entity.Questions.Add(new Question("test question"));
+            Assert.True(serv.Update(entity) is MichtavaSuccess);
+
+            Guid id = serv.GetByDetails(hwTitl, hwDesc).Id;
+            Assert.AreEqual(count + 1, serv.All().Count());
+
+            // Act
+            var quest = serv.All().Include(x => x.Questions).FirstOrDefault(y => y.Id == id).Questions.ElementAt(0);
+            quest.Content = "edited question";
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            var quests = serv.All().Include(x => x.Questions).FirstOrDefault(y => y.Id == id).Questions.ToList();
+            Assert.NotNull(quests);
+            Assert.True(quests.Count() != 0);
+            Assert.True(quests.ElementAt(0).Content == "edited question");
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+
+        //Test Case ID: HWS11.3
+        [Test]
+        public void testUpdateHomeworkRemoveQuestionSuccess()
+        {
+            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+            Question q = new Question("test question");
+            entity.Questions.Add(q);
+            Assert.True(serv.Update(entity) is MichtavaSuccess);
+
+            Guid id = serv.GetByDetails(hwTitl, hwDesc).Id;
+            Assert.AreEqual(count + 1, serv.All().Count());
+
+            // Act
+            serv.All().Include(x => x.Questions).FirstOrDefault(y => y.Id == id).Questions.Remove(q);
+
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            var quests = serv.All().Include(x => x.Questions).FirstOrDefault(y => y.Id == id).Questions.ToList();
+            Assert.NotNull(quests);
+            Assert.True(quests.Count() == 0);
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+
+        //Test Case ID: HWS11.4
+        [Test]
+        public void testUpdateHomeworkAddKSToQuestionSuccess()
+        {
+            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+            entity.Questions.Add(new Question("test question"));
+            Assert.True(serv.Update(entity) is MichtavaSuccess);
+
+            Guid id = serv.GetByDetails(hwTitl, hwDesc).Id;
+            Assert.AreEqual(count + 1, serv.All().Count());
+
+            // Act
+            var quest = serv.All().Include(x => x.Questions).FirstOrDefault(y => y.Id == id).Questions.ElementAt(0);
+            quest.Suggested_Openings.Add(new SuggestedOpening("TSO"));
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            var quests = serv.All().Include(x => x.Questions).FirstOrDefault(y => y.Id == id).Questions.ToList();
+            Assert.NotNull(quests);
+            Assert.True(quests.Count() != 0);
+            Assert.True(quests.ElementAt(0).Suggested_Openings.Count()!=0);
+            Assert.True(quests.ElementAt(0).Suggested_Openings.ElementAt(0).Content == "TSO");
+
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+        //Test Case ID: HWS11.5
+        [Test]
+        public void testUpdateHomeworkEditKSTFromQuestionSuccess()
+        {
+            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+            Question q = new Question("test question");
+            SuggestedOpening so = new SuggestedOpening("TSO");
+            q.Suggested_Openings.Add(so);
+            entity.Questions.Add(q);
+            Assert.True(serv.Update(entity) is MichtavaSuccess);
+
+            Guid id = serv.GetByDetails(hwTitl, hwDesc).Id;
+            Assert.AreEqual(count + 1, serv.All().Count());
+
+            // Act
+            var quest = serv.All().Include(x => x.Questions).FirstOrDefault(y => y.Id == id).Questions.ElementAt(0);
+            quest.Suggested_Openings.ElementAt(0).Content = "EDITED";
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            var quests = serv.All().Include(x => x.Questions).FirstOrDefault(y => y.Id == id).Questions.ToList();
+            Assert.NotNull(quests);
+            Assert.True(quests.Count() != 0);
+            Assert.True(quests.ElementAt(0).Suggested_Openings.Count() != 0);
+            Assert.True(quests.ElementAt(0).Suggested_Openings.ElementAt(0).Content == "EDITED");
+           Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+
+        //Test Case ID: HWS11.6
+        [Test]
+        public void testUpdateHomeworkRemoveKSTFromQuestionSuccess()
+        {
+            Assert.Null(serv.GetByDetails(hwTitl, hwDesc));
+            // Arrange
+            int count = serv.All().Count();
+            serv.Add(entity);
+            Question q = new Question("test question");
+            SuggestedOpening so = new SuggestedOpening("TSO");
+            q.Suggested_Openings.Add(so);
+            entity.Questions.Add(q);
+            Assert.True(serv.Update(entity) is MichtavaSuccess);
+
+            Guid id = serv.GetByDetails(hwTitl, hwDesc).Id;
+            Assert.AreEqual(count + 1, serv.All().Count());
+
+            // Act
+            var quest = serv.All().Include(x => x.Questions).FirstOrDefault(y => y.Id == id).Questions.ElementAt(0);
+            quest.Suggested_Openings.Remove(so);
+            MichtavaResult res = serv.Update(entity);
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+            var quests = serv.All().Include(x => x.Questions).FirstOrDefault(y => y.Id == id).Questions.ToList();
+            Assert.NotNull(quests);
+            Assert.True(quests.Count() != 0);
+            Assert.True(quests.ElementAt(0).Suggested_Openings.Count() == 0);
+
+            Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
+        }
+
+
+        //Test Case ID: HWS12
         [Test]
         public void testUpdateHomeworkNonExistant()
         {
@@ -291,6 +478,8 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
+
+        //Test Case ID: HWS13
         [Test]
         public void testUpdateHomeworkExistingDetails()
         {
@@ -314,6 +503,8 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+
+        //Test Case ID: HWS14
         [Test]
         public void testUpdateHomeworkNullText()
         {
@@ -336,6 +527,7 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+        //Test Case ID: HWS15
         [Test]
         public void testUpdateHomeworkNullTeacher()
         {
@@ -359,6 +551,8 @@ namespace Services_Tests
         }
 
         //Deletes
+
+        //Test Case ID: HWS16
         [Test]
         public void testDeleteHomeworkSuccess()
         {
@@ -397,6 +591,8 @@ namespace Services_Tests
 
         }
 
+
+        //Test Case ID: HWS17
         [Test]
         public void testDeleteNonExistant()
         {
@@ -418,6 +614,7 @@ namespace Services_Tests
 
 
 
+        //Test Case ID: HWS18
         [Test]
         public void testHardDeleteSuccessHomework()
         {

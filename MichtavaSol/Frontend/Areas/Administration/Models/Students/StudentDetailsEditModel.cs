@@ -14,6 +14,9 @@
         [StringLength(100, ErrorMessage = "The name must not be more than 20 characters.")]
         public string Name { get; set; }
 
+        [Display(Name = "Class")]
+        public string SchoolClass { get; set; }
+
 
         public AccountDetailsEditModel AccountDetailsEditModel { get; set; }
 

@@ -14,12 +14,6 @@ namespace Frontend.Areas.Students
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
-            //context.MapRoute(
-            //    "Students_default",
-            //    "Students/{controller}/{action}/{id}",
-            //    new { action = "Index", id = UrlParameter.Optional }
-            //);
-
             context.MapRoute(
                 "Students_default",
                 "Students/{controller}/{action}/{id}",

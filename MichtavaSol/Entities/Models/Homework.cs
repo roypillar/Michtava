@@ -38,6 +38,7 @@ namespace Entities.Models
             Deadline = dl;
             Created_By = created_by;
             Teacher_Id = created_by.Id;
+            this.questions = new HashSet<Question>();
 
             Text = t;
             Text_Id = t.Id;

@@ -39,6 +39,20 @@ namespace Frontend.Areas.Administration
                url: "Administration/{controller}/{action}/{id}",
                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                namespaces: new string[] { "Frontend.Areas.Administration.Controllers" });
+
+            context.MapRoute(
+               name: "Administration_teacher_create",
+               url: "Administration/Teachers/Create",
+               defaults: new { controller = "Account", action = "Register" },
+               namespaces: new string[] { "Frontend.Areas.Teachers.Controllers" });
+
+            context.MapRoute(
+               name: "Administration_student_create",
+               url: "Administration/Students/Create",
+               defaults: new { controller = "Account", action = "Register" },
+               namespaces: new string[] { "Frontend.Areas.Students.Controllers" });
+
+     
         }
     }
 }

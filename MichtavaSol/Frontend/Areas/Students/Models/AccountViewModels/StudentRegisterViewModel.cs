@@ -1,8 +1,8 @@
-﻿namespace Frontend.Areas.Administration.Models.Account
+﻿namespace Frontend.Areas.Students.Models.AccountViewModels
 {
     using System.ComponentModel.DataAnnotations;
     using System.Web;
-    public class RegisterViewModel
+    public class StudentRegisterViewModel
     {
         [Required]
         [StringLength(50, ErrorMessage = "{0} חייב להיות קצר מ{1} תווים.")]
@@ -31,5 +31,11 @@
         [Compare("Password", ErrorMessage = "הסיסמא ואימותה לא תואמות.")]
         public string ConfirmPassword { get; set; }
 
+        [Required]
+        [StringLength(100, ErrorMessage = "{0} חייב להיות קצר מ{1} תווים.")]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+       
     }
 }

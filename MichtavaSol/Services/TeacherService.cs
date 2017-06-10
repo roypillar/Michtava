@@ -8,6 +8,7 @@ namespace Services
     using Dal.Repositories.Interfaces;
     using Entities.Models;
     using Services.Interfaces;
+    using System.Data.Entity;
 
     public class TeacherService : ITeacherService
     {
@@ -34,7 +35,7 @@ namespace Services
 
         public Teacher GetByUserName(string username)
         {
-            return this.teacherRepository.All().FirstOrDefault(a => a.ApplicationUser.UserName == username && !a.IsDeleted);
+            return this.teacherRepository.All().Include(x => x.SchoolClasses).FirstOrDefault(a => a.ApplicationUser.UserName == username && !a.IsDeleted);
         }
 
         public Teacher GetById(Guid id)
@@ -48,17 +49,17 @@ namespace Services
                 return new MichtavaFailure("חייב לספק אובייקט ליצירה...");
 
 
-            if (teacher.ApplicationUser == null)
+            if (teacher.ApplicationUser == null && teacher.ApplicationUserId == null)
             {
                 return new MichtavaFailure("must attach ApplicationUser before creation.");
             }
 
-            if (teacher.ApplicationUser.UserName == null || teacher.ApplicationUser.UserName == "")
-                return new MichtavaFailure("חובה להזין שם משתמש.");
+            //if (teacher.ApplicationUser.UserName == null || teacher.ApplicationUser.UserName == "")
+            //    return new MichtavaFailure("חובה להזין שם משתמש.");
 
 
-            if (userRepository.Get(x => x.UserName == teacher.ApplicationUser.UserName).FirstOrDefault() == null)
-                return new MichtavaFailure("please add ApplicationUser before using this function");
+            //if (userRepository.Get(x => x.UserName == teacher.ApplicationUser.UserName).FirstOrDefault() == null)
+            //    return new MichtavaFailure("please add ApplicationUser before using this function");
 
             this.teacherRepository.Add(teacher);
             this.teacherRepository.SaveChanges();

@@ -94,6 +94,7 @@
     <Compile Include="SubjectServiceTests.cs" />
     <Compile Include="TeacherServiceTests.cs" />
     <Compile Include="TextServiceTests.cs" />
+    <Compile Include="WordDefinitionServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

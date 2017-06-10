@@ -238,7 +238,7 @@ namespace Services_Tests
             int count = serv.All().Count();
 
             // Act
-            MichtavaResult res = serv.Update(new Administrator(null,"דג" ,"ע"));
+            MichtavaResult res = serv.Update(new Administrator() { FirstName = "גדע", LastName = "dsad" });
 
             // Assert
             Assert.True(res is MichtavaFailure);

@@ -50,7 +50,6 @@ namespace Frontend.Controllers
             }
         }
 
-        [HttpGet]
         public ActionResult Index()
         {
             ViewBag.Title = "מכתבה - בית";
@@ -116,7 +115,7 @@ namespace Frontend.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home", new { area = string.Empty });//otherwise, homepage
+                        return RedirectToAction("LogOff", "Account");
                     }
 
 

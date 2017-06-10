@@ -43,6 +43,8 @@ namespace Services_Tests
         }
 
         //Adds
+
+        //Test Case ID: SCS1
         [Test]
         public void testAddStandaloneSchoolClass()
         {
@@ -61,6 +63,7 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+        //Test Case ID: SCS2
         [Test]
         public void testAddSchoolClassExistingId()
         {
@@ -76,6 +79,7 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
+        //Test Case ID: SCS3
         [Test]
         public void testAddExistingSchoolClassDetails()
         {
@@ -92,20 +96,10 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
-        [Test]
-        public void testAddWithStudentInconsistency()
-        {
-            Assert.Null(serv.GetByDetails(23, "ע"));
-        }
-
-
-        [Test]
-        public void testAddWithTeacherInconsistency()
-        {
-            Assert.Null(serv.GetByDetails(23, "ע"));
-        }
 
         //Gets
+
+        //Test Case ID: SCS6
         [Test]
         public void testGetSchoolClassByIdTrue()
         {
@@ -125,6 +119,7 @@ namespace Services_Tests
 
         }
 
+        //Test Case ID: SCS7
         [Test]
         public void testGetSchoolClassByIdFalse()
         {
@@ -141,6 +136,7 @@ namespace Services_Tests
         }
 
 
+        //Test Case ID: SCS8
         [Test]
         public void testGetSchoolClassByDetailsTrue()
         {
@@ -161,6 +157,7 @@ namespace Services_Tests
 
 
 
+        //Test Case ID: SCS9
         [Test]
         public void testGetSchoolClassByDetailsFalse()
         {
@@ -177,7 +174,49 @@ namespace Services_Tests
 
         }
 
+        //Test Case ID: SCS9.1
+        [Test]
+        public void testGetStudentsInSchoolClass()
+        {
+            // Arrange
+            int count = serv.All().Count();
+
+
+            // Act
+            SchoolClass sc = serv.All().Include(x => x.Students).FirstOrDefault();
+
+            ICollection<Student> students = sc.Students.ToList();
+
+            
+            // Assert
+
+            Assert.AreEqual(students,serv.GetStudents(sc));
+
+        }
+
+        //Test Case ID: SCS9.2
+        [Test]
+        public void testGetTeachersInSchoolClass()
+        {
+            // Arrange
+            int count = serv.All().Count();
+
+
+            // Act
+            SchoolClass sc = serv.All().Include(x => x.Teachers).FirstOrDefault();
+
+            ICollection<Teacher> teachers = sc.Teachers.ToList();
+
+
+            // Assert
+
+            Assert.AreEqual(teachers, serv.GetTeachers(sc));
+
+        }
+
         //Update
+
+        //Test Case ID: SCS10
         [Test]
         public void testUpdateSchoolClassSuccess()
         {
@@ -202,6 +241,7 @@ namespace Services_Tests
             Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
         }
 
+        //Test Case ID: SCS11
         [Test]
         public void testUpdateSchoolClassNonExistant()
         {
@@ -222,31 +262,9 @@ namespace Services_Tests
             Assert.True(res is MichtavaFailure);
         }
 
-        //[Test]
-        //public void testUpdateModifiedId()
-        //{
-        //    Assert.Null(serv.GetByDetails(23, "ע"));
-        //    // Arrange
-        //    int count = serv.All().Count();
-        //    serv.Add(entity);
-
-        //    Assert.Null(serv.GetByDetails(98, "ע"));
 
 
-        //    Assert.AreEqual(count + 1, serv.All().Count());
-        //    entity.setId(Guid.NewGuid());
-
-
-        //    // Act
-        //    MichtavaResult res = serv.Update(entity);
-
-        //    // Assert
-        //    Assert.True(res is MichtavaFailure);
-        //    Assert.True(res.Message == "הכיתה לא נמצאה במערכת");
-
-        //    Assert.True(serv.HardDelete(entity) is MichtavaSuccess);
-        //}
-
+        //Test Case ID: SCS12
         [Test]
         public void testUpdateSchoolClassExistingDetails()
         {
@@ -274,6 +292,7 @@ namespace Services_Tests
         }
 
 
+        //Test Case ID: SCS13
         [Test]
         public void testUpdateSchoolClassAddSubject()
         {
@@ -293,7 +312,161 @@ namespace Services_Tests
             Assert.True(res is MichtavaSuccess);
         }
 
+        //Test Case ID: SCS13.1
+        [Test]
+        public void testUpdateSchoolClassRemoveStudent()
+        {
+            // Arrange
+            int count = serv.All().Count();
+            SchoolClass c = serv.All().Include(x => x.Students).FirstOrDefault();
+            int count1 = c.Students.Count();
+            Student s = ctx.Set<Student>().ToList().ElementAt(6);
+            SchoolClass hisClass = serv.All().Include(y => y.Students).FirstOrDefault(x => x.Id == s.SchoolClass.Id);
+            int count2 = hisClass.Students.Count();
+
+
+            // Act
+            MichtavaResult res = serv.RemoveStudentFromClass(s,hisClass);
+
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+
+            SchoolClass pc = serv.All().Include(y => y.Students).FirstOrDefault(x => x.Id == c.Id);
+            SchoolClass phisClass = serv.All().Include(y => y.Students).FirstOrDefault(x => x.Id == hisClass.Id);
+            Student ps = ctx.Set<Student>().Include(x => x.SchoolClass).FirstOrDefault(x => x.Id == s.Id);
+
+
+            Assert.AreEqual( null, ps.SchoolClass);
+            Assert.AreEqual(count2 - 1, phisClass.Students.Count );
+
+        }
+
+        //Test Case ID: SCS13.2
+        [Test]
+        public void testUpdateSchoolClassAddStudent()
+        {
+            // Arrange
+            int count = serv.All().Count();
+            SchoolClass c = serv.All().Include(x => x.Students).FirstOrDefault();
+            int count1 = c.Students.Count();
+            Student s = ctx.Set<Student>().Include(x => x.SchoolClass).ToList().FirstOrDefault(x => x.SchoolClass == null);
+
+
+            // Act
+            MichtavaResult res = serv.AddStudentToClass(s, c);
+
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+
+            SchoolClass pc = serv.All().Include(y => y.Students).FirstOrDefault(x => x.Id == c.Id);
+            Student ps = ctx.Set<Student>().Include(x => x.SchoolClass).FirstOrDefault(x => x.Id == s.Id);
+
+
+            Assert.AreEqual(pc.Id, ps.SchoolClass.Id);
+            Assert.AreEqual(count1 + 1, pc.Students.Count);
+
+        }
+
+
+        //Test Case ID: SCS13.3
+        [Test]
+        public void testUpdateSchoolClassTransferStudent()
+        {
+            // Arrange
+            int count = serv.All().Count();
+            SchoolClass c = serv.All().Include(x => x.Students).FirstOrDefault();
+            int count1 = c.Students.Count();
+            Student s = ctx.Set<Student>().ToList().ElementAt(6);
+            SchoolClass hisClass = serv.All().Include(y => y.Students).FirstOrDefault(x => x.Id == s.SchoolClass.Id);
+            int count2 = hisClass.Students.Count();
+
+
+            // Act
+            MichtavaResult res = serv.TransferStudentToClass(hisClass, s, c);
+
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+
+            SchoolClass pc = serv.All().Include(y => y.Students).FirstOrDefault(x => x.Id == c.Id);
+            SchoolClass phisClass = serv.All().Include(y => y.Students).FirstOrDefault(x => x.Id == hisClass.Id);
+            Student ps = ctx.Set<Student>().Include(x => x.SchoolClass).FirstOrDefault(x => x.Id == s.Id);
+
+
+            Assert.AreEqual(pc.Id, ps.SchoolClass.Id);
+            Assert.AreEqual(count2 - 1, phisClass.Students.Count);
+            Assert.AreEqual(count1 + 1, pc.Students.Count);
+
+
+        }
+
+        //Test Case ID: SCS13.4
+        [Test]
+        public void testUpdateSchoolClassRemoveTeacher()
+        {
+            // Arrange
+            int count = serv.All().Count();
+            SchoolClass c = serv.All().Include(x => x.Teachers).ToList().FirstOrDefault(x => x.Teachers.Count()!=0);
+            int count1 = c.Teachers.Count();
+            Teacher t = c.Teachers.ToList().ElementAt(0);
+            int count2= t.SchoolClasses.Count();
+
+
+            // Act
+            MichtavaResult res = serv.RemoveTeacherFromClass(t, c);
+
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+
+            SchoolClass pc = serv.All().Include(y => y.Teachers).FirstOrDefault(x => x.Id == c.Id);
+            Teacher pt = ctx.Set<Teacher>().Include(x => x.SchoolClasses).FirstOrDefault(x => x.Id == t.Id);
+
+
+            Assert.True(!pt.SchoolClasses.Contains(pc));
+            Assert.True(!pc.Teachers.Contains(pt));
+            Assert.AreEqual(count1 - 1, pc.Teachers.Count);
+            Assert.AreEqual(count2 - 1, t.SchoolClasses.Count);
+
+        }
+
+        //Test Case ID: SCS13.5
+        [Test]
+        public void testUpdateSchoolClassAddTeacher()
+        {
+            // Arrange
+            int count = serv.All().Count();
+            SchoolClass c = serv.All().Include(x => x.Teachers).FirstOrDefault();
+            int count1 = c.Teachers.Count();
+            Teacher t = ctx.Set<Teacher>().Include(x => x.SchoolClasses).ToList().FirstOrDefault(x => !x.SchoolClasses.Contains(c));
+            int count2 = t.SchoolClasses.Count();
+
+
+            // Act
+            MichtavaResult res = serv.AddTeacherToClass(t, c);
+
+
+            // Assert
+            Assert.True(res is MichtavaSuccess);
+
+            SchoolClass pc = serv.All().Include(y => y.Teachers).FirstOrDefault(x => x.Id == c.Id);
+            Teacher pt = ctx.Set<Teacher>().Include(x => x.SchoolClasses).FirstOrDefault(x => x.Id == t.Id);
+
+            Assert.True(pt.SchoolClasses.Contains(pc));
+            Assert.True(pc.Teachers.Contains(pt));
+            Assert.AreEqual(count1 + 1, pc.Teachers.Count);
+            Assert.AreEqual(count2 + 1, pt.SchoolClasses.Count);
+
+        }
+
+
+       
+
         //Deletes
+
+        //Test Case ID: SCS14
         [Test]
         public void testDeleteSchoolClassSuccess()
         {
@@ -319,6 +492,7 @@ namespace Services_Tests
 
         }
 
+        //Test Case ID: SCS15
         [Test]
         public void testDeleteSchoolClassIsStudentUpdated()
         {
@@ -385,6 +559,7 @@ namespace Services_Tests
         }
 
 
+        //Test Case ID: SCS16
         [Test]
         public void testDeleteSchoolClassIsTeacherUpdated()
         {
@@ -444,6 +619,7 @@ namespace Services_Tests
 
         }
 
+        //Test Case ID: SCS18
         [Test]
         public void testDeleteNonExistantSchoolClass()
         {
@@ -465,6 +641,7 @@ namespace Services_Tests
 
 
 
+        //Test Case ID: SCS19
         [Test]
         public void testHardDeleteSuccessSchoolClass()
         {
@@ -488,6 +665,7 @@ namespace Services_Tests
         //Customs
 
 
+        //Test Case ID: SCS20
         [Test]
         public void testAddToSchoolClassSuccess()
         {
@@ -509,6 +687,8 @@ namespace Services_Tests
 
 
         }
+
+        //Test Case ID: SCS21
         [Test]
         public void testAddToSchoolClassStudentUpdated()
         {
@@ -532,6 +712,7 @@ namespace Services_Tests
 
         }
 
+        //Test Case ID: SCS22
         [Test]
         public void testAddToSchoolClassSchoolClassUpdated()
         {

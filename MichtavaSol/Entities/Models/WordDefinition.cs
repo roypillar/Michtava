@@ -17,6 +17,13 @@ namespace Entities.Models
             _definition = "";
         }
 
+
+        public WordDefinition(string Word, string definition)
+        {
+            this.Word = Word;
+            _definition = definition.Trim();
+        }
+
         //[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         //public Guid Id { get; set; }
 

@@ -8,10 +8,10 @@
     {
         public Guid Id { get; set; }
 
-        [Display(Name = "שם פרטי")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Display(Name = "שם משפחה")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         public RegisterViewModel RegisterViewModel { get; set; }
