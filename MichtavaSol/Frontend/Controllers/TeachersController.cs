@@ -475,7 +475,7 @@ namespace Frontend.Controllers
             foreach (var clsHomework in cls.Homeworks)
             {
                 var allAnswersFeedbacked = true;
-                foreach (var answer in _answerService.All().Include(a => a.TeacherFeedback).Where(a => a.Homework_Id.Equals(clsHomework.Id)).ToList())
+                foreach (var answer in _answerService.All().Where(a => a.Homework_Id.Equals(clsHomework.Id)).ToList())
                 {
                     if (answer.TeacherFeedback.IsNullOrWhiteSpace())
                     {
