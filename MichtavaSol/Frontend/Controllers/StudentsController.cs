@@ -14,7 +14,7 @@ using Services.Interfaces;
 using Frontend.App_Start.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
-
+using Common;
 
 namespace Frontend.Controllers
 {
@@ -419,7 +419,7 @@ namespace Frontend.Controllers
                 smartView.question = tmpQuestionsList.Where(x => x.Question_Number == tmpQuestNumber).FirstOrDefault();
                 smartView.Questions = tmpQuestionsList;
 
-                if (smartView.question.Suggested_Openings.Count == 0)
+                if (smartView.question.Suggested_Openings == null)
                 {
                     SuggestedOpening noSuggOpen = new SuggestedOpening("אין משפטי פתיחה לשאלה זו");
                     SuggestedOpening noSuggOpen2 = new SuggestedOpening("התשובה לשאלה נמצאת בגוף השאלה");
@@ -684,7 +684,15 @@ namespace Frontend.Controllers
                     ans.Student_Id = student.Id;
                     ans.Submitted_By = student;
 
-                    _answerService.Add(ans);
+                    MichtavaResult res = _answerService.Add(ans);
+                    if(res is MichtavaSuccess)
+                    {
+                        //alert success. 
+                    }
+                    else
+                    {
+                        //alert res.Message;
+                    }
                 }
 
                 else

@@ -1,6 +1,5 @@
 ﻿
 
-<br /><br /><br />
 <head>
     <style>
         h2 {
@@ -64,25 +63,25 @@
     </style>
 </head>
 
-<body style="background-color:blue">
+<body>
 
 
                    
          
 
-    <div class="row" style="margin:0 auto; background-image:url(../../Backgrounds/onlyTextBackground.png);background-size:cover;height:550px">
+    <div class="row" style="margin:0 auto; background-image:url(../../Backgrounds/onlyTextBackground.jpg);background-size:cover;height:550px">
         <div class="col-sm-12">
             <div class="col-sm-4 col-sm-offset-3">
-                <p style="font-size:24px"><b><u>הסיפור</u></b></p>
+                <p style="font-size:24px;color:white"><b><u>הסיפור</u></b></p>
             </div>
         </div>
-        <div class="col-sm-12" style="max-height:400px">
-            <p class="col-md-10 p" id="textArea" style="border:none; background: transparent; overflow-y:auto; max-height:350px">
+        <div class="col-sm-12" style="max-height:400px ">
+            <p class="col-md-10 col-md-offset-1" id="textArea" style=" border-radius: 15px; background-color:whitesmoke; overflow-y:auto; max-height:350px">
                 @Session["TextContent"]
             </p>
         </div>
         <br /><br />
-
+        <!--
                             
 
                             <div class="col-xs-6 pull-right">
@@ -115,11 +114,12 @@
                                     </label>
                                 </div>
                             </div>
-                        
-                        <div class="col-sm-3 pull-right">
+               -->         
+                        <div class="col-sm-3 col-sm-offset-3">
                             <input name="textName" type="submit" value="בחזרה לסיפור" onclick="location.href='@Url.Action("ChooseAction", "Students", new { textName = @Session["textName"] })'">
                             
                         </div>
+        
    </div>
 
 </body>
@@ -128,11 +128,6 @@
 
 
     function changeTextFont(myRadio) {
-
-        var wordsDefs = '<%= Session["WordsDefs"] %>';
-        wordsDefs.toString;
-
-        //words defs? how to pull it?
 
 
         var selectedValue = myRadio.value;
