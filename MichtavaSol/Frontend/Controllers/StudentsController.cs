@@ -158,7 +158,7 @@ namespace Frontend.Controllers
             catch(Exception e)
             {
                 // RedirectToAction();
-                return View("Index");
+                return RedirectToAction("Index", "HomeController", new { area = "Students" });
             }
         }
 
@@ -242,7 +242,7 @@ namespace Frontend.Controllers
             }
             catch(Exception e)
             {
-                return View("Index");
+                return RedirectToAction("Index");
             }
         }
 
@@ -279,7 +279,7 @@ namespace Frontend.Controllers
             }
             catch(Exception e)
             {
-                return View("Index");
+                return RedirectToAction("Index");
             }
         }
 
@@ -349,9 +349,9 @@ namespace Frontend.Controllers
             }
             catch(Exception e)
             {
-                return View("Index");
+                return RedirectToAction("Index");
             }
-        
+
         }
 
        
@@ -465,7 +465,7 @@ namespace Frontend.Controllers
             }
             catch(Exception e)
             {
-                return View("Index");
+                return RedirectToAction("Index");
             }
         }
 
@@ -612,7 +612,7 @@ namespace Frontend.Controllers
             }
             catch(Exception e)
             {
-                return View("Index");
+                return RedirectToAction("Index");
             }
 
         }
@@ -764,7 +764,7 @@ namespace Frontend.Controllers
             }
             catch(Exception e)
             {
-                return View("Index");
+                return RedirectToAction("Index");
             }
         }
 
