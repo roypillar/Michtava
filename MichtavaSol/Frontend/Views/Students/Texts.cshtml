@@ -243,11 +243,78 @@
         section {
             padding-left: 15px;
         }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .input-w label, .input-w input {
+            float: none; /* if you had floats before? otherwise inline-block will behave differently */
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        img.top {
+            vertical-align: text-top;
+        }
     </style>
 </head>
 
 <body dir="rtl">
 
+    <div class="row">
+        <h4 style="font-size:24px;"><label for="myBtn" class="label label-warning">עזרה?</label></h4>
+        <div id="myModal" class="modal">
+            <div class="modal-content" style="overflow-y:auto;">
+                <span class="close">&times;</span>
+                <br /><br />
+                <div dir="rtl">
+
+                    <p>מצד ימין תוכל לבחור את הסיפור אליו תרצה להיכנס</p>
+                    <p>אם סיפור מסומן בסימן קריאה אדום זה אומר שישנם שיעורי בית פעילים שעלייך להשלים על הסיפור</p>
+                    <p>מצד שמאל תוכל לעבור ישירות לשיעורי בית פעילים במקצוע זה שעלייך להשלים, ואם הם אינם קיימים יוצעו לך שיעורי בית פעילים ממקצועות אחרים.</p>
+                    <p>למעבר למשחקים לחץ על הקישור</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
 
@@ -383,200 +450,43 @@
 
 
     </div>
+    <!-------------------- Buttons --------------------------->
+
+    <button id="myBtn" class="hidden"></button>
+
+    <!-------------------------------------------------------->
 </body>
 
 
 </html>
 
 
-<!--
+<script>
 
+    // Get the modal
+    var modal = document.getElementById('myModal');
 
-<body>
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
 
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
 
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
 
-    <div class="container-fluid">
-        <div class="row content">
-            <form class="text-right" action="ChooseAction" method="post" id="TextsMenu">
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
 
-                <div class="col-sm-5 sidenav pull-right">
-                    <h4>@ViewBag.Title:</h4>
-                    @foreach (var Text in Model.Texts)
-                    {
-                        if (Model.TextsIDList.Contains(Text.Id))
-                        {
-
-                            <div class="col-sm-12 pull-right" style="margin-bottom:10px">
-                                <div class=" col-sm-10 pull-right">
-                                    <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
-
-                                    <input name="textName" type="submit" value="@Text.Name" />
-                                </div>
-                                <div class=" col-sm-10 pull-right">
-                                    <h5 style="color:red">קיימים שיעורי בית שעלייך להשלים ב @Text.Name</h5>
-                                </div>
-
-                            </div>
-
-                        }
-                        else
-                        {
-                            <div class="col-sm-12 pull-right" style="margin-bottom:10px">
-                                <div class="col-sm-4 pull-right">
-                                    <input name="textName" type="submit" value="@Text.Name" />
-                                </div>
-
-                            </div>
-
-                        }
-
-                    }
-
-
-                </div>
-
-                <div class="col-sm-7 pull-right">
-
-                    <h3>שיעורי בית</h3>
-                    @foreach (var tuple in Model.TextsTuple)
-                    {
-                        <hr>
-
-                        <div class=" col-sm-10 pull-right" style="background-color: #f1f1f5;">
-                            <h2>@tuple.Item3.Name</h2>
-                            <h5><span class="glyphicon glyphicon-time"></span>נוצר על ידי- @tuple.Item1 , תאריך אחרון להגשה - @tuple.Item2</h5>
-                            <h5><span class="label label-danger">text</span> <span class="label label-primary">Ipsum</span></h5><br>
-                            <p>@tuple.Item3.Content</p>
-                            <input class="pull-left" name="textName" type="submit" value="לסיפור @tuple.Item3.Name" />
-
-                            <br><br>
-                        </div>
-                        <hr />
-                    }
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <footer class="container-fluid">
-        <p>Footer Text</p>
-    </footer>
-
-</body>
-
--->
-
-
-
-<!--
-    
-
-
-
-<br /><br /><br />
-<head>
-    <style>
-        h2 {
-            font-weight: bold;
-            font: 50px arial, sans-serif;
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
+    }
 
-        input[type='submit'] {
-            font-size: 32px;
-            background-color: darkorange;
-            border-color: darkorange;
-        }
-
-        div.button-wrapper {
-            position: relative;
-        }
-
-
-
-        .notification-on {
-            position: absolute;
-            top: 0;
-            right: 0;
-            text-align: center;
-            color: white;
-            border-radius: 10px;
-            background-color: red;
-            width: 20px;
-            font-weight: bold;
-        }
-
-        abbr[title] {
-            border-bottom: none !important;
-            cursor: inherit !important;
-            text-decoration: none !important;
-        }
-
-        body {
-           // background-image: url("../../Backgrounds/background.jpg");
-            width: 100%;
-            height: 100%;
-            background-position: center;
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="row">
-        <form class="text-right" action="ChooseText" method="post" id="TextsMenu">
-
-            <div class="row">
-                <div class="col-sm-10">
-                    <b><u><h2>@ViewBag.Title:</h2></u></b>
-                </div>
-            </div>
-            <br /><br />
-
-            <div class="row">
-
-                @foreach (var text in Model.Texts)
-                {
-                    
-
-                    if (Model.TextsIDList.Contains(text.Id))
-                    {
-
-                        <div class="col-sm-12 pull-right" style="margin-bottom:10px">
-                            <div class=" col-sm-10 pull-right">
-                                <abbr class="notification-on" title="קיימים שיעורי בית שעלייך להשלים!">!</abbr>
-
-                                <input name="textName" type="submit" value="@text.Name" />
-                            </div>
-                            <div class="col-sm-10 pull-right">
-                                <h5 style="color:red">קיימים שיעורי בית שעלייך להשלים בטקסט @text.Name</h5>
-                            </div>
-
-                        </div>
-
-                        
-                    }
-                    else
-                    {
-                        <div class="col-sm-12 pull-right" style="margin-bottom:10px">
-                            <div class="col-sm-4 pull-right">
-                                <input name="textName" type="submit" value="@text.Name" />
-                            </div>
-
-                        </div>
-
-                    }
-                }
-
-
-            </div>
-
-         
-
-
-        </form>
-    </div>
-    <br /><br /><br /><br /><br /><br /><br />
-</body>
--->
+</script>
