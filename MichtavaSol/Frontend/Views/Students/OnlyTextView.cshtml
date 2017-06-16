@@ -2,6 +2,48 @@
 
 <head>
     <style>
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
         h2 {
             font-weight: bold;
             font: 50px arial, sans-serif;
@@ -74,15 +116,29 @@
             <div class="col-sm-4 col-sm-offset-3">
                 <p style="font-size:24px;color:white"><b><u>הסיפור</u></b></p>
             </div>
+
+
+            <h4 style="font-size:24px;"><label for="myBtn" class="label label-warning">עזרה?</label></h4>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <br /><br />
+                    <div dir="rtl">
+                        <p>בלה בלה בלה</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-12" style="max-height:400px ">
-            <p class="col-md-10 col-md-offset-1" id="textArea" style=" border-radius: 15px; background-color:whitesmoke; overflow-y:auto; max-height:350px">
-                @Session["TextContent"]
-            </p>
-        </div>
-        <br /><br />
-        <!--
-                            
+
+
+                <div class="col-sm-12" style="max-height:400px ">
+                    <p class="col-md-10 col-md-offset-1" id="textArea" style=" border-radius: 15px; background-color:whitesmoke; overflow-y:auto; max-height:350px">
+                        @Session["TextContent"]
+                    </p>
+                </div>
+                <br /><br />
+                <!--
+
 
                             <div class="col-xs-6 pull-right">
                                 <div class="col-sm-2">
@@ -114,13 +170,13 @@
                                     </label>
                                 </div>
                             </div>
-               -->         
-                        <div class="col-sm-3 col-sm-offset-3">
-                            <input name="textName" type="submit" value="בחזרה לסיפור" onclick="location.href='@Url.Action("ChooseAction", "Students", new { textName = @Session["textName"] })'">
-                            
-                        </div>
-        
-   </div>
+               -->
+                <div class="col-sm-3 col-sm-offset-3">
+                    <input name="textName" type="submit" value="בחזרה לסיפור" onclick="location.href='@Url.Action(" ChooseAction", "Students" , new { textName=@Session["textName"] })'">
+
+                </div>
+
+            </div>
 
 </body>
 

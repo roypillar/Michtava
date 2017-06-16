@@ -179,6 +179,9 @@
     }
 
 
+
+
+
 </style>
 
 
@@ -236,7 +239,17 @@
 
 
         <div class="col-md-8">
-
+            <h4 style="font-size:24px;"><label for="myBtn" class="label label-warning">עזרה?</label></h4>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <br /><br />
+                    <div dir="rtl">
+                        <p>בלה בלה בלה</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
             @if (@TempData["Answer"] != null)
             {
@@ -459,7 +472,7 @@
                         </div>
 
                         <div class="col-md-5">
-                            <input name="questionNumber" type="submit" value="הגשה סופית של שאלה מספר @Model.QuestionNumber" style="width: 7em; font-size: 20px; background-color: crimson" />
+                            <input name="questionNumber" type="submit" value="הגשה סופית של שאלה מספר @Model.QuestionNumber" style="font-size: 20px; background-color: crimson" />
                         </div>
                     </div>
 
