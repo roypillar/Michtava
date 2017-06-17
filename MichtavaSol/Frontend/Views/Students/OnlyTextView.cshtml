@@ -125,42 +125,9 @@
                     </p>
                 </div>
                 <br /><br />
-                <!--
-
-
-                            <div class="col-xs-6 pull-right">
-                                <div class="col-sm-2">
-                                    <label>
-                                        <input type="radio" name="fontsize" value="11pt" onclick="changeTextFont(this);" />
-                                        <img src="~/Backgrounds/alef.png" width="18" height="18">
-                                    </label>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <label>
-                                        <input type="radio" name="fontsize" value="14pt" onclick="changeTextFont(this);" />
-                                        <img src="~/Backgrounds/alef.png" width="24" height="24">
-                                    </label>
-                                </div>
-
-
-                                <div class="col-sm-2">
-                                    <label>
-                                        <input type="radio" name="fontsize" value="18pt" onclick="changeTextFont(this);" />
-                                        <img src="~/Backgrounds/alef.png" width="30" height="30">
-                                    </label>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <label>
-                                        <input type="radio" name="fontsize" value="24pt" onclick="changeTextFont(this);" />
-                                        <img src="~/Backgrounds/alef.png" width="36" height="36">
-                                    </label>
-                                </div>
-                            </div>
-               -->
+  
                 <div class="col-sm-3 col-sm-offset-3">
-                    <input name="textName" type="submit" value="בחזרה לסיפור" onclick="location.href='@Url.Action(" ChooseAction", "Students" , new { textName=@Session["textName"] })'">
+                    <input name="textName" type="submit" value="בחזרה לסיפור" onclick="location.href='@Url.Action("ChooseAction", "Students" , new { textName=@Session["textName"] })'">
 
                 </div>
 

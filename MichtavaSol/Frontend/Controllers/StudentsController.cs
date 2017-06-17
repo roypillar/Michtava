@@ -158,8 +158,7 @@ namespace Frontend.Controllers
             catch(Exception e)
             {
                 // RedirectToAction();
-                return RedirectToAction("Index", "HomeController", new { area = "Students" });
-            }
+                return RedirectToAction("LogIn", "Account", new { area = "Students" });            }
         }
 
 
@@ -419,6 +418,11 @@ namespace Frontend.Controllers
                 smartView.question = tmpQuestionsList.Where(x => x.Question_Number == tmpQuestNumber).FirstOrDefault();
                 smartView.Questions = tmpQuestionsList;
 
+                if(smartView.question == null)
+                {
+                    return RedirectToAction("Index");
+                }
+
                 if (smartView.question.Suggested_Openings == null)
                 {
                     SuggestedOpening noSuggOpen = new SuggestedOpening("אין משפטי פתיחה לשאלה זו");
@@ -434,9 +438,7 @@ namespace Frontend.Controllers
                 List<QuestionAnswer> QuestionsAnswered = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).SelectMany(x => x.questionAnswers).ToList();
                 if (QuestionsAnswered == null || QuestionsAnswered.Count == 0)
                 {
-                    ///*************************************************////
-                    ///*************************************************////
-                    //here cant be empty.. take care for analyze and gotosmart text box..
+                 
                     smartView.CompleteQuestions = new List<QuestionAnswer>();
 
                     SmartViewQuestionsNumbers.Add(-1);
@@ -468,21 +470,6 @@ namespace Frontend.Controllers
                 return RedirectToAction("Index");
             }
         }
-
-       
-  /*      public List<Guid> GetAnswersNumbers(Homework hw)
-        {
-            List<Guid> tmp = new List<Guid>();
-            foreach(var question in hw.Questions)
-            {
-                tmp.Add(question.Id);
-            }
-            return tmp;
-        }
-
-    */
-        //todo- fix analyze answer like gotosmartTextbox, check for already answered questions and mark them or load the answer or dont present them?
-
 
 
         public ActionResult AnalyzeAnswer(string questionNumber)
@@ -552,10 +539,6 @@ namespace Frontend.Controllers
                 string tmpName = (string)Session["textName"];
                 textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
 
-
-                /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
-
-
                 List<Homework> AllStudentHW = _homeworkService.All().Where(x => x.Text.Id == textGuid).ToList();
 
                 Homework hw = AllStudentHW.First();
@@ -563,6 +546,11 @@ namespace Frontend.Controllers
                 List<Question> tmpQuestionsList = _homeworkService.All().Include(x => x.Questions.Select(q => q.Policy)).Where(x => x.Id == hw.Id).FirstOrDefault().Questions.ToList();
                 smartView.question = tmpQuestionsList.Where(x => x.Question_Number == tmpQuestNumber).FirstOrDefault();
                 smartView.Questions = tmpQuestionsList;
+
+                if (smartView.question == null)
+                {
+                    return RedirectToAction("Index");
+                }
 
                 if (smartView.question.Suggested_Openings.Count == 0)
                 {
@@ -582,9 +570,7 @@ namespace Frontend.Controllers
 
                 if (QuestionsAnswered.Count() == 0)
                 {
-                    ///*************************************************////
-                    ///*************************************************////
-                    //here cant be empty.. take care for analyze and gotosmart text box..
+            
                     smartView.CompleteQuestions = new List<QuestionAnswer>();
 
                     SmartViewQuestionsNumbers.Add(-1);
@@ -592,8 +578,6 @@ namespace Frontend.Controllers
                     smartView.CompleteQuestionsNumbers = SmartViewQuestionsNumbers;
 
                     Session["percentage"] = 0;
-
-
                 }
                 else
                 {
@@ -650,10 +634,6 @@ namespace Frontend.Controllers
 
                 string tmpName = (string)Session["textName"];
                 textGuid = _textService.All().Where(t => t.Name == tmpName).FirstOrDefault().Id;
-
-
-                /// .All().Include(x => x.Questions.Select(q=>q.Policy)).Where(x => x.Id == hw.Id)
-
 
                 List<Homework> AllStudentHW = _homeworkService.All().Where(x => x.Text.Id == textGuid).ToList();
 
