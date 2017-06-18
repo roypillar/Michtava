@@ -111,9 +111,48 @@
 
 <body>
     
-<button class="button" onclick="location.href = '@Url.Action("NavigateToClassView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
+    <div class="row">
+        <div class="col-sm-6 pull-right">
+            <button class="button" onclick="location.href = '@Url.Action("NavigateToClassView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
+        </div>
 
-@*<button id="myBtn" class="hidden"></button>*@
+        <div class="col-sm-6 pull-right">
+            <h4 style="font-size: 24px;"><label for="myBtn" class="label label-warning">עזרה?</label></h4>
+            <div id="myModal" class="modal">
+                <div class="modal-content" style="overflow-y: auto;">
+                    <span class="close">&times;</span>
+                    <br /><br />
+                    <div dir="rtl">
+                        <div class="row">
+                            <div class="col-sm-9 pull-right">
+                                <p><b><u>דף תצוגת טקסטים</u></b></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9 pull-right">
+                                <p>1) באפשרותך להוסיף מטלה עבור טקסט כלשהו מהרשימה על ידי סימון הטקסט הרצוי ולחיצה על "הוסף מטלה"</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9 pull-right">
+                                <p>2) באפשרותך למחוק טקסט כלשהו מהמערכת על ידי סימון הטקסט הרצוי ולחיצה על "הסר טקסט"</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9 pull-right">
+                                <p>3) באפשרותך להוסיף טקסט חדש שיקושר לנושא על ידי לחיצה על "הוסף טקסט חדש"</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9 pull-right">
+                                <p>4) יוצגו בדף אך ורק טקסטים הקשורים לנושא הנוכחי</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <div class="row">
     <div class="row">
@@ -168,7 +207,7 @@
     </div>
 
 </div>
-<br/><br/><br/><br/><br/><br/><br/>
+    <button id="myBtn" class="hidden"></button>
 
 <script>
     // Get the modal

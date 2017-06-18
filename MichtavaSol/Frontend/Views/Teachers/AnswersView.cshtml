@@ -66,134 +66,229 @@
         .no-click {
             pointer-events: none;
         }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
     </style>
 </head>
 
 <body>
 
-@Html.Raw(TempData["msg"])
+    @Html.Raw(TempData["msg"])
 
-<button class="button" onclick="location.href = '@Url.Action("NavigateToHomeworkView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
-    
+<div class="row">
+    <div class="col-sm-6 pull-right">
+        <button class="button" onclick="location.href = '@Url.Action("NavigateToHomeworkView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
+    </div>
+
+    <div class="col-sm-6 pull-right">
+        <h4 style="font-size: 24px;"><label for="myBtn" class="label label-warning">עזרה?</label></h4>
+        <div id="myModal" class="modal">
+            <div class="modal-content" style="overflow-y: auto;">
+                <span class="close">&times;</span>
+                <br /><br />
+                <div dir="rtl">
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p><b><u>דף בדיקת שיעורי בית</u></b></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p>1) על מנת לצפות בתשובות של תלמיד לשיעורי הבית, יש ללחוץ על שם התלמיד</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p>2) על מנת להזין בדיקה של שיעורי הבית עבור התלמיד שבחרת, יש להזין ציון וטקסט חופשי במקומות המתאימים וללחוץ על "שלח/י".</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p>3) לאחר שליחת הבדיקה, התלמיד יקבל התראה על פידבק חדש בעבור שיעורי הבית שלו בעת שיתחבר למערכת</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p>4) לאחר שנשלחה בדיקה לתלמיד מסויים, לא יהיה ניתן לצפות בתשובות שלו</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p>5) לאחר שנשלחו בדיקות לכל התלמידים, שיעורי הבית לא יוצגו יותר בדף הצגת שיעורי הבית</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
     <!---------------------------------------------------------------------- השאלות --------------------------------------------------------------------->
-<div class="row">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h2>השאלות</h2>
-        </div>
-        <div class="panel-body">
-            <div class="row">
-                @foreach (var data in TempData)
-                {
-                    if (data.Key.Contains("_homework"))
-                    {
-                        <div class="col-sm-4 pull-right">
-                            <textarea name="questions" id="questions" style="font-size: 20px; width: 300px; height: 200px;">@data.Value</textarea>
-                        </div>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-
     <div class="row">
-        <div class="col-sm-12">
-            <b>
-                <h3>@ViewBag.Title</h3>
-            </b>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2>השאלות</h2>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    @foreach (var data in TempData)
+                    {
+                        if (data.Key.Contains("_homework"))
+                        {
+                            <div class="col-sm-4 pull-right">
+                                <textarea name="questions" id="questions" style="font-size: 20px; width: 300px; height: 200px;">@data.Value</textarea>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <b>
+                    <h3>@ViewBag.Title</h3>
+                </b>
+            </div>
         </div>
     </div>
-</div>
-<br/>
-    
+    <br />
+
     <!---------------------------------------------------------------------- התשובות --------------------------------------------------------------------->
-<div class="row">
-    <div class="col-sm-6">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <h2>תשובות</h2>
-            </div>
-            <div class="panel-body">
-                @foreach (var data in TempData)
-                {
-                    if (data.Key.Contains("_answer"))
-                    {
-                        <div class="row">
-                            <div class="col-sm-3 pull-right">
-                                <textarea name="answer" id="answer" style="font-size: 20px; width: 500px; height: 400px;">@data.Value</textarea>
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-    
-    <!---------------------------------------------------------------------- תלמידים --------------------------------------------------------------------->
-    <div class="col-sm-6">
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                <h2>תלמידים</h2>
-            </div>
-            <div class="panel-body">
-                @foreach (var data in TempData)
-                {
-                    if (data.Key.Contains("_student"))
-                    {
-                        <div class="row">
-                            <div class="col-sm-3 pull-right">
-                                <form class="col-xs-12" action="ShowAnswer" method="post">
-                                    <input name="student" type="submit" id="student" value="@data.Value"/>
-                                </form>
-                            </div>
-                        </div>
-                    }
-                    else if (data.Key.Contains("_feedbacked"))
-                    {
-                        <div class="row">
-                            <div class="col-sm-3 pull-right">
-                                <form class="col-xs-12" action="ShowAnswer" method="post">
-                                    <input name="student" type="submit" id="student" value="@data.Value" class="no-click" style="background-color: green; border-color: green" />
-                                </form>
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-</div>
-    
-    <!---------------------------------------------------------------------- בדיקת שיעורי הבית --------------------------------------------------------------------->
-<div class="row">
-    <form class="col-xs-12" action="SubmitFeedback" method="post">
-        <div class="col-sm-12">
-            <div class="panel panel-warning">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h2>בדיקת שיעורי הבית</h2>
+                    <h2>תשובות</h2>
                 </div>
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-1 pull-right">
-                            <h5><label for="finalGrade">ציון: </label></h5>
-                        </div>
-                        <div class="col-sm-1 pull-right">
-                            <input type="number" id="finalGrade" name="finalGrade" value="0" min="0" max="100" style="font-size: 20px; width: 5em;"></input>
-                        </div>
-
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <textarea id="feedback" name="feedback" placeholder="הזן/י כאן את הבדיקה" style="font-size: 20px; width: 800px; height: 300px;"></textarea>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <input type="submit" value="שלח/י" style="background-color: green; border-color: green;"/>
-                    </div>
+                    @foreach (var data in TempData)
+                    {
+                        if (data.Key.Contains("_answer"))
+                        {
+                            <div class="row">
+                                <div class="col-sm-3 pull-right">
+                                    <textarea name="answer" id="answer" style="font-size: 20px; width: 500px; height: 400px;">@data.Value</textarea>
+                                </div>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
         </div>
-    </form>
-</div>
 
+        <!---------------------------------------------------------------------- תלמידים --------------------------------------------------------------------->
+        <div class="col-sm-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h2>תלמידים</h2>
+                </div>
+                <div class="panel-body">
+                    @foreach (var data in TempData)
+                    {
+                        if (data.Key.Contains("_student"))
+                        {
+                            <div class="row">
+                                <div class="col-sm-3 pull-right">
+                                    <form class="col-xs-12" action="ShowAnswer" method="post">
+                                        <input name="student" type="submit" id="student" value="@data.Value" />
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                        else if (data.Key.Contains("_feedbacked"))
+                        {
+                            <div class="row">
+                                <div class="col-sm-3 pull-right">
+                                    <form class="col-xs-12" action="ShowAnswer" method="post">
+                                        <input name="student" type="submit" id="student" value="@data.Value" class="no-click" style="background-color: green; border-color: green" />
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!---------------------------------------------------------------------- בדיקת שיעורי הבית --------------------------------------------------------------------->
+    <div class="row">
+        <form class="col-xs-12" action="SubmitFeedback" method="post">
+            <div class="col-sm-12">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h2>בדיקת שיעורי הבית</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-1 pull-right">
+                                <h5><label for="finalGrade">ציון: </label></h5>
+                            </div>
+                            <div class="col-sm-1 pull-right">
+                                <input type="number" id="finalGrade" name="finalGrade" value="0" min="0" max="100" style="font-size: 20px; width: 5em;"></input>
+                            </div>
+
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <textarea id="feedback" name="feedback" placeholder="הזן/י כאן את הבדיקה" style="font-size: 20px; width: 800px; height: 300px;"></textarea>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <input type="submit" value="שלח/י" style="background-color: green; border-color: green;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <button id="myBtn" class="hidden"></button>
 </body>
+<script>
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

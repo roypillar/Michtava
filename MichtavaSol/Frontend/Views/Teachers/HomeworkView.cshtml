@@ -39,65 +39,144 @@
             margin: 5px;
         }
 
-            .button span {
-                cursor: pointer;
-                display: inline-block;
-                position: relative;
-                transition: 0.5s;
-            }
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
 
-                .button span:after {
-                    content: '<<';
-                    position: absolute;
-                    opacity: 0;
-                    top: 0;
-                    right: 20px;
-                    transition: 0.5s;
-                }
+        .button span:after {
+            content: '<<';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: 20px;
+            transition: 0.5s;
+        }
 
-            .button:hover span {
-                padding-right: 25px;
-            }
+        .button:hover span {
+            padding-right: 25px;
+        }
 
-                .button:hover span:after {
-                    opacity: 1;
-                    right: 0;
-                }
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
     </style>
 </head>
 
 <body>
-    <button class="button" onclick="location.href = '@Url.Action("NavigateToClassView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
-
-<div class="row">
     <div class="row">
-        <div class="col-sm-10">
-            <b>
-                <h2>@ViewBag.Title</h2>
-            </b>
+        <div class="col-sm-6 pull-right">
+            <button class="button" onclick="location.href = '@Url.Action("NavigateToClassView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-10">
-            <b><h4>בחר/י שיעורי בית לבדיקה</h4></b>
-        </div>
-    </div>
-    <br />
 
-        
-    @foreach (var data in TempData)
-    {
-        if (data.Key.Contains("_hw"))
-        {
-            <div class="row">
-                <div class="col-sm-3 pull-right">
-                    <form class="col-xs-12" action="NavigateToAnswersView" method="post">
-                        <input name="homeworkText" type="submit" id="homeworkText" value="@data.Value" />
-                    </form>
+        <div class="col-sm-6 pull-right">
+            <h4 style="font-size: 24px;"><label for="myBtn" class="label label-warning">עזרה?</label></h4>
+            <div id="myModal" class="modal">
+                <div class="modal-content" style="overflow-y: auto;">
+                    <span class="close">&times;</span>
+                    <br /><br />
+                    <div dir="rtl">
+                        <div class="row">
+                            <div class="col-sm-9 pull-right">
+                                <p><b><u>דף תצוגת שיעורי הבית</u></b></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9 pull-right">
+                                <p>1) לחיצה על שיעורי בית תעביר אותך לדף חדש ובו אפשרות צפיה ובדיקה של שיעורי הבית שנבחרו</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9 pull-right">
+                                <p>2) שים/י לב כי יוצגו אך ורק שיעורי בית שתאריך ההגשה שלהם עבר וטרם נבדקו במלואם</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="row">
+            <div class="col-sm-10">
+                <b>
+                    <h2>@ViewBag.Title</h2>
+                </b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <b><h4>בחר/י שיעורי בית לבדיקה</h4></b>
+            </div>
+        </div>
+        <br />
+
+
+        @foreach (var data in TempData)
+        {
+            if (data.Key.Contains("_hw"))
+            {
+                <div class="row">
+                    <div class="col-sm-3 pull-right">
+                        <form class="col-xs-12" action="NavigateToAnswersView" method="post">
+                            <input name="homeworkText" type="submit" id="homeworkText" value="@data.Value" />
+                        </form>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <button id="myBtn" class="hidden"></button>
+</body>
+<script>
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
     }
-</div>
-    
-</body>
+</script>

@@ -72,29 +72,101 @@
         input[type=button]:hover {
             background-color: darkblue;
         }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
     </style>
 </head>
 <body>
 @Html.Raw(TempData["msg"])
 <br/>
+    
+<div class="row">
+    <div class="col-sm-6 pull-right">
+        <button class="button" onclick="location.href = '@Url.Action("NavigateToTextsView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
+    </div>
 
-<button class="button" onclick="location.href = '@Url.Action("NavigateToTextsView", "Teachers")'" style="vertical-align: middle"><span>חזור </span></button>
-
-    <form class="text-right" action="SubmitPolicy" method="post" id="policyData">
-
-        <div class="panel panel-default">
-            <div class="panel-heading"><h2>@TempData["textName"]</h2></div>
-            <div class="panel-body">
-
-                <div class="row">
-                    <div class="col-sm-10">
-                        <label for="textContent">@TempData["textName"]</label>
-                        <textarea id="textName" name="textName" style="display: none">@TempData["textName"]</textarea>
-                        <textarea id="textContent" name="textContent" cols="70" rows="5">@TempData["TextContent"]</textarea>
+    <div class="col-sm-6 pull-right">
+        <h4 style="font-size: 24px;"><label for="myBtn" class="label label-warning">עזרה?</label></h4>
+        <div id="myModal" class="modal">
+            <div class="modal-content" style="overflow-y: auto;">
+                <span class="close">&times;</span>
+                <br /><br />
+                <div dir="rtl">
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p><b><u>דף הוספת מטלה</u></b></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p>1) באפשרותך להוסיף פירושים למילים קשות על ידי מילוי השדות המתאימים ולחיצה על "הוספת פירוש". הפירושים יוצגו בעבור התלמידים בעת צפיה בטקסטים ובמילוי המטלות</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p>2) באפשרותך להוסיף שאלות למטלה הנוכחית על ידי מילוי השדות המתאימים ולחיצה על "הוספת שאלה"</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p>3) כחלק מהשאלה, ניתן להציע משפטי עזר לתלמידים, שיראו את משפטי העזר ויוכלו להשתמש בהם בזמן שהם עונים על השאלה</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p>4) ניתן להגביל את כמות המילים בתשובה הנדרשת וכמו כן גם את כמות מילות הקישור</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p>5) לפני הוספה של שיעורי הבית, באפשרותך לצפות בשאלות שהוספת על ידי לחיצה עליהן</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9 pull-right">
+                            <p>6) לאחר הוספת שיעורי הבית למערכת, התלמידים השייכים לכיתה יקבלו התראה על שיעורי הבית החדשים בעת כניסה למערכת</p>
+                        </div>
                     </div>
                 </div>
-                <hr/>
-                @*<div class="row">
+            </div>
+        </div>
+    </div>
+</div>
+    <br/>
+
+<form class="text-right" action="SubmitPolicy" method="post" id="policyData">
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h2>@TempData["textName"]</h2></div>
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-sm-10">
+                <label for="textContent">@TempData["textName"]</label>
+                <textarea id="textName" name="textName" style="display: none">@TempData["textName"]</textarea>
+                <textarea id="textContent" name="textContent" cols="70" rows="5">@TempData["TextContent"]</textarea>
+            </div>
+        </div>
+        <hr/>
+        @*<div class="row">
                     <div class="col-sm-4 pull-right">
                         <div>
                             <input type="button" value="הוסף פירוש למילה" onclick="addWord()" class="bt" style="width: 10em; background-color: green; color: white" />
@@ -117,197 +189,198 @@
                     </div>
                 </div>*@
                 
-                <div class="row">
-                    <div class="col-sm-4 pull-right">
-                        <h3><u>הוספת פירושי מילים:</u></h3>
-                    </div>
-                </div>
-                <br/>
-                <div class="row">
-                    <div class="col-sm-10 pull-right">
-                        <input type="text" id="word" name="word" value="" placeholder="מילה...">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-10 pull-right">
-                        <input type="text" id="wordDefinition" name="wordDefinition" value="" placeholder="פירוש המילה..." style="width: 25em; ">
-                    </div>
-                </div>
-                <hr/>
-                <div class="row">
-                    <div class="col-sm-10 pull-right">
-                        <input type="submit" value="הוספת פירוש" style="background-color: crimson" id="wordDefinitionsSubmit" name="Submit" />
-                    </div>
-                </div>
-
+        <div class="row">
+            <div class="col-sm-10 pull-right">
+                <h3><u>הוספת פירושי מילים:</u></h3>
             </div>
         </div>
-        <br />
+        <br/>
+        <div class="row">
+            <div class="col-sm-10 pull-right">
+                <input type="text" id="word" name="word" value="" placeholder="מילה...">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 pull-right">
+                <input type="text" id="wordDefinition" name="wordDefinition" value="" placeholder="פירוש המילה..." style="width: 25em; ">
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-sm-10 pull-right">
+                <input type="submit" value="הוספת פירוש" style="background-color: crimson" id="wordDefinitionsSubmit" name="Submit" />
+            </div>
+        </div>
 
-                <!---------------------------------------------------------------------- שיעורי הבית --------------------------------------------------------------------->
-                <div class="col-sm-6">
+    </div>
+</div>
+<br />
 
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            <h2>שיעורי הבית</h2>
-                        </div>
-                        <div class="panel-body">
+<!---------------------------------------------------------------------- שיעורי הבית --------------------------------------------------------------------->
+<div class="col-sm-6">
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h2>שיעורי הבית</h2>
+        </div>
+        <div class="panel-body">
                             
-                            <div class="row">
-                                <div class="col-sm-7 pull-right">
-                                    <label for="homeworkTitle">כותרת: </label>
-                                </div>
-                                <div class="col-sm-3 pull-right">
-                                    <input type="text" id="homeworkTitle" name="homeworkTitle" value="">
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="col-sm-7 pull-right">
+                    <label for="homeworkTitle">כותרת: </label>
+                </div>
+                <div class="col-sm-3 pull-right">
+                    <input type="text" id="homeworkTitle" name="homeworkTitle" value="">
+                </div>
+            </div>
 
-                            <div class="row">
-                                <div class="col-sm-7 pull-right">
-                                    <label for="homeworkDescription">פירוט: </label>
-                                </div>
-                                    <div class="col-sm-3 pull-right">                                   
-                                    <input type="text" id="homeworkDescription" name="homeworkDescription" value="">
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="col-sm-7 pull-right">
+                    <label for="homeworkDescription">פירוט: </label>
+                </div>
+                <div class="col-sm-3 pull-right">                                   
+                    <input type="text" id="homeworkDescription" name="homeworkDescription" value="">
+                </div>
+            </div>
 
-                            <div class="row">
-                                <div class="col-sm-7 pull-right">
-                                    <label for="submissionDate">תאריך הגשה: </label>
-                                </div>
-                                <div class="col-sm-3 pull-right">
-                                    <input type="date" id="submissionDate" name="submissionDate" value="" min="">
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="col-sm-7 pull-right">
+                    <label for="submissionDate">תאריך הגשה: </label>
+                </div>
+                <div class="col-sm-3 pull-right">
+                    <input type="date" id="submissionDate" name="submissionDate" value="" min="">
+                </div>
+            </div>
 
-                            <div class="row">
-                                <br />
-                                <hr />
-                                <br />
-                                @foreach (var question in TempData)
-                                {
-                                    if (question.Key.Contains("שאלה"))
-                                    {
-                                        <div class="row">
-                                            <div class="col-sm-3 pull-right">
-                                                <input type="button" name="QuestionDisplay" value="@question.Key" onclick="showQuestion(document.getElementById('@question.Key'))" />
-                                            </div>
-                                            <div class="col-sm-7 pull-right">
-                                                <textarea readonly="readonly" id="@question.Key" style="display: none; font-size: 20px; width: 400px; height: 400px;">@question.Value</textarea>
-                                            </div>
-                                        </div>
-                                    }
-                                }
+            <div class="row">
+                <br />
+                <hr />
+                <br />
+                @foreach (var question in TempData)
+                {
+                    if (question.Key.Contains("שאלה"))
+                    {
+                        <div class="row">
+                            <div class="col-sm-3 pull-right">
+                                <input type="button" name="QuestionDisplay" value="@question.Key" onclick="showQuestion(document.getElementById('@question.Key'))" />
                             </div>
+                            <div class="col-sm-7 pull-right">
+                                <textarea readonly="readonly" id="@question.Key" style="display: none; font-size: 20px; width: 400px; height: 400px;">@question.Value</textarea>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
 
-                                <br/>
-                                <hr/>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <input type="submit" value="הוספת שיעורי הבית" style="background-color: forestgreen" id="HomeworkSubmit" name="Submit"/>
-                                </div>
-                            </div>
+            <br/>
+            <hr/>
+            <div class="row">
+                <div class="col-sm-12">
+                    <input type="submit" value="הוספת שיעורי הבית" style="background-color: forestgreen" id="HomeworkSubmit" name="Submit"/>
+                </div>
+            </div>
                             
 
-                        </div>
+        </div>
+    </div>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------------------------------------>
+<!---------------------------------------------------------------------- הוספת שאלה ------------------------------------------------------------------->
+<div class="col-sm-6">
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2>הוספת שאלה</h2>
+        </div>
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-sm-10 pull-right">
+                    @Html.TextAreaFor(model => model.Question, new { cols = 50, @rows = 5, @placeholder = "הוסף שאלה..." })
+                </div>
+            </div>
+
+            <br />
+            <div class="row">
+                <div class="col-sm-10 ">
+                    <h3>
+                        <u>מאפייני התשובה:</u>
+                    </h3>
+                </div>
+            </div>
+            <br /><br />
+            <div class="row">
+                <div class="col-sm-7 pull-right">
+                    <h6><label for="MinWords">כמות מילים מינימלית:</label></h6>
+                </div>
+                <div class="col-sm-3 pull-right">
+                    @Html.TextBoxFor(m => m.MinWords,
+                        new { @type = "number", @name = "MinWords", @id = "MinWords", @min = "1", @max = "1000", @style = "width: 5em", value = "@IIf(Model.MinWords= 0" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-7 pull-right">
+                    <h6><label for="MaxWords">כמות מילים מקסימלית:</label></h6>
+                </div>
+                <div class="col-sm-3 pull-right">
+                    @Html.TextBoxFor(m => m.MaxWords,
+                        new { @type = "number", @name = "MaxWords", @id = "MaxWords", @min = "1", @max = "1000", @style = "width: 5em" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-7 pull-right">
+                    <h6><label for="MinConnectors">כמות מינימלית של מילות קישור:</label></h6>
+                </div>
+                <div class="col-sm-3 pull-right">
+                    @Html.TextBoxFor(m => m.MinConnectors,
+                        new { @type = "number", @name = "MinConnectors", @id = "MinConnectors", @min = "0", @max = "100", @style = "width: 5em" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-7 pull-right">
+                    <h6><label for="MaxConnectors">כמות מקסימלית של מילות קישור:</label></h6>
+                </div>
+                <div class="col-sm-3 pull-right">
+                    @Html.TextBoxFor(m => m.MaxConnectors,
+                        new { @type = "number", @name = "MaxConnectors", @id = "MaxConnectors", @min = "0", @max = "100", @style = "width: 5em" })
+                </div>
+            </div>
+
+            <br />
+            <hr />
+
+            <div class="row">
+                <div class="col-sm-4 pull-right">
+                    <div id="main">
+                        <input type="button" id="btAdd" value="הוסף משפט פתיחה" class="bt" style="width: 10em; background-color: green; color: white" />
                     </div>
                 </div>
-                <!------------------------------------------------------------------------------------------------------------------------------------------------------>
-                <!---------------------------------------------------------------------- הוספת שאלה ------------------------------------------------------------------->
-                <div class="col-sm-6">
-
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h2>הוספת שאלה</h2>
-                        </div>
-                        <div class="panel-body">
-
-                            <div class="row">
-                                <div class="col-sm-10 pull-right">
-                                    @Html.TextAreaFor(model => model.Question, new { cols = 50, @rows = 5, @placeholder = "הוסף שאלה..." })
-                                </div>
-                            </div>
-
-                            <br />
-                            <div class="row">
-                                <div class="col-sm-10 pull-right">
-                                    <h3>
-                                        <u>מאפייני התשובה:</u>
-                                    </h3>
-                                </div>
-                            </div>
-                            <br /><br />
-                            <div class="row">
-                                <div class="col-sm-7 pull-right">
-                                    <h6><label for="MinWords">כמות מילים מינימלית:</label></h6>
-                                </div>
-                                <div class="col-sm-3 pull-right">
-                                    @Html.TextBoxFor(m => m.MinWords,
-                            new { @type = "number", @name = "MinWords", @id = "MinWords", @min = "1", @max = "1000", @style = "width: 5em", value = "@IIf(Model.MinWords= 0" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-7 pull-right">
-                                    <h6><label for="MaxWords">כמות מילים מקסימלית:</label></h6>
-                                </div>
-                                <div class="col-sm-3 pull-right">
-                                    @Html.TextBoxFor(m => m.MaxWords,
-                            new { @type = "number", @name = "MaxWords", @id = "MaxWords", @min = "1", @max = "1000", @style = "width: 5em" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-7 pull-right">
-                                    <h6><label for="MinConnectors">כמות מינימלית של מילות קישור:</label></h6>
-                                </div>
-                                <div class="col-sm-3 pull-right">
-                                    @Html.TextBoxFor(m => m.MinConnectors,
-                            new { @type = "number", @name = "MinConnectors", @id = "MinConnectors", @min = "0", @max = "100", @style = "width: 5em" })
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-7 pull-right">
-                                    <h6><label for="MaxConnectors">כמות מקסימלית של מילות קישור:</label></h6>
-                                </div>
-                                <div class="col-sm-3 pull-right">
-                                    @Html.TextBoxFor(m => m.MaxConnectors,
-                            new { @type = "number", @name = "MaxConnectors", @id = "MaxConnectors", @min = "0", @max = "100", @style = "width: 5em" })
-                                </div>
-                            </div>
-
-                            <br />
-                            <hr />
-
-                            <div class="row">
-                                <div class="col-sm-4 pull-right">
-                                    <div id="main">
-                                        <input type="button" id="btAdd" value="הוסף משפט פתיחה" class="bt" style="width: 10em; background-color: green; color: white" />
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 pull-right">
-                                    <div id="main">
-                                        <input type="button" id="btRemove" value="הסר משפט פתיחה" class="bt" style="width: 10em; background-color: orange; color: white" />
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 pull-right">
-                                    <div id="main">
-                                        <input type="button" id="btRemoveAll" value="הסר הכל" class="bt" style="width: 10em; background-color: red; color: white" /><br />
-                                    </div>
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <input type="submit" value="הוספת שאלה" style="background-color: crimson" id="QuestionSubmit" name="Submit" />
-                                </div>
-                            </div>
-
-                        </div>
+                <div class="col-sm-4 pull-right">
+                    <div id="main">
+                        <input type="button" id="btRemove" value="הסר משפט פתיחה" class="bt" style="width: 10em; background-color: orange; color: white" />
                     </div>
                 </div>
+                <div class="col-sm-4 pull-right">
+                    <div id="main">
+                        <input type="button" id="btRemoveAll" value="הסר הכל" class="bt" style="width: 10em; background-color: red; color: white" /><br />
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-12">
+                    <input type="submit" value="הוספת שאלה" style="background-color: crimson" id="QuestionSubmit" name="Submit" />
+                </div>
+            </div>
 
-                <!------------------------------------------------------------------------------------------------------------------------------------------------------>
+        </div>
+    </div>
+</div>
 
-    </form>
+<!------------------------------------------------------------------------------------------------------------------------------------------------------>
+
+</form>
+    <button id="myBtn" class="hidden"></button>
 <script>
     $(document).ready(function () {
         var date = new Date();
@@ -461,6 +534,32 @@
 
         $(divValue).append('<p><b>Your selected values</b></p>' + values);
         $('body').append(divValue);
+    }
+
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
     }
 
    /* function addWord() {
