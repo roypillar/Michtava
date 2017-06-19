@@ -5,18 +5,25 @@
     {
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-left">
-       
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">יציאה</a></li>
-        <li>
-            @Html.ActionLink("שלום " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-    </ul>
+        <ul class="nav navbar-nav navbar-left" style="float: right">        
+            <li>
+                <h4 style="color: black; text-align: center; margin-top: 12px">
+                    @("שלום " + User.Identity.GetUserName() + "!")
+                </h4>
+                @*@Html.ActionLink("שלום " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new {title = "Manage"})*@
+            </li>
+        
+            <li>
+                <h4 style="color: black; margin-top: 12px">
+                    <a href="javascript:document.getElementById('logoutForm').submit()">יציאה</a>
+                </h4>
+            </li>
+        </ul>
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-left">
+    @*<ul class="nav navbar-nav navbar-left">
             <li>@Html.ActionLink("כניסה", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-</ul>
+</ul>*@
 }
