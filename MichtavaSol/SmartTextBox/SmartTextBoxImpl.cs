@@ -63,32 +63,21 @@ namespace SmartTextBox
 
             for (int i = 0; i < tokens.Length - 1; i++)
             {
-                if (conn.Contains(tokens[i]))
+
+
+                if (conn.Contains(tokens[i] + " " + tokens[i + 1]))
+                {
+                    wordCounter++;
+                    Console.WriteLine(tokens[i] + " " + tokens[i + 1]);
+                    i++;
+                }        
+                
+                 else if (conn.Contains(tokens[i]))
                 {
                     wordCounter++;
                     Console.WriteLine(tokens[i]);
                 }
 
-                else if (conn.Contains(tokens[i] + " " + tokens[i + 1]))
-                {
-                    wordCounter++;
-                    Console.WriteLine(tokens[i] + " " + tokens[i + 1]);
-                    i++;
-                }
-
-                else try
-                    {
-                        if (conn.Contains(tokens[i] + " " + tokens[i + 1].First()))
-                        {
-                            wordCounter++;
-                            Console.WriteLine(tokens[i] + " " + tokens[i + 1]);
-                            i++;
-                        }
-                    }
-                    catch
-                    {
-
-                    }
 
             }
 
