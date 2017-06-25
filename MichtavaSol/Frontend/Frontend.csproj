@@ -254,9 +254,13 @@
     <Compile Include="Areas\Administration\Models\Admins\AdministratorRegisterSubmitModel.cs" />
     <Compile Include="Areas\Administration\Models\Account\RegisterViewModel.cs" />
     <Compile Include="Areas\Administration\Models\Admins\AdministratorListViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\SchoolClasses\AddStudentToClassViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\SchoolClasses\AddTeacherToClassViewModel.cs" />
     <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassDetailsEditModel.cs" />
     <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassesCreateSubmitModel.cs" />
     <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassesListViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassStudentsView.cs" />
+    <Compile Include="Areas\Administration\Models\SchoolClasses\SchoolClassTeachersView.cs" />
     <Compile Include="Areas\Administration\Models\Students\StudentDetailsEditModel.cs" />
     <Compile Include="Areas\Administration\Models\Students\StudentListViewModel.cs" />
     <Compile Include="Areas\Administration\Models\Teachers\TeacherDetailsEditModel.cs" />
@@ -351,6 +355,13 @@
     <Content Include="Areas\Teachers\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Teachers\Views\Account\Register.cshtml" />
     <Content Include="Areas\Administration\Views\SchoolClasses\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\SchoolClasses\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\SchoolClasses\Students.cshtml" />
+    <Content Include="Areas\Administration\Views\SchoolClasses\AddStudentToClass.cshtml" />
+    <Content Include="Areas\Administration\Views\SchoolClasses\StudentDetails.cshtml" />
+    <Content Include="Areas\Administration\Views\SchoolClasses\AddTeacherToClass.cshtml" />
+    <Content Include="Areas\Administration\Views\SchoolClasses\Teachers.cshtml" />
+    <Content Include="Areas\Administration\Views\SchoolClasses\TeacherDetails.cshtml" />
     <None Include="Properties\PublishProfiles\dfs.pubxml" />
     <None Include="Properties\PublishProfiles\profile28031.pubxml" />
     <None Include="Properties\Settings.settings">

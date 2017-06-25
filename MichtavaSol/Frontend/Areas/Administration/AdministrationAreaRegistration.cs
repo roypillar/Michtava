@@ -34,11 +34,7 @@ namespace Frontend.Areas.Administration
               defaults: new { controller = "Administrators", action = "Delete" },
               namespaces: new string[] { "Frontend.Areas.Administration.Controllers" });
 
-            context.MapRoute(
-               name: "Administration_default",
-               url: "Administration/{controller}/{action}/{id}",
-               defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-               namespaces: new string[] { "Frontend.Areas.Administration.Controllers" });
+           
 
             context.MapRoute(
                name: "Administration_teacher_create",
@@ -52,7 +48,66 @@ namespace Frontend.Areas.Administration
                defaults: new { controller = "Account", action = "Register" },
                namespaces: new string[] { "Frontend.Areas.Students.Controllers" });
 
-     
+
+
+
+
+
+
+            
+
+
+            context.MapRoute(
+            name: "Administration_classes_students",
+            url: "Administration/SchoolClasses/{id}/Students",
+            defaults: new { controller = "SchoolClasses", action = "Students" },
+            namespaces: new string[] { "Frontend.Areas.Administration.Controllers" });
+
+            context.MapRoute(
+           name: "Administration_remove_student_from_class",
+           url: "Administration/SchoolClasses/{id}/Students/Remove/{username}",
+           defaults: new { controller = "SchoolClasses", action = "Students" },
+           namespaces: new string[] { "Frontend.Areas.Administration.Controllers" });
+
+            context.MapRoute(
+           name: "Administration_add_student_to_class",
+           url: "Administration/SchoolClasses/{id}/Students/Add/{username}",
+           defaults: new { controller = "SchoolClasses", action = "Students" },
+           namespaces: new string[] { "Frontend.Areas.Administration.Controllers" });
+
+
+
+
+            context.MapRoute(
+           name: "Administration_classes_teachers",
+           url: "Administration/SchoolClasses/{id}/Teachers",
+           defaults: new { controller = "SchoolClasses", action = "Teachers" },
+           namespaces: new string[] { "Frontend.Areas.Administration.Controllers" });
+
+            context.MapRoute(
+           name: "Administration_remove_teacher_from_class",
+           url: "Administration/SchoolClasses/{id}/Teachers/Remove/{username}",
+           defaults: new { controller = "SchoolClasses", action = "Teachers" },
+           namespaces: new string[] { "Frontend.Areas.Administration.Controllers" });
+
+            context.MapRoute(
+           name: "Administration_add_teacher_to_class",
+           url: "Administration/SchoolClasses/{id}/Teachers/Add/{username}",
+           defaults: new { controller = "SchoolClasses", action = "Teachers" },
+           namespaces: new string[] { "Frontend.Areas.Administration.Controllers" });
+
+            //context.MapRoute(
+            //name: "Administration_add_student_to_class",
+            //url: "Administration/SchoolClasses/{id}/Students/Add/{username}",
+            //defaults: new { controller = "SchoolClasses", action = "AddStudentToClass" },
+            //namespaces: new string[] { "Frontend.Areas.Administration.Controllers" });
+
+
+            context.MapRoute(
+              name: "Administration_default",
+              url: "Administration/{controller}/{action}/{id}",
+              defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+              namespaces: new string[] { "Frontend.Areas.Administration.Controllers" });
         }
     }
 }

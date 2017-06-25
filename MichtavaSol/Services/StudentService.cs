@@ -40,7 +40,7 @@ namespace Services
 
         public Student GetByUserName(string username)
         {
-            return this.studentRepository.All().Include(x => x.SchoolClass). FirstOrDefault(a => a.ApplicationUser.UserName == username && !a.IsDeleted);
+            return this.studentRepository.All().Include(x => x.SchoolClass)/*.Include(y => y.ApplicationUser)*/.FirstOrDefault(a => a.ApplicationUser.UserName == username && !a.IsDeleted);
         }
 
         public Student GetById(Guid id)

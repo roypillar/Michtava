@@ -1,0 +1,132 @@
+﻿@*@using Frontend.Areas.Administration.Models.Students*@
+@using PagedList;
+@using PagedList.Mvc;
+
+@model Frontend.Areas.Administration.Models.SchoolClasses.SchoolClassStudentsView
+
+@{
+    ViewBag.Title = "Index";
+    var pagedList = (IPagedList)Model.studentsListViews;
+    TempData["sc"] = Model.studentsListViews.FirstOrDefault().SchoolClass;
+}
+
+<h3>Students in class</h3>
+
+@using (Html.BeginForm("Students", "SchoolClasses", FormMethod.Get, new { @class = "form-horizontal" }))
+{
+    <div class="col-xs-4 search-field">
+        @Html.TextBox(
+            "SearchString",
+            ViewBag.CurrentFilter as string,
+            new { @class = "form-control", placeholder = "Search" })
+    </div>
+    <button class="btn btn-info glyphicon glyphicon-search" type="submit"></button>
+
+
+}
+
+   
+
+
+@*@Html.ActionLinkWithSpan(
+    "Add Student",
+    "AddStudent",
+    "Account",
+    new { @class = "btn btn-primary btn-sm" },
+    new { @class = "glyphicon glyphicon-plus" })*@
+
+
+<div class="table-list">
+    <table class="table table-striped table-students">
+        <tr>
+            <th>
+                @Html.ActionLink("Username", "Index",
+                    new { sortOrder = ViewBag.UsernameSortParam, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Name", "Index",
+                    new { sortOrder = ViewBag.NameSortParam, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.studentsListViews.FirstOrDefault().SchoolClass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.studentsListViews.FirstOrDefault().Email)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var student in Model.studentsListViews)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => student.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => student.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => student.SchoolClass)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => student.Email)
+                </td>
+
+                <td class="text-right">
+
+                    @Html.ActionLinkWithSpan(
+                        "",
+                        "StudentDetails",
+                        new { id = Model.schoolClass.Id, username = student.UserName },
+                        new { @class = "btn btn-default btn-sm", title = "Details" },
+                        new { @class = "glyphicon glyphicon-list-alt" })
+
+                    @Html.ActionLinkWithSpan(
+                        "",
+                        "RemoveStudentFromClass",
+                        new { id = Model.schoolClass.Id, username = student.UserName },
+                        new { @class = "btn btn-default btn-sm", title = "Remove from class" },
+                        new { @class = "glyphicon glyphicon-trash" })
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+    @*<div class="col-xs-4 " style="padding-left: 0px">
+        @Html.TextBox(
+            "StudentToAdd",
+            "",
+            new { id="studentTB", @class = "form-control", placeholder = "Username of Student to add" })
+    </div>*@
+
+ @*"this.href += '/Add/' + document.getElementById('studentTB').value;"*@
+
+@*<button id="addlink" class="btn btn-default pull-left" value="Add Student to class"
+    onclick = "alert(location.href); window.location.replace(location.href+'/Add/' + $('#studentTB').val());">
+</button>*@
+
+
+@*@using (Html.BeginForm("Students", "SchoolClasses", FormMethod.Get, new { @class = "form-horizontal" }))
+{*@
+
+@using (Html.BeginForm("AddStudentToClass", "SchoolClasses", FormMethod.Get, new { @class = "form-horizontal" }))
+{ 
+@Html.ActionLinkWithSpan(
+                        "Add a Student",
+                        "AddStudentToClass",
+                        "SchoolClasses", 
+                        new { id = Model.schoolClass.Id},
+                        new { @class = "btn btn-default btn-sm", title = "Remove from class" },
+                        new { @class = "glyphicon glyphicon-plus" })
+
+@*<button class="btn btn-info glyphicon glyphicon-plus" type="submit"></button>*@
+
+<br /><br />
+}
+
+
+Page @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) of @pagedList.PageCount
+@Html.PagedListPager((IPagedList)Model.studentsListViews,
+    page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

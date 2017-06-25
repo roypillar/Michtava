@@ -45,6 +45,14 @@
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.ApplicationUser.UserName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.ApplicationUser.Email));
 
+            //admin - addstudent
+            Mapper.CreateMap<SchoolClass, Frontend.Areas.Administration.Models.SchoolClasses.AddStudentToClassViewModel>()
+                .ForMember(dest => dest.schoolClassId, opt => opt.MapFrom(src => src.Id));
+
+            //admin - addteacher
+            Mapper.CreateMap<SchoolClass, Frontend.Areas.Administration.Models.SchoolClasses.AddTeacherToClassViewModel>()
+                .ForMember(dest => dest.schoolClassId, opt => opt.MapFrom(src => src.Id));
+
             Mapper.CreateMap<Frontend.Areas.Administration.Models.Admins.AdministratorListViewModel, Administrator>();
 
             //admin - delete admin
@@ -92,9 +100,13 @@
 
             Mapper.CreateMap<SchoolClass, Frontend.Areas.Administration.Models.SchoolClasses.SchoolClassesListViewModel>()
               .ForMember(dest => dest.ClassNumber, opt => opt.MapFrom(src => src.ClassNumber))
-              .ForMember(
-                  dest => dest.StudentsNumber,
-                  opt => opt.MapFrom(src => src.Students.Count(s => s.IsDeleted == false)));
+              .ForMember(dest => dest.ClassLetter, opt => opt.MapFrom(src => src.ClassLetter))
+    
+              .ForMember(dest => dest.StudentsNumber,
+                  opt => opt.MapFrom(src => src.Students.Count(s => s.IsDeleted == false)))
+
+             .ForMember(dest => dest.TeachersNumber,
+                  opt => opt.MapFrom(src => src.Teachers.Count(s => s.IsDeleted == false)));
 
             //Mapper.CreateMap<SchoolClass, School.Web.Areas.Administration.Models.SchoolClassDetailsViewModel>()
             //    .ForMember(dest => dest.GradeYear, opt => opt.MapFrom(src => src.Grade.GradeYear))

@@ -1,13 +1,12 @@
 ﻿@using Frontend.Areas.Administration.Models.SchoolClasses
-
 @using PagedList;
 @using PagedList.Mvc;
 
 @model IEnumerable<SchoolClassesListViewModel>
 
 @{
-    ViewBag.Title = "Index";
-    var pagedList = (IPagedList)Model;
+    ViewBag.Title = "Index"; 
+   var pagedList = (IPagedList)Model;
 }
 
 <h3>Classes list</h3>
@@ -25,6 +24,8 @@
     @Html.ActionLink("Create Class", "Create", "SchoolClasses", new { area = "Administration" }, new { @class = "btn btn-default pull-right" })
 
 }
+
+
 
 @*@Html.ActionLinkWithSpan(
     "Add Student",
@@ -73,25 +74,25 @@
                     @Html.DisplayFor(modelItem => schoolclass.TeachersNumber)
                 </td>
                 <td class="text-right">
-                    @Html.ActionLinkWithSpan(
+                    @*@Html.ActionLinkWithSpan(
                         "",
                         "Edit",
                         //new { username = schoolclass.UserName },
                         new { @class = "btn btn-default btn-sm", title = "Edit" },
-                        new { @class = "glyphicon glyphicon-pencil" })
+                        new { @class = "glyphicon glyphicon-pencil" })*@
 
                     @Html.ActionLinkWithSpan(
+                        " Students",
                         "Students",
-                        "Students",
-                        //new { username = schoolclass.UserName },
-                        new { @class = "btn btn-default btn-sm", title = "Details" },
+                        new { id = schoolclass.Id },
+                        new { @class = "btn btn-default btn-sm", title = "Students list" },
                         new { @class = "glyphicon glyphicon-list-alt" })
 
                     @Html.ActionLinkWithSpan(
+                        " Teachers",
                         "Teachers",
-                        "Teachers",
-                        //new { username = schoolclass.UserName },
-                        new { @class = "btn btn-default btn-sm", title = "Details" },
+                        new { id = schoolclass.Id },
+                        new { @class = "btn btn-default btn-sm", title = "Teachers list" },
                         new { @class = "glyphicon glyphicon-list-alt" })
 
 

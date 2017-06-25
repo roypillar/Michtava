@@ -1,0 +1,53 @@
+﻿@model Frontend.Areas.Administration.Models.SchoolClasses.AddTeacherToClassViewModel
+
+
+@{
+    ViewBag.Title = "Michtava - SchoolClass - Add Teacher";
+}
+
+<h2>Add a teacher @*to @Model.schoolClass.ClassLetter+@Model.schoolClass.ClassNumber*@</h2>
+
+<hr />
+
+
+
+
+
+
+@using (Html.BeginForm("AddTeacherToClass", "SchoolClasses", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(
+                model => model.userName,
+                htmlAttributes: new { @class = "control-label col-md-2" })
+
+        <div class="col-md-4">
+            @Html.EditorFor(
+                    model => model.userName,
+                    new { htmlAttributes = new { @class = "form-control" } })
+
+            @Html.ValidationMessageFor(
+                    model => model.userName,
+                    "",
+                    new { @class = "text-danger" })
+        </div>
+
+        <div class="form-actions no-color">
+
+            <button type="submit" class="btn btn-primary btn-sm">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+
+            @Html.ActionLinkWithSpanUsingSession(
+                "Index",
+                "SchoolClasses",
+                "redirectUrl",
+                new { @class = "btn btn-default btn-sm" },
+                new { @class = "glyphicon glyphicon-arrow-left" })
+
+        </div>
+
+    </div>
+}
