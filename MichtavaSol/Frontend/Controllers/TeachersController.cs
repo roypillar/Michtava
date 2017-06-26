@@ -465,7 +465,7 @@ namespace Frontend.Controllers
                 }
                 else
                 {
-                    TempData[cls.Id + ""] = cls.ClassLetter + " " + cls.ClassNumber;
+                    TempData[cls.Id + "_class"] = cls.ClassLetter + " " + cls.ClassNumber;
                 }               
             }
         }

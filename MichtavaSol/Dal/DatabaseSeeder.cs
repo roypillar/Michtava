@@ -102,20 +102,14 @@ namespace Dal
         };
 
         private static readonly string text1 =
-
-        "כדי להצליח בהתפחה, מונעים מגע ישיר בין השמרים לשמן זית או מלח, שעלולים לפגוע בפעולתם.מכאן יצא המנהג להתסיס את השמרים בסוכר ומים לפני שמתחילים את הבצק.אבל זה לא הכרחי אלא אם אתם חושדים בטריותם, ואז זה טסט מצוין (אין בועות אחרי 10 דקות? אפשר להתחיל שוב)." + "\n\n" +
-
-"מתחילים מערבבים שמרים עם קמח ומים(עדיף פושרים), ואם יש במתכון — אז גם סוכר או דבש.רק כאשר השמרים כבר מעורבבים בנוח בקערה מוסיפים את שאר הרכיבים כולל מלח ושמן." + "\n" +
-
-"לשים גם אם אתם מכינים את הבצק במיקסר, אל תוותרו על זמני הלישה." + "\n" +
-
-"מכסים רצוי לכסות בניילון נצמד ובמגבת מעל (וכך המגבת לא תידבק), כדי שיהיה לשמרים חמים וגם קצת חשוך." + "\n" +
-
-"מקום חמים לא מתפיחים מול המזגן! מתפיחים במקום חמים עד שעה וחצי להכפלת הנפח.אל תגזימו, כי לבצק שמרים שתפח יותר מדי יש טעם לוואי." + "\n" +
-
-"מקום קריר כשמכינים מראש אפשר להתפיח במקרר במשך 8 שעות." + "\n" +
-
-"אל תגזימו, כי לבצק שמרים שתפח יותר מדי יש טעם לוואי.";
+          "היה היו שני שכנים, אחד עשיר ואחד עני. באחד הימים לא נותרה פרוטה בכיס העני, ובמה יקנה " +"\n" +
+            "אוכל לילדיו הרעבים? מה עשה? ניגש לעשיר וביקש ממנו הלוואה. זה נעתר       לו בחפץ לב " +"\n" +
+            "והלווה לו אלף לירות, אך תנאי התנה אתו: \"אם תחזיר לי את ההלוואה בתום שנה, מה טוב.אבל " + "\n" +
+            "אם לא תחזירנה במועד, אחתוך מאה גרם מבשרך\"." + "\n" +
+            "הרהר העני בלבו: גדולים מעשי האל, והוא יעזור לי להחזיר במשך השנה את החוב." + "\n" +
+            "יצא העשיר מבית העשיר שמח וטוב לב, ואלף הלירות בכיסו. אך שנה חלפה עברה, ושוב אין לעני "+ "\n" +
+            "פרוטה בכיסו. חשב בלבו : מה אעשה עתה? הרי העשיר יחתוך מאה גרם מבשרי! עוד הוא " + "\n" +
+            "חושב, והנה נפתחת הדלת והעשיר ניצב בפתח ואומר: \"החזר את אלף הלירות שהלוויתי לך.\"" ;
 
         private readonly List<string> textStrings = new List<string>(){
             text1,
@@ -125,7 +119,7 @@ namespace Dal
 
         private readonly List<string> textNames = new List<string>()
         {
-            "מתכון לפוקאצ'ה מתקדמת",
+            "גרם פחות, גרם יותר",
             "מה ללבוש היום?",
             "בחירתו של אבינועם"
         };
@@ -247,8 +241,11 @@ namespace Dal
             this.SeedTeachers(context);
             this.SeedSchoolClasses(context);
             this.SeedTexts(context);
-            this.SeedHomeworks(context);
-            this.SeedAnswers(context);
+            //this.SeedHomeworks(context);
+            //this.SeedAnswers(context);
+            this.SeedHomeworksLiveDemo(context);
+            this.SeedAnswersLiveDemo(context);
+
             this.SeedDefinitions(context);
             //fixseed
 
@@ -621,7 +618,9 @@ namespace Dal
 
                 string Title = HWtitles.ElementAt(i);
                 string Description = HWdescs.ElementAt(i);
-                DateTime dead = DateTime.Now.AddYears(1);//הלוואי
+                DateTime dead = new DateTime(1999, 3, 22);
+                
+                
                 Teacher creator = null;
 
                 if (i == 0)
@@ -640,21 +639,40 @@ namespace Dal
                 if (i == 0)
                 {
                     hwQuestions.Add(questions.ElementAt(0));
+                    hwQuestions[0].Question_Number = 1;
                     hwQuestions.Add(questions.ElementAt(1));
+                    hwQuestions[1].Question_Number = 2;
+
                     hwQuestions.Add(questions.ElementAt(2));
+                    hwQuestions[2].Question_Number = 3;
+
                 }
                 else if (i == 1)
                 {
                     hwQuestions.Add(questions.ElementAt(3));
+                    hwQuestions[0].Question_Number = 1;
+
                     hwQuestions.Add(questions.ElementAt(4));
+                    hwQuestions[1].Question_Number = 2;
+
                     hwQuestions.Add(questions.ElementAt(5));
+                    hwQuestions[2].Question_Number = 3;
+
                 }
                 else if (i == 2)
                 {
                     hwQuestions.Add(questions.ElementAt(6));
+                    hwQuestions[0].Question_Number = 1;
+
                     hwQuestions.Add(questions.ElementAt(7));
+                    hwQuestions[1].Question_Number = 2;
+
                     hwQuestions.Add(questions.ElementAt(8));
+                    hwQuestions[2].Question_Number = 3;
+
                     hwQuestions.Add(questions.ElementAt(9));
+                    hwQuestions[3].Question_Number = 4;
+
 
                 }
 
@@ -706,6 +724,106 @@ namespace Dal
             }
         }
 
+        private void SeedHomeworksLiveDemo(ApplicationDbContext context)
+        {
+
+
+            if (context.Homeworks.Any())
+            {
+                return;
+            }
+
+
+            IQueryable<Text> rtn = from temp in context.Texts select temp;
+            var texts = new Queue<Text>(rtn.ToList());
+
+                Text t = texts.Dequeue();
+
+                Subject subject = context.Subjects.Where(x => x.Id == t.Subject_Id).FirstOrDefault();//ok
+
+                if (subject == null)
+                {
+                    subject = context.Subjects.Local.Where(x => x.Id == t.Subject_Id).FirstOrDefault();
+                    if (subject == null)
+                        if (System.Diagnostics.Debugger.IsAttached == false)
+                        {
+
+                            System.Diagnostics.Debugger.Launch();
+
+                        }
+                }
+
+                string Title = HWtitles.ElementAt(0);
+                string Description = HWdescs.ElementAt(0);
+                DateTime dead = new DateTime(1999, 3, 22);
+
+
+                Teacher creator = null;
+
+                creator = context.Teachers.Where(x => x.Name == "אשלי הונג").FirstOrDefault();
+                
+
+
+                List<Question> hwQuestions = new List<Question>();//not the prettiest but oh well
+
+
+            
+                    hwQuestions.Add(questions.ElementAt(0));
+                    hwQuestions[0].Question_Number = 1;
+                    hwQuestions.Add(questions.ElementAt(1));
+                    hwQuestions[1].Question_Number = 2;
+
+                    hwQuestions.Add(questions.ElementAt(2));
+                    hwQuestions[2].Question_Number = 3;
+
+                
+
+                Homework hw = new Homework();
+                hw.Title = Title;
+                hw.Description = Description;
+                hw.Deadline = dead;
+                hw.Created_By = creator;
+                hw.Text = t;
+
+                //if (System.Diagnostics.Debugger.IsAttached == false)
+                //{
+
+                //    System.Diagnostics.Debugger.Launch();
+
+                //}hgfdhg
+
+                foreach (Question q in hwQuestions)
+                {
+                    int till = new Random().Next(suggested_openings.Count);
+
+                    for (int l = 0; l < till; l++)
+                        q.Suggested_Openings.Add(new SuggestedOpening(suggested_openings.ElementAt(new Random().Next(suggested_openings.Count))));
+
+                    hw.Questions.Add(q);
+
+                }
+
+                context.Homeworks.Add(hw);
+
+                context.SaveChanges();
+
+                //ok
+                SchoolClass getHomeworked = context.Teachers.Where(x => x.Id == creator.Id).Include(teac => teac.SchoolClasses).FirstOrDefault().SchoolClasses.FirstOrDefault();
+
+                getHomeworked.Homeworks.Add(hw);
+                var stus = context.SchoolClasses.Where(x => x.Id == getHomeworked.Id).Include(sch => sch.Students).FirstOrDefault().Students;
+                //foreach (Student s in stus)
+                //{
+                //    s.Homeworks.Add(hw);
+                //    context.Students.AddOrUpdate(s);
+                //}
+
+                context.SchoolClasses.AddOrUpdate(getHomeworked);
+                context.SaveChanges();
+
+            }
+        
+
         private void SeedAnswers(ApplicationDbContext context)
         {
             if (context.Answers.Any())
@@ -751,6 +869,58 @@ namespace Dal
             context.SaveChanges();
 
         }
+
+
+        private void SeedAnswersLiveDemo(ApplicationDbContext context)
+        {
+            if (context.Answers.Any())
+            {
+                return;
+            }
+
+            //if (System.Diagnostics.Debugger.IsAttached == false)
+            //{
+
+            //    System.Diagnostics.Debugger.Launch();
+
+            //}
+
+            Student stu = context.Students.Include(x => x.SchoolClass).FirstOrDefault(x => x.Name == "אנה ברושניקוב");
+            SchoolClass sc = stu.SchoolClass;
+
+            var ss = context.SchoolClasses.Include(x => x.Students).FirstOrDefault(y => y.Id == sc.Id).Students;
+
+            Homework ans_to = context.Homeworks.FirstOrDefault(); //chickitty check
+
+
+
+
+            IEnumerable<Question> questionsOfHw = context.Homeworks.
+                Where(x => x.Id == ans_to.Id).Include(home => home.Questions).FirstOrDefault().Questions; //chleck
+
+            foreach(Student s in ss)
+            {
+
+                Answer ans = new Answer();
+                ans.Answer_To = ans_to;
+                ans.Submitted_By = s;
+                ans.Date_Submitted = new DateTime(1990, 3, 22);
+
+                foreach (Question q in questionsOfHw)
+                {
+                    QuestionAnswer qa = new QuestionAnswer(q,
+                        answerContents.ElementAt(new Random().Next(answerContents.Count)));
+                    qa.In_Answer = ans;
+                    ans.questionAnswers.Add(qa);
+                }
+
+                context.Answers.Add(ans);
+
+            }
+            context.SaveChanges();
+
+        }
+
 
         private void SeedDefinitions(ApplicationDbContext context)
         {

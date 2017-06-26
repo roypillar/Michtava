@@ -1,0 +1,7 @@
+Shay: fix suggested openings in smart text box view,
+fix answer submitting, 
+prepare input for smart text box (show value for the student!)
+
+Magal: fix auto refresh after checking an answer, 
+prepare text for uploading, 
+fix question viewing
