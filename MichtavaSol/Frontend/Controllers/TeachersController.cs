@@ -708,6 +708,10 @@ namespace Frontend.Controllers
 
             NotifyStudentForFeedback();
 
+            TempData.Clear();
+            InitializeStudentAnswers();
+            InitializQuestions();
+
             return View("AnswersView");
         }
 
