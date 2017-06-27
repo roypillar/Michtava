@@ -125,14 +125,19 @@ namespace Frontend.Controllers
             TempData["textName"] = textForHomework.Name;
             TempData["TextContent"] = textForHomework.Content;
 
+            LoadHomework(currentTeacherId, currentTextId);
+
+            return View("Policy");
+        }
+
+        private void LoadHomework(Guid currentTeacherId, Guid currentTextId)
+        {
             var currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"),
                 currentTeacherId, currentTextId);
             if (currentHomework != null && currentHomework.Count > 0)
             {
                 InitializeHomework(currentHomework);
             }
-
-            return View("Policy");
         }
 
         private Text getText(string text)
@@ -158,17 +163,18 @@ namespace Frontend.Controllers
             TempData["textName"] = textForHomework.Name;
             TempData["TextContent"] = textForHomework.Content;
 
+            Dictionary<int, string> currentHomework = null;
+                currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"),
+                    currentTeacherId, currentTextId);
+            if (currentHomework != null && currentHomework.Count > 0)
+            {
+                InitializeHomework(currentHomework);
+            }
+
             if (Submit.Equals("הוספת שיעורי הבית"))
             {
-                if (submissionDate == null)
-                {
-                    TempData["msg"] = "<script>alert('לא הוכנס תאריך הגשה לשיעורי הבית');</script>";
-                }
-                else
-                {
-                    SubmitHomework(textForHomework, currentTeacher, currentTeacherId, currentTextId,
-                        (DateTime) submissionDate, homeworkTitle, homeworkDescription);
-                }
+                SubmitHomework(textForHomework, currentTeacher, currentTeacherId, currentTextId, submissionDate,
+                    homeworkTitle, homeworkDescription);
 
                 return View("Policy");
             }
@@ -185,7 +191,7 @@ namespace Frontend.Controllers
                 return View("Policy");
             }
 
-            Dictionary<int, string> currentHomework;
+            currentHomework?.Clear();
             if (string.IsNullOrEmpty(model?.Question))
             {
                 currentHomework = _fileManager.GetCurrentHomework(Server.MapPath("~/TemporaryFiles/Homeworks"),
@@ -260,7 +266,7 @@ namespace Frontend.Controllers
         }
 
         private void SubmitHomework(Text textForHomework, Teacher currentTeacher, Guid currentTeacherId,
-            Guid currentTextId, DateTime submissionDate, string homeworkTitle, string homeworkDescription)
+            Guid currentTextId, DateTime? submissionDate, string homeworkTitle, string homeworkDescription)
         {
             var questions = _fileManager.ParseQuestions(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId,
                 currentTextId);
@@ -270,13 +276,18 @@ namespace Frontend.Controllers
                 TempData["msg"] = "<script>alert('יש להוסיף שאלות לשיעורי הבית');</script>";
                 return;
             }
+            if (submissionDate == null)
+            {
+                TempData["msg"] = "<script>alert('לא הוכנס תאריך הגשה לשיעורי הבית');</script>";
+                return;
+            }
 
             var homework = new Homework()
             {
                 Text = textForHomework,
                 Text_Id = currentTextId,
                 Questions = questions,
-                Deadline = submissionDate,
+                Deadline = (DateTime)submissionDate,
                 Created_By = currentTeacher,
                 Teacher_Id = currentTeacherId,
                 Title = homeworkTitle,
@@ -302,9 +313,10 @@ namespace Frontend.Controllers
                 return;
             }
 
-            TempData["msg"] = "<script>alert('שיעורי הבית נוספו בהצלחה, כעת התלמידים יוכלו לראות אותם');</script>";
             _fileManager.ClearTemporaryQuestions(Server.MapPath("~/TemporaryFiles/Homeworks"), currentTeacherId,
                 currentTextId);
+            TempData.Clear();
+            TempData["msg"] = "<script>alert('שיעורי הבית נוספו בהצלחה, כעת התלמידים יוכלו לראות אותם');</script>";
         }
 
         private void InitializeHomework(Dictionary<int, string> currentHomework)
