@@ -649,10 +649,17 @@ namespace Frontend.Controllers
                     ans.Answer_To = _homeworkService.All().Where(x => x.Id == hw.Id).FirstOrDefault();
                     ans.Date_Submitted = DateTime.Now;
                     ans.Homework_Id = hw.Id;
-                    //   ans.Id = Guid.NewGuid();
+                    //ans.Id = Guid.NewGuid();
                     ans.IsDeleted = false;
                     ans.TestID = 0;
                     ans.Grade = 0;
+                    ans.Student_Id = student.Id;
+                    ans.Submitted_By = student;
+
+                    _answerService.Add(ans);
+
+                    ans = _answerService.All().Where(x => x.Student_Id == student.Id && x.Homework_Id == hw.Id).FirstOrDefault();
+                    ICollection< QuestionAnswer > QuestionsAnsweredOnHomeWork = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).SelectMany(x => x.questionAnswers).ToList();
                     QuestionAnswer tmpQuestionAnswer = new QuestionAnswer();
                     tmpQuestionAnswer.In_Answer = ans;
                     tmpQuestionAnswer.Answer_Id = ans.Id;
@@ -660,19 +667,12 @@ namespace Frontend.Controllers
                     tmpQuestionAnswer.Question_Id = smartView.question.Id;
                     tmpQuestionAnswer.Content = input;
                     tmpQuestionAnswer.Date_Submitted = ans.Date_Submitted;
-                    ans.questionAnswers.Add(tmpQuestionAnswer);
-                    ans.Student_Id = student.Id;
-                    ans.Submitted_By = student;
+                    QuestionsAnsweredOnHomeWork.Add(tmpQuestionAnswer);
+                    ans.questionAnswers = QuestionsAnsweredOnHomeWork;
 
-                    MichtavaResult res = _answerService.Add(ans);
-                    if(res is MichtavaSuccess)
-                    {
-                        //alert success. 
-                    }
-                    else
-                    {
-                        //alert res.Message;
-                    }
+                    _answerService.Update(ans);
+
+
                 }
 
                 else
@@ -719,7 +719,7 @@ namespace Frontend.Controllers
 
                 List<int> SmartViewQuestionsNumbers = new List<int>();
 
-                Answer QuestionsAnswered = _answerService.All().Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).FirstOrDefault();
+                Answer QuestionsAnswered = _answerService.All().Include(y => y.questionAnswers).Where(x => x.Homework_Id == hw.Id && x.Student_Id == student.Id).FirstOrDefault();
 
 
                 smartView.CompleteQuestions = QuestionsAnswered.questionAnswers.ToList();
