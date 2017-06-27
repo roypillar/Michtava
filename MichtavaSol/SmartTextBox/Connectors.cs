@@ -36,6 +36,8 @@ namespace SmartTextBox
             connectors.Add(OppositConnectors);
             connectors.Add(ExplanationConnectors);
             connectors.Add(IncludeConnectors);
+            connectors.Add(Addingconnectors);
+            connectors.Add(OptionConnectors);
 
         }
         public string SuggestAlternativeWord(string word)

@@ -504,7 +504,7 @@ namespace Frontend.Controllers
                 string repeatedWordsString = "";
                 foreach (var word in repeatedWords)
                 {
-                    if (word.Value > 2 && _smartTextBox.IsConnector(word.Key))
+                    if (word.Value >= 2 && _smartTextBox.IsConnector(word.Key))
                     {
                         repeatedWordsString = repeatedWordsString + "השתמשת במילה " + word.Key + " " + word.Value + " פעמים, אולי תרצה להשתמש במילה אחרת כמו " + _smartTextBox.SuggestAlternativeWord(word.Key) + ". ";
                     }
