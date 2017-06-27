@@ -90,6 +90,46 @@
             label > input:checked + img { /* (RADIO CHECKED) IMAGE STYLES */
                 border: 2px solid #f00;
             }
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #f4511e;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 16px;
+            padding: 10px;
+            width: 100px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+            .button span {
+                cursor: pointer;
+                display: inline-block;
+                position: relative;
+                transition: 0.5s;
+            }
+
+                .button span:after {
+                    content: '<<';
+                    position: absolute;
+                    opacity: 0;
+                    top: 0;
+                    right: 20px;
+                    transition: 0.5s;
+                }
+
+            .button:hover span {
+                padding-right: 25px;
+            }
+
+                .button:hover span:after {
+                    opacity: 1;
+                    right: 0;
+                }
     </style>
 </head>
 
@@ -102,7 +142,7 @@
         
 
         <div class="row">
-
+            
             <div class="col-sm-1 pull-right">
                     
              
@@ -111,13 +151,9 @@
             {
                 
                 <div>
-                    <audio id="textAudio" controls="true" preload="auto">
-                        <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.mp3" type="audio/mpeg">
-                        <source src="C:\Users\mweiss\Desktop\EluveitieMeetTheEnemy.ogg" type="audio/ogg">
-                    </audio>
+                   
                 </div>
                 <div>
-                    <button onclick="document.getElementById('textAudio').play()">PLAY</button>
                 </div>
             }
         </div>
@@ -342,6 +378,9 @@
      
 
         </div>
+    <div class="row">
+        <button class="button" onclick="location.href = '@Url.Action("Index", "Students")'" style="vertical-align: middle"><span>חזור </span></button>
+    </div>
 </body>
 
 
