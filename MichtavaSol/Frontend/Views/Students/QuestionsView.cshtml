@@ -417,10 +417,10 @@
 
                             
                                 <label class="pull-left" rows="1" cols="25" id="NumOfWords" style="font-size:medium">
-                                    מספר מילים: @TempData["NumberOfWords"] / @Model.question.Policy.MaxWords
+                                    מספר מילים: @Model.question.Policy.MaxWords / @TempData["NumberOfWords"] 
                                 </label>
                                 <label class="pull-right" rows="1" cols="25" id="NumOfConnectorWords" style="font-size:medium">
-                                    מספר מילות קישור: @TempData["NumberOfConnectorWords"] / @Model.question.Policy.MaxConnectors
+                                    מספר מילות קישור: @Model.question.Policy.MaxConnectors / @TempData["NumberOfConnectorWords"] 
                                 </label>
 
 

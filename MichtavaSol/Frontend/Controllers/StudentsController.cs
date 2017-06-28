@@ -508,6 +508,10 @@ namespace Frontend.Controllers
                     {
                         repeatedWordsString = repeatedWordsString + "השתמשת במילה " + word.Key + " " + word.Value + " פעמים, אולי תרצה להשתמש במילה אחרת כמו " + _smartTextBox.SuggestAlternativeWord(word.Key) + ". ";
                     }
+                    if (word.Value >= 2 && _smartTextBox.IsConnector((word.Key).Substring(1)))
+                    {
+                        repeatedWordsString = repeatedWordsString + "השתמשת במילה " + (word.Key).Substring(1) + " " + word.Value + " פעמים, אולי תרצה להשתמש במילה אחרת כמו " + _smartTextBox.SuggestAlternativeWord((word.Key).Substring(1)) + ". ";
+                    }
                 }
 
 
@@ -521,7 +525,10 @@ namespace Frontend.Controllers
                 {
                     TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy.MaxConnectors + " מילות קישור.";
                 }
-
+                if (numOfConnectors < _policy.MinConnectors)
+                {
+                    TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל עלייך להכניס לכל הפחות " + _policy.MinConnectors + " מילות קישור.";
+                }
 
                 smartView.QuestionNumber = tmpQuestNumber;
 

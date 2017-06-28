@@ -26,27 +26,78 @@ namespace SmartTextBox
         public void setNumOfAllowedWords(int newNum) {numOfAllowedWords = newNum; }
 
 
-       
+       private string[] RepeatedHelper(string[] tokens)
+        {
+            string[] ans = new string[tokens.Length];
+            
+            for(int i =0;i<tokens.Length; i++)
+            {
+                if (tokens[i] == null || tokens[i] == "" || tokens[i] == " ")
+                {
+                    continue;
+                }
+                if (i < tokens.Length - 2 && (IsConnector(tokens[i] + " " + tokens[i + 1] + " " + tokens[i + 2]) || IsConnector(tokens[i].Substring(1) + " " + tokens[i + 1] + " " + tokens[i + 2])))
+                {
+                    if(IsConnector(tokens[i].Substring(1) + " " + tokens[i + 1] + " " + tokens[i + 2]))
+                    {
+                        ans[i] = (tokens[i].Substring(1) + " " + tokens[i + 1] + " " + tokens[i + 2]);
+                        i = i + 2;
+                        continue;
+                    }
+                    ans[i] = (tokens[i] + " " + tokens[i + 1] + " " + tokens[i + 2]);
+                    i = i + 2;
+                }
+                else if (i < tokens.Length - 1 && (IsConnector(tokens[i] + " " + tokens[i + 1]) || IsConnector(tokens[i].Substring(1) + " " + tokens[i+1])))
+                {
+                    ans[i] = (tokens[i] + " " + tokens[i + 1]);
+                    i++;
+                }
+                else
+                    ans[i] = tokens[i];
+
+            }
+            return ans;
+        }
 
 
         public IDictionary<string, int> GetRepeatedWords(string text)
         {
 
             string[] tokens = text.Split(' ', '.', ',', '-', '?', '!', '<', '>', '&', '[', ']', '(', ')');
-
+            tokens = RepeatedHelper(tokens);
+            bool b;
+            bool c;
             IDictionary<string, int> words = new SortedDictionary<string, int>(new CaseInsensitiveComparer());
             foreach (string word in tokens)
             {
+                if(word == null)
+                {
+                    continue;
+                }
                 if (string.IsNullOrEmpty(word.Trim()))
                 {
                     continue;
                 }
-                int count;
-                if (!words.TryGetValue(word, out count))
+                int count = 0;
+
+                b = words.TryGetValue(word, out count);
+                if (b)
                 {
-                    count = 0;
+                    words[word] = count + 1;
+                    continue;
                 }
+
+                c = words.TryGetValue(word.Substring(1), out count);
+                if (c)
+                {
+                    words[word.Substring(1)] = count + 1;
+                    continue;
+                }
+
+                count = 0;
                 words[word] = count + 1;
+
+
 
             }
 
@@ -59,32 +110,73 @@ namespace SmartTextBox
         {
             int wordCounter = 0;
 
+           
+
             string[] tokens = text.Split(' ', '.', ',', '-', '?', '!', '<', '>', '&', '[', ']', '(', ')');
-
-            for (int i = 0; i < tokens.Length - 1; i++)
+            int i;
+            for (i = 0; i < tokens.Length - 2; i++)
             {
+                if(tokens[i]==null||tokens[i]==""||tokens[i]==" ")
+                {
+                    continue;
+                }
 
-
-                if (conn.Contains(tokens[i] + " " + tokens[i + 1]))
+                if (conn.Contains(tokens[i] + " " + tokens[i + 1] + " " + tokens[i+2]) || conn.Contains(tokens[i].Substring(1) + " " + tokens[i + 1] + " " + tokens[i + 2]))
+                {
+                    wordCounter++;
+                    Console.WriteLine(tokens[i] + " " + tokens[i + 1] + " " + tokens[i + 2]);
+                    i= i+2;
+                    continue;
+                }
+                if (conn.Contains(tokens[i] + " " + tokens[i + 1]) || conn.Contains(tokens[i].Substring(1) + " " + tokens[i+1]))
                 {
                     wordCounter++;
                     Console.WriteLine(tokens[i] + " " + tokens[i + 1]);
                     i++;
+                    continue;
                 }        
                 
-                 else if (conn.Contains(tokens[i]))
+                 else if (conn.Contains(tokens[i]) || conn.Contains(tokens[i].Substring(1)))
                 {
                     wordCounter++;
                     Console.WriteLine(tokens[i]);
                 }
-
-
             }
 
-            if (conn.Contains(tokens.Last()))
+            if (i < tokens.Length - 1)
             {
-                Console.WriteLine(tokens.Last());
-                wordCounter++;
+                if ((tokens[i] == null || tokens[i] == "" || tokens[i] == " ") || tokens[i+1] == null || tokens[i+1] == "" || tokens[i+1] == " ")
+                {
+                    return wordCounter;
+                }
+                if (conn.Contains(tokens[i] + " " + tokens[i + 1]) || conn.Contains(tokens[i].Substring(1) + " " + tokens[i + 1]))
+                {
+                    wordCounter++;
+                    Console.WriteLine(tokens[i] + " " + tokens[i + 1]);
+                }
+
+                if (conn.Contains(tokens[i]) || conn.Contains(tokens[i].Substring(1)))
+                {
+                    Console.WriteLine(tokens[i]);
+                    wordCounter++;
+                }
+                if (conn.Contains(tokens[i + 1]) || conn.Contains(tokens[i+1].Substring(1)))
+                {
+                    Console.WriteLine(tokens[i + 1]);
+                    wordCounter++;
+                }
+            }
+            else
+            {
+                if (tokens.Last() == null || tokens.Last() == "" || tokens.Last() == " ")
+                {
+                    return wordCounter;
+                }
+                if (conn.Contains(tokens.Last()) || conn.Contains(tokens.Last().Substring(1)))
+                {
+                    Console.WriteLine(tokens.Last());
+                    wordCounter++;
+                }
             }
 
             return wordCounter;
