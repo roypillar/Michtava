@@ -436,13 +436,17 @@
                     for (var i = 0, len = words.length; i < len; i++) {
                         count++;
                     }
+                                var tmpstring = "";
                     document.getElementById("NumOfWords").innerHTML = "מספר מילים:" + @Model.question.Policy.MaxWords +  "/" + count;
 
                     if (count >@Model.question.Policy.MaxWords){
-                        document.getElementById("toManyConnectors").innerHTML = "הכנסת " + count + " מילים, אבל מותר לכל היותר " + @Model.question.Policy.MaxWords + " מילים.";
+                        tmpstring  = "הכנסת " + count + " מילים, אבל מותר לכל היותר " + @Model.question.Policy.MaxWords + " מילים.";
                     }
 
-
+                                if (count <@Model.question.Policy.MinWords){
+                                    tmpstring = tmpstring + " הכנסת " + count + " מילים, עלייך להכניס לפחות " + @Model.question.Policy.MinWords + " מילים.";
+                                }
+                                document.getElementById("toManyConnectors").innerHTML = tmpstring;
                    // var connNum = PageMethods.GetCurrentTime(name, OnSuccess);
 
 

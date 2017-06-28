@@ -515,21 +515,7 @@ namespace Frontend.Controllers
                 }
 
 
-                TempData["NumberOfWords"] = numOfWords;
-                TempData["NumberOfConnectorWords"] = numOfConnectors;
-                TempData["Answer"] = input;
-                TempData["AlternativeWords"] = repeatedWordsString;
-
-
-                if (numOfConnectors > _policy.MaxConnectors)
-                {
-                    TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy.MaxConnectors + " מילות קישור.";
-                }
-                if (numOfConnectors < _policy.MinConnectors)
-                {
-                    TempData["toManyConnectors"] = "הכנסת " + numOfConnectors + " מילות קישור, אבל עלייך להכניס לכל הפחות " + _policy.MinConnectors + " מילות קישור.";
-                }
-
+                
                 smartView.QuestionNumber = tmpQuestNumber;
 
                 string userid = User.Identity.GetUserId();
@@ -558,6 +544,36 @@ namespace Frontend.Controllers
                 {
                     return RedirectToAction("Index");
                 }
+                if(smartView.question.Policy != null)
+                {
+                    _policy = smartView.question.Policy;
+                }
+
+
+
+                TempData["NumberOfWords"] = numOfWords;
+                TempData["NumberOfConnectorWords"] = numOfConnectors;
+                TempData["Answer"] = input;
+                TempData["AlternativeWords"] = repeatedWordsString;
+
+                string tmpCounter = "";
+                if (numOfConnectors > _policy.MaxConnectors)
+                {
+                    tmpCounter = "הכנסת " + numOfConnectors + " מילות קישור, אבל מותר לכל היותר " + _policy.MaxConnectors + " מילות קישור.";
+                }
+                if (numOfConnectors < _policy.MinConnectors)
+                {
+                    tmpCounter = tmpCounter + " הכנסת " + numOfConnectors + " מילות קישור, אבל עלייך להכניס לכל הפחות " + _policy.MinConnectors + " מילות קישור.";
+                }
+                if (numOfWords > _policy.MaxWords)
+                {
+                    tmpCounter = tmpCounter + " הכנסת " + numOfWords + " מילים, אבל מותר לכל היותר " + _policy.MaxWords + " מילים.";
+                }
+                if (numOfWords < _policy.MinWords)
+                {
+                    tmpCounter = tmpCounter + " הכנסת " + numOfWords + " מילים, אבל עלייך להכניס לכל הפחות " + _policy.MinWords + " מילים.";
+                }
+                TempData["toManyConnectors"] = tmpCounter;
 
                 if (smartView.question.Suggested_Openings.Count == 0)
                 {
